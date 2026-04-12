@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 01 · Principles of Development · BIO 212</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- NAV -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="page-hero">
+  <div class="module-eyebrow">Module 01</div>
+  <h1>Principles of <em>Development</em></h1>
+  <p class="page-desc">From a single fertilised egg to a trillion specialised cells — the molecular logic that makes it possible.</p>
+  <div class="hero-tags">
+    <span class="pill teal">Central Dogma</span>
+    <span class="pill violet">Hox Genes</span>
+    <span class="pill">Bicoid Gradient</span>
+    <span class="pill">Gene Cascades</span>
+    <span class="pill">Body Axes</span>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- ══════ LEARNING GOALS ══════ -->
+<section class="reveal">
+  <div class="divider">Learning Objectives</div>
+  <div class="learning-goals">
+    <div class="lg-header">
+      <span class="lg-header-title">Module 01 · Principles of Development</span>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-dim);margin-left:auto;">Click a tier to expand</span>
+    </div>
+
+    <div class="lg-tier tier-1">
+      <div class="lg-tier-header">
+        <div class="lg-tier-badge">1</div>
+        <div>
+          <div class="lg-tier-label">Level 1 · Know</div>
+          <div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Master these first — all other material builds on them</div>
+        </div>
+        <div class="lg-tier-toggle">+</div>
+      </div>
+      <div class="lg-tier-body">
+        <div class="lg-tier-content">
+          <ul>
+            <li>List the essential developmental processes</li>
+            <li>Diagram the three major body axes</li>
+            <li>Define the terms <strong>transcription</strong>, <strong>translation</strong>, <strong>gene expression</strong>, <strong>transcription factor</strong>, and <strong>regulatory cascade</strong></li>
+            <li>Briefly describe the central dogma (DNA → RNA → protein)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg-tier tier-2">
+      <div class="lg-tier-header">
+        <div class="lg-tier-badge">2</div>
+        <div>
+          <div class="lg-tier-label">Level 2 · Understand</div>
+          <div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">More detailed — builds on Level 1 knowledge</div>
+        </div>
+        <div class="lg-tier-toggle">+</div>
+      </div>
+      <div class="lg-tier-body">
+        <div class="lg-tier-content">
+          <ul>
+            <li>Describe each of the essential developmental processes and identify examples</li>
+            <li>Explain the role of <strong>differential gene expression</strong> in development</li>
+            <li>Describe the source, location, &amp; function of the <strong>Bicoid protein</strong> in Drosophila embryo patterning</li>
+            <li>Describe the function of <strong>Hox genes</strong> in embryo development</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg-tier tier-3">
+      <div class="lg-tier-header">
+        <div class="lg-tier-badge">3</div>
+        <div>
+          <div class="lg-tier-label">Level 3 · Apply &amp; Analyse</div>
+          <div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Class discussions and worksheets will focus here</div>
+        </div>
+        <div class="lg-tier-toggle">+</div>
+      </div>
+      <div class="lg-tier-body">
+        <div class="lg-tier-content">
+          <ul>
+            <li>Describe the <strong>regulatory cascade</strong> of early Drosophila development</li>
+            <li>Compare and contrast the expression of Hox genes in <strong>Drosophila vs. mammals</strong> and in <strong>tetrapods with forelimbs vs. snakes</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ LEVEL 1 ══════ -->
+<div class="divider reveal"><span class="level-badge l1">Level 1 · Know</span></div>
+
+<!-- 1a: Essential Developmental Processes -->
+<section class="reveal">
+  <h3>The Five Essential Developmental Processes</h3>
+  <p>Every multicellular organism — from a nematode to a human — builds itself using the same five core processes. They work together, often simultaneously, and disruptions to any one cause profound developmental defects.</p>
+
+  <div class="dev-process-grid reveal">
+
+    <div class="dev-card reveal-item delay-1">
+      <div class="dev-card-icon" style="background:rgba(100,255,218,0.1);border-color:rgba(100,255,218,0.4);">
+        <svg viewBox="0 0 60 60" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cell dividing: one cell splitting into two -->
+          <circle cx="20" cy="30" r="13" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.8"/>
+          <circle cx="40" cy="30" r="13" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.8"/>
+          <!-- Mitotic spindle between them -->
+          <line x1="20" y1="22" x2="40" y2="22" stroke="rgba(100,255,218,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
+          <line x1="20" y1="38" x2="40" y2="38" stroke="rgba(100,255,218,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
+          <circle cx="20" cy="30" r="4" fill="#64ffda" opacity="0.7"/>
+          <circle cx="40" cy="30" r="4" fill="#64ffda" opacity="0.7"/>
+          <text x="30" y="56" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(100,255,218,0.6)">÷ 2</text>
+        </svg>
+      </div>
+      <div class="dev-card-num" style="color:var(--teal);">01</div>
+      <h4 style="color:var(--teal);">Cell Proliferation</h4>
+      <p>Mitotic divisions increase cell number — from a single zygote to ~37 trillion adult cells. Proliferation must be tightly controlled: too little stunts growth; uncontrolled proliferation produces tumours.</p>
+      <div class="example"><strong>Example →</strong> During early cleavage, a human zygote divides every 12–24 h, reaching the 16-cell morula in days — all without any increase in total cell mass.</div>
+    </div>
+
+    <div class="dev-card reveal-item delay-2">
+      <div class="dev-card-icon" style="background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.4);">
+        <svg viewBox="0 0 60 60" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <!-- Two cells with signal arrow between them -->
+          <rect x="4" y="18" width="20" height="24" rx="6" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.8"/>
+          <rect x="36" y="18" width="20" height="24" rx="6" fill="rgba(100,255,218,0.1)" stroke="#64ffda" stroke-width="1.8"/>
+          <!-- Signal dots travelling between -->
+          <circle cx="28" cy="26" r="2.5" fill="#ffd166"/>
+          <circle cx="32" cy="30" r="2" fill="#ffd166" opacity="0.7"/>
+          <circle cx="28" cy="34" r="2.5" fill="#ffd166"/>
+          <path d="M24,30 L36,30" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arr-sig)"/>
+          <defs><marker id="arr-sig" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ffd166"/></marker></defs>
+          <text x="14" y="54" text-anchor="middle" font-family="monospace" font-size="6.5" fill="rgba(167,139,250,0.7)">inducer</text>
+          <text x="46" y="54" text-anchor="middle" font-family="monospace" font-size="6.5" fill="rgba(100,255,218,0.7)">responder</text>
+        </svg>
+      </div>
+      <div class="dev-card-num" style="color:var(--violet);">02</div>
+      <h4 style="color:var(--violet);">Cell–Cell Interactions</h4>
+      <p>Cells communicate via paracrine signals, direct contact (gap junctions, Notch), and morphogen gradients. One cell (the inducer) changes the fate of its neighbour (the responder).</p>
+      <div class="example"><strong>Example →</strong> The notochord induces the overlying ectoderm to become neural plate (primary induction) via FGF and Wnt signals.</div>
+    </div>
+
+    <div class="dev-card reveal-item delay-3">
+      <div class="dev-card-icon" style="background:rgba(255,110,199,0.08);border-color:rgba(255,110,199,0.4);">
+        <svg viewBox="0 0 60 60" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <!-- Three cells progressively more specialised -->
+          <circle cx="10" cy="40" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <text x="10" y="43" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.5)">stem</text>
+          <path d="M20,37 L30,30" stroke="rgba(255,110,199,0.4)" stroke-width="1.5"/>
+          <path d="M20,43 L30,50" stroke="rgba(100,255,218,0.4)" stroke-width="1.5"/>
+          <ellipse cx="38" cy="28" rx="11" ry="8" fill="rgba(255,110,199,0.12)" stroke="#ff6ec7" stroke-width="1.8"/>
+          <text x="38" y="31" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6ec7">neuron</text>
+          <rect x="28" y="44" width="18" height="12" rx="3" fill="rgba(100,255,218,0.1)" stroke="#64ffda" stroke-width="1.8"/>
+          <text x="37" y="52" text-anchor="middle" font-family="monospace" font-size="6" fill="#64ffda">muscle</text>
+        </svg>
+      </div>
+      <div class="dev-card-num" style="color:var(--rose);">03</div>
+      <h4 style="color:var(--rose);">Cell Differentiation</h4>
+      <p>Cells with identical DNA acquire distinct morphology, gene expression, and function. Differentiation is driven by transcription factors that activate tissue-specific gene programs while silencing others.</p>
+      <div class="example"><strong>Example →</strong> MyoD expression converts fibroblasts into muscle cells; Ngn2 converts fibroblasts into neurons — same DNA, radically different identity.</div>
+    </div>
+
+    <div class="dev-card reveal-item delay-4">
+      <div class="dev-card-icon" style="background:rgba(255,209,102,0.08);border-color:rgba(255,209,102,0.4);">
+        <svg viewBox="0 0 60 60" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cells with migration arrows -->
+          <circle cx="15" cy="22" r="8" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.5"/>
+          <path d="M23,22 Q35,15 44,26" stroke="#ffd166" stroke-width="2" fill="none" marker-end="url(#arr-mv)"/>
+          <circle cx="45" cy="28" r="8" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.8"/>
+          <!-- Folding tissue below -->
+          <path d="M5,48 Q20,36 30,42 Q40,48 55,40" stroke="rgba(184,240,137,0.6)" stroke-width="2" fill="none"/>
+          <path d="M5,52 Q20,40 30,46 Q40,52 55,44" stroke="rgba(184,240,137,0.3)" stroke-width="1" fill="none"/>
+          <defs><marker id="arr-mv" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ffd166"/></marker></defs>
+          <text x="30" y="58" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(184,240,137,0.7)">fold</text>
+        </svg>
+      </div>
+      <div class="dev-card-num" style="color:var(--gold);">04</div>
+      <h4 style="color:var(--gold);">Cell Movement &amp; Expansion</h4>
+      <p>Cells migrate individually (neural crest) or as sheets (gastrulation). Tissues fold, elongate, and reshape through cytoskeletal forces and changes in cell adhesion. This sculpts organs from flat sheets of cells.</p>
+      <div class="example"><strong>Example →</strong> Neural crest cells undergo epithelial-to-mesenchymal transition and migrate throughout the embryo, forming craniofacial bones, peripheral nerves, and melanocytes.</div>
+    </div>
+
+    <div class="dev-card reveal-item delay-5">
+      <div class="dev-card-icon" style="background:rgba(255,138,138,0.08);border-color:rgba(255,138,138,0.4);">
+        <svg viewBox="0 0 60 60" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <!-- Hand with apoptosis between digits -->
+          <path d="M10,50 L10,28 Q10,22 14,22 L14,32" stroke="#ff8a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M20,50 L20,20 Q20,14 24,14 L24,32" stroke="#ff8a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M30,50 L30,18 Q30,12 34,12 L34,32" stroke="#ff8a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M40,50 L40,20 Q40,14 44,14 L44,32" stroke="#ff8a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M50,50 L50,26 Q50,20 46,22" stroke="#ff8a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Web between digits shown as fragmenting cells -->
+          <circle cx="17" cy="36" r="3" fill="rgba(255,110,199,0.3)" stroke="#ff6ec7" stroke-width="1"/>
+          <circle cx="27" cy="35" r="3" fill="rgba(255,110,199,0.3)" stroke="#ff6ec7" stroke-width="1"/>
+          <circle cx="37" cy="36" r="3" fill="rgba(255,110,199,0.3)" stroke="#ff6ec7" stroke-width="1"/>
+          <text x="17" y="48" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,110,199,0.7)">✕</text>
+          <text x="27" y="48" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,110,199,0.7)">✕</text>
+          <text x="37" y="48" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,110,199,0.7)">✕</text>
+        </svg>
+      </div>
+      <div class="dev-card-num" style="color:var(--coral);">05</div>
+      <h4 style="color:var(--coral);">Programmed Cell Death (Apoptosis)</h4>
+      <p>Specific cells are genetically programmed to die at precise times and locations — not by necrosis, but by an ordered self-destruction program (caspase cascade). Apoptosis sculpts structures by removing tissue.</p>
+      <div class="example"><strong>Example →</strong> Fingers are separated by apoptosis of the interdigital webbing. Tadpole tails are resorbed by apoptosis during metamorphosis.</div>
+    </div>
+
+  </div>
+
+  <div class="mnemonic">
+    <div class="mnemonic-tag">Memory Aid</div>
+    <div class="mnemonic-text">"Proliferate · Signal · Differentiate · Move · Die"</div>
+    <div class="mnemonic-decode">Cell Proliferation · Cell–Cell Interactions · Differentiation · Movement &amp; Expansion · Programmed Cell Death</div>
+  </div>
+
+  <style>
+  .dev-process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.4rem;
+    margin: 2rem 0;
+  }
+  .dev-card {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .dev-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px -15px rgba(103,76,230,0.3); }
+  .dev-card-icon {
+    width: 60px; height: 60px;
+    border-radius: 14px;
+    border: 1px solid;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 0.4rem;
+    flex-shrink: 0;
+  }
+  .dev-card-num {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .dev-card h4 { margin: 0; font-size: 1.05rem; }
+  .dev-card p { font-size: 0.88rem; margin: 0; color: var(--ink-soft); line-height: 1.65; }
+  .dev-card .example { font-size: 0.82rem; margin-top: 0.4rem; }
+  </style>
+</section>
+
+<!-- 1b: Body Axes -->
+<section class="reveal">
+  <h3>The Three Major Body Axes</h3>
+  <p>Before any organ can form, the embryo must establish a coordinate system. Three perpendicular axes provide positional information for every cell. Gradients of signalling molecules (morphogens) encode this information.</p>
+
+  <div class="figure reveal">
+    <div class="fig-label">Fig 1.1 · Three Body Axes</div>
+    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ap-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#64ffda" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#64ffda" stop-opacity="0.15"/>
+        </linearGradient>
+        <marker id="arr-teal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,1 L0,7 L7,4 z" fill="#64ffda"/>
+        </marker>
+        <marker id="arr-violet" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,1 L0,7 L7,4 z" fill="#a78bfa"/>
+        </marker>
+        <marker id="arr-gold" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,1 L0,7 L7,4 z" fill="#ffd166"/>
+        </marker>
+      </defs>
+      <!-- Embryo silhouette (stylised frog/generic) -->
+      <ellipse cx="380" cy="155" rx="200" ry="105" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)" stroke-width="1.5"/>
+      <!-- Head blob -->
+      <ellipse cx="190" cy="140" rx="55" ry="60" fill="rgba(100,255,218,0.05)" stroke="rgba(100,255,218,0.15)" stroke-width="1"/>
+      <!-- Tail -->
+      <path d="M560,155 Q620,155 640,140" stroke="rgba(167,139,250,0.15)" stroke-width="2" fill="none"/>
+
+      <!-- A-P axis -->
+      <line x1="110" y1="155" x2="660" y2="155" stroke="#64ffda" stroke-width="2.5" stroke-dasharray="10,5" opacity="0.8" marker-end="url(#arr-teal)"/>
+      <circle cx="120" cy="155" r="9" fill="#64ffda" opacity="0.9"/>
+      <text x="118" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#64ffda" font-weight="600">ANTERIOR</text>
+      <text x="640" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(100,255,218,0.5)">POSTERIOR</text>
+
+      <!-- D-V axis -->
+      <line x1="380" y1="28" x2="380" y2="270" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="10,5" opacity="0.8" marker-end="url(#arr-violet)"/>
+      <circle cx="380" cy="38" r="9" fill="#a78bfa" opacity="0.9"/>
+      <text x="420" y="38" font-family="JetBrains Mono,monospace" font-size="11" fill="#a78bfa" font-weight="600">DORSAL</text>
+      <text x="420" y="272" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(167,139,250,0.5)">VENTRAL</text>
+
+      <!-- L-R axis -->
+      <circle cx="380" cy="155" r="18" fill="rgba(255,209,102,0.08)" stroke="#ffd166" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="380" cy="155" r="5" fill="#ffd166" opacity="0.8"/>
+      <path d="M310,155 L350,155" stroke="#ffd166" stroke-width="1.5" opacity="0.6" marker-end="url(#arr-gold)"/>
+      <path d="M450,155 L410,155" stroke="#ffd166" stroke-width="1.5" opacity="0.6" marker-end="url(#arr-gold)"/>
+      <text x="290" y="144" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166" opacity="0.7">LEFT</text>
+      <text x="470" y="144" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166" opacity="0.7">RIGHT</text>
+      <text x="380" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.6)">← L–R Axis →</text>
+
+      <!-- Gradient labels -->
+      <text x="140" y="180" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(100,255,218,0.65)" font-style="italic">Bicoid gradient →</text>
+      <text x="480" y="180" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,110,199,0.65)" font-style="italic">← Nanos gradient</text>
+
+      <!-- Legend -->
+      <rect x="540" y="10" width="205" height="80" rx="8" fill="rgba(8,11,26,0.7)" stroke="var(--line)" stroke-width="1"/>
+      <circle cx="557" cy="28" r="4" fill="#64ffda"/><text x="568" y="32" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda">Anterior-Posterior axis</text>
+      <circle cx="557" cy="50" r="4" fill="#a78bfa"/><text x="568" y="54" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa">Dorsal-Ventral axis</text>
+      <circle cx="557" cy="72" r="4" fill="#ffd166"/><text x="568" y="76" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">Left-Right axis</text>
+    </svg>
+    <div class="fig-caption">Three orthogonal body axes established by morphogen gradients before organogenesis begins</div>
+  </div>
+
+  <div class="grid g3 reveal">
+    <div class="card">
+      <h4 style="color:var(--teal)">Anterior-Posterior</h4>
+      <p style="font-size:var(--text-sm);">Head-to-tail axis. In Drosophila, established by <strong>Bicoid</strong> (anterior) and <strong>Nanos</strong> (posterior) protein gradients from maternal mRNAs.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--violet)">Dorsal-Ventral</h4>
+      <p style="font-size:var(--text-sm);">Back-to-belly axis. In vertebrates, established by BMP gradients (high BMP → ventral identity; BMP inhibitors like Chordin → dorsal).</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--gold)">Left-Right</h4>
+      <p style="font-size:var(--text-sm);">Established by directional fluid flow from motile cilia at the node, activating Nodal signalling asymmetrically. Defines heart and gut asymmetry.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 1c: Definitions + Central Dogma -->
+<section class="reveal">
+  <h3>Core Vocabulary &amp; The Central Dogma</h3>
+
+  <div class="grid g2 reveal">
+    <div>
+      <div class="definition">
+        <strong>Transcription</strong>
+        The synthesis of an RNA molecule from a DNA template, catalysed by RNA polymerase. The DNA sequence is "read" and an mRNA copy is produced. Occurs in the nucleus.
+      </div>
+      <div class="definition">
+        <strong>Translation</strong>
+        The synthesis of a polypeptide (protein) from an mRNA template, catalysed by ribosomes in the cytoplasm. Each codon (3 nucleotides) specifies one amino acid.
+      </div>
+      <div class="definition">
+        <strong>Gene Expression</strong>
+        The entire process by which information encoded in a gene is used to produce a functional product — either an RNA or a protein. A gene is "expressed" when it is being actively transcribed (and translated, if protein-coding).
+      </div>
+    </div>
+    <div>
+      <div class="definition">
+        <strong>Transcription Factor (TF)</strong>
+        A protein that binds specific DNA sequences (often in gene promoters or enhancers) and activates or represses transcription of target genes. TFs are the primary mechanism by which cells regulate which genes are expressed. Example: Bicoid in Drosophila, MyoD in muscle cells.
+      </div>
+      <div class="definition">
+        <strong>Regulatory Cascade</strong>
+        A series of sequential gene-regulatory events in which the protein product of one gene acts as a transcription factor controlling the next set of genes — which in turn control further downstream genes. Each tier narrows and refines spatial information.
+      </div>
+    </div>
+  </div>
+
+  <!-- Central Dogma Interactive Diagram -->
+  <div class="figure reveal">
+    <div class="fig-label">Fig 1.2 · The Central Dogma</div>
+    <svg viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#64ffda"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+        <linearGradient id="cg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#ff6ec7"/></linearGradient>
+        <marker id="arr-main" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L0,9 L9,4.5 z" fill="rgba(100,255,218,0.7)"/>
+        </marker>
+      </defs>
+      <!-- DNA -->
+      <rect x="30" y="60" width="180" height="100" rx="14" fill="rgba(100,255,218,0.07)" stroke="#64ffda" stroke-width="1.8"/>
+      <text x="120" y="103" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="26" fill="#64ffda" font-weight="300">DNA</text>
+      <text x="120" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.55)" letter-spacing="1.5">DEOXYRIBONUCLEIC ACID</text>
+      <text x="120" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.35)">nucleus · double-stranded</text>
+
+      <!-- arrow 1: transcription -->
+      <line x1="216" y1="110" x2="310" y2="110" stroke="url(#cg1)" stroke-width="3" marker-end="url(#arr-main)"/>
+      <text x="263" y="98" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.8)" letter-spacing="1">TRANSCRIPTION</text>
+      <text x="263" y="128" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.4)">RNA Pol II</text>
+
+      <!-- mRNA -->
+      <rect x="315" y="60" width="200" height="100" rx="14" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="1.8"/>
+      <text x="415" y="103" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="24" fill="#a78bfa" font-weight="300">mRNA</text>
+      <text x="415" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.55)" letter-spacing="1.5">MESSENGER RNA</text>
+      <text x="415" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.35)">exported to cytoplasm</text>
+
+      <!-- arrow 2: translation -->
+      <line x1="520" y1="110" x2="614" y2="110" stroke="url(#cg2)" stroke-width="3" marker-end="url(#arr-main)"/>
+      <text x="567" y="98" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.8)" letter-spacing="1">TRANSLATION</text>
+      <text x="567" y="128" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.4)">Ribosome</text>
+
+      <!-- Protein -->
+      <rect x="620" y="60" width="210" height="100" rx="14" fill="rgba(255,110,199,0.07)" stroke="#ff6ec7" stroke-width="1.8"/>
+      <text x="725" y="103" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="24" fill="#ff6ec7" font-weight="300">Protein</text>
+      <text x="725" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.55)" letter-spacing="1.5">POLYPEPTIDE CHAIN</text>
+      <text x="725" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.35)">enzyme · TF · structural</text>
+
+      <!-- Key insight below -->
+      <text x="430" y="200" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.3)" font-style="italic">Information flows in one direction: DNA encodes RNA which encodes protein</text>
+    </svg>
+    <div class="fig-caption">The Central Dogma — Gene expression converts heritable DNA sequence information into functional protein products that drive cell identity</div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-label">★ Key Insight</div>
+    <p>Every cell in your body contains the <strong>same ~20,000 genes</strong>. What makes a liver cell different from a neuron is not what DNA they have, but which subset of genes they express. <strong>Development is fundamentally a problem of gene regulation.</strong></p>
+  </div>
+</section>
+
+
+<!-- ══════ LEVEL 2 ══════ -->
+<div class="divider reveal"><span class="level-badge l2">Level 2 · Understand</span></div>
+
+<!-- 2a: Differential Gene Expression -->
+<section class="reveal">
+  <h3>Differential Gene Expression — The Engine of Differentiation</h3>
+  <p>If all cells share the same genome, how do they become so different? The answer is <strong>differential gene expression</strong>: the subset of genes active in any given cell determines its identity, shape, and function. Two master mechanisms create these differences:</p>
+
+  <div class="compare reveal">
+    <div class="compare-col">
+      <h4 style="color:var(--teal)">Cytoplasmic Determinants</h4>
+      <p style="font-size:var(--text-sm);">Maternal mRNAs and proteins are <strong>asymmetrically distributed</strong> in the egg. When the zygote divides, daughter cells inherit different amounts of these molecules, launching different gene expression programmes.</p>
+      <div class="example"><strong>Example →</strong> <em>bicoid</em> mRNA is anchored at the anterior pole of the Drosophila egg. Only anterior cells get high Bicoid protein, activating anterior fate genes.</div>
+      <p style="font-size:var(--text-sm);margin-top:0.8rem;"><span style="color:var(--teal);font-weight:500;">Autonomous specification</span> — fate determined by internal contents, independent of position or neighbours.</p>
+    </div>
+    <div class="compare-col">
+      <h4 style="color:var(--violet)">Inductive Signalling</h4>
+      <p style="font-size:var(--text-sm);">Cells secrete paracrine signals (ligands) that bind receptors on neighbouring cells, activating transcription factors and changing which genes are expressed. One tissue induces another.</p>
+      <div class="example"><strong>Example →</strong> The notochord secretes Sonic Hedgehog (Shh), which diffuses into the overlying neural tube and instructs ventral neurons to become motor neurons (at high [Shh]) vs interneurons (at intermediate [Shh]).</div>
+      <p style="font-size:var(--text-sm);margin-top:0.8rem;"><span style="color:var(--violet);font-weight:500;">Conditional specification</span> — fate depends on signals from the environment and neighbours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2b: Bicoid Protein -->
+<section class="reveal">
+  <h3>Bicoid — The Master Anterior Morphogen</h3>
+
+  <div class="grid g3 reveal">
+    <div class="card card-glow">
+      <h4 style="color:var(--teal)">Source</h4>
+      <p style="font-size:var(--text-sm);">Nurse cells (15 helper cells surrounding the oocyte) synthesise <em>bicoid</em> mRNA during oogenesis and deposit it at the <strong>anterior pole</strong> of the developing egg. This deposition is guided by cytoskeletal anchoring.</p>
+    </div>
+    <div class="card card-glow">
+      <h4 style="color:var(--teal)">Location</h4>
+      <p style="font-size:var(--text-sm);">After fertilisation, <em>bicoid</em> mRNA is translated in place. The Bicoid <strong>protein</strong> diffuses posteriorly and is progressively degraded, creating an exponential gradient: <strong>highest anteriorly, fading to near-zero posteriorly</strong>.</p>
+    </div>
+    <div class="card card-glow">
+      <h4 style="color:var(--teal)">Function</h4>
+      <p style="font-size:var(--text-sm);">Bicoid is a homeodomain-containing <strong>transcription factor</strong>. At high concentration it activates <em>hunchback</em> (gap gene → head/thorax). It also directly represses posterior-specific genes. Concentration thresholds determine which gap genes are expressed at each position.</p>
+    </div>
+  </div>
+
+  <!-- Bicoid Gradient Interactive — full embryo view -->
+  <div class="sim-box reveal" style="padding:2rem;">
+    <div class="interactive-badge">Interactive — drag the position cursor</div>
+    <div class="sim-title">Bicoid Gradient — Live Embryo Explorer</div>
+    <div class="sim-desc">Move the slider to any position along the A-P axis. See which gap genes turn on at that Bicoid concentration, and understand how a single protein gradient encodes the entire anterior body plan.</div>
+    <canvas id="canvas-bicoid" style="border-radius:14px;margin:1rem 0;cursor:crosshair;"></canvas>
+    <div class="sim-controls" style="flex-wrap:wrap;gap:1rem;">
+      <div class="sim-control" style="flex:2;min-width:200px;">
+        <label style="justify-content:space-between;">Position along A–P axis <span id="bicoid-pos-label" style="color:var(--teal);">50% from anterior</span></label>
+        <input type="range" id="bicoid-pos" min="0" max="100" value="50" style="cursor:pointer;">
+      </div>
+      <div class="sim-control" style="flex:1;min-width:180px;">
+        <label>Diffusion rate <span id="bicoid-diffusion-val">medium</span></label>
+        <input type="range" id="bicoid-diffusion" min="20" max="90" value="50">
+      </div>
+    </div>
+    <div id="bicoid-readout" style="margin-top:1rem;padding:1rem 1.4rem;background:rgba(100,255,218,0.05);border:1px solid rgba(100,255,218,0.2);border-radius:10px;font-family:var(--mono);font-size:0.82rem;line-height:1.8;color:var(--ink-soft);">
+      Move the slider above to explore the gradient.
+    </div>
+  </div>
+
+  <div class="grid g2 reveal">
+    <div class="keypoint">
+      <p><strong>Bicoid knockout (bicoid⁻):</strong> The anterior end develops posterior identity instead — the larva has a mirror-image abdomen replacing its head and thorax. This proves Bicoid is <em>necessary</em> for anterior identity.</p>
+    </div>
+    <div class="keypoint">
+      <p><strong>Ectopic Bicoid injection:</strong> Injecting <em>bicoid</em> mRNA into the posterior produces a <em>second head</em> at that end. This proves Bicoid is <em>sufficient</em> to specify anterior identity — concentration is everything.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2c: Hox Genes -->
+<section class="reveal">
+  <h3>Hox Genes — The Segment Identity Code</h3>
+  <p>Once the regulatory cascade has divided the embryo into segments, <strong>Hox genes</strong> assign each segment its specific identity. They are homeodomain-containing transcription factors organised into clusters on the chromosome.</p>
+
+  <div class="callout callout-violet">
+    <div class="callout-label">The Collinearity Rule</div>
+    <p>The order of Hox genes on the chromosome <strong>mirrors the order of their expression domains along the anterior-posterior axis</strong>. Genes at the 3′ end of the cluster are expressed anteriorly; genes at the 5′ end are expressed posteriorly. This spatial collinearity is conserved across all bilaterians.</p>
+  </div>
+
+  <div class="figure reveal">
+    <div class="fig-label">Fig 1.3 · Hox Gene Collinearity (Drosophila)</div>
+    <svg viewBox="0 0 780 270" xmlns="http://www.w3.org/2000/svg">
+      <!-- Chromosome bar -->
+      <rect x="30" y="22" width="720" height="32" rx="7" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <text x="390" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)" letter-spacing="2">CHROMOSOME · 3′ ←————————————————→ 5′</text>
+      <!-- Gene boxes on chromosome -->
+      <rect x="38"  y="26" width="72" height="24" rx="4" fill="rgba(100,255,218,0.55)"/>
+      <rect x="118" y="26" width="72" height="24" rx="4" fill="rgba(100,255,218,0.42)"/>
+      <rect x="198" y="26" width="72" height="24" rx="4" fill="rgba(167,139,250,0.55)"/>
+      <rect x="278" y="26" width="72" height="24" rx="4" fill="rgba(167,139,250,0.42)"/>
+      <rect x="358" y="26" width="72" height="24" rx="4" fill="rgba(255,110,199,0.55)"/>
+      <rect x="438" y="26" width="72" height="24" rx="4" fill="rgba(255,110,199,0.42)"/>
+      <rect x="518" y="26" width="72" height="24" rx="4" fill="rgba(255,209,102,0.55)"/>
+      <rect x="598" y="26" width="72" height="24" rx="4" fill="rgba(184,240,137,0.55)"/>
+      <!-- Gene labels -->
+      <text x="74"  y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#001a14" font-weight="700">lab</text>
+      <text x="154" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#001a14" font-weight="700">pb</text>
+      <text x="234" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#fff" font-weight="700">Dfd</text>
+      <text x="314" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#fff" font-weight="700">Scr</text>
+      <text x="394" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#fff" font-weight="700">Antp</text>
+      <text x="474" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#fff" font-weight="700">Ubx</text>
+      <text x="554" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#001a14" font-weight="700">abdA</text>
+      <text x="634" y="43" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#001a14" font-weight="700">AbdB</text>
+      <!-- Connecting lines to body segments -->
+      <line x1="74"  y1="50" x2="74"  y2="120" stroke="rgba(100,255,218,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="154" y1="50" x2="154" y2="120" stroke="rgba(100,255,218,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="234" y1="50" x2="234" y2="120" stroke="rgba(167,139,250,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="314" y1="50" x2="314" y2="120" stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="394" y1="50" x2="394" y2="120" stroke="rgba(255,110,199,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="474" y1="50" x2="474" y2="120" stroke="rgba(255,110,199,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="554" y1="50" x2="554" y2="120" stroke="rgba(255,209,102,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="634" y1="50" x2="634" y2="120" stroke="rgba(184,240,137,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- Expression domain label -->
+      <text x="390" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="2">EXPRESSION DOMAIN IN BODY → ANTERIOR TO POSTERIOR</text>
+      <!-- Body segments row -->
+      <rect x="38"  y="125" width="72" height="44" rx="5" fill="rgba(100,255,218,0.2)" stroke="rgba(100,255,218,0.5)" stroke-width="1"/>
+      <rect x="118" y="125" width="72" height="44" rx="5" fill="rgba(100,255,218,0.13)" stroke="rgba(100,255,218,0.35)" stroke-width="1"/>
+      <rect x="198" y="125" width="72" height="44" rx="5" fill="rgba(167,139,250,0.2)" stroke="rgba(167,139,250,0.5)" stroke-width="1"/>
+      <rect x="278" y="125" width="72" height="44" rx="5" fill="rgba(167,139,250,0.13)" stroke="rgba(167,139,250,0.35)" stroke-width="1"/>
+      <rect x="358" y="125" width="72" height="44" rx="5" fill="rgba(255,110,199,0.2)" stroke="rgba(255,110,199,0.5)" stroke-width="1"/>
+      <rect x="438" y="125" width="72" height="44" rx="5" fill="rgba(255,110,199,0.13)" stroke="rgba(255,110,199,0.35)" stroke-width="1"/>
+      <rect x="518" y="125" width="72" height="44" rx="5" fill="rgba(255,209,102,0.2)" stroke="rgba(255,209,102,0.5)" stroke-width="1"/>
+      <rect x="598" y="125" width="72" height="44" rx="5" fill="rgba(184,240,137,0.2)" stroke="rgba(184,240,137,0.5)" stroke-width="1"/>
+      <!-- Segment labels -->
+      <text x="74"  y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">Head</text>
+      <text x="74"  y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">labial</text>
+      <text x="154" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">Head</text>
+      <text x="154" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">proboscis</text>
+      <text x="234" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">Head</text>
+      <text x="234" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">mandible</text>
+      <text x="314" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">T1</text>
+      <text x="314" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">prothorax</text>
+      <text x="394" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">T2</text>
+      <text x="394" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">mesothorax</text>
+      <text x="474" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">T3-A1</text>
+      <text x="474" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">metathorax</text>
+      <text x="554" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">A2–7</text>
+      <text x="554" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">abdomen</text>
+      <text x="634" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.8)">A8–9</text>
+      <text x="634" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.5)">terminal</text>
+      <!-- Collinearity sweep arrow -->
+      <path d="M38,195 Q390,240 750,195" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none" stroke-dasharray="8,5"/>
+      <text x="390" y="260" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.3)" font-style="italic">5′→3′ chromosomal order = Anterior→Posterior expression: spatial collinearity</text>
+    </svg>
+    <div class="fig-caption">Hox gene clusters — chromosomal position predicts anterior-to-posterior expression domain. This rule holds from flies to humans.</div>
+  </div>
+
+  <div class="callout callout-rose">
+    <div class="callout-label">Homeotic Mutation — Antennapedia</div>
+    <p>A gain-of-function mutation in <em>Antennapedia</em> causes legs to grow where antennae should be. The wrong Hox gene is expressed in the wrong segment, substituting leg identity for antenna identity. Hox genes are <strong>master identity switches</strong>, not structural genes.</p>
+  </div>
+</section>
+
+
+<!-- ══════ LEVEL 3 ══════ -->
+<div class="divider reveal"><span class="level-badge l3">Level 3 · Apply &amp; Analyse</span></div>
+
+<!-- 3a: Drosophila Regulatory Cascade -->
+<section class="reveal">
+  <h3>The Drosophila Regulatory Cascade</h3>
+  <p>The Drosophila embryo uses a four-tier gene regulatory cascade to transform the crude Bicoid/Nanos gradients into a precise, 14-segment body plan. Each tier subdivides the embryo at higher resolution:</p>
+
+  <div class="figure reveal">
+    <div class="fig-label">Fig 1.4 · Drosophila Gene Regulatory Cascade</div>
+    <svg viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-cascade" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L8,4 z" fill="rgba(100,255,218,0.6)"/>
+        </marker>
+      </defs>
+      <!-- Tier 1: Maternal -->
+      <rect x="20" y="15" width="740" height="66" rx="10" fill="rgba(100,255,218,0.06)" stroke="rgba(100,255,218,0.3)" stroke-width="1.5"/>
+      <text x="40" y="36" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)" letter-spacing="2">TIER 1 · MATERNAL GENES</text>
+      <text x="390" y="58" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="17" fill="#64ffda">Bicoid · Nanos · Dorsal · Cactus · Toll</text>
+      <text x="390" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.4)">Broad gradients across entire embryo · Establish coarse A-P and D-V polarity</text>
+      <!-- Arrow -->
+      <line x1="390" y1="83" x2="390" y2="110" stroke="rgba(100,255,218,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
+      <text x="415" y="102" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.4)">activates</text>
+
+      <!-- Tier 2: Gap -->
+      <rect x="50" y="114" width="680" height="66" rx="10" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
+      <text x="70" y="135" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)" letter-spacing="2">TIER 2 · GAP GENES</text>
+      <text x="390" y="157" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="16" fill="#a78bfa">hunchback · Krüppel · knirps · giant · tailless</text>
+      <text x="390" y="173" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.4)">Large non-overlapping domains · Subdivide embryo into broad regions</text>
+      <!-- Arrow -->
+      <line x1="390" y1="182" x2="390" y2="210" stroke="rgba(167,139,250,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
+      <text x="415" y="202" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.4)">subdivides into segments</text>
+
+      <!-- Tier 3: Pair-rule -->
+      <rect x="80" y="213" width="620" height="66" rx="10" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
+      <text x="100" y="234" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)" letter-spacing="2">TIER 3 · PAIR-RULE GENES</text>
+      <text x="390" y="256" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="#ff6ec7">even-skipped · hairy · fushi tarazu · runt · paired</text>
+      <text x="390" y="272" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.4)">Striped expression in alternating segments · Define segment boundaries</text>
+      <!-- Arrow -->
+      <line x1="390" y1="281" x2="390" y2="308" stroke="rgba(255,209,102,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
+      <text x="415" y="300" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.4)">defines polarity within each segment</text>
+
+      <!-- Tier 4: Segment polarity -->
+      <rect x="110" y="311" width="560" height="50" rx="10" fill="rgba(255,209,102,0.06)" stroke="rgba(255,209,102,0.2)" stroke-width="1.5"/>
+      <text x="390" y="332" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="14" fill="#ffd166">engrailed · wingless · hedgehog · patched</text>
+      <text x="110" y="352" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.5)" letter-spacing="2">TIER 4 · SEGMENT POLARITY → then HOX GENES assign identity to each segment</text>
+      <!-- Final Arrow -->
+      <line x1="390" y1="363" x2="390" y2="390" stroke="rgba(184,240,137,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
+      <text x="390" y="410" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="14" fill="#b8f089">HOX GENES — Antp, Ubx, abdA, AbdB, Scr, Dfd…</text>
+    </svg>
+    <div class="fig-caption">Four-tier cascade: each tier interprets the previous tier's output at higher spatial resolution, from broad gradients to precise segment identities</div>
+  </div>
+
+  <div class="tip">
+    <strong>Exam Insight:</strong> The cascade is hierarchical but combinatorial — gap genes can activate OR repress pair-rule genes depending on their concentration and combination. Multiple inputs are integrated at each promoter to produce precise stripe patterns.
+  </div>
+</section>
+
+<!-- 3b: Hox Gene Comparison -->
+<section class="reveal">
+  <h3>Hox Genes: Drosophila vs. Mammals vs. Snakes</h3>
+
+  <div class="hox-grid reveal">
+    <div class="hox-card reveal-item delay-1">
+      <div class="hox-organism">Drosophila</div>
+      <div class="hox-count" style="color:var(--teal);">1</div>
+      <div class="hox-label">Hox cluster (HOM-C)<br>8 genes total</div>
+    </div>
+    <div class="hox-card reveal-item delay-2">
+      <div class="hox-organism">Amphioxus (lancelet)</div>
+      <div class="hox-count" style="color:var(--violet);">1</div>
+      <div class="hox-label">Hox cluster<br>~14 genes · ancestral state</div>
+    </div>
+    <div class="hox-card reveal-item delay-3">
+      <div class="hox-organism">Mammals</div>
+      <div class="hox-count" style="color:var(--rose);">4</div>
+      <div class="hox-label">Hox clusters (HoxA–D)<br>39 genes total</div>
+    </div>
+    <div class="hox-card reveal-item delay-4">
+      <div class="hox-organism">Bony fish (teleosts)</div>
+      <div class="hox-count" style="color:var(--gold);">7–8</div>
+      <div class="hox-label">Hox clusters<br>extra WGD in teleost ancestor</div>
+    </div>
+  </div>
+
+  <p><strong>Why do vertebrates have 4 clusters?</strong> Two rounds of whole-genome duplication (the "2R hypothesis") early in vertebrate evolution duplicated the single ancestral Hox cluster. Extra copies → <strong>subfunctionalization</strong> (dividing the original gene's roles) and <strong>neofunctionalization</strong> (evolving entirely new roles) → increased body plan complexity.</p>
+
+  <div class="figure reveal">
+    <div class="fig-label">Fig 1.5 · Hox in Tetrapods vs. Snakes</div>
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left: Tetrapod -->
+      <text x="180" y="22" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="var(--ink)">Tetrapod (e.g. mouse)</text>
+      <!-- Body outline -->
+      <rect x="30" y="50" width="300" height="60" rx="12" fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.5"/>
+      <!-- Limb bud boxes -->
+      <rect x="80" y="38" width="60" height="34" rx="8" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.6)" stroke-width="1.5"/>
+      <text x="110" y="59" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Forelimb</text>
+      <rect x="220" y="38" width="60" height="34" rx="8" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.6)" stroke-width="1.5"/>
+      <text x="250" y="59" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Hindlimb</text>
+      <!-- Hox domains in tetrapod -->
+      <rect x="60" y="120" width="40" height="22" rx="4" fill="rgba(167,139,250,0.3)" stroke="rgba(167,139,250,0.6)" stroke-width="1"/>
+      <text x="80" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">HoxA</text>
+      <rect x="130" y="120" width="40" height="22" rx="4" fill="rgba(167,139,250,0.3)" stroke="rgba(167,139,250,0.6)" stroke-width="1"/>
+      <text x="150" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">HoxD</text>
+      <text x="180" y="165" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)">HoxA13/D13 specify digits</text>
+      <text x="180" y="180" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)">Expressed only in limb buds</text>
+
+      <!-- Divider -->
+      <line x1="380" y1="30" x2="380" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+      <!-- Right: Snake -->
+      <text x="570" y="22" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="var(--ink)">Snake</text>
+      <!-- Snake body (long) -->
+      <path d="M420,80 Q440,50 480,80 Q520,110 560,80 Q600,50 640,80 Q680,110 720,80" stroke="rgba(255,110,199,0.3)" stroke-width="22" fill="none" stroke-linecap="round"/>
+      <path d="M420,80 Q440,50 480,80 Q520,110 560,80 Q600,50 640,80 Q680,110 720,80" stroke="rgba(255,110,199,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- HoxC expanded across whole body -->
+      <rect x="420" y="140" width="300" height="22" rx="4" fill="rgba(255,110,199,0.15)" stroke="rgba(255,110,199,0.5)" stroke-width="1"/>
+      <text x="570" y="155" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">HoxC genes · expressed along ENTIRE body axis</text>
+      <text x="570" y="185" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)">Limb-specific Hox expression suppressed</text>
+      <text x="570" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)">→ No limb bud formation</text>
+      <!-- X marks for limbs -->
+      <text x="480" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="18" fill="rgba(255,110,199,0.4)">✕</text>
+      <text x="660" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="18" fill="rgba(255,110,199,0.4)">✕</text>
+      <text x="480" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">no forelimb</text>
+      <text x="660" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">no hindlimb</text>
+
+      <!-- Summary text -->
+      <text x="380" y="248" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.3)" font-style="italic">Same Hox genes, different regulatory sequences → dramatic morphological difference</text>
+    </svg>
+    <div class="fig-caption">Hox gene expression in tetrapods is restricted to limb buds, specifying digit identity. In snakes, regulatory evolution expanded HoxC expression along the full body axis and suppressed the limb-specific Hox program.</div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-label">Deep Conservation</div>
+    <p>A mouse Hox gene can partially rescue a Drosophila Hox mutant — and vice versa. The protein-binding homeodomain is so conserved that it functions across 600+ million years of evolution. What has changed is <strong>when and where</strong> the gene is expressed (regulatory evolution), not the protein itself.</p>
+  </div>
+</section>
+
+<!-- PRACTICE Q&A -->
+<section class="reveal">
+  <h3>Practice Questions</h3>
+  <div class="qa-set">
+    <div class="qa-item">
+      <div class="qa-q">Bicoid mRNA is injected into the posterior of a normal Drosophila egg. What phenotype do you predict, and why? <span class="qa-arrow">▾</span></div>
+      <div class="qa-a"><div class="qa-a-inner">A <strong>second head/anterior structure</strong> forms at the posterior end, producing a double-anterior larva. Bicoid protein is sufficient to activate anterior gap genes (like <em>hunchback</em>) wherever it is present at high concentration. The posterior Nanos gradient is overwhelmed. This experiment proved Bicoid is both necessary AND sufficient for anterior identity — it is the positional signal, not just a permissive factor.</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Why do all your cells have the same DNA but different functions? <span class="qa-arrow">▾</span></div>
+      <div class="qa-a"><div class="qa-a-inner"><strong>Differential gene expression.</strong> All cells contain the complete genome (~20,000 genes), but each cell type activates only a specific subset. This is controlled by transcription factors, chromatin accessibility (which genes are physically available for transcription), DNA methylation, and histone modifications — all of which can be stably inherited through cell division without changing the DNA sequence. A liver cell and a neuron differ not in their genes but in their gene expression programmes.</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Compare Hox gene organisation in Drosophila vs. mammals. What are the evolutionary implications? <span class="qa-arrow">▾</span></div>
+      <div class="qa-a"><div class="qa-a-inner">Drosophila has <strong>1 Hox cluster</strong> with 8 genes (HOM-C). Mammals have <strong>4 clusters</strong> (HoxA–D) with 39 genes total, produced by two rounds of whole-genome duplication (2R hypothesis). Extra Hox genes enabled subfunctionalization (dividing the work of an ancestral gene between two paralogs) and neofunctionalization (evolving new roles). This gave vertebrates greater developmental complexity — for example, HoxA13 and HoxD13 can be independently regulated in forelimb vs hindlimb buds, allowing limb morphology to evolve semi-independently. The snake example shows that regulatory changes (not new genes) can produce dramatic body plan differences like complete limb loss.</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">A mutation eliminates the gap gene <em>Krüppel</em>. What happens to the Drosophila embryo? <span class="qa-arrow">▾</span></div>
+      <div class="qa-a"><div class="qa-a-inner"><em>Krüppel</em> is expressed in the central region of the embryo and specifies thoracic and abdominal segments T1–A5. Loss of Krüppel causes those segments to be deleted or fused, producing a larva missing much of its middle body. Because gap genes control pair-rule genes, losing <em>Krüppel</em> also disrupts the striped pair-rule expression in the affected region, cascading down to segment polarity and Hox gene misexpression. The phenotype is a "gap" in the segmentation pattern — hence the name.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="page-footer-nav">
+  <a href="index.html" class="pf-btn">← Home</a>
+  <a href="module-02.html" class="pf-btn next">Module 02 · Animal Development →</a>
+</div>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">The Living Codex</div>
+    <p>BIO 212 · Module 01 of 04 · Study hard, trust the process.</p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initPage === 'function') initPage({ bicoidSim: true });
+    // sync bicoid slider label
+    const sl = document.getElementById('bicoid-diffusion');
+    const vl = document.getElementById('bicoid-diffusion-val');
+    if (sl && vl) sl.addEventListener('input', () => { vl.textContent = (sl.value/100).toFixed(2); });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 03 · Evolutionary Processes · BIO 212</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── Process cards ── */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.4rem;
+  margin: 2rem 0;
+}
+.process-card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s;
+}
+.process-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.process-card.ns::before { background: linear-gradient(90deg, var(--teal), var(--violet)); }
+.process-card.gd::before { background: linear-gradient(90deg, var(--gold), var(--rose)); }
+.process-card.gf::before { background: linear-gradient(90deg, var(--lime), var(--teal)); }
+.process-card.mu::before { background: linear-gradient(90deg, var(--violet), var(--rose)); }
+.process-card:hover { transform: translateY(-5px); border-color: rgba(100,255,218,0.3); box-shadow: 0 20px 60px -15px rgba(103,76,230,0.25); }
+.process-icon {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.process-card h3 { margin: 0 0 0.6rem; font-size: 1.1rem; }
+.process-card .diversity-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin: 0.8rem 0 0.5rem;
+}
+.diversity-tag.increases { background: rgba(184,240,137,0.12); color: var(--lime); border: 1px solid rgba(184,240,137,0.3); }
+.diversity-tag.decreases { background: rgba(255,110,199,0.1); color: var(--rose); border: 1px solid rgba(255,110,199,0.3); }
+.diversity-tag.neutral   { background: rgba(100,255,218,0.08); color: var(--teal); border: 1px solid rgba(100,255,218,0.25); }
+
+/* ── Selection type cards ── */
+.sel-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.4rem;
+  margin: 2rem 0;
+}
+.sel-type-card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1.8rem;
+  transition: all 0.35s;
+}
+.sel-type-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px -12px rgba(103,76,230,0.25); }
+.sel-type-card h3 { margin: 0 0 0.5rem; }
+.sel-curve {
+  width: 100%;
+  height: 160px;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  overflow: visible;
+}
+
+/* ── H-W sim ── */
+.hw-sim-wrap {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.hw-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.hw-controls label {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.hw-controls input[type=range] { flex: 1; min-width: 120px; max-width: 260px; }
+#hw-p-val {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--teal);
+  min-width: 200px;
+}
+#canvas-hw {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  display: block;
+}
+
+/* ── Drift sim ── */
+.drift-sim-wrap {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.drift-controls {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+.drift-ctrl-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.drift-ctrl-group label { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); }
+.drift-btn {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.4rem;
+  border: 1px solid rgba(100,255,218,0.4);
+  border-radius: 6px;
+  background: rgba(100,255,218,0.06);
+  color: var(--teal);
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 0.5rem;
+}
+.drift-btn:hover { background: rgba(100,255,218,0.14); }
+#canvas-drift {
+  width: 100%;
+  height: 220px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  display: block;
+}
+
+/* ── Selection visualiser ── */
+.sel-viz-wrap {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.sel-btn-row {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.sel-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.sel-btn.active, .sel-btn:hover { border-color: var(--violet); color: var(--violet); background: rgba(167,139,250,0.08); }
+#canvas-selection {
+  width: 100%;
+  height: 380px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  display: block;
+}
+#sel-info {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  background: rgba(167,139,250,0.07);
+  border-left: 3px solid var(--violet);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* ── Scenario cards ── */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.4rem;
+  margin: 2rem 0;
+}
+.scenario-card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1.8rem;
+  transition: all 0.3s;
+}
+.scenario-card:hover { border-color: rgba(255,110,199,0.35); }
+.scenario-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.scenario-q {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+  color: var(--ink-soft);
+}
+.scenario-reveal {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rose);
+  background: rgba(255,110,199,0.06);
+  border: 1px solid rgba(255,110,199,0.3);
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.scenario-reveal:hover { background: rgba(255,110,199,0.14); }
+.scenario-ans {
+  margin-top: 0.8rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255,110,199,0.06);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  display: none;
+}
+.scenario-ans.open { display: block; }
+
+/* ── Comparison table ── */
+.process-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+.process-table th {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-align: left;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.process-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.process-table tr:last-child td { border-bottom: none; }
+.process-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── Bottleneck / founder SVG containers ── */
+.event-diagram {
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+}
+
+/* ── Vocab grid ── */
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.vocab-card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1.4rem;
+}
+.vocab-term {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--teal);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+.vocab-def {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- ══════ NAV ══════ -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html" class="active">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<header class="page-hero">
+  <div class="module-eyebrow">Module 03</div>
+  <h1>Evolutionary <em>Processes</em></h1>
+  <p class="page-desc">How populations change over time — from the mathematics of Hardy-Weinberg equilibrium to the four forces that sculpt genetic diversity across generations.</p>
+  <div class="hero-tags">
+    <span class="pill teal">Natural Selection</span>
+    <span class="pill gold">Genetic Drift</span>
+    <span class="pill violet">Gene Flow</span>
+    <span class="pill">Mutation</span>
+    <span class="pill rose">H-W Equilibrium</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ══════ LEARNING GOALS ══════ -->
+  <section class="reveal">
+    <div class="divider">Learning Objectives</div>
+    <div class="learning-goals">
+      <div class="lg-header">
+        <span class="lg-header-title">Module 03 · Evolutionary Processes</span>
+        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-dim);margin-left:auto;">Click a tier to expand</span>
+      </div>
+
+      <div class="lg-tier tier-1">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">1</div>
+          <div><div class="lg-tier-label">Level 1 · Know</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Master these first</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body">
+          <div class="lg-tier-content"><ul>
+            <li>Define the terms biological evolution, population, mutation, gene, allele.</li>
+            <li>List the four primary evolutionary processes.</li>
+            <li>List the four types of natural selection.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="lg-tier tier-2">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">2</div>
+          <div><div class="lg-tier-label">Level 2 · Understand</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Detailed mechanistic knowledge</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body">
+          <div class="lg-tier-content"><ul>
+            <li>Describe each of the four primary evolutionary processes, identify their effect on genetic diversity, and be able to offer examples of each process.</li>
+            <li>Differentiate among directional, stabilizing, balancing, and disruptive natural selection and be able to offer examples of each type.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="lg-tier tier-3">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">3</div>
+          <div><div class="lg-tier-label">Level 3 · Apply &amp; Analyse</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Class discussions will focus here</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body">
+          <div class="lg-tier-content"><ul>
+            <li>Identify the four primary evolutionary processes from descriptive examples.</li>
+            <li>Identify directional, stabilizing, balancing and disruptive natural selection from descriptive examples.</li>
+          </ul></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 1 — REMEMBER & IDENTIFY
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l1 reveal">⬡ Level 1 · Remember &amp; Identify</div>
+
+  <!-- ── Vocabulary ── -->
+  <section class="reveal">
+    <div class="section-label">Core Vocabulary</div>
+    <h2>The Language of Evolution</h2>
+
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-term">Biological Evolution</div>
+        <div class="vocab-def">A change in the heritable characteristics of a <em>population</em> over successive generations — measured as a change in allele frequencies.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-term">Population</div>
+        <div class="vocab-def">A group of individuals of the same species living in the same area at the same time, capable of interbreeding and sharing a common gene pool.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-term">Gene</div>
+        <div class="vocab-def">A segment of DNA that encodes a functional product (typically a protein or RNA). The unit of heredity.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-term">Allele</div>
+        <div class="vocab-def">One of two or more alternative versions of a gene. Different alleles arise by mutation and may produce different phenotypes.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-term">Mutation</div>
+        <div class="vocab-def">A heritable change in the nucleotide sequence of DNA. The ultimate source of all new alleles — the raw material of evolution.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-term">Allele Frequency</div>
+        <div class="vocab-def">The proportion of a particular allele among all copies of that gene in a population. Evolution = change in allele frequency over time.</div>
+      </div>
+    </div>
+
+    <!-- Key distinction callout -->
+    <div class="callout teal reveal">
+      <strong>Individual vs. Population:</strong> Individual organisms do not evolve — their DNA is fixed at conception. Evolution happens to <em>populations</em> across generations as allele frequencies shift.
+    </div>
+  </section>
+
+  <!-- ── 4 Processes overview ── -->
+  <section class="reveal">
+    <div class="section-label">The Four Forces</div>
+    <h2>Four Primary Evolutionary Processes</h2>
+    <p style="color:var(--ink-soft);max-width:680px;">Every change in allele frequency in a population is driven by one (or more) of these four mechanisms. Together they determine the trajectory of a population's gene pool.</p>
+
+    <div class="process-grid">
+      <div class="process-card ns reveal reveal-item delay-1">
+        <span class="process-icon">🔬</span>
+        <h3>Natural Selection</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);margin:0 0 0.5rem;">Differential survival and reproduction based on heritable traits.</p>
+        <span class="diversity-tag decreases">↓ or ↑ diversity</span>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;">Effect depends on type; can increase, maintain, or decrease genetic diversity.</p>
+      </div>
+      <div class="process-card gd reveal reveal-item delay-2">
+        <span class="process-icon">🎲</span>
+        <h3>Genetic Drift</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);margin:0 0 0.5rem;">Random changes in allele frequency due to chance sampling events.</p>
+        <span class="diversity-tag decreases">↓ Diversity</span>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;">Strongest in small populations. Reduces variation through fixation or loss of alleles.</p>
+      </div>
+      <div class="process-card gf reveal reveal-item delay-3">
+        <span class="process-icon">🌊</span>
+        <h3>Gene Flow</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);margin:0 0 0.5rem;">Movement of alleles between populations through migration.</p>
+        <span class="diversity-tag increases">↑ Diversity</span>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;">Introduces new alleles into a population; homogenises allele frequencies between populations.</p>
+      </div>
+      <div class="process-card mu reveal reveal-item delay-4">
+        <span class="process-icon">⚡</span>
+        <h3>Mutation</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);margin:0 0 0.5rem;">Random errors in DNA replication or repair that create new alleles.</p>
+        <span class="diversity-tag increases">↑ Diversity</span>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;">The ultimate source of all new alleles. Rate is slow; rarely drives rapid evolution alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4 Selection types overview ── -->
+  <section class="reveal">
+    <div class="section-label">Selection Types</div>
+    <h2>Four Types of Natural Selection</h2>
+
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:1rem 0 2rem;">
+      <span class="pill teal">Directional</span>
+      <span class="pill violet">Stabilizing</span>
+      <span class="pill gold">Balancing</span>
+      <span class="pill rose">Disruptive</span>
+    </div>
+
+    <div class="mnemonic">
+      <span class="mnemonic-tag">Mnemonic</span>
+      <span class="mnemonic-text">D · S · B · D</span>
+      <span class="mnemonic-decode">"<strong>D</strong>riving <strong>S</strong>hift, <strong>B</strong>alanced <strong>D</strong>ivide" — push one extreme, hold the middle, hold both, split in two.</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 2 — UNDERSTAND & EXPLAIN
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l2 reveal">⬡ Level 2 · Understand &amp; Explain</div>
+
+  <!-- ── Hardy-Weinberg ── -->
+  <section class="reveal">
+    <div class="section-label">The Null Hypothesis</div>
+    <h2>Hardy-Weinberg Equilibrium</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Before we can measure evolution, we need a baseline — a mathematical model of what a population looks like when evolution is <em>not</em> occurring. That baseline is Hardy-Weinberg equilibrium.</p>
+
+    <div class="formula-block reveal" style="text-align:center;font-size:1.3rem;padding:1.8rem 2rem;">
+      <div style="margin-bottom:0.6rem;">p + q = 1</div>
+      <div>p² + 2pq + q² = 1</div>
+      <div style="font-size:0.8rem;color:var(--ink-dim);margin-top:1rem;font-family:var(--mono);">
+        p = freq(dominant allele) · q = freq(recessive allele)<br>
+        p² = freq(AA) · 2pq = freq(Aa) · q² = freq(aa)
+      </div>
+    </div>
+
+    <div class="callout violet reveal">
+      <strong>Five H-W assumptions</strong> (violating any = evolution is occurring):<br>
+      <ol style="margin:0.6rem 0 0 1.2rem;line-height:2;">
+        <li>No mutation</li>
+        <li>No gene flow (closed population)</li>
+        <li>Random mating (panmixia)</li>
+        <li>No genetic drift (infinitely large population)</li>
+        <li>No natural selection (all genotypes equally fit)</li>
+      </ol>
+    </div>
+
+    <!-- H-W Simulation -->
+    <div class="hw-sim-wrap reveal">
+      <div class="section-label" style="margin:0 0 0.6rem;">Interactive Simulation</div>
+      <h3 style="margin:0 0 1rem;">H-W Allele Frequency Explorer</h3>
+      <div class="hw-controls">
+        <label>Allele frequency p: <input type="range" id="hw-p" min="1" max="99" step="1" value="50"></label>
+        <div id="hw-p-val">0.50</div>
+      </div>
+      <canvas id="canvas-hw" width="900" height="200"></canvas>
+      <p style="font-size:0.82rem;color:var(--ink-dim);margin-top:0.8rem;">Drag the slider to change allele frequency <em>p</em>. The bars show the expected genotype frequencies (p², 2pq, q²) — their total is always 1.</p>
+    </div>
+
+  </section>
+
+  <!-- ── Natural Selection ── -->
+  <section class="reveal">
+    <div class="section-label">Process 01</div>
+    <h2>Natural Selection</h2>
+
+    <div class="callout teal reveal">
+      <strong>Mechanism:</strong> Individuals with heritable traits that improve survival or reproduction pass those traits on at higher rates. Over generations, advantageous allele frequencies increase in the population.
+    </div>
+
+    <!-- Darwin's requirements -->
+    <div class="card-glow reveal" style="margin:1.5rem 0;">
+      <h4 style="margin:0 0 0.8rem;">Darwin's Three Requirements</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+        <div style="text-align:center;padding:1rem;background:rgba(100,255,218,0.04);border-radius:8px;">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">🔁</div>
+          <div style="font-family:var(--mono);font-size:0.78rem;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;">Variation</div>
+          <div style="font-size:0.85rem;color:var(--ink-dim);margin-top:0.3rem;">Heritable differences exist within the population</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:rgba(167,139,250,0.04);border-radius:8px;">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">⚖️</div>
+          <div style="font-family:var(--mono);font-size:0.78rem;color:var(--violet);letter-spacing:0.1em;text-transform:uppercase;">Differential Fitness</div>
+          <div style="font-size:0.85rem;color:var(--ink-dim);margin-top:0.3rem;">Some variants survive/reproduce better</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:rgba(255,209,102,0.04);border-radius:8px;">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">🧬</div>
+          <div style="font-family:var(--mono);font-size:0.78rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;">Heritability</div>
+          <div style="font-size:0.85rem;color:var(--ink-dim);margin-top:0.3rem;">Advantageous traits are passed to offspring</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selection type detail cards -->
+    <div class="sel-type-grid reveal">
+
+      <div class="sel-type-card">
+        <h3 style="color:var(--teal);">Directional Selection</h3>
+        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="arrow-teal" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--teal)"/></marker></defs>
+          <!-- x-axis -->
+          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
+          <!-- before: symmetric bell centred ~90 -->
+          <path d="M15,124 C30,124 50,124 65,115 C80,105 90,75 100,48 C110,22 115,8 120,8 C125,8 130,22 140,48 C150,75 160,105 175,115 C190,124 210,124 230,124" stroke="rgba(100,255,218,0.4)" stroke-width="2" fill="rgba(100,255,218,0.04)" stroke-dasharray="6,3"/>
+          <!-- after: bell shifted right, centred ~180 -->
+          <path d="M80,124 C100,124 130,124 150,115 C165,105 175,75 185,48 C195,22 200,8 205,8 C210,8 215,22 225,48 C235,75 245,105 260,115 C272,124 285,124 285,124" stroke="var(--teal)" stroke-width="2.5" fill="rgba(100,255,218,0.09)"/>
+          <!-- shift arrow -->
+          <line x1="125" y1="85" x2="200" y2="85" stroke="var(--teal)" stroke-width="1.8" marker-end="url(#arrow-teal)"/>
+          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">before</text>
+          <text x="218" y="25" font-family="monospace" font-size="8" fill="var(--teal)">after</text>
+          <text x="152" y="78" font-family="monospace" font-size="7.5" fill="var(--teal)">shift →</text>
+        </svg>
+        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours one extreme phenotype. Mean shifts in one direction; diversity <strong>decreases</strong>.</p>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Antibiotic resistance — bacteria with resistance alleles survive, sensitive ones die. Beak depth in Galápagos finches during drought.</p>
+      </div>
+
+      <div class="sel-type-card">
+        <h3 style="color:var(--violet);">Stabilizing Selection</h3>
+        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+          <!-- x-axis -->
+          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
+          <!-- before: wide bell -->
+          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(167,139,250,0.4)" stroke-width="2" fill="rgba(167,139,250,0.04)" stroke-dasharray="6,3"/>
+          <!-- after: narrow tall bell -->
+          <path d="M60,124 C80,124 110,124 125,115 C135,107 140,80 147,50 C150,32 150,8 150,8 C150,8 150,32 153,50 C160,80 165,107 175,115 C190,124 220,124 240,124" stroke="var(--violet)" stroke-width="2.5" fill="rgba(167,139,250,0.09)"/>
+          <!-- converging arrows from both sides -->
+          <line x1="55" y1="80" x2="105" y2="80" stroke="var(--violet)" stroke-width="1.6" marker-end="url(#arr-v)"/>
+          <line x1="245" y1="80" x2="195" y2="80" stroke="var(--violet)" stroke-width="1.6" marker-end="url(#arr-v)"/>
+          <defs><marker id="arr-v" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--violet)"/></marker></defs>
+          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">before</text>
+          <text x="125" y="22" font-family="monospace" font-size="8" fill="var(--violet)">narrower after</text>
+        </svg>
+        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours the intermediate phenotype; selects against both extremes. Diversity <strong>decreases</strong>.</p>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Human birth weight — very low and very high birth weights have lower survival; intermediate weights are favoured.</p>
+      </div>
+
+      <div class="sel-type-card">
+        <h3 style="color:var(--gold);">Balancing Selection</h3>
+        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+          <!-- x-axis -->
+          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
+          <!-- before (dashed) and after (solid) — virtually identical -->
+          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(255,209,102,0.4)" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
+          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="var(--gold)" stroke-width="2.5" fill="rgba(255,209,102,0.08)"/>
+          <!-- "stable" label with double-headed arrow -->
+          <line x1="60" y1="60" x2="240" y2="60" stroke="rgba(255,209,102,0.5)" stroke-width="1.2" stroke-dasharray="3,2"/>
+          <text x="150" y="55" text-anchor="middle" font-family="monospace" font-size="8.5" fill="var(--gold)">maintained over time</text>
+          <text x="150" y="18" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(255,209,102,0.6)">both alleles persist</text>
+          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">stable</text>
+        </svg>
+        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Maintains multiple alleles in a population. Diversity <strong>maintained</strong>. Includes heterozygote advantage &amp; frequency-dependent selection.</p>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Sickle-cell anaemia in malaria regions — HbA/HbS heterozygotes resist malaria better than HbA/HbA; both alleles maintained.</p>
+      </div>
+
+      <div class="sel-type-card">
+        <h3 style="color:var(--rose);">Disruptive Selection</h3>
+        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+          <!-- x-axis -->
+          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
+          <!-- before: single bell centred -->
+          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(255,110,199,0.35)" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
+          <!-- after: two peaks, valley in middle -->
+          <path d="M15,124 C30,124 45,122 60,108 C72,94 78,68 88,44 C95,26 98,10 105,10 C112,10 115,26 122,44 C130,62 138,82 150,105 C162,82 170,62 178,44 C185,26 188,10 195,10 C202,10 205,26 212,44 C222,68 228,94 240,108 C255,122 270,124 285,124" stroke="var(--rose)" stroke-width="2.5" fill="rgba(255,110,199,0.08)"/>
+          <!-- diverging arrows -->
+          <line x1="150" y1="85" x2="90" y2="55" stroke="var(--rose)" stroke-width="1.5" marker-end="url(#arr-r)"/>
+          <line x1="150" y1="85" x2="210" y2="55" stroke="var(--rose)" stroke-width="1.5" marker-end="url(#arr-r)"/>
+          <defs><marker id="arr-r" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--rose)"/></marker></defs>
+          <text x="150" y="118" text-anchor="middle" font-family="monospace" font-size="8" fill="var(--rose)">valley (middle selected against)</text>
+        </svg>
+        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours both extremes over the intermediate. Population splits into two phenotypic clusters. Diversity <strong>increases</strong>.</p>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> African seedcracker finches — large beaks crack hard seeds, small beaks crack soft seeds; intermediate beak size is ineffective at both.</p>
+      </div>
+
+    </div>
+
+    <!-- Interactive Selection Visualiser -->
+    <div class="sel-viz-wrap reveal">
+      <div class="section-label" style="margin:0 0 0.6rem;">Interactive Simulation</div>
+      <h3 style="margin:0 0 1.2rem;">Selection Type Visualiser</h3>
+      <div class="sel-btn-row">
+        <button class="sel-btn active" data-sel="directional">Directional</button>
+        <button class="sel-btn" data-sel="stabilizing">Stabilizing</button>
+        <button class="sel-btn" data-sel="balancing">Balancing</button>
+        <button class="sel-btn" data-sel="disruptive">Disruptive</button>
+      </div>
+      <canvas id="canvas-selection" width="900" height="380"></canvas>
+      <div id="sel-info">Select a mode above to see how the phenotype distribution shifts over generations.</div>
+    </div>
+  </section>
+
+  <!-- ── Genetic Drift ── -->
+  <section class="reveal">
+    <div class="section-label">Process 02</div>
+    <h2>Genetic Drift</h2>
+
+    <div class="callout gold reveal">
+      <strong>Mechanism:</strong> In any finite population, allele frequencies change by random chance from generation to generation — some individuals leave more offspring simply because of luck, not because of fitness advantages.
+    </div>
+
+    <p style="color:var(--ink-soft);max-width:700px;">Genetic drift is strongest in <strong>small populations</strong> and can cause alleles to be lost or fixed entirely regardless of their adaptive value. It always <strong>reduces</strong> genetic diversity.</p>
+
+    <!-- Bottleneck & Founder diagrams side by side -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:1.5rem 0;">
+
+      <div class="card-glow">
+        <h4 style="color:var(--gold);margin:0 0 0.8rem;">Bottleneck Effect</h4>
+        <div class="event-diagram">
+          <svg viewBox="0 0 280 140" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- original population: many coloured circles -->
+            <circle cx="20" cy="30" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="40" cy="50" r="8" fill="#a78bfa" opacity="0.8"/>
+            <circle cx="60" cy="25" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="80" cy="45" r="8" fill="#ff6ec7" opacity="0.8"/>
+            <circle cx="25" cy="65" r="8" fill="#ffd166" opacity="0.8"/>
+            <circle cx="50" cy="75" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="70" cy="60" r="8" fill="#a78bfa" opacity="0.8"/>
+            <circle cx="90" cy="70" r="8" fill="#ffd166" opacity="0.8"/>
+            <circle cx="35" cy="90" r="8" fill="#ff6ec7" opacity="0.8"/>
+            <circle cx="55" cy="100" r="8" fill="#64ffda" opacity="0.8"/>
+            <!-- bottleneck funnel -->
+            <path d="M110,20 L140,20 L150,60 L140,80 L150,60 L110,80 Z" fill="none" stroke="rgba(255,209,102,0.5)" stroke-width="1.5"/>
+            <line x1="125" y1="20" x2="125" y2="80" stroke="rgba(255,209,102,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="115" y="55" font-family="monospace" font-size="8" fill="var(--gold)">disaster</text>
+            <!-- only 2 survivors -->
+            <circle cx="175" cy="50" r="8" fill="#64ffda" opacity="0.9"/>
+            <circle cx="195" cy="65" r="8" fill="#64ffda" opacity="0.9"/>
+            <!-- recover but low diversity -->
+            <circle cx="220" cy="30" r="7" fill="#64ffda" opacity="0.7"/>
+            <circle cx="240" cy="50" r="7" fill="#64ffda" opacity="0.7"/>
+            <circle cx="255" cy="35" r="7" fill="#64ffda" opacity="0.7"/>
+            <circle cx="225" cy="70" r="7" fill="#64ffda" opacity="0.7"/>
+            <circle cx="245" cy="80" r="7" fill="#64ffda" opacity="0.7"/>
+            <text x="10" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">Original (diverse)</text>
+            <text x="155" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">Survivors</text>
+            <text x="208" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">Recovered (low diversity)</text>
+          </svg>
+        </div>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Cheetahs — a near-extinction event left so little genetic diversity that skin grafts are rarely rejected between individuals.</p>
+      </div>
+
+      <div class="card-glow">
+        <h4 style="color:var(--gold);margin:0 0 0.8rem;">Founder Effect</h4>
+        <div class="event-diagram">
+          <svg viewBox="0 0 280 140" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- source population -->
+            <circle cx="20" cy="35" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="45" cy="20" r="8" fill="#a78bfa" opacity="0.8"/>
+            <circle cx="65" cy="45" r="8" fill="#ff6ec7" opacity="0.8"/>
+            <circle cx="30" cy="65" r="8" fill="#ffd166" opacity="0.8"/>
+            <circle cx="55" cy="75" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="80" cy="55" r="8" fill="#a78bfa" opacity="0.8"/>
+            <circle cx="20" cy="90" r="8" fill="#64ffda" opacity="0.8"/>
+            <circle cx="70" cy="85" r="8" fill="#ffd166" opacity="0.8"/>
+            <!-- migration arrow -->
+            <path d="M100,55 Q130,40 160,55" stroke="rgba(100,255,218,0.6)" stroke-width="2" fill="none" marker-end="url(#arr-g)"/>
+            <text x="110" y="40" font-family="monospace" font-size="8" fill="var(--teal)">migrate</text>
+            <defs><marker id="arr-g" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--teal)"/></marker></defs>
+            <!-- founders: only 2 allele types -->
+            <circle cx="175" cy="45" r="8" fill="#64ffda" opacity="0.9"/>
+            <circle cx="195" cy="60" r="8" fill="#ffd166" opacity="0.9"/>
+            <!-- new colony -->
+            <circle cx="218" cy="30" r="7" fill="#64ffda" opacity="0.75"/>
+            <circle cx="235" cy="50" r="7" fill="#ffd166" opacity="0.75"/>
+            <circle cx="250" cy="35" r="7" fill="#64ffda" opacity="0.75"/>
+            <circle cx="222" cy="68" r="7" fill="#ffd166" opacity="0.75"/>
+            <circle cx="245" cy="72" r="7" fill="#64ffda" opacity="0.75"/>
+            <text x="10" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">Source population</text>
+            <text x="160" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">Founders</text>
+            <text x="213" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.5)">New colony (low diversity)</text>
+          </svg>
+        </div>
+        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Amish communities — Ellis van Creveld syndrome (extra fingers, short limbs) is far more common due to one founding couple carrying the allele.</p>
+      </div>
+
+    </div>
+
+    <!-- Drift simulation -->
+    <div class="drift-sim-wrap reveal">
+      <div class="section-label" style="margin:0 0 0.6rem;">Interactive Simulation</div>
+      <h3 style="margin:0 0 1.2rem;">Genetic Drift Simulator</h3>
+      <div class="drift-controls">
+        <div class="drift-ctrl-group">
+          <label>Population size (N): <span id="drift-n-val">50</span></label>
+          <input type="range" id="drift-n" min="5" max="500" step="5" value="50">
+        </div>
+        <div class="drift-ctrl-group">
+          <label>Starting frequency p₀: <span id="drift-p0-val">0.50</span></label>
+          <input type="range" id="drift-p0" min="5" max="95" step="5" value="50">
+        </div>
+        <div class="drift-ctrl-group">
+          <button class="drift-btn" id="drift-run">▶ Run Simulation</button>
+        </div>
+      </div>
+      <canvas id="canvas-drift" width="900" height="220"></canvas>
+      <p style="font-size:0.82rem;color:var(--ink-dim);margin-top:0.8rem;">Each coloured line is an independent population. Watch how smaller populations drift to fixation (0 or 1) much faster than larger ones.</p>
+    </div>
+  </section>
+
+  <!-- ── Gene Flow ── -->
+  <section class="reveal">
+    <div class="section-label">Process 03</div>
+    <h2>Gene Flow</h2>
+
+    <div class="callout teal reveal">
+      <strong>Mechanism:</strong> The movement of alleles between populations via the migration of individuals (or gametes). Gene flow introduces new alleles and tends to make populations more genetically similar.
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem;margin:1.5rem 0;">
+      <div class="card-glow">
+        <h4 style="margin:0 0 0.8rem;">Effect on Genetic Diversity</h4>
+        <ul style="font-size:0.9rem;color:var(--ink-soft);line-height:2;padding-left:1.3rem;margin:0;">
+          <li><strong>Receiving population:</strong> diversity ↑ (new alleles arrive)</li>
+          <li><strong>Between populations:</strong> allele frequencies homogenise</li>
+          <li><strong>Net effect:</strong> opposes divergence and speciation</li>
+        </ul>
+      </div>
+      <div class="card-glow">
+        <h4 style="margin:0 0 0.8rem;">Examples</h4>
+        <ul style="font-size:0.9rem;color:var(--ink-soft);line-height:2;padding-left:1.3rem;margin:0;">
+          <li>Pollen dispersal by wind between plant populations</li>
+          <li>Birds migrating and breeding in new territories</li>
+          <li>Human migration and interbreeding between groups</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Gene flow SVG -->
+    <div class="event-diagram reveal" style="max-width:600px;">
+      <svg viewBox="0 0 400 120" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Pop A -->
+        <rect x="10" y="20" width="120" height="80" rx="10" fill="rgba(100,255,218,0.07)" stroke="rgba(100,255,218,0.35)" stroke-width="1.5"/>
+        <text x="70" y="14" font-family="monospace" font-size="9" fill="var(--teal)" text-anchor="middle">Population A</text>
+        <text x="70" y="58" font-family="sans-serif" font-size="11" fill="rgba(100,255,218,0.8)" text-anchor="middle">p = 0.8</text>
+        <text x="70" y="75" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.4)" text-anchor="middle">q = 0.2</text>
+        <!-- arrow right -->
+        <path d="M135,60 Q195,35 265,60" stroke="var(--lime)" stroke-width="2" fill="none" marker-end="url(#arr-lime)"/>
+        <text x="188" y="42" font-family="monospace" font-size="8" fill="var(--lime)" text-anchor="middle">migrants</text>
+        <defs><marker id="arr-lime" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--lime)"/></marker></defs>
+        <!-- arrow left (bidirectional) -->
+        <path d="M265,70 Q195,90 135,70" stroke="rgba(184,240,137,0.4)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+        <!-- Pop B -->
+        <rect x="270" y="20" width="120" height="80" rx="10" fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.35)" stroke-width="1.5"/>
+        <text x="330" y="14" font-family="monospace" font-size="9" fill="var(--violet)" text-anchor="middle">Population B</text>
+        <text x="330" y="52" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.4)" text-anchor="middle">p = 0.2 → 0.35</text>
+        <text x="330" y="67" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.4)" text-anchor="middle">q = 0.8 → 0.65</text>
+        <text x="330" y="82" font-family="monospace" font-size="7.5" fill="var(--lime)" text-anchor="middle">diversity ↑</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── Mutation ── -->
+  <section class="reveal">
+    <div class="section-label">Process 04</div>
+    <h2>Mutation</h2>
+
+    <div class="callout violet reveal">
+      <strong>Mechanism:</strong> Random changes in DNA sequence — substitutions, insertions, deletions — create new alleles. Mutation is the <em>only</em> process that introduces entirely new genetic information into a population.
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem;margin:1.5rem 0;">
+      <div class="card-glow">
+        <h4 style="margin:0 0 0.8rem;">Key Points</h4>
+        <ul style="font-size:0.9rem;color:var(--ink-soft);line-height:2;padding-left:1.3rem;margin:0;">
+          <li>Mutation rate: ~10⁻⁸ per base pair per generation in humans</li>
+          <li>Most mutations are <strong>neutral</strong> (synonymous, non-coding)</li>
+          <li>Rarely beneficial; commonly deleterious</li>
+          <li>Increases genetic diversity</li>
+          <li>Provides raw material for all other evolutionary processes</li>
+        </ul>
+      </div>
+      <div class="card-glow">
+        <h4 style="margin:0 0 0.8rem;">Types of Mutation</h4>
+        <ul style="font-size:0.9rem;color:var(--ink-soft);line-height:2;padding-left:1.3rem;margin:0;">
+          <li><strong>Point mutation:</strong> single base substitution</li>
+          <li><strong>Insertion/Deletion:</strong> frameshift; often severe</li>
+          <li><strong>Gene duplication:</strong> extra copy free to diverge</li>
+          <li><strong>Chromosomal rearrangement:</strong> inversions, translocations</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mutation as raw material diagram -->
+    <div class="event-diagram reveal" style="max-width:620px;">
+      <svg viewBox="0 0 400 80" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- DNA strand before -->
+        <text x="10" y="22" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.7)">5'–A–T–G–C–C–A–T–G–A–3'</text>
+        <!-- lightning bolt -->
+        <text x="185" y="45" font-family="sans-serif" font-size="20" fill="var(--violet)">⚡</text>
+        <text x="175" y="60" font-family="monospace" font-size="7.5" fill="var(--violet)">mutation</text>
+        <!-- DNA strand after -->
+        <text x="10" y="72" font-family="monospace" font-size="10" fill="var(--teal)">5'–A–T–<tspan fill="var(--rose)" font-weight="bold">T</tspan>–C–C–A–T–G–A–3'</text>
+        <text x="42" y="82" font-family="monospace" font-size="7" fill="var(--rose)">↑ G→T substitution (new allele)</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Summary comparison table -->
+  <section class="reveal">
+    <div class="section-label">Comparison Summary</div>
+    <h2>All Four Processes at a Glance</h2>
+    <div style="overflow-x:auto;">
+      <table class="process-table">
+        <thead>
+          <tr>
+            <th>Process</th>
+            <th>Mechanism</th>
+            <th>Effect on Diversity</th>
+            <th>Population Size</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--teal);">Natural Selection</strong></td>
+            <td>Differential survival &amp; reproduction based on fitness</td>
+            <td>↓ or ↑ (depends on type)</td>
+            <td>Any</td>
+            <td>Antibiotic resistance; sickle-cell in malaria regions</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--gold);">Genetic Drift</strong></td>
+            <td>Random sampling error in allele transmission</td>
+            <td>↓ (alleles lost or fixed)</td>
+            <td>Most powerful in small populations</td>
+            <td>Cheetah low diversity; Amish founder effect</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--lime);">Gene Flow</strong></td>
+            <td>Migration of individuals/gametes between populations</td>
+            <td>↑ (in receiving population); homogenises between pops</td>
+            <td>Any</td>
+            <td>Pollen dispersal; bird migration</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--violet);">Mutation</strong></td>
+            <td>Random heritable changes in DNA sequence</td>
+            <td>↑ (creates new alleles)</td>
+            <td>Any (but slow rate)</td>
+            <td>Point mutations; gene duplications</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 3 — APPLY & ANALYZE
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l3 reveal">⬡ Level 3 · Apply &amp; Analyze</div>
+
+  <!-- Scenario identification: evolutionary processes -->
+  <section class="reveal">
+    <div class="section-label">Scenario Practice</div>
+    <h2>Identify the Evolutionary Process</h2>
+    <p style="color:var(--ink-soft);max-width:680px;">Read each scenario and identify which of the four evolutionary processes is at work. Click "Reveal" to check your answer.</p>
+
+    <div class="scenario-grid">
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 01</span>
+        <p class="scenario-q">A volcanic eruption wipes out 97% of a beetle population. The 3% that survive happen to carry a rare green colouration allele. Over the next 20 generations, nearly all beetles are green — not because green beetles are better camouflaged, but simply because that was what the survivors happened to carry.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Genetic Drift — Bottleneck Effect.</strong> The change was due to random survival, not selection pressure on the colour trait. The population size crash caused chance fixation of the green allele.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 02</span>
+        <p class="scenario-q">In a population of moths exposed to pesticides, moths with a resistance allele survive and reproduce. Over ten generations, the resistance allele goes from 2% to 89% frequency. Susceptible moths are nearly gone.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Natural Selection — Directional.</strong> The resistance allele confers fitness advantage; the environment consistently favours one extreme phenotype, shifting allele frequency directionally.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 03</span>
+        <p class="scenario-q">A small group of ten rabbits crosses a newly formed land bridge from the mainland to an island. The island population grows to thousands, but has much lower genetic diversity than the mainland population and a high frequency of a previously rare ear-shape allele that the founders happened to carry.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Genetic Drift — Founder Effect.</strong> The small founding group did not represent the full allele diversity of the mainland. Random allele frequencies in the founders became the new baseline.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 04</span>
+        <p class="scenario-q">A previously rare blood type allele suddenly appears in a prairie dog population at 12% frequency. Researchers confirm no prairie dogs died or were born unusually — the frequency changed because several prairie dogs emigrated from a neighbouring colony where that allele was common.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Gene Flow.</strong> Migration of individuals carrying the allele from another population introduced it into the receiving population — a textbook case of gene flow.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 05</span>
+        <p class="scenario-q">In a sequencing study, scientists discover a brand-new DNA variant in a single individual of a fish species that has never been seen in any other individual of that species — or in any other species. The variant alters an enzyme's active site.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Mutation.</strong> A de novo change in DNA sequence created a new allele that did not previously exist in the population. This is mutation — the only process that generates genuinely new genetic information.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 06</span>
+        <p class="scenario-q">In a population of mice living in a snowy environment, both very dark and very light mice are frequently caught by predators. Mice with intermediate grey colouration survive and reproduce most successfully. Over many generations, the population converges on intermediate colouration.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Natural Selection — Stabilizing.</strong> Both extreme phenotypes are selected against; intermediate phenotype has highest fitness. The distribution narrows around the mean.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 07</span>
+        <p class="scenario-q">In a population of oysters living in a tidal zone, both very large and very small oysters survive well — large ones resist physical disturbance while small ones fit in crevices. Intermediate-sized oysters are most vulnerable to predation. Over generations, the size distribution becomes bimodal.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Natural Selection — Disruptive.</strong> Both extremes are favoured over the intermediate. The distribution splits into two peaks, potentially leading to ecological specialisation or even speciation.</div>
+      </div>
+
+      <div class="scenario-card">
+        <span class="scenario-tag">Scenario 08</span>
+        <p class="scenario-q">The HbS allele (sickle-cell) never disappears from a West African population despite causing severe disease in homozygotes. Researchers find that HbA/HbS heterozygotes have better survival rates in malaria-endemic regions than HbA/HbA homozygotes. Both alleles persist at stable frequencies for centuries.</p>
+        <button class="scenario-reveal" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide':'Reveal';">Reveal</button>
+        <div class="scenario-ans"><strong>Natural Selection — Balancing (heterozygote advantage).</strong> The heterozygote is more fit than either homozygote, so selection maintains both alleles in the population indefinitely. This is a classic case of balancing selection.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Practice Q&A ── -->
+  <section class="reveal">
+    <div class="section-label">Practice Questions</div>
+    <h2>Test Your Understanding</h2>
+    <div class="qa-block">
+
+      <div class="qa-item">
+        <div class="qa-q">Q1: A population satisfies all five H-W assumptions. You measure allele frequencies and find that p = 0.6. What percentage of the population would you expect to be heterozygous carriers?</div>
+        <div class="qa-a">2pq = 2 × 0.6 × 0.4 = <strong>0.48 = 48%</strong>. The population is in H-W equilibrium, so genotype frequencies follow p² + 2pq + q² = 1.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q2: Why does genetic drift have a stronger effect in small populations than large ones?</div>
+        <div class="qa-a">In a small population, sampling error is proportionally larger. If only 10 individuals reproduce, a random absence of one allele wipes it out entirely. In a population of 10,000, random absences average out and allele frequencies remain stable. The effect is inversely proportional to population size (∝ 1/2N).</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q3: Disruptive selection is sometimes called a driver of speciation. Why?</div>
+        <div class="qa-a">Disruptive selection favours two extreme phenotypes simultaneously. This can lead to <strong>bimodal phenotype distributions</strong> and, if assortative mating follows (extreme morphs preferentially mate with like phenotypes), to reproductive isolation. Over time, the two morphs may diverge enough to become separate species — a process called sympatric speciation.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q4: How does gene flow affect speciation?</div>
+        <div class="qa-a">Gene flow <strong>counteracts</strong> speciation by homogenising allele frequencies between populations, preventing the genetic divergence needed to form separate species. Geographic isolation (allopatry) prevents gene flow, which is why it is a major driver of speciation. High gene flow = populations remain genetically similar = no speciation.</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">Module 03 · Evolutionary Processes</div>
+    <p>← <a href="module-02.html" style="color:var(--teal);">Module 02</a> &nbsp;·&nbsp; <a href="module-04.html" style="color:var(--teal);">Module 04 →</a></p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initPage === 'function') initPage({ simulations: true, selectionViz: true });
+
+    // Wire up drift run button manually if needed
+    const driftBtn = document.getElementById('drift-run');
+    if (driftBtn) {
+      driftBtn.addEventListener('click', () => {
+        if (typeof runDrift === 'function') runDrift();
+      });
+    }
+
+    // Display slider values live
+    const driftN = document.getElementById('drift-n');
+    const driftP = document.getElementById('drift-p0');
+    const driftNVal = document.getElementById('drift-n-val');
+    const driftPVal = document.getElementById('drift-p0-val');
+    if (driftN && driftNVal) {
+      driftN.addEventListener('input', () => { driftNVal.textContent = driftN.value; });
+    }
+    if (driftP && driftPVal) {
+      driftP.addEventListener('input', () => { driftPVal.textContent = (parseFloat(driftP.value) / 100).toFixed(2); });
+    }
+  });
+</script>
+</body>
+</html>

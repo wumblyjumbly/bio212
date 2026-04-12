@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIO 212 · The Living Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Reading progress bar -->
+<div class="progress-bar" id="progress-bar"></div>
+
+<!-- Background layers -->
+<div class="aurora"></div>
+<div class="stars" id="stars"></div>
+<div class="grain"></div>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════════ -->
+<header class="hero" id="top">
+  <div class="hero-orbit">
+    <svg viewBox="0 0 600 600" class="dna-helix">
+      <defs>
+        <linearGradient id="strandA" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#64ffda"/>
+          <stop offset="100%" stop-color="#a78bfa"/>
+        </linearGradient>
+        <linearGradient id="strandB" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff6ec7"/>
+          <stop offset="100%" stop-color="#ffd166"/>
+        </linearGradient>
+        <filter id="glow-hero">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <g class="helix-rotate" filter="url(#glow-hero)">
+        <path d="M300,50 Q400,150 300,250 Q200,350 300,450 Q400,550 300,650" stroke="url(#strandA)" stroke-width="4" fill="none"/>
+        <path d="M300,50 Q200,150 300,250 Q400,350 300,450 Q200,550 300,650" stroke="url(#strandB)" stroke-width="4" fill="none"/>
+        <g stroke="#64ffda" stroke-width="1.5" opacity="0.6">
+          <line x1="260" y1="90"  x2="340" y2="90"/>
+          <line x1="240" y1="130" x2="360" y2="130"/>
+          <line x1="230" y1="170" x2="370" y2="170"/>
+          <line x1="240" y1="210" x2="360" y2="210"/>
+          <line x1="260" y1="250" x2="340" y2="250"/>
+          <line x1="260" y1="290" x2="340" y2="290"/>
+          <line x1="240" y1="330" x2="360" y2="330"/>
+          <line x1="230" y1="370" x2="370" y2="370"/>
+          <line x1="240" y1="410" x2="360" y2="410"/>
+          <line x1="260" y1="450" x2="340" y2="450"/>
+        </g>
+        <!-- Base pair dots -->
+        <circle cx="260" cy="90"  r="5" fill="#64ffda" opacity="0.8"/>
+        <circle cx="340" cy="90"  r="5" fill="#a78bfa" opacity="0.8"/>
+        <circle cx="240" cy="130" r="5" fill="#ff6ec7" opacity="0.8"/>
+        <circle cx="360" cy="130" r="5" fill="#ffd166" opacity="0.8"/>
+        <circle cx="230" cy="170" r="5" fill="#64ffda" opacity="0.8"/>
+        <circle cx="370" cy="170" r="5" fill="#a78bfa" opacity="0.8"/>
+        <circle cx="260" cy="250" r="5" fill="#ff6ec7" opacity="0.8"/>
+        <circle cx="340" cy="250" r="5" fill="#ffd166" opacity="0.8"/>
+        <circle cx="260" cy="290" r="5" fill="#64ffda" opacity="0.8"/>
+        <circle cx="340" cy="290" r="5" fill="#a78bfa" opacity="0.8"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">· BIO 212 · The Living Codex ·</div>
+    <h1>The Architecture<br><em>of Being Alive</em></h1>
+    <p class="hero-sub">A visual field guide to Development, Evolution, and the deep history of life — engineered for one thing: helping you ace the exam.</p>
+    <div class="hero-meta">
+      <span>5 Modules</span><span class="dot">●</span>
+      <span>80+ Diagrams</span><span class="dot">●</span>
+      <span>Interactive Sims</span><span class="dot">●</span>
+      <span>Exam-Ready</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ NAV ════════════════════════════════════ -->
+<nav class="topnav" id="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">◈ Codex</a>
+    <ul>
+      <li><a href="#principles">01 · Principles</a></li>
+      <li><a href="#animal-dev">02 · Animal Dev</a></li>
+      <li><a href="#evolution">03 · Evolution</a></li>
+      <li><a href="#speciation">04 · Speciation</a></li>
+      <li><a href="#review">05 · Review</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════════ -->
+<main class="container">
+  <div id="content-root">
+    <!-- All module content injected by module-XX.js + app.js -->
+    <div style="text-align:center; padding:6rem 2rem; color:var(--ink-dim); font-family:var(--mono); font-size:0.8rem; letter-spacing:0.2em;">
+      LOADING THE CODEX…
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════════════════════════ FOOTER ═════════════════════════════════ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">The Living Codex</div>
+    <p>Crafted for BIO 212 · Every diagram drawn in SVG · Every simulation built with Canvas · Study hard, trust the process.</p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════ SCRIPTS (order matters) ═══════════════════════ -->
+<!-- Module content — each sets window.M0X -->
+<script src="module-01.js"></script>
+<script src="module-02.js"></script>
+<script src="module-03.js"></script>
+<script src="module-04.js"></script>
+<script src="module-05.js"></script>
+<!-- Behaviour -->
+<script src="interactions.js"></script>
+<script src="simulations.js"></script>
+<!-- Orchestrator — runs last -->
+<script src="app.js"></script>
+
+</body>
+</html>

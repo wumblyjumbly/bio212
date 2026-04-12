@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIO 212 · The Living Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.index-hero {
+  min-height: 90vh; display:grid; place-items:center;
+  text-align:center; padding:6rem 2rem 4rem; position:relative; overflow:hidden;
+}
+.index-hero-orbit {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:min(820px,92vw); height:min(820px,92vw);
+  opacity:0.16; pointer-events:none; z-index:0;
+}
+.index-hero-orbit::before,.index-hero-orbit::after {
+  content:''; position:absolute; inset:0;
+  border:1px dashed rgba(100,255,218,0.4); border-radius:50%;
+  animation:spin 80s linear infinite;
+}
+.index-hero-orbit::after {
+  inset:16%; border-color:rgba(255,110,199,0.3);
+  animation-duration:52s; animation-direction:reverse;
+}
+.index-hero-inner { position:relative; z-index:2; max-width:860px; }
+.index-hero h1 {
+  font-family:var(--serif); font-size:clamp(3rem,9vw,7.5rem);
+  font-weight:300; line-height:0.93; letter-spacing:-0.03em;
+  background:linear-gradient(135deg,#fff 0%,#a78bfa 50%,#64ffda 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:1.5rem;
+}
+.index-hero h1 em {
+  font-style:italic; font-weight:400;
+  background:linear-gradient(135deg,#ff6ec7 0%,#ffd166 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.index-sub { font-size:clamp(1rem,1.5vw,1.22rem); color:var(--ink-soft); max-width:600px; margin:0 auto 2rem; font-weight:300; line-height:1.78; }
+.hero-meta { font-family:var(--mono); font-size:0.78rem; color:var(--ink-dim); letter-spacing:0.15em; text-transform:uppercase; }
+.hero-meta .dot { margin:0 1rem; color:var(--teal); }
+.start-btn {
+  display:inline-flex; align-items:center; gap:0.8rem; margin-top:2.5rem;
+  font-family:var(--mono); font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--teal); padding:1rem 2.4rem; border:1px solid rgba(100,255,218,0.45);
+  border-radius:999px; text-decoration:none; transition:all 0.3s;
+  background:rgba(100,255,218,0.06);
+}
+.start-btn:hover { background:rgba(100,255,218,0.14); box-shadow:0 0 32px rgba(100,255,218,0.22); transform:translateY(-2px); }
+.dna-float { position:absolute; inset:0; width:100%; height:100%; filter:drop-shadow(0 0 40px rgba(100,255,218,0.35)); }
+.helix-rotate { transform-origin:center; animation:spin 32s linear infinite; }
+
+.quick-ref { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; margin:2rem 0; }
+.qr-card {
+  background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm);
+  padding:1.6rem; transition:all 0.35s;
+}
+.qr-card:hover { transform:translateY(-5px); border-color:rgba(100,255,218,0.3); box-shadow:0 20px 60px -15px rgba(103,76,230,0.3); }
+.qr-card h4 { margin:0 0 0.8rem; }
+
+/* Module card pill accent colors */
+.module-card.m01::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(100,255,218,0.04),transparent); border-radius:inherit; pointer-events:none; }
+.module-card.m02::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(167,139,250,0.04),transparent); border-radius:inherit; pointer-events:none; }
+.module-card.m03::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,209,102,0.04),transparent); border-radius:inherit; pointer-events:none; }
+.module-card.m04::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,110,199,0.04),transparent); border-radius:inherit; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- ══════ HERO ══════ -->
+<header class="index-hero">
+  <div class="index-hero-orbit">
+    <svg class="dna-float" viewBox="0 0 600 600">
+      <defs>
+        <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#64ffda"/><stop offset="100%" stop-color="#a78bfa"/>
+        </linearGradient>
+        <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff6ec7"/><stop offset="100%" stop-color="#ffd166"/>
+        </linearGradient>
+      </defs>
+      <g class="helix-rotate">
+        <path d="M300,50 Q400,150 300,250 Q200,350 300,450 Q400,550 300,650" stroke="url(#sg1)" stroke-width="3.5" fill="none"/>
+        <path d="M300,50 Q200,150 300,250 Q400,350 300,450 Q200,550 300,650" stroke="url(#sg2)" stroke-width="3.5" fill="none"/>
+        <g stroke="#64ffda" stroke-width="1.5" opacity="0.45">
+          <line x1="262" y1="92"  x2="338" y2="92"/>
+          <line x1="238" y1="133" x2="362" y2="133"/>
+          <line x1="224" y1="172" x2="376" y2="172"/>
+          <line x1="238" y1="212" x2="362" y2="212"/>
+          <line x1="262" y1="252" x2="338" y2="252"/>
+          <line x1="262" y1="292" x2="338" y2="292"/>
+          <line x1="238" y1="332" x2="362" y2="332"/>
+          <line x1="224" y1="372" x2="376" y2="372"/>
+          <line x1="238" y1="412" x2="362" y2="412"/>
+          <line x1="262" y1="452" x2="338" y2="452"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="index-hero-inner">
+    <div class="eyebrow">· BIO 212 · The Living Codex ·</div>
+    <h1>The Architecture<br><em>of Being Alive</em></h1>
+    <p class="index-sub">A visual field guide to Development, Evolution, and the deep history of life — crafted for one purpose: genuine understanding that carries you through every exam.</p>
+    <div class="hero-meta">
+      <span>4 Modules</span><span class="dot">●</span>
+      <span>60+ Diagrams</span><span class="dot">●</span>
+      <span>Interactive Simulations</span><span class="dot">●</span>
+      <span>Tiered Learning Goals</span>
+    </div>
+    <a href="module-01.html" class="start-btn">Begin Module 01 →</a>
+  </div>
+</header>
+
+<!-- ══════ MODULE CARDS ══════ -->
+<main class="container">
+  <div class="divider reveal">Choose your module</div>
+
+  <div class="index-modules">
+
+    <a href="module-01.html" class="module-card m01 reveal reveal-item delay-1">
+      <div class="mc-num">Module 01</div>
+      <div class="mc-title">Principles of <em>Development</em></div>
+      <p class="mc-desc">Central dogma, body axes, differential gene expression, cytoplasmic determinants — and how Drosophila builds a body from maternal gradients through Hox genes.</p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
+        <span class="pill teal">Bicoid Gradient</span>
+        <span class="pill violet">Hox Genes</span>
+        <span class="pill">Gene Cascades</span>
+        <span class="pill">Transcription Factors</span>
+      </div>
+      <div class="mc-arrow">Start Module 01</div>
+    </a>
+
+    <a href="module-02.html" class="module-card m02 reveal reveal-item delay-2">
+      <div class="mc-num">Module 02</div>
+      <div class="mc-title">Animal <em>Development</em></div>
+      <p class="mc-desc">Sperm &amp; egg anatomy, fertilisation, cleavage, gastrulation, germ layers, neurulation, neural crest cells, and somitogenesis — from sea urchin to human.</p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
+        <span class="pill violet">Fertilisation</span>
+        <span class="pill rose">Germ Layers</span>
+        <span class="pill">Neural Tube</span>
+        <span class="pill">Somites</span>
+      </div>
+      <div class="mc-arrow">Start Module 02</div>
+    </a>
+
+    <a href="module-03.html" class="module-card m03 reveal reveal-item delay-3">
+      <div class="mc-num">Module 03</div>
+      <div class="mc-title">Evolutionary <em>Processes</em></div>
+      <p class="mc-desc">Hardy-Weinberg equilibrium, natural selection (directional, stabilising, balancing, disruptive), genetic drift, gene flow, mutation — with interactive simulations.</p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
+        <span class="pill teal">H-W Sim</span>
+        <span class="pill gold">Drift Sim</span>
+        <span class="pill">4 Selection Types</span>
+      </div>
+      <div class="mc-arrow">Start Module 03</div>
+    </a>
+
+    <a href="module-04.html" class="module-card m04 reveal reveal-item delay-4">
+      <div class="mc-num">Module 04</div>
+      <div class="mc-title">Speciation &amp; <em>History of Life</em></div>
+      <p class="mc-desc">Species concepts, reproductive barriers, phylogenetic trees, fossil record biases, geological timeline from 4,600 mya to today, homology vs homoplasy, Hox duplication.</p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
+        <span class="pill violet">Phylogenetics</span>
+        <span class="pill lime">Fossil Record</span>
+        <span class="pill rose">3 Species Concepts</span>
+      </div>
+      <div class="mc-arrow">Start Module 04</div>
+    </a>
+
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="divider reveal">Quick reference</div>
+  <div class="quick-ref reveal">
+    <div class="qr-card">
+      <h4>H-W Equilibrium</h4>
+      <div class="formula" style="font-size:0.95rem;padding:0.8rem 1rem;margin:0.5rem 0;">
+        p + q = 1<br>p² + 2pq + q² = 1
+      </div>
+      <p style="font-size:0.85rem;margin:0;color:var(--ink-dim);">q = √(freq aa) → p = 1−q → 2pq = heterozygote frequency</p>
+    </div>
+    <div class="qr-card">
+      <h4>Germ Layer Cheatsheet</h4>
+      <p style="font-size:0.9rem;margin:0.3rem 0;"><span class="ecto">Ecto</span> = outside → skin, CNS, sense organs</p>
+      <p style="font-size:0.9rem;margin:0.3rem 0;"><span class="meso">Meso</span> = middle → muscle, bone, kidneys, heart</p>
+      <p style="font-size:0.9rem;margin:0.3rem 0;"><span class="endo">Endo</span> = inside → gut, liver, lungs, pancreas</p>
+    </div>
+    <div class="qr-card">
+      <h4>4 Evolutionary Processes</h4>
+      <ol style="font-size:0.9rem;padding-left:1.2rem;margin:0;line-height:1.9;">
+        <li>Natural selection</li>
+        <li>Genetic drift</li>
+        <li>Gene flow</li>
+        <li>Mutation</li>
+      </ol>
+    </div>
+    <div class="qr-card">
+      <h4>Life's Timeline (mya)</h4>
+      <div style="font-size:0.82rem;line-height:1.85;">
+        <div><span style="color:var(--gold);font-family:var(--mono);">4,600</span> Earth forms</div>
+        <div><span style="color:var(--gold);font-family:var(--mono);">3,800</span> First life</div>
+        <div><span style="color:var(--gold);font-family:var(--mono);">540</span> Cambrian explosion</div>
+        <div><span style="color:var(--gold);font-family:var(--mono);">375</span> First amphibians</div>
+        <div><span style="color:var(--gold);font-family:var(--mono);">0.3</span> <em>Homo sapiens</em></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">The Living Codex</div>
+    <p>Crafted for BIO 212 · Every diagram built in SVG · Study hard, trust the process.</p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initPage === 'function') initPage({});
+  });
+</script>
+</body>
+</html>
