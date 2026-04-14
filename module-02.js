@@ -1,10 +1,10 @@
 'use strict';
 /* ═══════════════════════════════════════════════════════════════════════════
    MODULE 02 · Animal Development
-   Fertilisation → Cleavage → Gastrulation → Organogenesis
+   fertilization → Cleavage → Gastrulation → Organogenesis
 ═══════════════════════════════════════════════════════════════════════════ */
 
-// ─── SVG: Fertilisation Cascade ──────────────────────────────────────────────
+// ─── SVG: fertilization Cascade ──────────────────────────────────────────────
 const SVG_FERT = `
 <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -103,7 +103,7 @@ const SVG_FERT = `
   <!-- Panel 4: Slow block (cortical reaction) -->
   <g transform="translate(670,20)">
     <text x="100" y="15" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.5)" text-anchor="middle" letter-spacing="1">STEP 4: SLOW BLOCK</text>
-    <!-- Fertilisation envelope raised -->
+    <!-- fertilization envelope raised -->
     <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,110,199,0.6)" stroke-width="3"/>
     <circle cx="100" cy="100" r="58" fill="url(#egg-grad)" stroke="rgba(100,255,218,0.35)" stroke-width="1.5"/>
     <circle cx="100" cy="100" r="18" fill="rgba(100,255,218,0.06)" stroke="rgba(100,255,218,0.35)" stroke-width="1.5"/>
@@ -116,13 +116,13 @@ const SVG_FERT = `
     <line x1="100" y1="48"  x2="100" y2="33"  stroke="rgba(255,110,199,0.4)" stroke-width="1"/>
     <circle cx="140" cy="80"  r="3.5" fill="none" stroke="rgba(255,110,199,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
     <line x1="144" y1="76"  x2="157" y2="63"  stroke="rgba(255,110,199,0.4)" stroke-width="1"/>
-    <!-- Fertilisation envelope label -->
-    <text x="183" y="62"  font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">fertilisation</text>
+    <!-- fertilization envelope label -->
+    <text x="183" y="62"  font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">fertilization</text>
     <text x="183" y="72"  font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">envelope</text>
     <line x1="180" y1="65" x2="165" y2="60" stroke="rgba(255,110,199,0.3)" stroke-width="0.8"/>
     <!-- Labels -->
     <text x="5"  y="210" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">cortical granule exocytosis</text>
-    <text x="5"  y="222" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">raises fertilisation envelope</text>
+    <text x="5"  y="222" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">raises fertilization envelope</text>
     <text x="5"  y="234" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.7)">Ca²⁺ wave, takes ~60 seconds</text>
   </g>
 
@@ -446,7 +446,7 @@ html: `
 
   <div class="objectives reveal">
     <ul>
-      <li>Describe the acrosome reaction, fast block, and cortical reaction during fertilisation</li>
+      <li>Describe the acrosome reaction, fast block, and cortical reaction during fertilization</li>
       <li>Distinguish holoblastic from meroblastic cleavage and explain what determines cleavage pattern</li>
       <li>Trace gastrulation: blastopore, archenteron, and the three primary germ layers</li>
       <li>List the organ derivatives of each germ layer with examples</li>
@@ -455,16 +455,16 @@ html: `
     </ul>
   </div>
 
-  <!-- ACT I: FERTILISATION -->
+  <!-- ACT I: fertilization -->
   <div class="section-break reveal">
     <div class="section-label">§ 2.1 · Act I</div>
-    <h3>Fertilisation</h3>
-    <p>Fertilisation is far more than sperm meeting egg. It is a precisely orchestrated biochemical cascade that must accomplish three goals simultaneously: trigger egg activation, prevent additional sperm entry (polyspermy), and initiate development.</p>
+    <h3>fertilization</h3>
+    <p>fertilization is far more than sperm meeting egg. It is a precisely orchestrated biochemical cascade that must accomplish three goals simultaneously: trigger egg activation, prevent additional sperm entry (polyspermy), and initiate development.</p>
 
     <div class="figure reveal">
-      <div class="fig-label">Fig 2.1 — The Fertilisation Cascade</div>
+      <div class="fig-label">Fig 2.1 — The fertilization Cascade</div>
       ${SVG_FERT}
-      <div class="fig-caption">Four-step sequence of sea urchin fertilisation. Step 1: Sperm contacts the zona pellucida (jelly coat in sea urchin / zona pellucida in mammals). Step 2: Acrosome reaction — sperm releases hydrolytic enzymes to penetrate the coat. Step 3: Fast block — membrane depolarisation (Na⁺ influx) instantly prevents additional sperm binding. Step 4: Slow block — cortical granule exocytosis raises a permanent fertilisation envelope (Ca²⁺-mediated, takes ~60 s).</div>
+      <div class="fig-caption">Four-step sequence of sea urchin fertilization. Step 1: Sperm contacts the zona pellucida (jelly coat in sea urchin / zona pellucida in mammals). Step 2: Acrosome reaction — sperm releases hydrolytic enzymes to penetrate the coat. Step 3: Fast block — membrane depolarisation (Na⁺ influx) instantly prevents additional sperm binding. Step 4: Slow block — cortical granule exocytosis raises a permanent fertilization envelope (Ca²⁺-mediated, takes ~60 s).</div>
     </div>
 
     <div class="tabs reveal">
@@ -515,16 +515,16 @@ html: `
           <div class="flow-item">
             <div class="flow-icon">3</div>
             <div class="flow-content">
-              <h4>Fertilisation Envelope Forms</h4>
+              <h4>fertilization Envelope Forms</h4>
               <p>Cortical granule contents include: enzymes that modify zona pellucida glycoproteins (ZP2, ZP3) so sperm can no longer bind; mucopolysaccharides that osmotically draw water in, lifting the envelope; and ovoperoxidase that cross-links the envelope proteins. The raised envelope physically separates from the plasma membrane, preventing further sperm contact.</p>
             </div>
           </div>
         </div>
-        <div class="definition"><strong>Fertilisation Envelope</strong>The hardened, elevated vitelline envelope (sea urchin) or zona pellucida (mammals) that forms the permanent slow block to polyspermy. Raised by the cortical reaction within minutes of fertilisation.</div>
+        <div class="definition"><strong>fertilization Envelope</strong>The hardened, elevated vitelline envelope (sea urchin) or zona pellucida (mammals) that forms the permanent slow block to polyspermy. Raised by the cortical reaction within minutes of fertilization.</div>
       </div>
       <div id="tab-activ" class="tab-panel">
         <h4>Egg Activation</h4>
-        <p>Fertilisation "wakes up" the metabolically dormant egg. Key activation events include:</p>
+        <p>fertilization "wakes up" the metabolically dormant egg. Key activation events include:</p>
         <ul>
           <li><strong>Resumption of meiosis:</strong> Most vertebrate eggs are arrested at metaphase II of meiosis. The Ca²⁺ wave triggers completion of meiosis II, releasing the second polar body.</li>
           <li><strong>Metabolic activation:</strong> Protein synthesis and oxygen consumption increase dramatically. mRNAs stored in the egg (maternal mRNAs) begin to be translated.</li>
@@ -609,7 +609,7 @@ html: `
 
     <div class="example reveal">
       <strong>Example — Human (Mammalian) Cleavage:</strong>
-      <p>Mammalian eggs are nearly isolecithal and undergo <strong>rotational cleavage</strong> — the first division is meridional, and the second division has one cell dividing meridionally while the other divides equatorially. Cleavage is extraordinarily slow (one division per ~24 hours, vs. minutes in sea urchins). By day 4–5, the embryo reaches the <strong>blastocyst</strong> stage — equivalent to a blastula but with two distinct regions: the <em>inner cell mass</em> (ICM, which forms the embryo proper) and the <em>trophoblast</em> (which forms the placenta and chorion). The zona pellucida is shed ("hatching") ~5 days after fertilisation, allowing implantation.</p>
+      <p>Mammalian eggs are nearly isolecithal and undergo <strong>rotational cleavage</strong> — the first division is meridional, and the second division has one cell dividing meridionally while the other divides equatorially. Cleavage is extraordinarily slow (one division per ~24 hours, vs. minutes in sea urchins). By day 4–5, the embryo reaches the <strong>blastocyst</strong> stage — equivalent to a blastula but with two distinct regions: the <em>inner cell mass</em> (ICM, which forms the embryo proper) and the <em>trophoblast</em> (which forms the placenta and chorion). The zona pellucida is shed ("hatching") ~5 days after fertilization, allowing implantation.</p>
     </div>
 
     <div class="example reveal">
@@ -813,7 +813,7 @@ html: `
         <div class="qa-q">What is the difference between the fast block and the slow block to polyspermy? Why are both necessary? <span class="qa-arrow">▾</span></div>
         <div class="qa-a"><div class="qa-a-inner">
           <p>The <strong>fast block</strong> is an electrical phenomenon: sperm fusion triggers Na⁺ influx, rapidly depolarising the egg membrane from −70 mV to +20 mV within seconds. The positive membrane potential prevents additional sperm from fusing. However, this block is temporary (lasts 1–3 minutes) — the membrane cannot stay depolarised indefinitely.</p>
-          <p>The <strong>slow block (cortical reaction)</strong> is a physical/chemical mechanism: a Ca²⁺ wave propagates across the egg, triggering exocytosis of cortical granules. Their contents harden the vitelline envelope (raising it as a fertilisation envelope), chemically modify the egg coat so sperm can no longer bind, and destroy sperm receptors. This takes about 60 seconds but is permanent.</p>
+          <p>The <strong>slow block (cortical reaction)</strong> is a physical/chemical mechanism: a Ca²⁺ wave propagates across the egg, triggering exocytosis of cortical granules. Their contents harden the vitelline envelope (raising it as a fertilization envelope), chemically modify the egg coat so sperm can no longer bind, and destroy sperm receptors. This takes about 60 seconds but is permanent.</p>
           <p>Both are necessary because: the fast block is immediate (preventing polyspermy in the critical seconds after first sperm entry) but temporary; the slow block is permanent but takes time to set up. Polyspermy is lethal — extra sets of chromosomes create catastrophic mitotic errors.</p>
         </div></div>
       </div>

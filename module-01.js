@@ -361,7 +361,7 @@ html: `
         <div class="flow-icon">3</div>
         <div class="flow-content">
           <h4>Post-transcriptional Control</h4>
-          <p>mRNA stability, splicing (alternative splicing can generate multiple proteins from one gene), and translation efficiency are all regulated. Maternal mRNAs stored in the egg are key — they are translated only after fertilisation.</p>
+          <p>mRNA stability, splicing (alternative splicing can generate multiple proteins from one gene), and translation efficiency are all regulated. Maternal mRNAs stored in the egg are key — they are translated only after fertilization.</p>
         </div>
       </div>
       <div class="flow-item reveal-item delay-4">
@@ -425,7 +425,7 @@ html: `
   <div class="section-break reveal">
     <div class="section-label">§ 1.4</div>
     <h3>Cytoplasmic Determinants</h3>
-    <p>The egg is not a uniform bag of cytoplasm. Before fertilisation, maternal mRNAs and proteins are asymmetrically distributed throughout the oocyte. When the zygote cleaves, daughter cells inherit different molecular "addresses" — these are <strong>cytoplasmic determinants</strong> that push cells toward different fates <em>without</em> requiring signals from neighbours.</p>
+    <p>The egg is not a uniform bag of cytoplasm. Before fertilization, maternal mRNAs and proteins are asymmetrically distributed throughout the oocyte. When the zygote cleaves, daughter cells inherit different molecular "addresses" — these are <strong>cytoplasmic determinants</strong> that push cells toward different fates <em>without</em> requiring signals from neighbours.</p>
 
     <div class="callout callout-teal reveal">
       <div class="callout-label">◈ Key Mechanism</div>
@@ -521,7 +521,7 @@ html: `
     <div class="grid g2 reveal">
       <div class="card reveal-item delay-1">
         <h4>Bicoid — the Head Organiser</h4>
-        <p>Bicoid protein is a homeodomain transcription factor encoded by a maternal-effect gene. Its mRNA is anchored at the <strong>anterior pole</strong> of the oocyte by the cytoskeleton. After fertilisation, the mRNA is translated, and the protein diffuses away, forming a gradient highest at the anterior. Bicoid activates <em>hunchback</em> (gap gene) and represses <em>caudal</em> mRNA — both actions promote head and thorax development.</p>
+        <p>Bicoid protein is a homeodomain transcription factor encoded by a maternal-effect gene. Its mRNA is anchored at the <strong>anterior pole</strong> of the oocyte by the cytoskeleton. After fertilization, the mRNA is translated, and the protein diffuses away, forming a gradient highest at the anterior. Bicoid activates <em>hunchback</em> (gap gene) and represses <em>caudal</em> mRNA — both actions promote head and thorax development.</p>
         <div class="pill teal">Anterior mRNA → Posterior protein decay</div>
         <div class="pill teal">Transcription factor</div>
         <div class="pill teal">Activates hunchback</div>
