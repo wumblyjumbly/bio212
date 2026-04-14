@@ -25,6 +25,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
 </nav>
@@ -188,144 +189,147 @@
     <div class="anatomy-panel">
       <h4 style="color:var(--rose)">The Human Egg (Oocyte)</h4>
       <div class="figure" style="margin:0 0 1rem;padding:1.2rem;">
-        <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" style="max-height:340px;">
+        <svg viewBox="0 0 760 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:480px;">
           <defs>
-            <radialGradient id="zp-rg" cx="50%" cy="45%">
-              <stop offset="72%" stop-color="rgba(255,110,199,0.0)"/>
-              <stop offset="86%" stop-color="rgba(255,110,199,0.07)"/>
-              <stop offset="100%" stop-color="rgba(255,110,199,0.2)"/>
-            </radialGradient>
-            <radialGradient id="cyto-rg" cx="50%" cy="36%">
-              <stop offset="0%" stop-color="rgba(100,255,218,0.08)"/>
-              <stop offset="50%" stop-color="rgba(8,11,26,0.0)"/>
+            <radialGradient id="egg-cyto-rg" cx="45%" cy="40%">
+              <stop offset="0%" stop-color="rgba(100,255,218,0.12)"/>
+              <stop offset="60%" stop-color="rgba(100,255,218,0.04)"/>
               <stop offset="100%" stop-color="rgba(8,11,26,0.0)"/>
             </radialGradient>
-            <radialGradient id="yolk-rg" cx="50%" cy="80%">
-              <stop offset="0%" stop-color="rgba(255,209,102,0.28)"/>
-              <stop offset="60%" stop-color="rgba(255,209,102,0.08)"/>
-              <stop offset="100%" stop-color="rgba(255,209,102,0.0)"/>
+            <radialGradient id="egg-zp-rg" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="rgba(255,110,199,0.0)"/>
+              <stop offset="82%" stop-color="rgba(255,110,199,0.0)"/>
+              <stop offset="90%" stop-color="rgba(255,110,199,0.18)"/>
+              <stop offset="100%" stop-color="rgba(255,110,199,0.32)"/>
             </radialGradient>
-            <clipPath id="egg-body-clip">
-              <circle cx="195" cy="160" r="100"/>
+            <clipPath id="egg-clip2">
+              <circle cx="280" cy="230" r="140"/>
             </clipPath>
           </defs>
 
-          <!-- Zona pellucida (outermost glycoprotein coat) -->
-          <circle cx="195" cy="160" r="138" fill="url(#zp-rg)" stroke="rgba(255,110,199,0.55)" stroke-width="3"/>
-
-          <!-- Perivitelline space — narrow gap (drawn as slightly smaller circle, different stroke) -->
-          <circle cx="195" cy="160" r="104" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="5,4"/>
-
-          <!-- Plasma membrane -->
-          <circle cx="195" cy="160" r="100" fill="rgba(12,16,36,0.78)" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
-
-          <!-- Cytoplasm animal-pole tint -->
-          <circle cx="195" cy="160" r="99" fill="url(#cyto-rg)" clip-path="url(#egg-body-clip)"/>
-
-          <!-- Yolk gradient — less than sea urchin, slightly vegetal-biased -->
-          <ellipse cx="195" cy="215" rx="88" ry="52" fill="url(#yolk-rg)" clip-path="url(#egg-body-clip)"/>
-
-          <!-- Cortical granules — ring of dots just inside plasma membrane -->
-          <g fill="rgba(100,255,218,0.7)" stroke="none">
-            <circle cx="295" cy="160" r="4"/><!-- 0° -->
-            <circle cx="291" cy="189" r="4"/><!-- 20° -->
-            <circle cx="278" cy="214" r="4"/><!-- 40° -->
-            <circle cx="257" cy="233" r="4"/><!-- 60° -->
-            <circle cx="230" cy="244" r="4"/><!-- 80° -->
-            <circle cx="200" cy="249" r="4"/><!-- 100° -->
-            <circle cx="170" cy="243" r="4"/><!-- 120° -->
-            <circle cx="143" cy="232" r="4"/><!-- 140° -->
-            <circle cx="122" cy="213" r="4"/><!-- 160° -->
-            <circle cx="108" cy="189" r="4"/><!-- 180° -->
-            <circle cx="104" cy="160" r="4"/><!-- 200° -->
-            <circle cx="108" cy="131" r="4"/><!-- 220° -->
-            <circle cx="122" cy="106" r="4"/><!-- 240° -->
-            <circle cx="143" cy="87"  r="4"/><!-- 260° -->
-            <circle cx="170" cy="75"  r="4"/><!-- 280° -->
-            <circle cx="200" cy="71"  r="4"/><!-- 300° -->
-            <circle cx="230" cy="77"  r="4"/><!-- 320° -->
-            <circle cx="257" cy="88"  r="4"/><!-- 340° -->
+          <!-- ── CORONA RADIATA: ring of follicle cells ── -->
+          <!-- ~30 small ellipses at r≈210 around the egg -->
+          <g fill="rgba(255,209,102,0.22)" stroke="#ffd166" stroke-width="1.2">
+            <!-- Generated at r=210, angles 0°..360° step ~12° -->
+            <ellipse cx="490" cy="230" rx="9" ry="7" transform="rotate(0,280,230)"/>
+            <ellipse cx="489" cy="206" rx="9" ry="7" transform="rotate(0,280,230)"/>
+            <ellipse cx="487" cy="182" rx="9" ry="7" transform="rotate(0,280,230)"/>
+            <!-- top-right arc -->
+            <ellipse cx="460" cy="50" rx="9" ry="7" transform="rotate(0,280,230)"/>
+            <!-- using transform-based placement -->
+            <ellipse cx="490" cy="230" rx="9" ry="7"/>
+            <ellipse cx="488" cy="205" rx="9" ry="7"/>
+            <ellipse cx="480" cy="181" rx="9" ry="7"/>
+            <ellipse cx="467" cy="160" rx="9" ry="7"/>
+            <ellipse cx="448" cy="141" rx="9" ry="7"/>
+            <ellipse cx="424" cy="126" rx="9" ry="7"/>
+            <ellipse cx="397" cy="115" rx="9" ry="7"/>
+            <ellipse cx="368" cy="109" rx="9" ry="7"/>
+            <ellipse cx="338" cy="108" rx="9" ry="7"/>
+            <ellipse cx="309" cy="112" rx="9" ry="7"/>
+            <ellipse cx="281" cy="90"  rx="9" ry="7"/>
+            <ellipse cx="254" cy="93"  rx="9" ry="7"/>
+            <ellipse cx="228" cy="101" rx="9" ry="7"/>
+            <ellipse cx="205" cy="114" rx="9" ry="7"/>
+            <ellipse cx="185" cy="131" rx="9" ry="7"/>
+            <ellipse cx="169" cy="152" rx="9" ry="7"/>
+            <ellipse cx="159" cy="176" rx="9" ry="7"/>
+            <ellipse cx="154" cy="202" rx="9" ry="7"/>
+            <ellipse cx="155" cy="229" rx="9" ry="7"/>
+            <ellipse cx="161" cy="255" rx="9" ry="7"/>
+            <ellipse cx="172" cy="280" rx="9" ry="7"/>
+            <ellipse cx="188" cy="302" rx="9" ry="7"/>
+            <ellipse cx="209" cy="319" rx="9" ry="7"/>
+            <ellipse cx="233" cy="332" rx="9" ry="7"/>
+            <ellipse cx="260" cy="339" rx="9" ry="7"/>
+            <ellipse cx="288" cy="341" rx="9" ry="7"/>
+            <ellipse cx="317" cy="337" rx="9" ry="7"/>
+            <ellipse cx="344" cy="328" rx="9" ry="7"/>
+            <ellipse cx="369" cy="314" rx="9" ry="7"/>
+            <ellipse cx="391" cy="296" rx="9" ry="7"/>
+            <ellipse cx="408" cy="274" rx="9" ry="7"/>
+            <ellipse cx="420" cy="251" rx="9" ry="7"/>
           </g>
 
-          <!-- Microvilli at animal pole (short lines outward from plasma membrane) -->
-          <g stroke="rgba(255,255,255,0.6)" stroke-width="1.8" stroke-linecap="round">
-            <line x1="150" y1="82"  x2="143" y2="65"/>
-            <line x1="168" y1="72"  x2="164" y2="54"/>
-            <line x1="186" y1="62"  x2="184" y2="44"/>
-            <line x1="195" y1="60"  x2="195" y2="42"/>
-            <line x1="204" y1="62"  x2="206" y2="44"/>
-            <line x1="222" y1="72"  x2="228" y2="55"/>
-            <line x1="240" y1="82"  x2="248" y2="65"/>
+          <!-- ── ZONA PELLUCIDA ring fill ── -->
+          <circle cx="280" cy="230" r="165" fill="url(#egg-zp-rg)" stroke="rgba(255,110,199,0.7)" stroke-width="2.5"/>
+
+          <!-- ── PERIVITELLINE SPACE hint ── -->
+          <circle cx="280" cy="230" r="143" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4,4"/>
+
+          <!-- ── PLASMA MEMBRANE + CYTOPLASM fill ── -->
+          <circle cx="280" cy="230" r="140" fill="rgba(10,14,32,0.85)" stroke="rgba(240,244,255,0.65)" stroke-width="2.5"/>
+          <circle cx="280" cy="230" r="139" fill="url(#egg-cyto-rg)"/>
+
+          <!-- ── YOLK GRANULES — sparse dots in lower cytoplasm ── -->
+          <g fill="rgba(255,209,102,0.55)" stroke="rgba(255,209,102,0.3)" stroke-width="0.5">
+            <circle cx="260" cy="300" r="5"/><circle cx="295" cy="315" r="4"/>
+            <circle cx="240" cy="320" r="6"/><circle cx="310" cy="295" r="4"/>
+            <circle cx="275" cy="335" r="5"/><circle cx="245" cy="280" r="4"/>
+            <circle cx="320" cy="320" r="5"/><circle cx="230" cy="295" r="4"/>
+            <circle cx="300" cy="340" r="4"/><circle cx="265" cy="355" r="5"/>
+            <circle cx="285" cy="270" r="4"/><circle cx="330" cy="305" r="4"/>
+            <circle cx="250" cy="345" r="5"/><circle cx="315" cy="345" r="4"/>
+            <circle cx="280" cy="310" r="6"/><circle cx="235" cy="260" r="4"/>
+            <circle cx="340" cy="280" r="4"/><circle cx="270" cy="260" r="4"/>
           </g>
 
-          <!-- Nucleus (germinal vesicle) at animal pole — large, vesicular -->
-          <circle cx="195" cy="118" r="28" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="2"/>
-          <circle cx="195" cy="118" r="10" fill="rgba(167,139,250,0.32)" stroke="#a78bfa" stroke-width="1.2"/>
-          <text x="195" y="113" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#a78bfa">germinal</text>
-          <text x="195" y="123" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#a78bfa">vesicle</text>
+          <!-- ── POLAR BODY at ~330° position (upper-left of egg) ── -->
+          <!-- 330°: x = 280 + 165*cos(330°) = 280+143=423? No: 330° = top-left area -->
+          <!-- 330° from positive x-axis: cos(330°)=0.866, sin(330°)=-0.5 → upper right. Use 150° for upper-left -->
+          <!-- Polar body pressed against ZP at 150°: cx=280+165*cos(150°)=280-143=137, cy=230+165*sin(150°)=230-82=148 -->
+          <!-- Place it at ~140° for visibility -->
+          <circle cx="138" cy="147" r="22" fill="rgba(167,139,250,0.28)" stroke="#a78bfa" stroke-width="2"/>
+          <circle cx="138" cy="147" r="8" fill="rgba(167,139,250,0.45)" stroke="#a78bfa" stroke-width="1"/>
+          <text x="138" y="151" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="rgba(167,139,250,0.8)">PB</text>
 
-          <!-- Pole labels -->
-          <text x="195" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.85)" font-weight="600" letter-spacing="1">▲ ANIMAL POLE</text>
-          <text x="195" y="26" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.45)">nucleus · microvilli · less yolk</text>
-          <text x="195" y="307" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,209,102,0.8)" font-weight="600" letter-spacing="1">▼ VEGETAL POLE</text>
-          <text x="195" y="297" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.4)">slight yolk enrichment</text>
+          <!-- ── SIZE NOTE ── -->
+          <text x="280" y="453" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,0.22)">~120 µm diameter (plasma membrane) · largest human cell</text>
 
-          <!-- Size annotation -->
-          <text x="195" y="316" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.25)">~120 µm diameter — largest human cell; visible to naked eye</text>
+          <!-- ══ RIGHT-SIDE LABELS (x=455 anchor) ══ -->
+          <!-- Corona radiata -->
+          <line x1="425" y1="141" x2="455" y2="80" stroke="rgba(255,209,102,0.55)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="458" y="76" font-family="JetBrains Mono, monospace" font-size="11" fill="#ffd166" font-weight="600">Corona radiata</text>
+          <text x="458" y="90" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.55)">follicle cells surrounding ZP</text>
 
-          <!-- RIGHT SIDE LABELS -->
           <!-- Zona pellucida -->
-          <line x1="320" y1="90" x2="355" y2="68" stroke="rgba(255,110,199,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="358" y="64" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">Zona pellucida</text>
-          <text x="358" y="76" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.5)">ZP1, ZP2, ZP3</text>
-          <text x="358" y="87" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.35)">ZP3 = sperm receptor (human)</text>
-
-          <!-- Perivitelline space -->
-          <line x1="299" y1="118" x2="355" y2="112" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="358" y="108" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.65)">Perivitelline space</text>
-          <text x="358" y="120" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.35)">gap between ZP &amp; membrane</text>
-          <text x="358" y="131" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.25)">cortical reaction products here</text>
+          <line x1="440" y1="185" x2="455" y2="130" stroke="rgba(255,110,199,0.6)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="458" y="126" font-family="JetBrains Mono, monospace" font-size="11" fill="#ff6ec7" font-weight="600">Zona pellucida</text>
+          <text x="458" y="140" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,110,199,0.55)">ZP1/ZP2/ZP3 glycoproteins</text>
+          <text x="458" y="153" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,110,199,0.45)">ZP3 = sperm receptor</text>
 
           <!-- Plasma membrane -->
-          <line x1="295" y1="160" x2="355" y2="152" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="358" y="148" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.7)">Plasma membrane</text>
-          <text x="358" y="160" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.35)">depolarises on sperm entry</text>
+          <line x1="419" y1="230" x2="455" y2="200" stroke="rgba(240,244,255,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="458" y="196" font-family="JetBrains Mono, monospace" font-size="11" fill="rgba(240,244,255,0.85)" font-weight="600">Plasma membrane</text>
+          <text x="458" y="210" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.45)">depolarizes on sperm fusion</text>
+          <text x="458" y="223" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.35)">fast block to polyspermy</text>
 
-          <!-- Cortical granules -->
-          <line x1="293" y1="189" x2="355" y2="196" stroke="rgba(100,255,218,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="358" y="192" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Cortical granules</text>
-          <text x="358" y="204" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.45)">exocytose on Ca²⁺ wave</text>
-          <text x="358" y="215" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.32)">→ harden zona (slow block)</text>
+          <!-- Cytoplasm -->
+          <line x1="360" y1="230" x2="455" y2="255" stroke="rgba(100,255,218,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="458" y="251" font-family="JetBrains Mono, monospace" font-size="11" fill="#64ffda" font-weight="600">Cytoplasm</text>
+          <text x="458" y="265" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.55)">maternal mRNAs &amp;</text>
+          <text x="458" y="278" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.45)">cytoplasmic determinants</text>
 
-          <!-- Yolk (sparse) -->
-          <line x1="262" y1="240" x2="355" y2="240" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="358" y="236" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Cytoplasm / Yolk</text>
-          <text x="358" y="248" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.45)">minimal yolk vs. other species</text>
-          <text x="358" y="259" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.3)">nutrients from placenta instead</text>
+          <!-- Yolk granules -->
+          <line x1="340" y1="315" x2="455" y2="315" stroke="rgba(255,209,102,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="458" y="311" font-family="JetBrains Mono, monospace" font-size="11" fill="#ffd166" font-weight="600">Yolk granules</text>
+          <text x="458" y="325" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">sparse in mammalian eggs</text>
+          <text x="458" y="338" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.38)">cf. amphibians/birds</text>
 
-          <!-- LEFT SIDE: Microvilli + Nucleus labels -->
-          <line x1="143" y1="65" x2="92" y2="55" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="5"  y="46" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.65)">Microvilli</text>
-          <text x="5"  y="58" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.32)">concentrated at animal pole</text>
-
-          <line x1="167" y1="118" x2="90" y2="115" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="5"  y="105" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#a78bfa">Germinal vesicle</text>
-          <text x="5"  y="117" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.5)">(nucleus) — arrested</text>
-          <text x="5"  y="129" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.35)">at prophase I (meiosis I)</text>
-
-          <!-- Cytoplasm / determinants -->
-          <text x="5"  y="175" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.4)">Cytoplasm</text>
-          <text x="5"  y="187" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.28)">maternal mRNAs &amp;</text>
-          <text x="5"  y="198" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.28)">cytoplasmic determinants</text>
+          <!-- ══ LEFT-SIDE LABEL for Polar body ══ -->
+          <line x1="116" y1="147" x2="60" y2="120" stroke="rgba(167,139,250,0.55)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="58" y="116" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#a78bfa" font-weight="600">Polar body</text>
+          <text x="58" y="130" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(167,139,250,0.55)">expelled in meiosis I</text>
+          <text x="58" y="143" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(167,139,250,0.42)">marks animal pole</text>
         </svg>
       </div>
       <ul style="font-size:var(--text-sm);">
-        <li><strong style="color:var(--rose)">Zona pellucida (ZP1, ZP2, ZP3):</strong> A thick, acellular glycoprotein coat surrounding the plasma membrane. <strong>ZP3</strong> is the primary sperm receptor in humans — binds sperm surface proteins to trigger the acrosomal reaction and sperm-egg fusion.</li>
-        <li><strong style="color:var(--ink-dim)">Perivitelline space:</strong> A narrow gap between the zona pellucida and the plasma membrane. After fertilisation, cortical granule contents are released here, modifying the zona to block polyspermy (slow block).</li>
-        <li><strong style="color:var(--teal)">Cortical granules:</strong> Membrane-bound vesicles just beneath the plasma membrane. A Ca²⁺ wave triggered by sperm entry causes their exocytosis, hardening the zona pellucida into the fertilisation envelope.</li>
-        <li><strong style="color:var(--gold)">Cytoplasm &amp; yolk:</strong> The human egg has relatively <em>little</em> yolk compared to amphibians or birds — nutrients are supplied by the placenta instead of stored internally. Maternal mRNAs and cytoplasmic determinants are distributed asymmetrically.</li>
-        <li><strong style="color:var(--violet)">Germinal vesicle (nucleus):</strong> The large nucleus at the animal pole, arrested in prophase of meiosis I. Meiosis only completes after fertilisation. The egg is therefore technically a <em>primary oocyte</em> until the moment of sperm entry.</li>
-        <li><strong>Size &amp; polarity:</strong> ~120 µm diameter — the largest human cell, just visible to the naked eye. Clear animal pole (nucleus, microvilli) and vegetal pole (slight yolk enrichment) confer developmental polarity.</li>
+        <li><strong style="color:var(--gold)">Corona radiata:</strong> The outermost layer of follicle cells (granulosa cells) surrounding the zona pellucida. These cells nourished the developing oocyte via gap junctions. Sperm must penetrate this layer first using acrosomal enzymes (hyaluronidase). The corona disperses after fertilization.</li>
+        <li><strong style="color:var(--rose)">Zona pellucida (ZP1/ZP2/ZP3):</strong> A thick (~13 µm), acellular glycoprotein coat. <strong>ZP3</strong> is the primary sperm receptor — species-specific binding triggers the acrosomal reaction. ZP2 binds acrosome-reacted sperm. After fertilization the zona hardens (slow block to polyspermy), preventing additional sperm entry.</li>
+        <li><strong style="color:rgba(240,244,255,0.85)">Plasma membrane:</strong> The true cell boundary. On sperm-egg fusion, Na⁺ influx depolarizes the membrane within seconds — the <em>fast block</em> to polyspermy — immediately raising the electrical barrier to additional sperm.</li>
+        <li><strong style="color:var(--teal)">Cytoplasm:</strong> Contains maternal mRNAs and cytoplasmic determinants distributed asymmetrically. The animal pole has the nucleus; the vegetal pole has a slight yolk enrichment. These gradients establish developmental polarity before first cleavage.</li>
+        <li><strong style="color:var(--gold)">Yolk granules:</strong> Sparse lipid/protein nutrient stores. Mammalian eggs are isolecithal (even, minimal yolk) — nutrients are supplied by the placenta rather than stored in the egg, unlike amphibian or avian eggs.</li>
+        <li><strong style="color:var(--violet)">Polar body:</strong> A small, non-functional cell expelled during meiosis I (first polar body) when the oocyte divides asymmetrically. It presses against the zona pellucida at the animal pole and marks polarity. A second polar body is expelled at meiosis II, after fertilization.</li>
       </ul>
     </div>
   </div>
@@ -373,126 +377,243 @@
       <span class="step-counter"></span>
     </div>
 
+    <!-- STEP 1 -->
     <div class="step-panel">
-      <div class="figure" style="padding:1.5rem;">
-        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Egg -->
-          <circle cx="420" cy="100" r="90" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
-          <circle cx="420" cy="100" r="76" fill="rgba(255,110,199,0.04)" stroke="rgba(255,110,199,0.5)" stroke-width="1.5"/>
-          <!-- Jelly coat label -->
-          <text x="510" y="38" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.6)">Jelly coat</text>
-          <text x="510" y="55" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">(contains sulfated</text>
-          <text x="510" y="67" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">polysaccharides)</text>
-          <!-- Sperm approaching -->
-          <ellipse cx="165" cy="100" rx="22" ry="36" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.5"/>
-          <path d="M187,100 Q250,100 330,100" stroke="rgba(100,255,218,0.35)" stroke-width="3" fill="none" stroke-dasharray="8,4"/>
-          <text x="255" y="90" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.5)">swimming →</text>
-          <text x="200" y="160" font-family="Fraunces,Georgia,serif" font-size="13" fill="rgba(255,255,255,0.5)" font-style="italic">Sperm approaches egg's jelly coat — not yet in contact</text>
-        </svg>
-      </div>
-      <div class="callout callout-teal"><div class="callout-label">Step 1</div><p>Sperm swims toward the egg, guided by chemotactic signals (resact in sea urchins) released by the egg's jelly coat. Sperm is still intact — acrosome closed, fully functional.</p></div>
-    </div>
-
-    <div class="step-panel">
-      <div class="figure" style="padding:1.5rem;">
-        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Egg -->
-          <circle cx="420" cy="100" r="90" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
-          <circle cx="420" cy="100" r="76" fill="rgba(255,110,199,0.04)" stroke="rgba(255,110,199,0.5)" stroke-width="1.5"/>
-          <!-- Sperm at jelly coat -->
-          <ellipse cx="325" cy="100" rx="22" ry="36" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.5"/>
-          <!-- Acrosome releasing -->
-          <path d="M325,66 Q360,45 370,70" stroke="#ffd166" stroke-width="2.5" fill="none"/>
-          <circle cx="360" cy="54" r="8" fill="rgba(255,209,102,0.4)" stroke="#ffd166" stroke-width="1.5"/>
-          <text x="375" y="45" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Acrosome releases</text>
-          <text x="375" y="57" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">hydrolytic enzymes</text>
-          <!-- Enzyme arrows -->
-          <path d="M368,62 L400,72" stroke="rgba(255,209,102,0.5)" stroke-width="1.5" fill="none"/>
-          <path d="M368,62 L395,82" stroke="rgba(255,209,102,0.5)" stroke-width="1.5" fill="none"/>
-          <!-- Bindin exposed label -->
-          <text x="200" y="165" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.45)" font-style="italic">Acrosomal vesicle fuses with sperm plasma membrane; enzymes digest jelly coat; bindin exposed</text>
-        </svg>
-      </div>
-      <div class="callout callout-gold"><div class="callout-label">Step 2 — Acrosomal Reaction</div><p>Contact with the jelly coat triggers exocytosis of the acrosomal vesicle. Hydrolytic enzymes (including acrosin) are released and <strong>digest a path through the jelly coat and zona pellucida</strong>. The acrosomal inner membrane, now exposed, carries <strong>Bindin</strong> — a sperm-specific lectin-like protein.</p></div>
-    </div>
-
-    <div class="step-panel">
-      <div class="figure" style="padding:1.5rem;">
-        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Egg membrane -->
-          <circle cx="420" cy="100" r="76" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.5)" stroke-width="2"/>
-          <!-- Sperm merged at surface -->
-          <ellipse cx="342" cy="100" rx="22" ry="36" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.5"/>
-          <!-- Bindin-receptor bond -->
-          <path d="M342,66 L380,80" stroke="#64ffda" stroke-width="2.5"/>
-          <circle cx="380" cy="80" r="7" fill="rgba(100,255,218,0.4)" stroke="#64ffda" stroke-width="1.5"/>
-          <text x="395" y="75" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda">Bindin</text>
-          <!-- Receptor on egg -->
-          <rect x="392" y="78" width="18" height="28" rx="4" fill="rgba(255,110,199,0.4)" stroke="#ff6ec7" stroke-width="1.5"/>
-          <text x="416" y="88" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">EBR1</text>
-          <text x="416" y="100" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.5)">receptor</text>
-          <!-- Species specificity note -->
-          <text x="90" y="40" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Species-specific lock &amp; key →</text>
-          <text x="90" y="55" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.35)">Bindin from species A will NOT bind EBR1 from species B</text>
-          <text x="90" y="160" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.4)" font-style="italic">Bindin binds EBR1 receptor → sperm-egg fusion → sperm nucleus enters egg</text>
-          <!-- Fast block indicator -->
-          <text x="490" y="140" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.6)">↑ Fast block:</text>
-          <text x="490" y="152" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.5)">membrane depolarises</text>
-          <text x="490" y="164" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.5)">immediately (seconds)</text>
-        </svg>
-      </div>
-      <div class="callout callout-violet"><div class="callout-label">Step 3 — Bindin &amp; Sperm-Egg Fusion</div><p><strong>Bindin</strong> (on the acrosomal inner membrane) binds its complementary receptor (<strong>EBR1</strong>) on the egg's vitelline layer. This interaction is <strong>species-specific</strong> — a crucial reproductive barrier. Binding triggers membrane fusion, allowing the sperm nucleus to enter. Simultaneously, the egg plasma membrane <strong>depolarises</strong> (Na⁺ influx) → <em>fast block</em> to polyspermy (within seconds).</p></div>
-    </div>
-
-    <div class="step-panel">
-      <div class="figure" style="padding:1.5rem;">
-        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Egg before cortical reaction — cortical granules present -->
-          <circle cx="260" cy="100" r="76" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.4)" stroke-width="1.5"/>
-          <!-- Cortical granules as dots around membrane -->
-          <g fill="rgba(100,255,218,0.6)" stroke="none">
-            <circle cx="210" cy="64" r="5"/><circle cx="235" cy="40" r="5"/><circle cx="268" cy="30" r="5"/>
-            <circle cx="295" cy="38" r="5"/><circle cx="320" cy="58" r="5"/><circle cx="330" cy="85" r="5"/>
-            <circle cx="320" cy="118" r="5"/><circle cx="295" cy="142" r="5"/><circle cx="260" cy="158" r="5"/>
-            <circle cx="226" cy="148" r="5"/><circle cx="200" cy="128" r="5"/><circle cx="192" cy="100" r="5"/>
+      <div class="figure" style="padding:1rem;">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- EGG: plasma membrane -->
+          <circle cx="200" cy="130" r="90" fill="rgba(10,14,32,0.85)" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+          <!-- Zona pellucida ring -->
+          <circle cx="200" cy="130" r="108" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.45)" stroke-width="2.5"/>
+          <!-- Corona radiata: fuzzy ring of dots -->
+          <g fill="rgba(255,209,102,0.25)" stroke="#ffd166" stroke-width="1">
+            <circle cx="308" cy="130" r="6"/><circle cx="304" cy="104" r="6"/>
+            <circle cx="290" cy="80"  r="6"/><circle cx="268" cy="60"  r="6"/>
+            <circle cx="241" cy="46"  r="6"/><circle cx="211" cy="38"  r="6"/>
+            <circle cx="180" cy="37"  r="6"/><circle cx="151" cy="44"  r="6"/>
+            <circle cx="124" cy="58"  r="6"/><circle cx="103" cy="78"  r="6"/>
+            <circle cx="89"  cy="103" r="6"/><circle cx="82"  cy="130" r="6"/>
+            <circle cx="84"  cy="158" r="6"/><circle cx="94"  cy="184" r="6"/>
+            <circle cx="113" cy="206" r="6"/><circle cx="138" cy="222" r="6"/>
+            <circle cx="167" cy="231" r="6"/><circle cx="198" cy="233" r="6"/>
+            <circle cx="228" cy="228" r="6"/><circle cx="256" cy="216" r="6"/>
+            <circle cx="279" cy="198" r="6"/><circle cx="296" cy="174" r="6"/>
+            <circle cx="305" cy="152" r="6"/>
           </g>
-          <text x="175" y="25" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)">Cortical granules fuse</text>
-          <text x="175" y="37" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)">with plasma membrane</text>
-          <!-- Arrow to after -->
-          <text x="346" y="107" font-family="JetBrains Mono,monospace" font-size="14" fill="rgba(255,255,255,0.3)">→</text>
-          <!-- Egg after cortical reaction -->
-          <circle cx="500" cy="100" r="76" fill="rgba(255,110,199,0.05)" stroke="rgba(255,110,199,0.3)" stroke-width="1"/>
-          <!-- Fertilisation envelope -->
-          <circle cx="500" cy="100" r="88" fill="none" stroke="rgba(255,209,102,0.6)" stroke-width="4" stroke-dasharray="6,3"/>
-          <text x="540" y="42" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Fertilisation envelope</text>
-          <text x="540" y="54" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.5)">(hardened zona)</text>
-          <text x="540" y="66" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.4)">= SLOW BLOCK</text>
-          <text x="150" y="180" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.4)" font-style="italic">Ca²⁺ wave → cortical granules exocytose → enzymes harden zona → polyspermy blocked (minutes)</text>
+          <!-- Sperm (pointed ellipse approaching from left) -->
+          <ellipse cx="52" cy="130" rx="16" ry="26" fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.8"/>
+          <!-- Acrosome cap on sperm tip -->
+          <path d="M52,104 Q65,96 68,110" fill="rgba(255,209,102,0.5)" stroke="#ffd166" stroke-width="1.5"/>
+          <!-- Approach arrow -->
+          <path d="M68,130 L84,130" stroke="rgba(100,255,218,0.5)" stroke-width="2" fill="none" marker-end="url(#arr1)"/>
+          <defs><marker id="arr1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="rgba(100,255,218,0.7)"/></marker></defs>
+          <!-- RIGHT ANNOTATION COLUMN -->
+          <text x="425" y="50"  font-family="JetBrains Mono, monospace" font-size="10" fill="#ffd166" font-weight="600">Corona radiata</text>
+          <text x="425" y="63"  font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">outermost follicle-cell layer</text>
+          <line x1="310" y1="80" x2="420" y2="56" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#ff6ec7" font-weight="600">Zona pellucida (ZP1/ZP2/ZP3)</text>
+          <text x="425" y="113" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,110,199,0.5)">thick glycoprotein coat</text>
+          <line x1="308" y1="130" x2="420" y2="104" stroke="rgba(255,110,199,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="148" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(240,244,255,0.8)" font-weight="600">Egg plasma membrane</text>
+          <text x="425" y="161" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.4)">innermost boundary</text>
+          <line x1="290" y1="130" x2="420" y2="152" stroke="rgba(240,244,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="196" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">Sperm acrosome intact</text>
+          <text x="425" y="209" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.45)">loaded with hydrolytic enzymes</text>
+          <line x1="68"  y1="108" x2="420" y2="200" stroke="rgba(100,255,218,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="200" y="252" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.42)" font-style="italic">Sperm chemotaxis — egg releases attractant signals (resact in sea urchins). Corona radiata traversed first.</text>
         </svg>
       </div>
-      <div class="callout callout-rose"><div class="callout-label">Step 4 — Cortical Reaction (Slow Block)</div><p>Sperm entry triggers a <strong>calcium wave (Ca²⁺)</strong> that sweeps across the egg. Ca²⁺ causes cortical granules (just beneath the plasma membrane) to fuse and release their enzymes into the perivitelline space. These enzymes cross-link proteins in the zona pellucida, hardening it into the <strong>fertilisation envelope</strong>. This physical barrier (<em>slow block to polyspermy</em>) prevents any additional sperm from penetrating — complete within 1–2 minutes.</p></div>
+      <div class="callout callout-teal"><div class="callout-label">Step 1</div><p>Sperm swims toward the egg, guided by chemotactic signals (resact in sea urchins) released by the egg's jelly coat. The corona radiata is the outermost barrier. Sperm is still intact — acrosome closed, fully functional.</p></div>
     </div>
 
+    <!-- STEP 2 -->
     <div class="step-panel">
-      <div class="figure" style="padding:1.5rem;">
-        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
-          <!-- Zygote -->
-          <circle cx="350" cy="100" r="78" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="2"/>
-          <!-- Fertilization envelope -->
-          <circle cx="350" cy="100" r="90" fill="none" stroke="rgba(255,209,102,0.5)" stroke-width="3" stroke-dasharray="5,3"/>
-          <!-- Two pronuclei approaching -->
-          <circle cx="315" cy="100" r="22" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.5"/>
-          <text x="315" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">sperm PN</text>
-          <circle cx="385" cy="100" r="22" fill="rgba(255,110,199,0.15)" stroke="#ff6ec7" stroke-width="1.5"/>
-          <text x="385" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">egg PN</text>
-          <!-- Fusion arrows -->
-          <path d="M337,100 L363,100" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
-          <!-- Labels -->
-          <text x="350" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.6)">ZYGOTE · 2n · 46 chromosomes (human)</text>
-          <text x="350" y="175" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.4)" font-style="italic">Two pronuclei fuse → diploid genome restored → first mitotic division begins</text>
+      <div class="figure" style="padding:1rem;">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="rgba(255,209,102,0.8)"/></marker></defs>
+          <!-- Egg -->
+          <circle cx="200" cy="130" r="90" fill="rgba(10,14,32,0.85)" stroke="rgba(255,110,199,0.6)" stroke-width="2"/>
+          <circle cx="200" cy="130" r="108" fill="rgba(255,110,199,0.05)" stroke="rgba(255,110,199,0.4)" stroke-width="2"/>
+          <!-- Sperm at ZP edge -->
+          <ellipse cx="76" cy="130" rx="16" ry="26" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.8"/>
+          <!-- Acrosome burst — golden explosion -->
+          <circle cx="92" cy="120" r="14" fill="rgba(255,209,102,0.3)" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <circle cx="92" cy="120" r="7"  fill="rgba(255,209,102,0.6)" stroke="#ffd166" stroke-width="1.5"/>
+          <!-- Enzyme arrows forward -->
+          <line x1="104" y1="112" x2="118" y2="106" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <line x1="106" y1="120" x2="122" y2="120" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <line x1="104" y1="128" x2="116" y2="135" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <!-- RIGHT ANNOTATION COLUMN -->
+          <text x="425" y="50"  font-family="JetBrains Mono, monospace" font-size="10" fill="#ffd166" font-weight="600">Acrosome bursts</text>
+          <text x="425" y="63"  font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">exocytosis of acrosomal vesicle</text>
+          <line x1="106" y1="106" x2="420" y2="54" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#ff6ec7" font-weight="600">Enzymes digest ZP</text>
+          <text x="425" y="113" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,110,199,0.5)">hyaluronidase, acrosin</text>
+          <line x1="122" y1="120" x2="420" y2="104" stroke="rgba(255,110,199,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="150" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">Bindin exposed</text>
+          <text x="425" y="163" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.5)">on inner acrosomal membrane</text>
+          <line x1="92"  y1="134" x2="420" y2="155" stroke="rgba(100,255,218,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="200" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(240,244,255,0.75)" font-weight="600">ZP3 binding triggers reaction</text>
+          <text x="425" y="213" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.4)">species-specific glycoprotein</text>
+
+          <text x="200" y="252" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.42)" font-style="italic">Acrosomal vesicle fuses with sperm plasma membrane; enzymes clear path; Bindin exposed</text>
         </svg>
       </div>
-      <div class="callout callout-violet"><div class="callout-label">Step 5 — Zygote</div><p>The sperm pronucleus (haploid) and egg pronucleus (haploid) fuse, restoring the <strong>diploid chromosome number</strong>. Development is activated. The first mitotic division (cleavage) follows within hours. The fertilization envelope protects the zygote as cleavage begins.</p></div>
+      <div class="callout callout-gold"><div class="callout-label">Step 2 — Acrosomal Reaction</div><p>Contact with ZP3 triggers exocytosis of the acrosomal vesicle. Hydrolytic enzymes (hyaluronidase, acrosin) digest through the zona pellucida. The acrosomal inner membrane, now exposed, displays <strong>Bindin</strong> — the species-specific adhesion protein.</p></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel">
+      <div class="figure" style="padding:1rem;">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Egg plasma membrane -->
+          <circle cx="200" cy="130" r="90" fill="rgba(10,14,32,0.88)" stroke="rgba(255,110,199,0.65)" stroke-width="2.5"/>
+          <circle cx="200" cy="130" r="106" fill="rgba(255,110,199,0.04)" stroke="rgba(255,110,199,0.35)" stroke-width="1.5"/>
+          <!-- Sperm head embedded in membrane -->
+          <ellipse cx="104" cy="130" rx="16" ry="24" fill="rgba(100,255,218,0.22)" stroke="#64ffda" stroke-width="2"/>
+          <!-- Bindin triangles on sperm surface -->
+          <g fill="#ffd166" opacity="0.75">
+            <polygon points="119,118 126,112 126,124"/>
+            <polygon points="119,130 126,124 126,136"/>
+            <polygon points="119,142 126,136 126,148"/>
+          </g>
+          <!-- ZP3 receptors on egg membrane (complementary shapes) -->
+          <g fill="rgba(255,110,199,0.55)" stroke="#ff6ec7" stroke-width="1">
+            <rect x="110" y="113" width="6" height="10" rx="2"/>
+            <rect x="110" y="126" width="6" height="10" rx="2"/>
+            <rect x="110" y="139" width="6" height="10" rx="2"/>
+          </g>
+          <!-- ⚡ fast block symbol at membrane -->
+          <text x="130" y="112" font-family="JetBrains Mono, monospace" font-size="16" fill="#64ffda" opacity="0.8">⚡</text>
+          <!-- Sperm nucleus entering cytoplasm hint -->
+          <ellipse cx="150" cy="130" rx="18" ry="14" fill="rgba(100,255,218,0.12)" stroke="rgba(100,255,218,0.4)" stroke-width="1.2" stroke-dasharray="3,2"/>
+          <!-- RIGHT ANNOTATION COLUMN -->
+          <text x="425" y="48"  font-family="JetBrains Mono, monospace" font-size="10" fill="#ffd166" font-weight="600">Bindin ↔ ZP3 (species-specific)</text>
+          <text x="425" y="61"  font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">reproductive isolation mechanism</text>
+          <line x1="126" y1="118" x2="420" y2="52" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(240,244,255,0.8)" font-weight="600">Sperm &amp; egg membranes fuse</text>
+          <text x="425" y="113" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.4)">triggered by bindin-receptor binding</text>
+          <line x1="116" y1="130" x2="420" y2="104" stroke="rgba(240,244,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="150" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">Sperm nucleus enters cytoplasm</text>
+          <text x="425" y="163" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.45)">decondenses into pronucleus</text>
+          <line x1="150" y1="130" x2="420" y2="155" stroke="rgba(100,255,218,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="425" y="200" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">⚡ Fast block: membrane depolarizes</text>
+          <text x="425" y="213" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.45)">Na⁺ influx → within seconds</text>
+          <line x1="134" y1="112" x2="420" y2="204" stroke="rgba(100,255,218,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="200" y="252" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.42)" font-style="italic">Bindin binds EBR1/ZP3 receptor → membrane fusion → sperm nucleus enters egg</text>
+        </svg>
+      </div>
+      <div class="callout callout-violet"><div class="callout-label">Step 3 — Bindin &amp; Sperm-Egg Fusion</div><p><strong>Bindin</strong> (on the acrosomal inner membrane) binds its complementary receptor on the egg (EBR1 in sea urchin; ZP3 in mammals). This interaction is <strong>species-specific</strong>. Binding triggers membrane fusion; the sperm nucleus enters. Simultaneously, Na⁺ influx <strong>depolarises</strong> the egg plasma membrane → <em>fast block to polyspermy</em> (seconds).</p></div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-panel">
+      <div class="figure" style="padding:1rem;">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- BEFORE (left egg) -->
+          <text x="135" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.35)">BEFORE</text>
+          <circle cx="135" cy="120" r="78" fill="rgba(10,14,32,0.88)" stroke="rgba(255,110,199,0.5)" stroke-width="2"/>
+          <!-- Cortical granules as teal dots just inside membrane -->
+          <g fill="rgba(100,255,218,0.7)" stroke="none">
+            <circle cx="213" cy="120" r="5"/><circle cx="209" cy="94"  r="5"/>
+            <circle cx="196" cy="71"  r="5"/><circle cx="175" cy="54"  r="5"/>
+            <circle cx="150" cy="44"  r="5"/><circle cx="122" cy="42"  r="5"/>
+            <circle cx="95"  cy="49"  r="5"/><circle cx="73"  cy="64"  r="5"/>
+            <circle cx="57"  cy="85"  r="5"/><circle cx="49"  cy="109" r="5"/>
+            <circle cx="50"  cy="135" r="5"/><circle cx="59"  cy="159" r="5"/>
+            <circle cx="77"  cy="179" r="5"/><circle cx="101" cy="191" r="5"/>
+            <circle cx="129" cy="196" r="5"/><circle cx="157" cy="192" r="5"/>
+            <circle cx="182" cy="179" r="5"/><circle cx="201" cy="158" r="5"/>
+            <circle cx="212" cy="133" r="5"/>
+          </g>
+          <!-- Ca2+ wave arc -->
+          <path d="M49,109 Q90,50 213,120" fill="none" stroke="rgba(100,255,218,0.55)" stroke-width="2" stroke-dasharray="6,3"/>
+          <text x="90" y="60" font-family="JetBrains Mono, monospace" font-size="9" fill="#64ffda">Ca²⁺ wave</text>
+
+          <!-- ARROW between panels -->
+          <text x="272" y="124" font-family="JetBrains Mono, monospace" font-size="18" fill="rgba(255,255,255,0.25)">→</text>
+
+          <!-- AFTER (right egg) -->
+          <text x="390" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.35)">AFTER</text>
+          <circle cx="390" cy="120" r="78" fill="rgba(10,14,32,0.85)" stroke="rgba(255,110,199,0.35)" stroke-width="1.5"/>
+          <!-- Hardened fertilization envelope (thick outer ring) -->
+          <circle cx="390" cy="120" r="93" fill="none" stroke="#ffd166" stroke-width="4"/>
+          <!-- Enzymes in perivitelline space -->
+          <g fill="rgba(255,209,102,0.5)" stroke="none">
+            <circle cx="466" cy="110" r="3"/><circle cx="468" cy="128" r="3"/>
+            <circle cx="460" cy="146" r="3"/><circle cx="442" cy="160" r="3"/>
+            <circle cx="330" cy="108" r="3"/><circle cx="320" cy="128" r="3"/>
+            <circle cx="324" cy="148" r="3"/>
+          </g>
+
+          <!-- RIGHT ANNOTATION COLUMN -->
+          <text x="510" y="55"  font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">Ca²⁺ wave sweeps egg</text>
+          <text x="510" y="68"  font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.5)">triggered by sperm entry</text>
+
+          <text x="510" y="105" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">Cortical granules exocytose</text>
+          <text x="510" y="118" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.5)">enzymes into perivitelline space</text>
+
+          <text x="510" y="155" font-family="JetBrains Mono, monospace" font-size="10" fill="#ffd166" font-weight="600">Enzymes harden zona pellucida</text>
+          <text x="510" y="168" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">→ fertilization envelope forms</text>
+          <line x1="482" y1="120" x2="506" y2="158" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="510" y="205" font-family="JetBrains Mono, monospace" font-size="10" fill="#ff6ec7" font-weight="600">Slow block: ~60 seconds</text>
+          <text x="510" y="218" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,110,199,0.5)">permanent physical barrier</text>
+
+          <text x="270" y="252" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.42)" font-style="italic">Ca²⁺ wave → cortical granules exocytose → enzymes harden zona → polyspermy blocked</text>
+        </svg>
+      </div>
+      <div class="callout callout-rose"><div class="callout-label">Step 4 — Cortical Reaction (Slow Block)</div><p>Sperm entry triggers a <strong>calcium wave (Ca²⁺)</strong> that sweeps across the egg. Ca²⁺ causes cortical granules to fuse with the plasma membrane and release enzymes into the perivitelline space. These enzymes cross-link zona proteins, hardening it into the <strong>fertilisation envelope</strong> — the slow block to polyspermy, complete in ~60 seconds.</p></div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step-panel">
+      <div class="figure" style="padding:1rem;">
+        <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Zygote cell -->
+          <circle cx="280" cy="128" r="88" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="2.5"/>
+          <!-- Fertilization envelope -->
+          <circle cx="280" cy="128" r="103" fill="none" stroke="rgba(255,209,102,0.6)" stroke-width="3.5"/>
+          <!-- Male pronucleus -->
+          <circle cx="244" cy="128" r="26" fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="2"/>
+          <text x="244" y="123" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#64ffda">♂</text>
+          <text x="244" y="136" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="rgba(100,255,218,0.6)">pronucleus</text>
+          <!-- Female pronucleus -->
+          <circle cx="316" cy="128" r="26" fill="rgba(255,110,199,0.18)" stroke="#ff6ec7" stroke-width="2"/>
+          <text x="316" y="123" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#ff6ec7">♀</text>
+          <text x="316" y="136" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="rgba(255,110,199,0.6)">pronucleus</text>
+          <!-- Fusion arrows -->
+          <path d="M270,128 L294,128" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
+          <!-- RIGHT ANNOTATION COLUMN -->
+          <text x="430" y="60"  font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(240,244,255,0.85)" font-weight="600">2n = 46 chromosomes (human)</text>
+          <text x="430" y="73"  font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(240,244,255,0.45)">diploid genome restored</text>
+
+          <text x="430" y="110" font-family="JetBrains Mono, monospace" font-size="10" fill="#a78bfa" font-weight="600">Diploid genome restored</text>
+          <text x="430" y="123" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(167,139,250,0.5)">23 + 23 chromosomes fuse</text>
+          <line x1="368" y1="118" x2="426" y2="114" stroke="rgba(167,139,250,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="430" y="160" font-family="JetBrains Mono, monospace" font-size="10" fill="#ffd166" font-weight="600">Fertilization envelope</text>
+          <text x="430" y="173" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,209,102,0.5)">protects zygote during cleavage</text>
+          <line x1="382" y1="128" x2="426" y2="164" stroke="rgba(255,209,102,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <text x="430" y="210" font-family="JetBrains Mono, monospace" font-size="10" fill="#64ffda" font-weight="600">First mitotic division imminent</text>
+          <text x="430" y="223" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(100,255,218,0.45)">cleavage begins — development starts</text>
+
+          <text x="280" y="252" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="12" fill="rgba(255,255,255,0.45)" font-style="italic">Two pronuclei fuse → 2n restored → first cleavage follows. Development begins.</text>
+        </svg>
+      </div>
+      <div class="callout callout-violet"><div class="callout-label">Step 5 — Zygote</div><p>The sperm pronucleus (haploid, ♂) and egg pronucleus (haploid, ♀) fuse, restoring the <strong>diploid chromosome number (2n = 46 in humans)</strong>. Development is activated. The first mitotic division (cleavage) follows within hours. The fertilization envelope protects the zygote as cleavage begins.</p></div>
     </div>
   </div>
 </section>
@@ -1152,6 +1273,106 @@
 </section>
 
 <!-- FOOTER NAV -->
+<!-- ══════ MEGA QUIZ ══════ -->
+<section class="quiz-section reveal" id="module-quiz">
+  <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--rose),var(--gold));color:#080b1a;padding:0.3rem 1rem;">Module 02 Quiz</span></div>
+  <div class="quiz-meta">
+    <p>10 randomly selected questions from a pool of 26 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <div class="quiz-controls">
+      <button class="quiz-btn secondary" id="q-new-qm2">↻ New Questions</button>
+      <button class="quiz-btn" id="q-grade-qm2">Grade Quiz</button>
+    </div>
+  </div>
+  <div class="quiz-score-bar" id="q-score-qm2">
+    <div class="quiz-score-number" id="q-snum-qm2"></div>
+    <div class="quiz-score-label">questions correct</div>
+    <div class="quiz-score-msg" id="q-smsg-qm2"></div>
+  </div>
+  <div class="quiz-grid" id="q-grid-qm2"></div>
+</section>
+<script>
+(function(){
+  const QID='qm2',N=10,L=['A','B','C','D'];
+  const BANK=[
+    {q:"Which glycoprotein in the human zona pellucida acts as the primary sperm-binding receptor?",options:["ZP1","ZP2","ZP3","Vitelline envelope protein EBR1"],correct:2,explain:"ZP3 (zona pellucida glycoprotein 3) is the primary sperm receptor in mice and humans. Its O-linked oligosaccharide chains bind species-specific sperm receptors, initiating the acrosome reaction. ZP1 cross-links ZP2/ZP3; ZP2 acts as a secondary receptor post-acrosome reaction."},
+    {q:"The zona pellucida is best described as:",options:["A jelly coat unique to sea urchin eggs","An extracellular glycoprotein matrix surrounding mammalian oocytes","The outer plasma membrane of the oocyte","A layer only present after fertilization"],correct:1,explain:"The zona pellucida is a thick extracellular glycoprotein shell (ZP1, ZP2, ZP3) that surrounds mammalian oocytes and early embryos. It mediates species-specific sperm binding, triggers the acrosome reaction, and blocks polyspermy after fertilization."},
+    {q:"The cortical reaction prevents polyspermy by:",options:["Releasing ATP to repel sperm","Releasing cortical granule enzymes that modify the zona pellucida","Depolarizing the sperm membrane","Inducing apoptosis in incoming sperm"],correct:1,explain:"Cortical granule exocytosis releases enzymes (ovastacin cleaves ZP2; other enzymes cross-link ZP1/ZP3) that harden the zona pellucida into an impenetrable fertilization envelope, preventing additional sperm from binding or penetrating."},
+    {q:"Mammalian embryos undergo which type of cleavage?",options:["Holoblastic equal (isolecithal egg)","Discoidal meroblastic","Holoblastic unequal","Superficial meroblastic"],correct:0,explain:"Mammalian eggs are nearly yolk-free (isolecithal), so cleavage is holoblastic (whole egg divides) and roughly equal. Each blastomere gets approximately the same amount of cytoplasm."},
+    {q:"The blastocoel is:",options:["The cavity that becomes the gut","The fluid-filled cavity within the blastula","The site where mesoderm ingresses","A layer of trophoblast cells"],correct:1,explain:"The blastocoel is the fluid-filled central cavity of the blastula. In the mammalian blastocyst, this cavity is surrounded by trophoblast cells (outer) and the inner cell mass (one side). It is distinct from the archenteron (future gut)."},
+    {q:"During gastrulation, cells ingressing through the primitive streak (amniotes) or blastopore form which layers?",options:["Ectoderm only","Mesoderm and endoderm","Ectoderm and trophoblast","Neural plate and neural crest"],correct:1,explain:"Gastrulation involves epiblast cells migrating inward to displace the hypoblast (forming endoderm) and filling the space between ectoderm and endoderm (forming mesoderm). The ectoderm remains as the non-ingressing surface layer."},
+    {q:"The notochord is derived from which primary germ layer?",options:["Ectoderm","Endoderm","Mesoderm","Trophectoderm"],correct:2,explain:"The notochord arises from chordamesoderm — axial mesoderm cells that ingress through the primitive node. It is a transient structure in vertebrates, later becoming the nucleus pulposus of intervertebral discs."},
+    {q:"Primary neurulation involves:",options:["Condensation of neural crest mesenchyme","The neural plate folding and fusing to form the neural tube","Secondary induction of brain vesicles","Formation of the notochord from ectoderm"],correct:1,explain:"Primary neurulation: the neural plate (thickened ectoderm) folds at the neural groove, with neural folds rising and fusing at the dorsal midline to form the hollow neural tube. Failure causes neural tube defects (e.g., spina bifida, anencephaly)."},
+    {q:"Which signal from the notochord and floor plate establishes ventral neural tube identity?",options:["BMP4","Wnt3a","Sonic Hedgehog (Shh)","FGF8"],correct:2,explain:"Shh secreted by the notochord (and later the floor plate it induces) forms a ventral-to-dorsal gradient. High Shh → floor plate; slightly lower → V3 interneurons and motor neurons; lowest → V2/V1/V0 interneurons. This is the key ventral patterning signal."},
+    {q:"BMP signals from the dorsal ectoderm of the neural tube induce:",options:["Motor neurons","Floor plate","Roof plate and dorsal interneurons (dI1-dI6)","V2 interneurons"],correct:2,explain:"BMP (and Wnt) signals from dorsal ectoderm and the roof plate specify dorsal neural tube identity: roof plate itself and dorsal interneuron classes dI1-dI6. BMP and Shh form opposing gradients that subdivide the neural tube DV axis."},
+    {q:"The segmentation clock controlling somite formation involves oscillating activity of which signaling pathways?",options:["Wnt, Notch, and FGF","Shh, BMP, and Retinoic Acid","FGF, BMP, and EGF","PI3K, MAPK, and PKC"],correct:0,explain:"The segmentation clock uses periodic oscillations in Notch, Wnt, and FGF signaling to produce a 'wave' of gene expression that sweeps anteriorly. Each oscillation cycle corresponds to one somite pair forming at the determination front."},
+    {q:"Wnt signals from the dorsal neural tube direct somite cells toward:",options:["Sclerotome","Dermomyotome","Lateral plate mesoderm","Neural crest fate"],correct:1,explain:"Wnt signals (from dorsal neural tube and surface ectoderm) act on dorsal somite cells to promote dermomyotome identity — the precursor of dermis (dorsal skin) and all skeletal muscle of the body."},
+    {q:"Shh from the notochord and floor plate directs ventral somite cells to form:",options:["Dermomyotome","Neural crest","Sclerotome","Heart muscle"],correct:2,explain:"Shh from the notochord and floor plate promotes sclerotome identity in the ventral somite. Sclerotome cells then migrate around the notochord and neural tube to form vertebrae and ribs."},
+    {q:"The human oocyte is arrested at which stage of meiosis at the time of ovulation?",options:["Prophase I","Metaphase II","Anaphase II","Telophase I"],correct:1,explain:"Human (and most mammalian) oocytes are arrested at metaphase II at ovulation. Fertilization triggers the second meiotic division, completing meiosis. The oocyte was previously arrested at prophase I in the fetal ovary for years."},
+    {q:"The perivitelline space is located:",options:["Outside the zona pellucida","Between the zona pellucida and the plasma membrane","Inside the germinal vesicle","Between two layers of zona pellucida"],correct:1,explain:"The perivitelline space is the fluid-filled gap between the zona pellucida and the oocyte's plasma membrane. After the cortical reaction, cortical granule contents are released into this space, modifying the zona pellucida."},
+    {q:"In holoblastic equal cleavage, the yolk distribution is:",options:["Heavily concentrated at the vegetal pole","Evenly distributed (isolecithal)","Absent entirely","Concentrated at the animal pole"],correct:1,explain:"Isolecithal eggs (mammals, sea urchins) have evenly distributed, sparse yolk → holoblastic equal cleavage. Telolecithal eggs (frogs, fish) have yolk concentrated at vegetal pole → holoblastic unequal cleavage. Heavily yolked eggs (birds, reptiles) undergo meroblastic cleavage."},
+    {q:"The sclerotome gives rise to:",options:["Skeletal muscle and dermis","Vertebrae and ribs","Lateral plate mesoderm derivatives","Heart and blood vessels"],correct:1,explain:"Sclerotome cells (from the ventromedial somite) migrate medially to surround the notochord and neural tube, condensing and differentiating into cartilage and bone that form the vertebrae and ribs."},
+    {q:"The archenteron formed during gastrulation eventually becomes:",options:["The neural tube","The gut","The notochord","The blastocoel"],correct:1,explain:"The archenteron (primitive gut) is the inpocketing that forms during gastrulation (e.g., in sea urchins and amphibians). It becomes the lumen of the future digestive system. In amniotes, the equivalent is the primitive streak/node giving rise to gut endoderm."},
+    {q:"Spina bifida is caused by:",options:["Failure of the cortical reaction","Incomplete neural tube closure (primary neurulation defect)","Absence of somite formation","Excess BMP signaling in the dorsal somite"],correct:1,explain:"Spina bifida results from incomplete closure of the posterior neural tube. The neural folds fail to fuse, leaving the spinal cord exposed. Risk is reduced by folic acid supplementation, which supports neural tube closure."},
+    {q:"Which molecule antagonizes BMP in the dorsal mesoderm to allow neural plate induction?",options:["Shh","Chordin and Noggin","FGF8","Wnt3a"],correct:1,explain:"Chordin (and Noggin, Follistatin) are BMP antagonists secreted by the organizer (Spemann's organizer in amphibians, node in amniotes). By blocking BMP signaling in the overlying ectoderm, they allow the default neural fate to be expressed."},
+    {q:"The determination front in somitogenesis is established by opposing gradients of:",options:["Shh (anterior) and BMP (posterior)","FGF/Wnt (posterior high) and Retinoic acid/RA (anterior high)","Bicoid (anterior) and Nanos (posterior)","BMP (anterior) and Shh (posterior)"],correct:1,explain:"The determination front sits where the FGF/Wnt gradient (high in tailbud, decreasing anteriorly) intersects the RA gradient (high anteriorly, low posteriorly). Somites form at the anterior edge of the determination front with each oscillation of the segmentation clock."},
+    {q:"The approximate time interval for human somite formation is:",options:["15 minutes","90 minutes","6 hours","24 hours"],correct:2,explain:"Humans form one somite pair every ~6 hours (mice: ~90 minutes; snakes: ~6 hours per the many vertebrae). This rate is set by the segmentation clock oscillation period. Eventually humans form ~44 somite pairs giving rise to the axial skeleton."},
+    {q:"The inner cell mass (ICM) of the mammalian blastocyst gives rise to:",options:["The placenta only","The embryo proper (all three germ layers)","Both embryo and placenta equally","The trophoblast layer"],correct:1,explain:"The ICM (also called epiblast in later stages) gives rise to the three primary germ layers of the embryo proper. The trophoblast (outer cell layer) forms the placenta and extraembryonic membranes. This lineage separation is one of the first cell fate decisions in mammalian development."},
+    {q:"The correct order of early vertebrate development is:",options:["Gastrulation → Fertilization → Cleavage → Neurulation","Fertilization → Cleavage → Gastrulation → Neurulation","Cleavage → Fertilization → Neurulation → Gastrulation","Fertilization → Gastrulation → Cleavage → Neurulation"],correct:1,explain:"After fertilization, the zygote undergoes cleavage (rapid mitoses producing blastomeres), forming the blastula. Gastrulation establishes the three germ layers. Neurulation then converts dorsal ectoderm into the neural tube."},
+    {q:"ZP3 in the human zona pellucida serves as:",options:["Only a structural scaffold","The primary sperm receptor triggering the acrosome reaction","An inhibitor of the second meiotic division","A nutrient source for early embryo development"],correct:1,explain:"ZP3 binds species-specific receptors on the sperm head (e.g., zona receptor kinase ZRK, SED1), triggering the acrosome reaction — exocytosis of the acrosome releasing enzymes that help sperm penetrate the zona."},
+    {q:"The three primary germ layers established at gastrulation are:",options:["Ectoderm, mesoderm, notochord","Ectoderm, mesoderm, endoderm","Ectoderm, endoderm, trophectoderm","Mesoderm, endoderm, neural crest"],correct:1,explain:"Gastrulation produces three primary germ layers: ectoderm (outer — nervous system, skin), mesoderm (middle — muscle, bone, blood, kidney), endoderm (inner — gut lining, lung, liver). The neural crest is sometimes called the 'fourth germ layer' but arises from ectoderm."}
+  ];
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+  function render(){
+    const grid=document.getElementById('q-grid-'+QID);
+    document.getElementById('q-score-'+QID).classList.remove('visible');
+    const qs=shuffle(BANK).slice(0,N);
+    grid.innerHTML=qs.map((q,i)=>{
+      const opts=shuffle(q.options.map((t,j)=>({t,c:j===q.correct})));
+      return `<div class="quiz-card">
+        <div class="quiz-q-num">Question ${i+1} of ${N}</div>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">${opts.map((o,k)=>`<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}</div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.quiz-options').forEach(wrap=>{
+      wrap.addEventListener('click',e=>{
+        const btn=e.target.closest('.quiz-opt');
+        if(!btn||btn.classList.contains('locked'))return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  function grade(){
+    let correct=0;
+    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
+      const sel=card.querySelector('.quiz-opt.selected');
+      card.querySelectorAll('.quiz-opt').forEach(o=>{
+        o.classList.add('locked');
+        if(o.dataset.c==='true')o.classList.add('opt-correct');
+      });
+      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
+      else card.classList.add('wrong');
+      card.classList.add('revealed');
+    });
+    const scr=document.getElementById('q-score-'+QID);
+    document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
+    const p=correct/N;
+    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 02.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 02 and try again.';
+    scr.classList.add('visible');
+    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('q-new-'+QID).addEventListener('click',render);
+  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
+  render();
+})();
+</script>
+
 <div class="page-footer-nav">
   <a href="module-01.html" class="pf-btn">← Module 01</a>
   <a href="module-03.html" class="pf-btn next">Module 03 · Evolutionary Processes →</a>

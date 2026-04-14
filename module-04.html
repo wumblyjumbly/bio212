@@ -117,19 +117,19 @@
 /* ── Bias cards ── */
 .bias-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.4rem;
   margin: 1.5rem 0;
 }
 .bias-card {
   background: var(--glass);
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 1.4rem;
+  border-radius: var(--radius);
+  padding: 1.8rem;
   border-left: 3px solid var(--gold);
 }
-.bias-card h4 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--gold); }
-.bias-card p { font-size: 0.86rem; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+.bias-card h4 { margin: 0 0 1rem; font-size: 1.05rem; color: var(--gold); font-family: var(--serif); }
+.bias-card p { font-size: 0.9rem; color: var(--ink-soft); margin: 0.8rem 0 0; line-height: 1.7; }
 
 /* ── Geological timeline ── */
 .geo-timeline {
@@ -365,6 +365,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html" class="active">04 · Speciation</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
 </nav>
@@ -873,35 +874,43 @@
       <!-- 1. Hard Parts Bias -->
       <div class="bias-card">
         <h4>Hard Parts Bias</h4>
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin:0.6rem 0;border-radius:8px;background:rgba(255,255,255,0.03);">
-          <!-- divider -->
-          <line x1="200" y1="20" x2="200" y2="180" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="6,4"/>
-          <!-- Left: soft body (jellyfish) -->
-          <ellipse cx="95" cy="90" rx="58" ry="45" fill="rgba(255,110,199,0.12)" stroke="rgba(255,110,199,0.5)" stroke-width="2"/>
-          <!-- jellyfish tentacles -->
-          <path d="M75,132 Q70,160 72,178" stroke="rgba(255,110,199,0.3)" stroke-width="1.5" fill="none"/>
-          <path d="M95,135 Q95,163 97,178" stroke="rgba(255,110,199,0.3)" stroke-width="1.5" fill="none"/>
-          <path d="M115,132 Q120,160 118,178" stroke="rgba(255,110,199,0.3)" stroke-width="1.5" fill="none"/>
-          <text x="95" y="85" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" fill="rgba(255,110,199,0.8)">jellyfish</text>
-          <text x="95" y="102" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,110,199,0.5)">soft-bodied</text>
-          <!-- X mark -->
-          <line x1="48" y1="150" x2="142" y2="175" stroke="rgba(255,110,199,0.7)" stroke-width="3"/>
-          <line x1="142" y1="150" x2="48" y2="175" stroke="rgba(255,110,199,0.7)" stroke-width="3"/>
-          <text x="95" y="195" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,110,199,0.6)">✗ rarely preserved</text>
-          <!-- Right: shell -->
-          <path d="M265,50 Q300,28 335,50 Q358,80 335,110 Q300,132 265,110 Q242,80 265,50 Z" fill="rgba(255,209,102,0.18)" stroke="#ffd166" stroke-width="2"/>
-          <!-- Shell ribs -->
-          <path d="M300,38 Q300,90 300,122" stroke="rgba(255,209,102,0.45)" stroke-width="1.5" fill="none"/>
-          <path d="M280,42 Q272,90 278,120" stroke="rgba(255,209,102,0.3)" stroke-width="1.2" fill="none"/>
-          <path d="M320,42 Q328,90 322,120" stroke="rgba(255,209,102,0.3)" stroke-width="1.2" fill="none"/>
-          <path d="M260,60 Q248,90 255,110" stroke="rgba(255,209,102,0.2)" stroke-width="1" fill="none"/>
-          <path d="M340,60 Q352,90 345,110" stroke="rgba(255,209,102,0.2)" stroke-width="1" fill="none"/>
-          <text x="300" y="152" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" fill="rgba(255,209,102,0.9)">shell / bone</text>
-          <text x="300" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,209,102,0.6)">mineralised</text>
-          <text x="300" y="192" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,209,102,0.7)">✓ fossilises well</text>
-          <!-- column headers -->
-          <text x="95" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,110,199,0.5)" letter-spacing="1">SOFT TISSUE</text>
-          <text x="300" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,209,102,0.5)" letter-spacing="1">HARD PARTS</text>
+        <svg viewBox="0 0 500 180" width="100%" style="border-radius:8px;background:rgba(0,0,0,0.2);margin-bottom:0.8rem;" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="180" fill="rgba(0,0,0,0.18)" rx="8"/>
+          <!-- Dividing line -->
+          <line x1="250" y1="10" x2="250" y2="170" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <!-- LEFT half — SOFT BODY -->
+          <text x="125" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.65)" letter-spacing="1">SOFT BODY — rarely fossilized</text>
+          <!-- Jellyfish dome -->
+          <ellipse cx="80" cy="72" rx="38" ry="28" fill="rgba(125,211,252,0.18)" stroke="rgba(125,211,252,0.55)" stroke-width="1.8"/>
+          <!-- Jellyfish tentacles -->
+          <path d="M60,98 Q54,116 58,132" stroke="rgba(125,211,252,0.4)" stroke-width="1.5" fill="none"/>
+          <path d="M72,101 Q70,120 73,135" stroke="rgba(125,211,252,0.4)" stroke-width="1.5" fill="none"/>
+          <path d="M84,102 Q85,122 87,137" stroke="rgba(125,211,252,0.4)" stroke-width="1.5" fill="none"/>
+          <path d="M96,100 Q100,118 98,133" stroke="rgba(125,211,252,0.4)" stroke-width="1.5" fill="none"/>
+          <text x="80" y="70" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(125,211,252,0.8)">jellyfish</text>
+          <!-- Worm shape -->
+          <path d="M148,58 Q180,45 200,60 Q218,75 215,90 Q210,105 195,105 Q178,108 162,98 Q148,88 148,75 Q148,65 148,58Z" fill="rgba(255,110,199,0.15)" stroke="rgba(255,110,199,0.5)" stroke-width="1.5"/>
+          <text x="183" y="82" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.8)">worm</text>
+          <!-- X symbol left -->
+          <line x1="30" y1="148" x2="220" y2="165" stroke="#ff6ec7" stroke-width="2.5" opacity="0.7"/>
+          <line x1="220" y1="148" x2="30" y2="165" stroke="#ff6ec7" stroke-width="2.5" opacity="0.7"/>
+          <text x="125" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#ff6ec7">✗ rarely fossilized</text>
+          <!-- RIGHT half — HARD PARTS -->
+          <text x="375" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.65)" letter-spacing="1">HARD PARTS — fossilizes well</text>
+          <!-- Ammonite spiral -->
+          <circle cx="360" cy="82" r="36" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="2"/>
+          <path d="M360,82 m25,0 a25,25 0 0,1 -25,25 a25,25 0 0,1 -25,-25 a18,18 0 0,1 18,-18 a12,12 0 0,1 7,21" fill="none" stroke="rgba(255,209,102,0.6)" stroke-width="1.5"/>
+          <path d="M360,82 m14,0 a14,14 0 0,1 -14,14 a8,8 0 0,1 -8,-8" fill="none" stroke="rgba(255,209,102,0.4)" stroke-width="1.2"/>
+          <circle cx="360" cy="82" r="5" fill="rgba(255,209,102,0.5)"/>
+          <text x="360" y="128" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.8)">ammonite shell</text>
+          <!-- Bone shapes -->
+          <rect x="415" y="55" width="60" height="12" rx="6" fill="rgba(255,209,102,0.3)" stroke="#ffd166" stroke-width="1.2"/>
+          <circle cx="415" cy="61" r="8" fill="rgba(255,209,102,0.25)" stroke="#ffd166" stroke-width="1.2"/>
+          <circle cx="475" cy="61" r="8" fill="rgba(255,209,102,0.25)" stroke="#ffd166" stroke-width="1.2"/>
+          <text x="445" y="82" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.7)">bone</text>
+          <!-- Checkmark right -->
+          <text x="375" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" fill="#64ffda">✓</text>
+          <text x="410" y="148" text-anchor="start" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.8)">fossilizes well</text>
         </svg>
         <p>Hard structures (bone, shell, teeth) fossilise far more readily than soft tissues (muscle, organs, skin). Soft-bodied organisms (worms, jellyfish) are rarely preserved — the fossil record drastically under-represents them.</p>
       </div>
@@ -909,35 +918,55 @@
       <!-- 2. Habitat Bias -->
       <div class="bias-card">
         <h4>Habitat Bias</h4>
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin:0.6rem 0;border-radius:8px;background:rgba(255,255,255,0.03);">
-          <!-- divider -->
-          <line x1="200" y1="20" x2="200" y2="185" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="6,4"/>
-          <!-- LEFT: aquatic / lowland (good) -->
-          <text x="95" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(100,255,218,0.6)" letter-spacing="1">AQUATIC / LOWLAND</text>
-          <!-- water surface waves -->
-          <path d="M15,55 Q30,46 50,55 Q70,64 90,55 Q110,46 130,55 Q150,64 175,55" stroke="rgba(100,255,218,0.5)" stroke-width="2" fill="none"/>
-          <!-- sediment layers -->
-          <rect x="15" y="68" width="170" height="110" rx="4" fill="rgba(100,255,218,0.06)" stroke="rgba(100,255,218,0.2)" stroke-width="1"/>
-          <line x1="15" y1="90"  x2="185" y2="90"  stroke="rgba(100,255,218,0.15)" stroke-width="1"/>
-          <line x1="15" y1="110" x2="185" y2="110" stroke="rgba(100,255,218,0.12)" stroke-width="1"/>
-          <line x1="15" y1="130" x2="185" y2="130" stroke="rgba(100,255,218,0.10)" stroke-width="1"/>
-          <line x1="15" y1="150" x2="185" y2="150" stroke="rgba(100,255,218,0.08)" stroke-width="1"/>
-          <!-- fossil shapes in sediment -->
-          <ellipse cx="80" cy="120" rx="28" ry="10" fill="rgba(100,255,218,0.3)" stroke="#64ffda" stroke-width="1.5"/>
-          <ellipse cx="140" cy="145" rx="18" ry="7" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="1.2"/>
-          <text x="95" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(100,255,218,0.7)">✓ sediment traps remains</text>
-          <!-- RIGHT: upland / forest (poor) -->
-          <text x="305" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,110,199,0.6)" letter-spacing="1">UPLAND / FOREST</text>
-          <!-- Mountain -->
-          <path d="M220,178 L305,48 L390,178 Z" fill="rgba(255,110,199,0.08)" stroke="rgba(255,110,199,0.35)" stroke-width="2"/>
-          <!-- Trees on slope -->
-          <line x1="248" y1="175" x2="248" y2="148"/><path d="M237,148 L248,126 L259,148Z" fill="rgba(255,110,199,0.2)" stroke="none"/>
-          <line x1="278" y1="170" x2="278" y2="140"/><path d="M266,140 L278,118 L290,140Z" fill="rgba(255,110,199,0.2)" stroke="none"/>
-          <line x1="355" y1="175" x2="355" y2="148"/><path d="M344,148 L355,126 L366,148Z" fill="rgba(255,110,199,0.2)" stroke="none"/>
-          <!-- X for no fossils -->
-          <line x1="250" y1="80" x2="360" y2="130" stroke="rgba(255,110,199,0.5)" stroke-width="2.5"/>
-          <line x1="360" y1="80" x2="250" y2="130" stroke="rgba(255,110,199,0.5)" stroke-width="2.5"/>
-          <text x="305" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,110,199,0.6)">✗ no sediment — lost</text>
+        <svg viewBox="0 0 500 180" width="100%" style="border-radius:8px;background:rgba(0,0,0,0.2);margin-bottom:0.8rem;" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="180" fill="rgba(0,0,0,0.18)" rx="8"/>
+          <!-- Dividing line -->
+          <line x1="250" y1="10" x2="250" y2="170" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <!-- LEFT: Marine sediment -->
+          <text x="125" y="20" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.65)" letter-spacing="0.5">MARINE — continuous deposition ✓</text>
+          <!-- Water surface waves -->
+          <path d="M10,34 Q25,26 42,34 Q58,42 74,34 Q90,26 108,34 Q124,42 140,34 Q156,26 172,34 Q188,42 204,34" stroke="rgba(100,255,218,0.5)" stroke-width="2" fill="none"/>
+          <!-- Sediment layers with gradient depth -->
+          <rect x="10" y="42" width="232" height="24" rx="0" fill="rgba(100,255,218,0.14)" stroke="none"/>
+          <rect x="10" y="66" width="232" height="22" rx="0" fill="rgba(100,255,218,0.11)" stroke="none"/>
+          <rect x="10" y="88" width="232" height="20" rx="0" fill="rgba(100,255,218,0.08)" stroke="none"/>
+          <rect x="10" y="108" width="232" height="18" rx="0" fill="rgba(100,255,218,0.06)" stroke="none"/>
+          <rect x="10" y="126" width="232" height="16" rx="0" fill="rgba(100,255,218,0.04)" stroke="none"/>
+          <!-- Horizontal layer lines -->
+          <line x1="10" y1="42" x2="242" y2="42" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>
+          <line x1="10" y1="66" x2="242" y2="66" stroke="rgba(100,255,218,0.22)" stroke-width="1"/>
+          <line x1="10" y1="88" x2="242" y2="88" stroke="rgba(100,255,218,0.16)" stroke-width="1"/>
+          <line x1="10" y1="108" x2="242" y2="108" stroke="rgba(100,255,218,0.12)" stroke-width="1"/>
+          <line x1="10" y1="126" x2="242" y2="126" stroke="rgba(100,255,218,0.08)" stroke-width="1"/>
+          <!-- Fish sinking into sediment -->
+          <ellipse cx="100" cy="52" rx="28" ry="10" fill="rgba(100,255,218,0.35)" stroke="#64ffda" stroke-width="1.5"/>
+          <path d="M128,52 L140,46 L140,58 Z" fill="rgba(100,255,218,0.35)" stroke="#64ffda" stroke-width="1"/>
+          <!-- Shell fossils in sediment layers -->
+          <ellipse cx="60" cy="77" rx="18" ry="7" fill="rgba(100,255,218,0.3)" stroke="#64ffda" stroke-width="1.2"/>
+          <ellipse cx="165" cy="97" rx="15" ry="6" fill="rgba(100,255,218,0.22)" stroke="rgba(100,255,218,0.6)" stroke-width="1"/>
+          <ellipse cx="100" cy="117" rx="12" ry="5" fill="rgba(100,255,218,0.16)" stroke="rgba(100,255,218,0.45)" stroke-width="1"/>
+          <text x="125" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.7)">sediment buries remains ✓</text>
+          <!-- RIGHT: Terrestrial / mountain -->
+          <text x="375" y="20" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.65)" letter-spacing="0.5">TERRESTRIAL — erosion dominant ✗</text>
+          <!-- Mountain profile -->
+          <path d="M258,162 L330,42 L402,162 Z" fill="rgba(255,110,199,0.1)" stroke="rgba(255,110,199,0.45)" stroke-width="2"/>
+          <!-- Secondary smaller peak -->
+          <path d="M390,162 L435,78 L480,162 Z" fill="rgba(255,110,199,0.07)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
+          <!-- Trees on slopes -->
+          <line x1="280" y1="160" x2="280" y2="138"/><path d="M271,138 L280,118 L289,138Z" fill="rgba(255,110,199,0.25)" stroke="none"/>
+          <line x1="308" y1="155" x2="308" y2="130"/><path d="M298,130 L308,110 L318,130Z" fill="rgba(255,110,199,0.22)" stroke="none"/>
+          <line x1="360" y1="152" x2="360" y2="128"/><path d="M350,128 L360,108 L370,128Z" fill="rgba(255,110,199,0.22)" stroke="none"/>
+          <!-- Dinosaur stick figure on mountaintop -->
+          <circle cx="330" cy="35" r="5" fill="none" stroke="rgba(255,110,199,0.6)" stroke-width="1.5"/>
+          <line x1="330" y1="40" x2="330" y2="55" stroke="rgba(255,110,199,0.6)" stroke-width="1.5"/>
+          <line x1="330" y1="47" x2="322" y2="52" stroke="rgba(255,110,199,0.6)" stroke-width="1.5"/>
+          <line x1="330" y1="47" x2="338" y2="52" stroke="rgba(255,110,199,0.6)" stroke-width="1.5"/>
+          <!-- Erosion arrows pointing up/outward -->
+          <text x="422" y="58" font-family="JetBrains Mono,monospace" font-size="14" fill="rgba(255,110,199,0.55)">↑</text>
+          <text x="438" y="65" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.5)">erosion</text>
+          <!-- X mark -->
+          <line x1="258" y1="130" x2="240" y2="162" stroke="rgba(255,110,199,0.0)" stroke-width="0"/>
+          <text x="375" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.7)">no sediment — fossils lost ✗</text>
         </svg>
         <p>Fossilisation requires burial in sediment. Aquatic and lowland environments are far better represented than upland, forest, or arid environments where sediment rarely accumulates.</p>
       </div>
@@ -1402,6 +1431,107 @@
 
     </div>
   </section>
+
+<!-- ══════ MEGA QUIZ ══════ -->
+<section class="quiz-section reveal" id="module-quiz">
+  <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--gold),var(--coral));color:#080b1a;padding:0.3rem 1rem;">Module 04 Quiz</span></div>
+  <div class="quiz-meta">
+    <p>10 randomly selected questions from a pool of 27 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <div class="quiz-controls">
+      <button class="quiz-btn secondary" id="q-new-qm4">↻ New Questions</button>
+      <button class="quiz-btn" id="q-grade-qm4">Grade Quiz</button>
+    </div>
+  </div>
+  <div class="quiz-score-bar" id="q-score-qm4">
+    <div class="quiz-score-number" id="q-snum-qm4"></div>
+    <div class="quiz-score-label">questions correct</div>
+    <div class="quiz-score-msg" id="q-smsg-qm4"></div>
+  </div>
+  <div class="quiz-grid" id="q-grid-qm4"></div>
+</section>
+<script>
+(function(){
+  const QID='qm4',N=10,L=['A','B','C','D'];
+  const BANK=[
+    {q:"Which type of speciation requires geographic separation of populations?",options:["Sympatric","Allopatric","Parapatric","Peripatric — only if very small"],correct:1,explain:"Allopatric speciation ('allo' = different, 'patric' = homeland) requires a geographic barrier (mountain range, ocean, desert) that prevents gene flow. Isolated populations diverge independently until reproductive isolation evolves. This is considered the most common mode of speciation."},
+    {q:"Reproductive barriers that prevent interbreeding BEFORE mating or fertilization are called:",options:["Postzygotic barriers","Hybrid inviability","Prezygotic barriers","Mechanical isolation only"],correct:2,explain:"Prezygotic barriers include: habitat isolation, temporal isolation, behavioral isolation, mechanical isolation (incompatible genitalia), and gametic isolation. Postzygotic barriers act after zygote formation: hybrid inviability, hybrid sterility, hybrid breakdown."},
+    {q:"Which geological eon encompasses most visible animal life, from ~541 Ma to present?",options:["Hadean","Archean","Proterozoic","Phanerozoic"],correct:3,explain:"The Phanerozoic ('visible life') began with the Cambrian explosion ~541 Ma and contains three eras: Paleozoic (541-252 Ma), Mesozoic (252-66 Ma), and Cenozoic (66 Ma-present). The preceding eons (Hadean, Archean, Proterozoic) are collectively called the Precambrian, occupying ~87% of Earth's history."},
+    {q:"The Cambrian explosion (~541 Ma) is biologically significant because:",options:["It marks Earth's formation","Most major animal phyla (body plans) appeared in geologically rapid succession","It was immediately preceded by a mass extinction","Vertebrates first evolved during this event"],correct:1,explain:"During the Cambrian explosion, most extant animal phyla appeared in the fossil record within ~25 million years — very rapid by geological standards. Proposed causes: rising oxygen levels, Hox gene duplication providing developmental toolkit for new body plans, ecological interactions driving diversity."},
+    {q:"Which of the following is a PREZYGOTIC reproductive barrier?",options:["Hybrid inviability","Hybrid sterility","Temporal isolation (different breeding seasons)","Hybrid breakdown in F2 generation"],correct:2,explain:"Temporal isolation prevents mating because populations breed at different times (different seasons, different times of day). All four options (habitat, temporal, behavioral, mechanical, gametic isolation) are prezygotic — they prevent zygote formation. The others listed (inviability, sterility, breakdown) are postzygotic."},
+    {q:"The Great Oxidation Event (~2.4 billion years ago) was caused by:",options:["Massive volcanic outgassing","Oxygenic photosynthesis by cyanobacteria","A large asteroid impact","Plate tectonic rifting releasing oxygen"],correct:1,explain:"Cyanobacteria evolved oxygenic photosynthesis, splitting water and releasing O₂ as a byproduct. For hundreds of millions of years, oxygen was absorbed by dissolved iron (forming banded iron formations). When iron was exhausted, free O₂ accumulated — catastrophic to obligate anaerobes, but enabling aerobic life."},
+    {q:"Which mass extinction eliminated approximately 96% of all marine species?",options:["End-Ordovician (~443 Ma)","End-Devonian (~374 Ma)","End-Permian / P-T boundary (~252 Ma)","End-Cretaceous / K-Pg (~66 Ma)"],correct:2,explain:"The Permian-Triassic extinction is the largest in Earth's history — 96% of marine species and 70% of terrestrial vertebrate species were lost. Causes include massive Siberian Trap volcanism causing anoxia, ocean acidification, and temperature extremes. Recovery took ~10 million years."},
+    {q:"The K-Pg extinction (~66 Ma) most likely resulted primarily from:",options:["Severe ice age","Volcanism (Deccan Traps) alone","Chicxulub asteroid impact and global environmental aftermath","Sea level regression"],correct:2,explain:"The Chicxulub impactor (10-15 km wide) struck the Yucatan Peninsula, causing impact winter (ejected debris blocking sunlight), acid rain, wildfires, and eventual greenhouse warming. Approximately 75% of species went extinct, including all non-avian dinosaurs. The Deccan Traps may have compounded the crisis."},
+    {q:"Sympatric speciation is most likely driven by:",options:["Physical separation of populations","Polyploidy or strong disruptive selection within a single population","Founder effect following colonization","Allopatric isolation followed by secondary contact"],correct:1,explain:"Sympatric speciation occurs without geographic isolation. Most well-documented cases involve: (1) allopolyploidy in plants (hybridization + polyploidy → immediate reproductive isolation), (2) host-race formation in phytophagous insects, or (3) strong disruptive selection combined with assortative mating."},
+    {q:"Fossils are biased toward preserving organisms with:",options:["Small soft bodies and high behavioral complexity","Hard mineralized parts (shells, bones, teeth)","Terrestrial mountain habitats","Low population abundance"],correct:1,explain:"Fossilization requires rapid burial in sediment and replacement of organic material with minerals. Hard parts (calcium carbonate shells, silica tests, bone, teeth, wood) are far more likely to fossilize than soft tissue. This creates systematic bias: shelled marine organisms are overrepresented; small soft-bodied organisms are severely underrepresented."},
+    {q:"The geological time scale is primarily calibrated using:",options:["Gravitational wave measurements","Fossil succession combined with radiometric dating","Ocean sediment thickness alone","Magnetic reversal timing only"],correct:1,explain:"The relative time scale was built from fossil succession (William Smith's principle of faunal succession). Radiometric dating (U-Pb, K-Ar, C-14 for recent materials) provided absolute ages. Together they give the calibrated geological time scale with reliable dates for era, period, and epoch boundaries."},
+    {q:"The Mesozoic Era is correctly characterized as:",options:["The 'Age of Mammals' (65 Ma–present)","The 'Age of Reptiles' (252–66 Ma)","The 'Age of Fishes' (419–359 Ma)","The 'Age of Amphibians' (359–299 Ma)"],correct:1,explain:"The Mesozoic (Triassic + Jurassic + Cretaceous, 252-66 Ma) is dominated by non-avian dinosaurs, marine reptiles, pterosaurs, and the rise of flowering plants. Early mammals existed throughout but remained small. The Cenozoic (66 Ma-present) is the 'Age of Mammals.'"},
+    {q:"Polyploidy most commonly drives sympatric speciation in:",options:["Marine mammals","Birds","Plants","Social insects"],correct:2,explain:"Allopolyploidy (hybridization between two species + chromosome doubling) can produce instant reproductive isolation. A new allopolyploid cannot produce viable, fertile offspring with either parent species (crosses produce sterile triploids). This is extremely common in plants — wheat, cotton, tobacco, and many others are allopolyploids."},
+    {q:"The fossil record is MOST complete for organisms living in:",options:["Terrestrial mountain habitats","Marine sedimentary basins","Tropical rainforests","Arid desert environments"],correct:1,explain:"Marine environments have continuous sediment deposition, rapid burial, mineralization-friendly chemistry, and sedimentary rock preservation over geological time. Shallow marine carbonate and clastic environments yield the vast majority of fossil discoveries. Terrestrial environments have more erosion and less continuous deposition."},
+    {q:"Postzygotic reproductive isolation includes which example?",options:["Different flowering times","Different mating calls between frog species","Hybrid sterility (e.g., horse × donkey = sterile mule)","Different habitat preferences"],correct:2,explain:"Postzygotic barriers occur after a hybrid zygote forms. They include: hybrid inviability (hybrids die before reproducing), hybrid sterility (hybrids are infertile — mules, ligers), and hybrid breakdown (F1 hybrids are fertile but F2 fitness is reduced). The other examples are prezygotic."},
+    {q:"Which geological era immediately precedes the Mesozoic?",options:["Cenozoic","Paleozoic","Proterozoic","Hadean"],correct:1,explain:"The sequence is: Paleozoic (541-252 Ma) → Mesozoic (252-66 Ma) → Cenozoic (66 Ma-present). The Paleozoic ended with the P-T extinction (~252 Ma). Major Paleozoic events: Cambrian explosion, first land plants (Devonian), first tetrapods (Devonian), first reptiles (Carboniferous)."},
+    {q:"Punctuated equilibrium proposes that evolutionary change occurs:",options:["At a constant gradual rate (phyletic gradualism)","Mostly during rapid speciation events, with long stable periods between","Primarily through genetic drift, not selection","Only in response to mass extinctions"],correct:1,explain:"Eldredge and Gould (1972) proposed punctuated equilibrium: morphological stasis over most of a species' history, punctuated by rapid change concentrated at speciation events. This explains 'gaps' in the fossil record — they're real, not incomplete data — because most evolution happens in small, peripheral populations rapidly."},
+    {q:"Why does the fossil record underrepresent soft-bodied and small organisms?",options:["Such organisms did not exist in the deep past","They evolved too recently to fossilize","Soft tissues decay before mineralization can occur; hard parts preferentially preserve","They lived in environments that form no sedimentary rock"],correct:2,explain:"Soft tissue decays rapidly by bacteria and oxidation, rarely persisting long enough for mineralization. Exceptional preservation (Burgess Shale, Cambrian Chengjiang, Ediacaran Doushantuo) requires rapid burial in anoxic conditions, and is unusual. Amber, tar, permafrost can preserve soft parts but these situations are rare."},
+    {q:"The Devonian period (419-359 Ma) is noted for which evolutionary milestones?",options:["First land plants and first tetrapods (fish-to-land transition)","Origin of mammals","Cambrian explosion of animal diversity","First flowering plants (angiosperms)"],correct:0,explain:"Key Devonian events: (1) forests of vascular plants (lycopsids, ferns); (2) first seeds (late Devonian); (3) diversification of jawed fishes; (4) evolution of tetrapods — Tiktaalik and Acanthostega show the fish-to-tetrapod transition (jointed fins → limb-like appendages). Ended with the Devonian mass extinction."},
+    {q:"Allopatric speciation requires:",options:["Polyploidy within a single population","Geographic separation preventing gene flow between populations","Strong disruptive selection in sympatry","Hybrid zone formation at a contact zone"],correct:1,explain:"Allopatric speciation requires a vicariance event (barrier formation — mountain uplift, sea level rise, glacier) or founder event (island colonization) that separates populations. Without gene flow, populations diverge independently due to selection, drift, and mutation until they are reproductively isolated."},
+    {q:"Radiometric dating is based on:",options:["Comparing fossil morphology to living relatives","The predictable decay rate of radioactive isotopes","Ocean sediment accumulation rates","Magnetic reversal signatures in rock"],correct:1,explain:"Radiometric dating measures the ratio of parent to daughter isotopes in a sample. Because radioactive decay is exponential with a known half-life, the age can be calculated. Common systems: ²³⁸U→²⁰⁶Pb (half-life 4.47 Ga) for old rocks; ⁴⁰K→⁴⁰Ar; ¹⁴C→¹⁴N (half-life 5,730 yr) for recent organic material."},
+    {q:"What do the 'Big Five' mass extinctions share as a common theme?",options:["All were caused by asteroid impacts","All involved rapid sea level rise only","Rapid environmental change that outpaced evolutionary adaptation","All occurred at exactly equal intervals"],correct:2,explain:"Each mass extinction involved rapid, severe environmental disruption — global cooling, ocean anoxia, acid rain, impact winter, etc. — that eliminated species before they could adapt. The rate of environmental change mattered as much as its magnitude: gradual change allows adaptation, rapid change does not."},
+    {q:"Which of the following represents a postzygotic reproductive barrier?",options:["Temporal isolation between populations","Behavioral isolation via mating calls","Sterility of F1 hybrid offspring","Habitat isolation in the same geographic area"],correct:2,explain:"Postzygotic barriers reduce hybrid fitness after fertilization. Sterile F1 hybrids (e.g., mule = horse × donkey) cannot pass genes to future generations, effectively maintaining species boundaries even if mating occurs. The other examples prevent mating from occurring in the first place (prezygotic)."},
+    {q:"The endosymbiotic origin of mitochondria is supported by:",options:["Mitochondrial DNA sequence similarity to alpha-proteobacteria","The fact that mitochondria form spontaneously from lipids","Mitochondria having the same size as plant nuclei","Mitochondria dividing by mitosis like the host cell"],correct:0,explain:"Evidence for endosymbiosis: (1) mtDNA is circular, like bacterial chromosomes; (2) 16S rRNA sequences place mitochondria within alpha-proteobacteria; (3) mitochondria have their own ribosomes (70S, inhibited by antibiotics like chloramphenicol); (4) binary fission-like division. Chloroplasts similarly derive from cyanobacteria."},
+    {q:"Homo sapiens first appeared during which geological time interval?",options:["Cretaceous (~100 Ma)","Eocene (~50 Ma)","Pleistocene (~300,000 years ago) into the Holocene","Oligocene (~30 Ma)"],correct:2,explain:"Anatomically modern Homo sapiens first appear in the fossil record approximately 300,000 years ago in Africa (e.g., Jebel Irhoud, Morocco). Behavioral modernity (art, complex tools, symbolic thinking) is well documented by ~100,000-50,000 years ago. This places our species firmly in the Pleistocene, with civilization in the Holocene (~11,700 years ago to present)."},
+    {q:"Peripatric speciation most closely resembles which other mode?",options:["Sympatric speciation via polyploidy","Allopatric speciation with strong genetic drift in a tiny peripheral population","Parapatric speciation along a gradient","Secondary contact with no reproductive isolation"],correct:1,explain:"Peripatric speciation (Mayr 1954) is a variant of allopatric speciation where a very small peripheral population (e.g., island colonists) becomes isolated. The small population size amplifies genetic drift and the founder effect, potentially accelerating divergence and reproductive isolation compared to classic allopatry."},
+    {q:"Which statement best describes the concept of 'reproductive isolation'?",options:["Two populations must look morphologically different to be separate species","Two populations are considered separate species when they cannot produce fertile offspring together","Populations that share a geographic range are always one species","Species are defined only by genetic sequence divergence"],correct:1,explain:"The biological species concept (Mayr): species are groups of actually or potentially interbreeding populations that are reproductively isolated from other such groups. Reproductive isolation — not morphology or genetics alone — is the key criterion. Cryptic species (look alike but can't interbreed) and morphospecies (look different but can interbreed) are important complicating cases."}
+  ];
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+  function render(){
+    const grid=document.getElementById('q-grid-'+QID);
+    document.getElementById('q-score-'+QID).classList.remove('visible');
+    const qs=shuffle(BANK).slice(0,N);
+    grid.innerHTML=qs.map((q,i)=>{
+      const opts=shuffle(q.options.map((t,j)=>({t,c:j===q.correct})));
+      return `<div class="quiz-card">
+        <div class="quiz-q-num">Question ${i+1} of ${N}</div>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">${opts.map((o,k)=>`<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}</div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.quiz-options').forEach(wrap=>{
+      wrap.addEventListener('click',e=>{
+        const btn=e.target.closest('.quiz-opt');
+        if(!btn||btn.classList.contains('locked'))return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  function grade(){
+    let correct=0;
+    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
+      const sel=card.querySelector('.quiz-opt.selected');
+      card.querySelectorAll('.quiz-opt').forEach(o=>{
+        o.classList.add('locked');
+        if(o.dataset.c==='true')o.classList.add('opt-correct');
+      });
+      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
+      else card.classList.add('wrong');
+      card.classList.add('revealed');
+    });
+    const scr=document.getElementById('q-score-'+QID);
+    document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
+    const p=correct/N;
+    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 04.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 04 and try again.';
+    scr.classList.add('visible');
+    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('q-new-'+QID).addEventListener('click',render);
+  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
+  render();
+})();
+</script>
 
 </main>
 

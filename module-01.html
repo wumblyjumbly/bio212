@@ -26,6 +26,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
 </nav>
@@ -766,6 +767,107 @@
     </div>
   </div>
 </section>
+
+<!-- ══════ MEGA QUIZ ══════ -->
+<section class="quiz-section reveal" id="module-quiz">
+  <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--violet),var(--teal));color:#080b1a;padding:0.3rem 1rem;">Module 01 Quiz</span></div>
+  <div class="quiz-meta">
+    <p>10 randomly selected questions from a pool of 27 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <div class="quiz-controls">
+      <button class="quiz-btn secondary" id="q-new-qm1">↻ New Questions</button>
+      <button class="quiz-btn" id="q-grade-qm1">Grade Quiz</button>
+    </div>
+  </div>
+  <div class="quiz-score-bar" id="q-score-qm1">
+    <div class="quiz-score-number" id="q-snum-qm1"></div>
+    <div class="quiz-score-label">questions correct</div>
+    <div class="quiz-score-msg" id="q-smsg-qm1"></div>
+  </div>
+  <div class="quiz-grid" id="q-grid-qm1"></div>
+</section>
+<script>
+(function(){
+  const QID='qm1',N=10,L=['A','B','C','D'];
+  const BANK=[
+    {q:"Which of the following is NOT one of the five essential developmental processes?",options:["Cell proliferation","Cell differentiation","Cell senescence","Apoptosis"],correct:2,explain:"The five processes are: proliferation, cell–cell interactions, differentiation, cell movement/morphogenesis, and apoptosis. 'Cell senescence' is not one of them — it is an aging phenomenon, not a core developmental process."},
+    {q:"The central dogma of molecular biology describes information flow as:",options:["Protein → RNA → DNA","DNA → RNA → Protein","RNA → Protein → DNA","DNA → Protein → RNA"],correct:1,explain:"The central dogma states genetic information flows from DNA (via transcription) to RNA, then from RNA (via translation) to protein. Reverse flow is not possible in normal cells."},
+    {q:"Which molecule forms the anterior morphogen gradient in Drosophila?",options:["Nanos","Hunchback","Bicoid","Caudal"],correct:2,explain:"Bicoid protein is translated from maternally deposited mRNA anchored at the anterior pole. It diffuses posteriorly, creating a gradient that activates anterior gap genes (e.g., Hunchback) at high concentrations."},
+    {q:"Hox genes are characterized by which conserved DNA-binding domain?",options:["Zinc finger","TATA box","Homeobox","Leucine zipper"],correct:2,explain:"All Hox genes encode a ~60 amino acid homeodomain (encoded by the homeobox) that folds into a helix-turn-helix structure binding specific DNA sequences to regulate downstream target genes."},
+    {q:"The body axis running from belly to back is called:",options:["Anterior–posterior","Dorsal–ventral","Left–right","Proximal–distal"],correct:1,explain:"The dorsal–ventral (D-V) axis runs from the back (dorsal) to the belly (ventral). The anterior–posterior axis runs head-to-tail."},
+    {q:"A secreted signaling molecule that affects nearby cells describes which type of signaling?",options:["Autocrine","Endocrine","Paracrine","Juxtacrine"],correct:2,explain:"Paracrine signaling involves secreted signals acting on adjacent or nearby cells. Endocrine signals travel long distances through blood; autocrine acts on the secreting cell itself; juxtacrine requires direct membrane contact."},
+    {q:"The transcription factor MyoD converts fibroblasts into which cell type?",options:["Neurons","Chondrocytes","Adipocytes","Skeletal muscle cells"],correct:3,explain:"MyoD is a master regulatory transcription factor for skeletal muscle. Ectopic MyoD expression is sufficient to reprogram fibroblasts (and other cell types) into muscle, demonstrating its role as a developmental 'master switch.'"},
+    {q:"In Drosophila, gap genes are activated by:",options:["Pair-rule gene products","Maternal effect gene products","Segment polarity genes","Hox gene products"],correct:1,explain:"Maternal effect genes (Bicoid, Nanos, Hunchback, Caudal) establish the initial A-P gradient. Gap genes (Krüppel, Knirps, Giant, Hunchback) are the first zygotic genes expressed and respond directly to maternal morphogen concentrations."},
+    {q:"Nanos protein inhibits translation of which mRNA in the posterior of the Drosophila embryo?",options:["Bicoid","Hunchback","Caudal","Gurken"],correct:1,explain:"Nanos (concentrated posteriorly) represses Hunchback mRNA translation in the posterior. This creates a reciprocal gradient: high Hunchback anteriorly (where Nanos is absent), low posteriorly — helping specify abdominal identity."},
+    {q:"Which of the following correctly describes embryonic induction?",options:["One cell undergoes apoptosis to shape adjacent cells","An inducing cell changes the developmental fate of a responding cell","A cell divides asymmetrically to produce two different daughters","A cell migrates to a new location"],correct:1,explain:"Induction is a cell-cell interaction where an inducer releases signals that alter the fate or gene expression of a responding (competent) cell. Classic example: notochord induces overlying ectoderm to become neural plate."},
+    {q:"Neural crest cells undergo which transition to become migratory?",options:["Mesenchymal-to-epithelial (MET)","Epithelial-to-mesenchymal (EMT)","Ectodermal-to-endodermal","Notochordal-to-mesodermal"],correct:1,explain:"Neural crest cells initially form as epithelial cells within the dorsal neural tube. They undergo EMT — losing cell–cell adhesions (E-cadherin down), gaining motility (N-cadherin, integrins up) — to migrate throughout the embryo."},
+    {q:"In segment polarity regulation, engrailed is expressed in the posterior of each parasegment because:",options:["Wingless signals activate it there","Hedgehog signals from adjacent cells stabilize it","It is a maternal gene","Bicoid directly activates it"],correct:1,explain:"Wingless (a Wnt ligand) secreted from anterior cells of each parasegment activates Engrailed in adjacent posterior cells via Frizzled receptors. Engrailed then activates Hedgehog, which maintains Wingless — a stable feedback loop."},
+    {q:"Which axis is established first in Drosophila development?",options:["Left–right","Dorsal–ventral","Anterior–posterior","Proximal–distal"],correct:2,explain:"The anterior–posterior axis is established during oogenesis by the localization of maternal mRNAs (Bicoid at anterior, Nanos/Oskar at posterior). The D-V axis is established somewhat later via the Toll/Dorsal pathway."},
+    {q:"How many Hox gene clusters do mammals have compared to Drosophila's single cluster?",options:["1 (same as Drosophila)","2","4","8"],correct:2,explain:"Two rounds of genome duplication in vertebrate evolution produced 4 Hox clusters (HoxA, HoxB, HoxC, HoxD) in most mammals, compared to Drosophila's single Hox complex (ANT-C + BX-C)."},
+    {q:"A cell's ability to respond to an inductive signal is called:",options:["Determination","Competence","Differentiation","Induction"],correct:1,explain:"Competence is the capacity of a cell to respond to a specific inductive signal. It is conferred by expression of the appropriate receptor and signal transduction machinery. Loss of competence occurs when cells become committed to a fate."},
+    {q:"Apoptosis sculpts the vertebrate hand by:",options:["Pushing digits apart through cell division","Removing interdigital cells between developing fingers","Inducing bone elongation","Triggering neural crest migration"],correct:1,explain:"The interdigital webbing in vertebrate limb buds is removed by programmed cell death (apoptosis). In species that retain webbing (e.g., ducks), apoptosis is suppressed in interdigital zones. BMP signaling promotes apoptosis in these regions."},
+    {q:"Which maternal mRNA is localized to the POSTERIOR pole of the Drosophila egg?",options:["Bicoid","Hunchback","Nanos","Gurken"],correct:2,explain:"Nanos mRNA is anchored at the posterior pole by the Oskar/Staufen machinery. Nanos protein diffuses anteriorly to repress Hunchback translation, helping specify abdominal fate."},
+    {q:"Positional information in development is most often conveyed by:",options:["All-or-nothing binary signals","Morphogen concentration gradients","Electrical signals only","Mechanical forces alone"],correct:1,explain:"Morphogens are signaling molecules whose concentration gradient provides positional information. Cells interpret their position by comparing morphogen concentration to thresholds that activate different sets of target genes."},
+    {q:"The term 'determination' in development means a cell:",options:["Has undergone final differentiation","Is committed to a specific fate even without external signals","Is totipotent","Has lost the ability to divide"],correct:1,explain:"A determined cell is committed to a developmental fate, but may not yet be overtly differentiated. If transplanted, it will develop according to its new (original) fate rather than responding to new environmental cues."},
+    {q:"Pair-rule genes in Drosophila are expressed in:",options:["Every segment","Alternating parasegments","Only the head region","Only the abdomen"],correct:1,explain:"Pair-rule genes (e.g., even-skipped, fushi tarazu) are expressed in 7 alternating stripes — each spanning one parasegment — dividing the embryo into even and odd fates. They are regulated by the combinatorial input of gap genes."},
+    {q:"The Bicoid protein acts as a morphogen at high concentrations to activate which target gene?",options:["Nanos","Caudal","Hunchback","Krüppel"],correct:2,explain:"High concentrations of Bicoid protein in the anterior half of the embryo directly activate Hunchback transcription. Lower concentrations activate other gap genes at different positions, establishing the nested pattern of gap gene expression."},
+    {q:"Which statement about Hox genes is CORRECT?",options:["They are unique to Drosophila","They encode homeodomain transcription factors conserved across animals","They control only dorsal–ventral patterning","They are all expressed simultaneously throughout development"],correct:1,explain:"Hox genes are conserved across all bilaterians — from worms to humans. They encode transcription factors with a conserved 60-aa homeodomain. Their collinear expression along the A-P axis specifies regional identity."},
+    {q:"In Drosophila, the order of Hox genes on the chromosome:",options:["Is random with respect to expression pattern","Matches their spatial expression along the A-P axis (collinearity)","Is opposite to their expression pattern","Has no relationship to body axis patterning"],correct:1,explain:"Collinearity: Hox genes expressed more anteriorly (in the head) are located at the 3' end of the cluster; those expressed more posteriorly are at the 5' end. This physical order is conserved across all studied bilaterian animals."},
+    {q:"Neural crest cells give rise to which of the following structures?",options:["The notochord","Craniofacial bones, peripheral neurons, and melanocytes","The archenteron","Somatic muscle"],correct:1,explain:"Neural crest cells are multipotent and highly migratory. They contribute to craniofacial cartilage/bone, peripheral and enteric nervous system neurons and glia, melanocytes, and cardiac outflow tract — a remarkably diverse set of fates."},
+    {q:"The bicoid mRNA is anchored at the anterior pole of the Drosophila egg by:",options:["Nanos protein","Microtubule-dependent transport via Staufen","A direct interaction with nuclear pores","Posterior complex proteins"],correct:1,explain:"Bicoid mRNA is transported to the anterior during oogenesis via microtubules and remains anchored there by association with Staufen and other proteins. After fertilization, it is translated to produce the Bicoid protein gradient."},
+    {q:"Which process is primarily responsible for building three-dimensional organ structures from flat epithelial sheets?",options:["Cell proliferation","Cell differentiation","Morphogenesis (cell movement and tissue folding)","Apoptosis only"],correct:2,explain:"Morphogenesis involves coordinated cell movements, shape changes (driven by cytoskeleton), changes in adhesion, and tissue folding. Classic examples: neural tube closure, gastrulation movements, heart looping. Proliferation and differentiation provide the cells; morphogenesis shapes them."},
+    {q:"A 'master regulatory transcription factor' can convert one cell type to another. Which pair correctly matches the TF to the cell type it produces?",options:["MyoD → neurons","Ngn2 → muscle","Pax6 → lens/eye","FoxA2 → melanocytes"],correct:2,explain:"Pax6 is a master regulator of eye development — ectopic Pax6 expression in Drosophila wing/leg discs induces ectopic eye formation. Ngn2 → neurons; MyoD → muscle; FoxA2 → liver/pancreatic fates."}
+  ];
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+  function render(){
+    const grid=document.getElementById('q-grid-'+QID);
+    document.getElementById('q-score-'+QID).classList.remove('visible');
+    const qs=shuffle(BANK).slice(0,N);
+    grid.innerHTML=qs.map((q,i)=>{
+      const opts=shuffle(q.options.map((t,j)=>({t,c:j===q.correct})));
+      return `<div class="quiz-card">
+        <div class="quiz-q-num">Question ${i+1} of ${N}</div>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">${opts.map((o,k)=>`<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}</div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.quiz-options').forEach(wrap=>{
+      wrap.addEventListener('click',e=>{
+        const btn=e.target.closest('.quiz-opt');
+        if(!btn||btn.classList.contains('locked'))return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  function grade(){
+    let correct=0;
+    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
+      const sel=card.querySelector('.quiz-opt.selected');
+      card.querySelectorAll('.quiz-opt').forEach(o=>{
+        o.classList.add('locked');
+        if(o.dataset.c==='true')o.classList.add('opt-correct');
+      });
+      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
+      else card.classList.add('wrong');
+      card.classList.add('revealed');
+    });
+    const scr=document.getElementById('q-score-'+QID);
+    document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
+    const p=correct/N;
+    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 01.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 01 and try again.';
+    scr.classList.add('visible');
+    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('q-new-'+QID).addEventListener('click',render);
+  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
+  render();
+})();
+</script>
 
 <!-- FOOTER NAV -->
 <div class="page-footer-nav">

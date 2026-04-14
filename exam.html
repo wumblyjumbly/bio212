@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Exam · BIO 212 · The Living Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ── Exam-page specific styles ── */
+  .exam-hero {
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+  }
+  .exam-hero h1 { font-family: var(--serif); font-size: clamp(2.4rem,6vw,4.2rem); font-weight: 300; line-height: 1.15; margin-bottom: 1rem; }
+  .exam-hero h1 em { color: var(--gold); font-style: italic; }
+  .exam-hero p { color: var(--ink-soft); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem; }
+
+  .exam-controls-bar {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 1rem; justify-content: space-between;
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+  .exam-filter-group {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .filter-pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft); font-size: var(--text-sm);
+    cursor: pointer; transition: all 0.18s;
+    font-family: var(--sans);
+  }
+  .filter-pill:hover { border-color: var(--violet); color: var(--ink); }
+  .filter-pill.active { background: var(--violet); border-color: var(--violet); color: #080b1a; font-weight: 600; }
+  .filter-pill[data-mod="1"].active  { background: var(--teal); border-color: var(--teal); }
+  .filter-pill[data-mod="2"].active  { background: var(--rose); border-color: var(--rose); }
+  .filter-pill[data-mod="3"].active  { background: var(--sky); border-color: var(--sky); }
+  .filter-pill[data-mod="4"].active  { background: var(--gold); border-color: var(--gold); }
+
+  .exam-count-select {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--ink-soft); font-size: var(--text-sm);
+  }
+  .exam-count-select select {
+    background: var(--bg-2); border: 1px solid var(--line);
+    color: var(--ink); border-radius: var(--radius-sm);
+    padding: 0.3rem 0.6rem; font-family: var(--sans);
+    font-size: var(--text-sm); cursor: pointer;
+  }
+
+  .module-tag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.68rem;
+    padding: 0.15rem 0.55rem; border-radius: 4px;
+    margin-bottom: 0.4rem; font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .module-tag.m1 { background: rgba(100,255,218,0.12); color: var(--teal); }
+  .module-tag.m2 { background: rgba(255,110,199,0.12); color: var(--rose); }
+  .module-tag.m3 { background: rgba(125,211,252,0.12); color: var(--sky); }
+  .module-tag.m4 { background: rgba(255,209,102,0.12); color: var(--gold); }
+
+  .exam-progress {
+    font-family: var(--mono); font-size: var(--text-xs);
+    color: var(--ink-dim); margin-bottom: 0.4rem;
+  }
+
+  #exam-summary {
+    display: none;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+  }
+  #exam-summary.visible { display: block; }
+  .exam-score-big {
+    font-family: var(--serif); font-size: 5rem;
+    font-weight: 700; line-height: 1;
+    background: linear-gradient(135deg, var(--teal), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  .exam-score-sub { color: var(--ink-soft); font-size: 1.1rem; margin-bottom: 1rem; }
+  .exam-breakdown {
+    display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .exam-breakdown-item {
+    padding: 0.8rem 1.4rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+  }
+  .exam-breakdown-item strong { font-family: var(--mono); font-size: 1.2rem; display: block; }
+  .exam-breakdown-item.m1 strong { color: var(--teal); }
+  .exam-breakdown-item.m2 strong { color: var(--rose); }
+  .exam-breakdown-item.m3 strong { color: var(--sky); }
+  .exam-breakdown-item.m4 strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- NAV -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="exam-hero">
+  <div class="module-eyebrow">BIO 212 · Cumulative</div>
+  <h1>The <em>Final Exam</em></h1>
+  <p>A randomized repository of 106 exam-quality questions spanning all four modules. Filter by module, choose how many questions to attempt, and test yourself under exam conditions.</p>
+  <div class="hero-tags" style="justify-content:center;">
+    <span class="pill teal">Module 01 · Development</span>
+    <span class="pill" style="border-color:rgba(255,110,199,0.4);color:var(--rose);">Module 02 · Animal Dev</span>
+    <span class="pill" style="border-color:rgba(125,211,252,0.4);color:var(--sky);">Module 03 · Evolution</span>
+    <span class="pill gold">Module 04 · Speciation</span>
+  </div>
+</div>
+
+<main class="container">
+
+<!-- Controls -->
+<div class="exam-controls-bar">
+  <div>
+    <div style="font-size:var(--text-xs);color:var(--ink-dim);margin-bottom:0.5rem;font-family:var(--mono);letter-spacing:0.06em;">FILTER BY MODULE</div>
+    <div class="exam-filter-group">
+      <button class="filter-pill active" data-mod="all">All Modules</button>
+      <button class="filter-pill" data-mod="1">01 · Development</button>
+      <button class="filter-pill" data-mod="2">02 · Animal Dev</button>
+      <button class="filter-pill" data-mod="3">03 · Evolution</button>
+      <button class="filter-pill" data-mod="4">04 · Speciation</button>
+    </div>
+  </div>
+  <div class="exam-count-select">
+    <span>Show</span>
+    <select id="exam-count">
+      <option value="10">10 questions</option>
+      <option value="20">20 questions</option>
+      <option value="30" selected>30 questions</option>
+      <option value="40">40 questions</option>
+      <option value="all">All available</option>
+    </select>
+  </div>
+  <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+    <button class="quiz-btn secondary" id="exam-new">↻ Reshuffle</button>
+    <button class="quiz-btn" id="exam-grade">Grade Exam</button>
+  </div>
+</div>
+
+<!-- Score summary -->
+<div id="exam-summary">
+  <div class="exam-score-big" id="exam-score-big"></div>
+  <div class="exam-score-sub" id="exam-score-sub"></div>
+  <div id="exam-score-msg" style="color:var(--ink-soft);font-size:1rem;"></div>
+  <div class="exam-breakdown" id="exam-breakdown"></div>
+  <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <button class="quiz-btn secondary" id="exam-new-after">↻ New Exam</button>
+  </div>
+</div>
+
+<!-- Question grid -->
+<div class="quiz-grid" id="exam-grid"></div>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">The Living Codex · Final Exam</div>
+    <p>← <a href="module-04.html" style="color:var(--teal);">Module 04</a> &nbsp;·&nbsp; <a href="index.html" style="color:var(--teal);">Back to Home</a></p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+(function(){
+  /* ══════════════════════════════════════════════════
+     FULL QUESTION BANK  — 106 questions across 4 modules
+  ══════════════════════════════════════════════════ */
+  const BANK = [
+
+    /* ─── MODULE 01: Principles of Development ─── */
+    {mod:1,q:"Which of the following is NOT one of the five essential developmental processes?",options:["Cell proliferation","Cell differentiation","Cell senescence","Apoptosis"],correct:2,explain:"The five processes are proliferation, cell–cell interactions, differentiation, cell movement/morphogenesis, and apoptosis. Senescence is an aging phenomenon, not a core developmental process."},
+    {mod:1,q:"The central dogma of molecular biology describes information flow as:",options:["Protein → RNA → DNA","DNA → RNA → Protein","RNA → Protein → DNA","DNA → Protein → RNA"],correct:1,explain:"Transcription converts DNA → RNA; translation converts RNA → Protein. Reverse transcription (RNA → DNA) occurs in retroviruses but not normal cellular processes."},
+    {mod:1,q:"Which molecule forms the anterior morphogen gradient in Drosophila?",options:["Nanos","Hunchback","Bicoid","Caudal"],correct:2,explain:"Bicoid protein diffuses from the anterior pole to create a gradient. High concentrations activate anterior gap genes (Hunchback); lower concentrations activate other patterning genes further posteriorly."},
+    {mod:1,q:"Hox genes are characterized by which conserved DNA-binding domain?",options:["Zinc finger","TATA box","Homeobox","Leucine zipper"],correct:2,explain:"All Hox genes share a ~60 amino acid homeodomain that folds into a helix-turn-helix structure, binding specific DNA sequences to regulate target gene expression."},
+    {mod:1,q:"The dorsal–ventral body axis runs from:",options:["Head to tail","Belly to back","Left side to right side","Core to periphery of limbs"],correct:1,explain:"The dorsal–ventral (D-V) axis runs from the ventral (belly) surface to the dorsal (back) surface. It is perpendicular to the anterior–posterior (head-to-tail) axis."},
+    {mod:1,q:"A secreted signal affecting nearby cells describes which type?",options:["Autocrine","Endocrine","Paracrine","Juxtacrine"],correct:2,explain:"Paracrine signals act locally on adjacent cells via diffusion. Endocrine signals travel via blood; autocrine acts on the secreting cell; juxtacrine requires direct cell–cell contact."},
+    {mod:1,q:"The transcription factor MyoD converts fibroblasts into:",options:["Neurons","Chondrocytes","Adipocytes","Skeletal muscle cells"],correct:3,explain:"MyoD is a master regulatory TF for skeletal muscle. Its ectopic expression is sufficient to reprogram many cell types into muscle, demonstrating how master TFs can rewrite cell identity."},
+    {mod:1,q:"In Drosophila, gap genes are directly activated by:",options:["Pair-rule gene products","Maternal effect gene products (Bicoid, Hunchback)","Segment polarity genes","Hox gene products"],correct:1,explain:"Maternal effect genes establish the initial A-P gradient. Gap genes are the first zygotically expressed patterning genes, responding to maternal morphogen concentrations."},
+    {mod:1,q:"Nanos protein inhibits translation of which mRNA in the Drosophila posterior?",options:["Bicoid","Hunchback","Caudal","Gurken"],correct:1,explain:"Nanos represses Hunchback mRNA translation posteriorly, creating a reciprocal Hunchback gradient (high anterior, low posterior) that is key for abdominal identity specification."},
+    {mod:1,q:"Embryonic induction is best described as:",options:["One cell undergoing apoptosis to signal neighbors","An inducing cell altering the developmental fate of a responding cell","A cell dividing asymmetrically","A cell migrating to a new location"],correct:1,explain:"Induction: an inducing cell releases signals that change gene expression in a competent responding cell. Classic example: notochord induces overlying ectoderm to become neural plate."},
+    {mod:1,q:"Neural crest cells undergo which transition to become migratory?",options:["Mesenchymal-to-epithelial","Epithelial-to-mesenchymal","Ectodermal-to-endodermal","Notochordal-to-mesodermal"],correct:1,explain:"Neural crest cells lose E-cadherin (cell-cell adhesion) and gain N-cadherin/integrins (motility), an EMT that allows them to delaminate from the neural tube and migrate throughout the embryo."},
+    {mod:1,q:"How many Hox gene clusters do mammals have versus Drosophila?",options:["1 (same as Drosophila)","2","4","8"],correct:2,explain:"Two rounds of genome duplication in vertebrate evolution produced 4 Hox clusters (HoxA, B, C, D) in mammals, compared to Drosophila's single complex."},
+    {mod:1,q:"A cell's ability to respond to an inductive signal is called:",options:["Determination","Competence","Differentiation","Induction"],correct:1,explain:"Competence is the transient capacity of a cell to respond to a specific signal, dependent on expressing appropriate receptors and signal-transduction components."},
+    {mod:1,q:"Apoptosis shapes the vertebrate hand by:",options:["Pushing digits apart through growth","Removing interdigital cells","Inducing bone elongation","Triggering neural crest migration"],correct:1,explain:"BMP signaling triggers apoptosis in interdigital webbing. Species-specific differences in digit number arise from variation in apoptosis patterns in the limb bud."},
+    {mod:1,q:"Pair-rule genes in Drosophila are expressed in:",options:["Every segment","7 alternating stripes (one per parasegment)","Only the head","Only the abdomen"],correct:1,explain:"Pair-rule genes (even-skipped, fushi tarazu, hairy) are expressed in 7 stripes, each one parasegment wide. They subdivide the embryo into even and odd fates, essential for segment polarity patterning."},
+    {mod:1,q:"The Bicoid protein activates Hunchback transcription at what concentrations?",options:["Low, in the posterior half","High, in the anterior half","Uniformly throughout the embryo","Only in the dorsal ectoderm"],correct:1,explain:"High concentrations of Bicoid in the anterior half of the embryo directly bind Hunchback regulatory sequences and activate transcription. Different gap genes respond to different Bicoid concentration thresholds."},
+    {mod:1,q:"Which statement about Hox gene collinearity is CORRECT?",options:["Genes expressed anteriorly are located 5' on the chromosome","Genes expressed anteriorly are located 3' on the chromosome","Hox gene order has no relationship to expression pattern","Collinearity is unique to mammals"],correct:1,explain:"Spatial collinearity: Hox genes expressed more anteriorly are located 3' (downstream) of those expressed posteriorly. This organization is conserved in all bilaterians studied."},
+    {mod:1,q:"Determination differs from differentiation in that:",options:["Determination is visible morphologically; differentiation is not","Determination is a commitment to fate (not yet visible); differentiation is the overt expression of that fate","Differentiation precedes determination","They mean the same thing"],correct:1,explain:"A determined cell is committed to a fate (demonstrated by transplantation experiments) but may look identical to neighboring cells. Differentiation is the subsequent activation of cell-type-specific genes producing distinct morphology and function."},
+    {mod:1,q:"Which molecule is localized to the posterior of the Drosophila egg and establishes posterior fate?",options:["Bicoid","Hunchback","Nanos","Dorsal"],correct:2,explain:"Nanos mRNA is anchored at the posterior pole by the Oskar/Staufen complex. Nanos protein diffuses anteriorly, repressing Hunchback mRNA translation and thereby allowing posterior/abdominal fate genes to be expressed."},
+    {mod:1,q:"Neural crest cells contribute to which of the following structures?",options:["The notochord","Craniofacial cartilage, peripheral neurons, and melanocytes","The archenteron","Cardiac ventricle wall muscle"],correct:1,explain:"Neural crest cells are multipotent: they generate craniofacial bone/cartilage, peripheral and enteric nervous system glia and neurons, melanocytes, and the cardiac outflow tract — sometimes called the 'fourth germ layer.'"},
+    {mod:1,q:"A 'master regulatory transcription factor' is one that:",options:["Encodes structural proteins directly","When expressed, is sufficient to specify a new cell identity program","Activates every gene in the genome","Is expressed only in stem cells"],correct:1,explain:"Master TFs (MyoD for muscle, Ngn2 for neurons, Pax6 for eye) are sufficient to activate an entire cell identity program, including downstream cascades, when ectopically expressed. They typically bind enhancers of hundreds of target genes."},
+    {mod:1,q:"The principle of 'positional information' (Wolpert) states that:",options:["Cells have an intrinsic clock that determines their fate","Cells interpret their position in a morphogen gradient to acquire appropriate fates","All cells in an embryo are initially equivalent","Positional cues only operate along the A-P axis"],correct:1,explain:"Lewis Wolpert's 'French flag model' (1969) proposed that cells read their position from morphogen concentration and respond with appropriate gene expression. This concept underpins how gradients like Bicoid generate patterned gene expression across the embryo."},
+    {mod:1,q:"Segment polarity genes maintain parasegment boundaries via:",options:["Direct activation by Bicoid","A stable intercellular signaling feedback loop (Wingless–Engrailed–Hedgehog)","Degradation of gap gene products","Autonomous cell-autonomous regulation only"],correct:1,explain:"Wingless (Wnt) secreted from anterior cells of each parasegment activates Engrailed in adjacent posterior cells. Engrailed activates Hedgehog, which maintains Wingless expression — a stable positive feedback loop that locks in parasegment boundaries."},
+    {mod:1,q:"Which statement about bicoid mRNA localization is CORRECT?",options:["It is translated in the nurse cells and protein is transported","The mRNA is transported anteriorly along microtubules during oogenesis","It is localized by actin filaments at the posterior","It becomes uniformly distributed after fertilization"],correct:1,explain:"Bicoid mRNA is synthesized in nurse cells, then transported via microtubules and Dynein motors to the anterior of the developing oocyte, where it is anchored by Staufen and Exuperantia proteins. After fertilization, ribosomes translate it in place."},
+    {mod:1,q:"Morphogenesis primarily involves:",options:["Increasing cell number","Cells acquiring distinct gene expression profiles","Coordinated cell movements, shape changes, and tissue folding","Apoptosis only"],correct:2,explain:"Morphogenesis (Greek: shape formation) encompasses all the mechanical and movement-based processes that shape embryos: convergent extension, tissue folding, invagination, migration, and differential growth driven by cytoskeletal forces."},
+    {mod:1,q:"Bicoid is an example of a transcription factor that also functions as a:",options:["Structural protein","Morphogen (provides graded positional information)","Cell adhesion molecule","Receptor kinase"],correct:1,explain:"Bicoid is both a transcription factor (homeodomain) and a morphogen — its graded concentration provides positional information that specifies different fates at different A-P positions. This dual function makes it a paradigm in developmental biology."},
+    {mod:1,q:"The maternal-to-zygotic transition (MZT) refers to:",options:["The transition from oocyte to fertilized egg","The switch from relying on maternally deposited mRNAs to newly transcribed zygotic mRNAs","The conversion of maternal genes to paternal gene expression","The start of organogenesis"],correct:1,explain:"During early cleavage, the embryo relies on maternally deposited mRNAs and proteins. At the MZT (varies by species: 8-cell in humans, blastoderm in Drosophila), the embryonic genome is activated and begins directing development. This is a critical transition — failures cause developmental arrest."},
+
+    /* ─── MODULE 02: Animal Development ─── */
+    {mod:2,q:"Which glycoprotein in the human zona pellucida is the primary sperm receptor?",options:["ZP1","ZP2","ZP3","Vitelline envelope EBR1"],correct:2,explain:"ZP3's O-linked oligosaccharides bind species-specific sperm receptors, initiating the acrosome reaction. ZP1 cross-links ZP2/ZP3 structurally; ZP2 acts as a secondary receptor after the acrosome reaction."},
+    {mod:2,q:"The zona pellucida is best described as:",options:["A jelly coat unique to sea urchins","An extracellular glycoprotein matrix surrounding mammalian oocytes","The outer plasma membrane of the oocyte","A structure only present after fertilization"],correct:1,explain:"The zona pellucida is a thick (~13 μm) extracellular glycoprotein shell surrounding mammalian oocytes and early embryos, composed of ZP1, ZP2, and ZP3 glycoproteins."},
+    {mod:2,q:"The cortical reaction prevents polyspermy by:",options:["Releasing ATP to repel sperm","Releasing cortical granule enzymes that harden the zona pellucida","Depolarizing the sperm membrane","Inducing apoptosis in approaching sperm"],correct:1,explain:"Cortical granule exocytosis releases ovastacin (cleaves ZP2) and other enzymes that cross-link ZP1/ZP3 and harden the zona into an impenetrable fertilization envelope, blocking additional sperm."},
+    {mod:2,q:"Mammalian embryos undergo which type of cleavage?",options:["Holoblastic equal","Discoidal meroblastic","Holoblastic unequal","Superficial meroblastic"],correct:0,explain:"Mammalian eggs are nearly yolk-free (isolecithal), so cleavage is holoblastic (the entire egg divides) and approximately equal (each blastomere is similar in size)."},
+    {mod:2,q:"The blastocoel is:",options:["The cavity that becomes the gut","The fluid-filled cavity within the blastula","The site where mesoderm ingresses","A layer of trophoblast"],correct:1,explain:"The blastocoel is the fluid-filled central cavity of the blastula. In the mammalian blastocyst, it is flanked by the trophoblast and the inner cell mass."},
+    {mod:2,q:"During gastrulation, cells that ingress through the primitive streak form:",options:["Ectoderm only","Mesoderm and endoderm","Ectoderm and trophoblast","Neural plate and neural crest"],correct:1,explain:"Epiblast cells migrate through the primitive streak to form mesoderm (middle layer) and displace the hypoblast to form definitive endoderm. Remaining epiblast becomes ectoderm."},
+    {mod:2,q:"The notochord is derived from:",options:["Ectoderm","Endoderm","Chordamesoderm (axial mesoderm)","Trophectoderm"],correct:2,explain:"The notochord arises from chordamesoderm that ingresses through the primitive node during gastrulation. It induces the overlying ectoderm to form the neural plate and provides Shh for ventral patterning."},
+    {mod:2,q:"Primary neurulation involves:",options:["Condensation of neural crest mesenchyme","The neural plate folding and fusing to form the neural tube","Secondary induction of brain vesicles","Formation of notochord from ectoderm"],correct:1,explain:"In primary neurulation, the neural plate (thickened dorsal ectoderm) undergoes folding at the midline, with neural folds rising and fusing to form the hollow neural tube. Failure causes neural tube defects."},
+    {mod:2,q:"Sonic Hedgehog (Shh) from the notochord establishes which aspect of neural tube identity?",options:["Dorsal interneurons","Roof plate","Ventral cell types (floor plate, motor neurons, V interneurons)","Only the cerebral cortex"],correct:2,explain:"Shh from the notochord and floor plate it induces creates a ventral-to-dorsal gradient. Progressively lower Shh concentrations specify: floor plate → V3 interneurons → motor neurons → V2/V1/V0 → dorsal interneurons (BMP-specified)."},
+    {mod:2,q:"BMP signals from the dorsal ectoderm of the neural tube specify:",options:["Motor neurons and floor plate","Roof plate and dorsal interneurons (dI1–dI6)","V0 and V1 interneurons","Notochord identity"],correct:1,explain:"BMP (from roof plate and overlying ectoderm) and Wnt signals specify dorsal neural tube identity — roof plate cells and dorsal interneuron classes dI1-dI6. BMP and Shh form opposing ventral–dorsal gradients."},
+    {mod:2,q:"The segmentation clock involves oscillating activity in:",options:["Wnt, Notch, and FGF pathways","Shh, BMP, and Retinoic Acid","FGF, BMP, and EGF","PI3K, MAPK, and PKA"],correct:0,explain:"The segmentation clock uses coupled oscillations in Notch (Lunatic fringe), Wnt, and FGF pathway gene expression. These sweep anteriorly as a wave; each oscillation corresponds to one somite pair forming at the determination front."},
+    {mod:2,q:"Wnt signals from the dorsal neural tube specify somite cells toward:",options:["Sclerotome","Dermomyotome","Lateral plate mesoderm","Neural crest fate"],correct:1,explain:"Wnt from the dorsal neural tube and surface ectoderm promotes dermomyotome identity in the dorsal somite. Dermomyotome precursors form all trunk and limb skeletal muscle, and the dermis of the back."},
+    {mod:2,q:"Shh from notochord/floor plate directs ventral somite cells toward:",options:["Dermomyotome","Neural crest","Sclerotome","Heart muscle"],correct:2,explain:"Shh promotes sclerotome identity in the ventral somite. Sclerotome cells migrate medially to surround the notochord and neural tube, condensing into cartilage and bone to form vertebrae and ribs."},
+    {mod:2,q:"The human oocyte at ovulation is arrested at:",options:["Prophase I","Metaphase II","Anaphase II","Telophase I"],correct:1,explain:"Mammalian oocytes are arrested at metaphase II at ovulation. Fertilization triggers completion of meiosis II and extrusion of the second polar body. The oocyte was arrested at prophase I in the fetal ovary."},
+    {mod:2,q:"The perivitelline space is located:",options:["Outside the zona pellucida","Between the zona pellucida and plasma membrane","Inside the germinal vesicle","Between zona pellucida layers"],correct:1,explain:"The perivitelline space is the fluid-filled gap between the zona pellucida and the oocyte plasma membrane. Cortical granule contents are exocytosed into this space during the cortical reaction."},
+    {mod:2,q:"Isolecithal eggs (like mammalian eggs) undergo:",options:["Meroblastic discoidal cleavage","Holoblastic equal cleavage","Holoblastic unequal cleavage","Superficial cleavage"],correct:1,explain:"Isolecithal = yolk evenly distributed and sparse. No yolk impediment to cleavage → the whole egg divides (holoblastic) and cells are roughly equal in size (equal cleavage)."},
+    {mod:2,q:"Sclerotome cells give rise to:",options:["Skeletal muscle and dermis","Vertebrae and ribs","Cardiac muscle","Blood vessels"],correct:1,explain:"Sclerotome (ventromedial somite compartment) cells migrate to surround the notochord and neural tube, differentiating into chondrocytes and osteoblasts that build the vertebral column and ribs."},
+    {mod:2,q:"The archenteron becomes:",options:["The neural tube","The digestive tract","The notochord","The blastocoel"],correct:1,explain:"The archenteron (formed by invagination of the vegetal plate during gastrulation in organisms like sea urchins) is the primitive gut cavity that gives rise to the digestive system lining."},
+    {mod:2,q:"Spina bifida results from:",options:["Failure of the cortical reaction","Incomplete posterior neural tube closure","Absence of somite formation","Excess BMP in dorsal somite"],correct:1,explain:"Spina bifida results when the posterior neuropore fails to close during primary neurulation (~day 26-28 in humans), leaving spinal cord tissue exposed. Folic acid supplementation significantly reduces risk."},
+    {mod:2,q:"Chordin and Noggin promote neural induction by:",options:["Directly activating Pax6 expression","Antagonizing BMP signals in the dorsal ectoderm","Enhancing FGF signaling in the notochord","Activating Shh in the floor plate"],correct:1,explain:"The default fate of ectoderm is neural in amphibians (Holtfreter). BMP signaling promotes epidermal fate; Chordin and Noggin from the Spemann organizer block BMP, allowing neural fate to be expressed in organizer-induced ectoderm."},
+    {mod:2,q:"The determination front in somitogenesis is set by opposing gradients of:",options:["Shh (anterior) and BMP (posterior)","FGF/Wnt (high posterior) and Retinoic acid (high anterior)","Bicoid (anterior) and Nanos (posterior)","BMP (anterior) and Shh (posterior)"],correct:1,explain:"FGF8 and Wnt3a are produced by the tailbud, declining anteriorly. Retinoic acid is produced anteriorly by already-formed somites, declining posteriorly. Where these gradients intersect = the determination front, where somite boundary formation is triggered each oscillation cycle."},
+    {mod:2,q:"The approximate rate of human somite formation is:",options:["Every 15 minutes","Every 90 minutes","Every 6 hours","Every 24 hours"],correct:2,explain:"Humans form one somite pair approximately every 6 hours (clock period ~6h). Compare: mice ~90 min, snakes ~6h. The clock period scales with developmental speed and the number of vertebrae the organism will form."},
+    {mod:2,q:"The inner cell mass (ICM) of the blastocyst gives rise to:",options:["Placenta only","Embryo proper (all three germ layers)","Both embryo and placenta equally","The trophoblast"],correct:1,explain:"The ICM (epiblast) gives rise to the three primary germ layers of the embryo proper. The trophoblast (surrounding cell layer) forms placenta and extraembryonic membranes. This first lineage segregation occurs at the 32-64 cell stage."},
+    {mod:2,q:"Correct order of early vertebrate development:",options:["Gastrulation → Fertilization → Cleavage → Neurulation","Fertilization → Cleavage → Gastrulation → Neurulation","Cleavage → Fertilization → Neurulation → Gastrulation","Fertilization → Gastrulation → Cleavage → Neurulation"],correct:1,explain:"Fertilization → Cleavage (rapid mitoses, no growth) → Blastula → Gastrulation (3 germ layers) → Neurulation (neural tube) → Organogenesis."},
+    {mod:2,q:"ZP3 functions primarily as:",options:["A structural scaffold only","The primary sperm receptor triggering the acrosome reaction","An inhibitor of meiosis resumption","A nutrient source for the embryo"],correct:1,explain:"ZP3 O-linked carbohydrates bind ZP3 receptor on the sperm head (e.g., SED1, ZP3R), triggering exocytosis of the acrosome — releasing hyaluronidase, acrosin, and other enzymes needed to penetrate the zona."},
+    {mod:2,q:"The three primary germ layers at the end of gastrulation are:",options:["Ectoderm, mesoderm, notochord","Ectoderm, mesoderm, endoderm","Ectoderm, endoderm, trophectoderm","Mesoderm, endoderm, neural crest"],correct:1,explain:"Gastrulation produces ectoderm (outer layer → nervous system, skin), mesoderm (middle → muscle, bone, blood, kidney), and endoderm (inner → gut, lung, liver). The neural crest derives from ectoderm subsequently."},
+
+    /* ─── MODULE 03: Evolutionary Processes ─── */
+    {mod:3,q:"Hardy-Weinberg equilibrium requires:",options:["Small population with high mutation","Large random-mating population with no selection, mutation, drift, or migration","Non-random mating in any population","Genetic drift in small populations"],correct:1,explain:"H-W conditions: large population (no drift), random mating, no natural selection, no mutation, no gene flow. Violation of any single condition causes allele frequencies to change — evolution is occurring."},
+    {mod:3,q:"With p = 0.6, the Hardy-Weinberg frequency of heterozygotes is:",options:["0.36","0.48","0.16","0.64"],correct:1,explain:"2pq = 2 × 0.6 × 0.4 = 0.48. Remember: p² + 2pq + q² = 1 → 0.36 + 0.48 + 0.16 = 1.0 ✓"},
+    {mod:3,q:"Stabilizing selection favors:",options:["Extreme phenotypes","The intermediate phenotype, removing extremes","Only the smallest phenotype","Increased phenotypic variance"],correct:1,explain:"Stabilizing selection favors intermediate phenotypes and removes both extremes, reducing population variance over time. Classic example: human birth weight — both very small and very large babies have higher mortality."},
+    {mod:3,q:"Genetic drift has the greatest effect in:",options:["Large, stable populations","Small, isolated populations","Populations under strong directional selection","Populations with high gene flow"],correct:1,explain:"Drift variance = p(1-p)/2N. As N decreases, sampling error increases. In very small populations, even strongly deleterious alleles can drift to fixation, and advantageous alleles can be lost by chance."},
+    {mod:3,q:"Gene flow between populations tends to:",options:["Increase genetic differentiation between them","Reduce genetic differentiation between them","Have no effect on allele frequencies","Only affect recessive alleles"],correct:1,explain:"Gene flow homogenizes allele frequencies between populations. High gene flow keeps populations similar; reduced/absent gene flow allows divergence that may eventually lead to speciation."},
+    {mod:3,q:"The bottleneck effect is a form of:",options:["Natural selection","Genetic drift","Gene flow","Mutation"],correct:1,explain:"A bottleneck reduces population size dramatically, with survivors carrying a random (non-representative) subset of the original gene pool. The resulting loss of diversity and changed allele frequencies are due to chance — genetic drift."},
+    {mod:3,q:"Disruptive selection favors:",options:["The average phenotype","Both extreme phenotypes simultaneously","Only the largest extreme","Phenotypes with highest heterozygosity"],correct:1,explain:"Disruptive selection simultaneously favors both extremes of a distribution and reduces the frequency of intermediate phenotypes. It can drive a population toward bimodality and potentially sympatric speciation."},
+    {mod:3,q:"In p² + 2pq + q² = 1, the term 2pq represents:",options:["Frequency of homozygous dominant","Frequency of homozygous recessive","Frequency of heterozygotes","Sum of allele frequencies"],correct:2,explain:"p² = freq(AA); q² = freq(aa); 2pq = freq(Aa). This is the binomial expansion of (p+q)² = 1. Heterozygote frequency peaks at p = q = 0.5, giving 2pq = 0.5."},
+    {mod:3,q:"The elephant seal population bottleneck illustrates:",options:["Non-random mating","Mutation","Genetic drift — extreme loss of diversity from tiny founding population","Strong directional selection"],correct:2,explain:"Hunted to ~20 animals in the 1890s, elephant seals recovered to ~200,000 but are nearly genetically identical. The drastic reduction constituted a bottleneck; surviving allele composition was determined by chance, not fitness."},
+    {mod:3,q:"Directional selection shifts the phenotypic distribution toward:",options:["A stable equilibrium between two alleles","One end of the distribution","The mean phenotype","Increased variation"],correct:1,explain:"Directional selection consistently favors individuals at one extreme (e.g., larger size, faster speed, antibiotic resistance), causing mean phenotype to shift progressively over generations in one direction."},
+    {mod:3,q:"The founder effect occurs when:",options:["A large population faces a new pathogen","A small colonizing group carries limited alleles from the source population","Two populations merge","Selection removes all variation"],correct:1,explain:"The founder effect is genetic drift resulting from colonization of a new habitat by a small founding group. Allele frequencies in the new population reflect the random sample of founders, not the source population's frequencies."},
+    {mod:3,q:"Evolutionary fitness is best defined as:",options:["Physical strength","Survival probability to adulthood","Relative reproductive success (contribution of alleles to the next generation)","Resistance to disease"],correct:2,explain:"Fitness is the relative reproductive success — specifically, the average number of offspring (or alleles) an individual contributes relative to others. A phenotypically strong organism that leaves no offspring has zero fitness."},
+    {mod:3,q:"Sexual selection can drive evolution of survival-costly traits because:",options:["Evolution always maximizes survival","Reproductive success can outweigh survival costs (Fisher's runaway, honest signal models)","Large populations eliminate costly traits","Random mutation favors ornament"],correct:1,explain:"In Fisher's runaway model, female preference for a trait (even arbitrary) can drive its evolution if 'sexy sons' carrying the trait leave more offspring. In honest signal models, costly ornaments reliably indicate true quality."},
+    {mod:3,q:"Positive assortative mating (like mates with like) causes:",options:["Allele frequency change without genotype frequency change","Increased homozygosity beyond H-W prediction, without changing allele frequencies","Complete elimination of rare alleles","No departure from H-W equilibrium"],correct:1,explain:"Non-random mating changes genotype frequencies (inbreeding/assortative mating increase homozygosity; outbreeding increases heterozygosity) but does NOT directly change allele frequencies. It violates H-W genotype predictions despite stable allele frequencies."},
+    {mod:3,q:"Allele fixation means:",options:["A balanced polymorphism is maintained","An allele has reached frequency 1.0; all others at that locus are lost","Genetic drift has stopped","Selection has reached equilibrium"],correct:1,explain:"Fixation = an allele reaches 100% frequency; all alternative alleles are eliminated. Average time to fixation for a neutral allele by drift = 4Ne generations. For a strongly advantageous allele, fixation is faster and more predictable."},
+    {mod:3,q:"Heterozygote advantage (overdominance) maintains a polymorphism because:",options:["It fixes the most common allele","Heterozygotes have highest fitness — neither allele can be eliminated when rare","Only recessive alleles are favored","Selection cannot act on heterozygotes"],correct:1,explain:"When Aa fitness > AA and aa, selection increases frequency of whichever allele is rarer (because it will predominantly be found in heterozygotes). This creates a stable equilibrium where both alleles are maintained."},
+    {mod:3,q:"HbA/HbS heterozygotes have high fitness in malaria-endemic regions because:",options:["They are fully immune to malaria","They balance partial malaria resistance against a mild sickling phenotype","HbS carries more oxygen than HbA","Selection cannot distinguish heterozygotes here"],correct:1,explain:"Sickle-cell trait (HbA/HbS) provides partial protection from P. falciparum malaria while causing little or no disease in most conditions. This heterozygote advantage maintains the HbS allele at ~10-30% frequency in malaria-endemic Africa."},
+    {mod:3,q:"Genetic drift differs from natural selection in that:",options:["Drift is directional; selection is random","Drift is stochastic (random); selection is deterministic (fitness-based)","Drift only affects dominant alleles","Selection has no effect in small populations"],correct:1,explain:"Selection is deterministic: higher-fitness alleles consistently increase in frequency across generations. Drift is stochastic: allele frequency changes are random, with direction unpredictable. Both operate together; in small populations drift can overwhelm selection."},
+    {mod:3,q:"In a H-W population with p = 0.3, the frequency of recessive homozygotes (q²) is:",options:["0.49","0.09","0.42","0.21"],correct:0,explain:"q = 1 − 0.3 = 0.7. q² = 0.49. This shows that with q = 0.7, nearly half the population are recessive homozygotes — the dominant allele is actually the rarer one in this example despite being 'dominant.'"},
+    {mod:3,q:"Island populations typically show less genetic diversity because of:",options:["Higher island mutation rates","Founder effects and ongoing drift in small populations","Stronger selection on islands","Greater gene flow between islands"],correct:1,explain:"Island colonization by small founder groups → founder effect. Small island population sizes → ongoing drift. Reduced immigration from mainland → maintains reduced diversity. This explains why island species often have high rates of fixation of potentially deleterious alleles."},
+    {mod:3,q:"Stabilizing selection on human birth weight acts against:",options:["Average birth weight","Heterozygotes at birth-weight loci","Extreme phenotypes (very low and very high birth weights)","The most common birth weight"],correct:2,explain:"Very low birth weight → underdeveloped lungs, thermoregulation issues. Very high birth weight → difficult delivery, maternal/fetal complications. Intermediate weight (~3.4 kg) has highest survival. This has been one of the best-documented examples of stabilizing selection in humans."},
+    {mod:3,q:"A new advantageous mutation's frequency will:",options:["Jump to fixation in one generation","Gradually increase over many generations, surviving initial drift by chance","Remain neutral since new mutations are always neutral","Be immediately eliminated as it is initially in a single copy"],correct:1,explain:"A new mutation starts at frequency 1/(2N). Even if strongly advantageous (s), it has a chance of being lost to drift when rare (~1-2s probability of eventual fixation). If it survives, selection gradually increases its frequency over many generations."},
+    {mod:3,q:"The ultimate source of new alleles in a population is:",options:["Natural selection","Genetic drift","Mutation","Non-random mating"],correct:2,explain:"Mutation is the only process that creates novel alleles. Recombination reshuffles existing alleles; selection, drift, and gene flow only change frequencies of existing alleles."},
+    {mod:3,q:"In 1000 individuals (360 AA, 480 Aa, 160 aa), the frequency of allele a is:",options:["0.4","0.6","0.16","0.48"],correct:0,explain:"Total alleles = 2000. a alleles = (2×160) + 480 = 800. q = 800/2000 = 0.4. Verify H-W: p=0.6, q=0.4 → expected 360 AA, 480 Aa, 160 aa — matches perfectly! This population is in H-W equilibrium."},
+    {mod:3,q:"A selective sweep reduces genetic diversity near a selected locus because:",options:["Selection removes all variation genome-wide","The selected allele drags linked neutral variants to high frequency (hitchhiking)","Mutation rates decrease near selected loci","Recombination is suppressed throughout the genome"],correct:1,explain:"When an advantageous allele sweeps rapidly to fixation, linked neutral variants on the same haplotype also increase in frequency — 'genetic hitchhiking.' This creates a characteristic signature: reduced diversity (selective sweep valley) flanking the selected site."},
+    {mod:3,q:"Effective population size (Ne) primarily controls the rate of:",options:["Mutation","Genetic drift (and neutral allele fixation)","Gene flow","Recombination"],correct:1,explain:"Ne is inversely related to drift rate. Average time to fixation for a neutral allele = 4Ne generations. Historical bottlenecks, sex ratio skew, and variance in reproductive success all reduce Ne below census size N."},
+
+    /* ─── MODULE 04: Speciation & History of Life ─── */
+    {mod:4,q:"Which type of speciation requires geographic separation?",options:["Sympatric","Allopatric","Parapatric","Peripatric (only if populations are large)"],correct:1,explain:"Allopatric speciation requires a geographic barrier preventing gene flow. Isolated populations diverge independently until reproductive isolation evolves. This is likely the most common mode of speciation."},
+    {mod:4,q:"Reproductive barriers preventing mating or fertilization are called:",options:["Postzygotic barriers","Hybrid inviability","Prezygotic barriers","Only mechanical isolation"],correct:2,explain:"Prezygotic barriers include habitat, temporal, behavioral, mechanical, and gametic isolation — all prevent zygote formation. Postzygotic barriers (inviability, sterility, breakdown) reduce hybrid fitness after fertilization."},
+    {mod:4,q:"The Phanerozoic Eon extends from approximately:",options:["4.5 Ga to 2.5 Ga","2.5 Ga to 541 Ma","541 Ma to present","66 Ma to present"],correct:2,explain:"The Phanerozoic ('visible life') began with the Cambrian explosion ~541 Ma and continues to present. It comprises the Paleozoic, Mesozoic, and Cenozoic eras. The preceding Precambrian represents ~87% of Earth's history."},
+    {mod:4,q:"The Cambrian explosion (~541 Ma) represents:",options:["Earth's formation","Rapid appearance of most major animal body plans","A mass extinction event","First photosynthetic organisms"],correct:1,explain:"In ~25 million years during the Cambrian, most extant animal phyla appear in the fossil record. Proposed causes: rising oxygen, Hox gene expansion enabling new body plans, ecological interactions (arms races), and changes in ocean chemistry."},
+    {mod:4,q:"Temporal isolation is an example of which type of reproductive barrier?",options:["Postzygotic","Prezygotic","Hybrid breakdown","Gametic isolation"],correct:1,explain:"Temporal isolation (populations breed at different times — seasons or times of day) prevents mating, so it is prezygotic. Examples: spring vs. fall breeding in salamanders; nocturnal vs. diurnal mating in insects."},
+    {mod:4,q:"The Great Oxidation Event (~2.4 Ga) was caused by:",options:["Massive volcanic outgassing","Oxygenic photosynthesis by cyanobacteria","An asteroid impact","Plate tectonic rifting"],correct:1,explain:"Cyanobacterial photosynthesis split water, releasing O₂ as a byproduct. For ~200 Ma, oxygen was absorbed by dissolved iron (forming banded iron formations). When iron sinks were exhausted, free O₂ accumulated in the atmosphere, revolutionizing Earth's chemistry."},
+    {mod:4,q:"The largest mass extinction in Earth's history (~96% marine species) was the:",options:["End-Ordovician (~443 Ma)","End-Devonian (~374 Ma)","End-Permian P-T event (~252 Ma)","End-Cretaceous K-Pg (~66 Ma)"],correct:2,explain:"The Permian-Triassic extinction eliminated 96% of marine species and ~70% of terrestrial vertebrates. Causes: massive Siberian Trap volcanism causing anoxia, acidification, and temperature extremes. Recovery took ~10 million years — the longest of any extinction."},
+    {mod:4,q:"The K-Pg extinction (~66 Ma) is most directly attributed to:",options:["Severe glaciation","Deccan Trap volcanism alone","Chicxulub asteroid impact and global environmental aftermath","Sea level regression only"],correct:2,explain:"The Chicxulub impactor (10-15 km) produced impact winter, acid rain, wildfires, and later greenhouse warming. ~75% of species went extinct. The Deccan Traps (concurrent volcanism) may have stressed ecosystems, but the impact is the primary driver."},
+    {mod:4,q:"Sympatric speciation most commonly occurs via:",options:["Geographic isolation","Allopolyploidy or strong disruptive selection + assortative mating within a population","Founder effect","Allopatric isolation with secondary contact"],correct:1,explain:"The best-documented sympatric speciation involves allopolyploidy in plants (instant reproductive isolation: hybrids cannot mate with either parent) and host-race formation (e.g., apple vs. hawthorn in apple maggot flies). Both occur without geographic barriers."},
+    {mod:4,q:"Fossils preferentially preserve organisms with:",options:["Small soft bodies and complex behavior","Hard mineralized parts (shells, bones, teeth)","Terrestrial mountain habitats","Low population abundance"],correct:1,explain:"Hard parts are resistant to decay and susceptible to mineralization. This creates systematic bias: shelled marine invertebrates are overrepresented; soft-bodied terrestrial organisms are severely underrepresented."},
+    {mod:4,q:"The geological time scale is calibrated by:",options:["Gravitational wave measurements","Fossil succession combined with radiometric dating","Ocean sediment depth alone","Magnetic reversal timing only"],correct:1,explain:"Relative time scale: fossil succession (William Smith — younger strata contain progressively different fossils). Absolute time scale: radiometric dating provides numerical ages. Combined, they give the calibrated geological time scale."},
+    {mod:4,q:"The Mesozoic Era (252-66 Ma) is characterized by:",options:["Age of Mammals","Age of Reptiles (dinosaurs, pterosaurs, marine reptiles)","Age of Fishes","Age of Amphibians"],correct:1,explain:"The Mesozoic comprises Triassic, Jurassic, and Cretaceous periods, dominated by non-avian dinosaurs, pterosaurs, plesiosaurs, ichthyosaurs, and early mammals (small, nocturnal). It ends with the K-Pg mass extinction."},
+    {mod:4,q:"Polyploidy as a speciation mechanism is most common in:",options:["Marine mammals","Birds","Plants","Social insects"],correct:2,explain:"Allopolyploidy (hybridization + chromosome doubling) causes instant reproductive isolation. Many crop plants are allopolyploids: wheat (6n), cotton (4n), tobacco (4n). Polyploidy is extremely rare in animals due to sex determination disruption."},
+    {mod:4,q:"The fossil record is most complete for organisms living in:",options:["Terrestrial mountains","Shallow marine sedimentary environments","Tropical rainforests","Arid deserts"],correct:1,explain:"Shallow marine environments have: rapid burial, continuous sedimentation, anoxic preservation potential, and chemical conditions favoring mineralization. The vast majority of described fossil taxa come from marine sedimentary rock."},
+    {mod:4,q:"Hybrid sterility (e.g., mule = horse × donkey) is an example of:",options:["Prezygotic habitat isolation","Prezygotic behavioral isolation","Postzygotic reproductive isolation","Temporal isolation"],correct:2,explain:"Postzygotic isolation reduces hybrid fitness after zygote formation. Sterile hybrids (mules, ligers, tigons) cannot reproduce, maintaining species boundaries even if mating occurs between parents."},
+    {mod:4,q:"The geological era immediately preceding the Mesozoic is:",options:["Cenozoic","Paleozoic","Proterozoic","Hadean"],correct:1,explain:"Order: Paleozoic (541-252 Ma) → Mesozoic (252-66 Ma) → Cenozoic (66 Ma-present). The Paleozoic includes Cambrian, Ordovician, Silurian, Devonian, Carboniferous, Permian periods."},
+    {mod:4,q:"Punctuated equilibrium proposes that evolution occurs:",options:["At a constant gradual rate","Mostly rapidly during speciation events, with morphological stasis between","Primarily via genetic drift, not selection","Only in response to mass extinctions"],correct:1,explain:"Eldredge and Gould (1972): species show morphological stasis for most of their existence, punctuated by rapid change concentrated at speciation events (in small peripheral populations). This explains 'gaps' in the fossil record as real, not artifacts of sampling."},
+    {mod:4,q:"Soft-bodied organisms are underrepresented in the fossil record because:",options:["They did not exist in the past","They evolved too recently","Soft tissues decay before fossilization can occur","They lived where no sediment forms"],correct:2,explain:"Soft tissue decays rapidly by bacterial decomposition and oxidation. Exceptional preservation (Burgess Shale-type, amber, permafrost) is unusual. Hard parts persist much longer, allowing mineral replacement."},
+    {mod:4,q:"The Devonian period (419-359 Ma) saw which key events?",options:["First land plants and first tetrapods","Origin of mammals","Cambrian explosion","First flowering plants"],correct:0,explain:"Key Devonian events: (1) forests of vascular plants (lycopsids, progymnosperms); (2) diversification of jawed fishes; (3) evolution of tetrapods — Tiktaalik (~375 Ma) shows the fish-to-land transition. The period ended with a major extinction (~374 Ma)."},
+    {mod:4,q:"Allopatric speciation requires:",options:["Polyploidy within a single population","Geographic separation preventing gene flow","Strong disruptive selection in sympatry","Hybrid zone formation at contact zones"],correct:1,explain:"Allopatric speciation requires gene flow to be prevented by a physical barrier (vicariance: barrier formation separating an existing population) or colonization of an isolated location. Without gene flow, populations diverge independently."},
+    {mod:4,q:"Radiometric dating works because:",options:["Fossils compare to known living relatives","Radioactive isotopes decay at a predictable, constant rate","Ocean sediment accumulates at a fixed rate","Magnetic reversals occur at regular intervals"],correct:1,explain:"Radioactive decay is first-order: each isotope has a characteristic half-life. Measuring parent:daughter isotope ratios in rock minerals gives time elapsed since the mineral crystallized. Different systems span different time ranges (¹⁴C: up to 50 ka; U-Pb: billions of years)."},
+    {mod:4,q:"What common theme connects all five major mass extinctions?",options:["All caused by asteroid impacts","All involved rapid sea level rise","Rapid environmental change exceeding evolutionary adaptation rates","All occurred at equal time intervals"],correct:2,explain:"Each mass extinction involved rapid, severe environmental disruption that outpaced the ability of most lineages to adapt: impact winter, anoxia, ocean acidification, volcanic winter. Rate of change was critical — gradual change allows adaptation; sudden change does not."},
+    {mod:4,q:"Mule sterility (horse × donkey = sterile mule) represents:",options:["Temporal isolation","Behavioral isolation","Postzygotic hybrid sterility","Habitat isolation"],correct:2,explain:"Mules are the F1 hybrid of horse (64 chromosomes) and donkey (62 chromosomes). Mules have 63 chromosomes, making meiosis impossible — they cannot produce functional gametes. This is a classic example of postzygotic reproductive isolation."},
+    {mod:4,q:"The endosymbiotic theory of mitochondrial origin is supported by:",options:["mtDNA sequence similarity to alpha-proteobacteria","Mitochondria forming spontaneously from lipids","Mitochondria the same size as plant nuclei","Mitochondria dividing by mitosis"],correct:0,explain:"Evidence: (1) Circular mtDNA, like bacterial chromosomes. (2) 16S rRNA phylogeny places mitochondria within alpha-proteobacteria (closest living relative: Rickettsiales). (3) 70S ribosomes inhibited by antibiotics. (4) Binary fission-like division."},
+    {mod:4,q:"Anatomically modern Homo sapiens first appeared approximately:",options:["1 million years ago","300,000 years ago in Africa","10,000 years ago","5 million years ago"],correct:1,explain:"The oldest anatomically modern H. sapiens fossils come from Jebel Irhoud, Morocco (~315,000 years ago). Behavioral modernity (art, complex tools) is well documented by 100,000-50,000 years ago. Cognitive/cultural 'revolution' may have occurred ~60,000-50,000 years ago coinciding with global expansion."},
+    {mod:4,q:"Peripatric speciation most closely resembles:",options:["Sympatric speciation via polyploidy","Allopatric speciation with strong founder effect in a tiny peripheral isolate","Parapatric speciation along a gradient","Secondary contact with no isolation"],correct:1,explain:"Peripatric speciation (Mayr 1954): a tiny peripheral population (island colonists) becomes isolated and undergoes rapid speciation driven by strong founder effect + genetic drift + relaxed/altered selection. Very similar to allopatric, but emphasizing the role of the very small founding group."},
+    {mod:4,q:"The biological species concept defines species as:",options:["Groups with >2% genetic divergence","Groups that are morphologically distinct","Groups of actually or potentially interbreeding populations reproductively isolated from others","Groups that occupy distinct ecological niches"],correct:2,explain:"Mayr (1942) BSC: 'species are groups of actually or potentially interbreeding natural populations that are reproductively isolated from other such groups.' Strengths: emphasizes real biological boundaries. Limitations: cannot apply to fossils, asexual organisms, or populations in allopatry."}
+
+  ]; // end BANK
+
+  /* ═══════════════════════════════════
+     EXAM ENGINE
+  ═══════════════════════════════════ */
+  const L = ['A','B','C','D'];
+  let activeFilter = 'all';
+  let currentQuestions = [];
+
+  function shuffle(a){
+    const b=[...a];
+    for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}
+    return b;
+  }
+
+  function getCount(){
+    const v = document.getElementById('exam-count').value;
+    return v === 'all' ? 999 : parseInt(v);
+  }
+
+  function getPool(){
+    if(activeFilter === 'all') return BANK;
+    return BANK.filter(q => q.mod === parseInt(activeFilter));
+  }
+
+  function buildExam(){
+    document.getElementById('exam-summary').classList.remove('visible');
+    const pool = shuffle(getPool());
+    const n = Math.min(getCount(), pool.length);
+    currentQuestions = pool.slice(0, n);
+    const grid = document.getElementById('exam-grid');
+
+    grid.innerHTML = currentQuestions.map((q,i) => {
+      const opts = shuffle(q.options.map((t,j) => ({t, c: j===q.correct})));
+      const modLabels = {1:'M01 · Development',2:'M02 · Animal Dev',3:'M03 · Evolution',4:'M04 · Speciation'};
+      return `<div class="quiz-card" data-mod="${q.mod}">
+        <div class="exam-progress">Question ${i+1} of ${n}</div>
+        <span class="module-tag m${q.mod}">${modLabels[q.mod]}</span>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">
+          ${opts.map((o,k) => `<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}
+        </div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('.quiz-options').forEach(wrap => {
+      wrap.addEventListener('click', e => {
+        const btn = e.target.closest('.quiz-opt');
+        if(!btn || btn.classList.contains('locked')) return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function gradeExam(){
+    let total = 0, correct = 0;
+    const modStats = {1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0},4:{c:0,t:0}};
+
+    document.querySelectorAll('#exam-grid .quiz-card').forEach((card, i) => {
+      const sel = card.querySelector('.quiz-opt.selected');
+      const mod = parseInt(card.dataset.mod);
+      card.querySelectorAll('.quiz-opt').forEach(o => {
+        o.classList.add('locked');
+        if(o.dataset.c === 'true') o.classList.add('opt-correct');
+      });
+      total++;
+      modStats[mod].t++;
+      if(sel){
+        if(sel.dataset.c === 'true'){
+          correct++; modStats[mod].c++;
+          card.classList.add('correct');
+        } else {
+          sel.classList.add('opt-wrong');
+          card.classList.add('wrong');
+        }
+      } else {
+        card.classList.add('wrong');
+      }
+      card.classList.add('revealed');
+    });
+
+    const pct = Math.round((correct/total)*100);
+    const summary = document.getElementById('exam-summary');
+    document.getElementById('exam-score-big').textContent = correct + '/' + total;
+    document.getElementById('exam-score-sub').textContent = pct + '% — ' + (pct >= 90 ? 'Distinction' : pct >= 80 ? 'Merit' : pct >= 70 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review');
+    document.getElementById('exam-score-msg').textContent = pct >= 90 ? 'Outstanding. You have a thorough command of all four modules.' : pct >= 70 ? 'Solid performance — review the questions you missed and try a fresh exam.' : 'Keep studying! Re-read the highlighted incorrect answers and return to the module pages.';
+
+    const modNames = {1:'Development',2:'Animal Dev',3:'Evolution',4:'Speciation'};
+    document.getElementById('exam-breakdown').innerHTML = [1,2,3,4]
+      .filter(m => modStats[m].t > 0)
+      .map(m => `<div class="exam-breakdown-item m${m}"><strong>${modStats[m].c}/${modStats[m].t}</strong>Module 0${m} · ${modNames[m]}</div>`)
+      .join('');
+
+    summary.classList.add('visible');
+    summary.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  /* Filter pills */
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeFilter = pill.dataset.mod;
+    });
+  });
+
+  document.getElementById('exam-count').addEventListener('change', () => {});
+  document.getElementById('exam-new').addEventListener('click', buildExam);
+  document.getElementById('exam-grade').addEventListener('click', gradeExam);
+  document.getElementById('exam-new-after').addEventListener('click', buildExam);
+
+  buildExam();
+})();
+</script>
+</body>
+</html>

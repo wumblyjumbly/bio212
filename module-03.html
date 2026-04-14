@@ -56,29 +56,13 @@
 .diversity-tag.decreases { background: rgba(255,110,199,0.1); color: var(--rose); border: 1px solid rgba(255,110,199,0.3); }
 .diversity-tag.neutral   { background: rgba(100,255,218,0.08); color: var(--teal); border: 1px solid rgba(100,255,218,0.25); }
 
-/* ── Selection type cards ── */
-.sel-type-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.4rem;
-  margin: 2rem 0;
-}
-.sel-type-card {
-  background: var(--glass);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 1.8rem;
-  transition: all 0.35s;
-}
-.sel-type-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px -12px rgba(103,76,230,0.25); }
-.sel-type-card h3 { margin: 0 0 0.5rem; }
-.sel-curve {
+/* ── Selection type sections (expanded) ── */
+.sel-type-section-svg {
   width: 100%;
-  height: 160px;
-  margin: 1rem 0;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.02);
-  overflow: visible;
+  max-height: 240px;
+  border-radius: 10px;
+  display: block;
+  margin: 1.2rem 0;
 }
 
 /* ── H-W sim ── */
@@ -163,6 +147,7 @@
   border-radius: var(--radius);
   padding: 2rem;
   margin: 2rem 0;
+  overflow: visible;
 }
 .sel-btn-row {
   display: flex;
@@ -186,7 +171,8 @@
 .sel-btn.active, .sel-btn:hover { border-color: var(--violet); color: var(--violet); background: rgba(167,139,250,0.08); }
 #canvas-selection {
   width: 100%;
-  height: 380px;
+  height: 420px;
+  min-height: 420px;
   border-radius: 10px;
   background: rgba(0,0,0,0.3);
   display: block;
@@ -335,6 +321,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html" class="active">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
 </nav>
@@ -586,90 +573,208 @@
       </div>
     </div>
 
-    <!-- Selection type detail cards -->
-    <div class="sel-type-grid reveal">
+    <!-- Selection type detail sections (expanded full-width) -->
 
-      <div class="sel-type-card">
-        <h3 style="color:var(--teal);">Directional Selection</h3>
-        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
-          <defs><marker id="arrow-teal" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--teal)"/></marker></defs>
-          <!-- x-axis -->
-          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
-          <!-- before: symmetric bell centred ~90 -->
-          <path d="M15,124 C30,124 50,124 65,115 C80,105 90,75 100,48 C110,22 115,8 120,8 C125,8 130,22 140,48 C150,75 160,105 175,115 C190,124 210,124 230,124" stroke="rgba(100,255,218,0.4)" stroke-width="2" fill="rgba(100,255,218,0.04)" stroke-dasharray="6,3"/>
-          <!-- after: bell shifted right, centred ~180 -->
-          <path d="M80,124 C100,124 130,124 150,115 C165,105 175,75 185,48 C195,22 200,8 205,8 C210,8 215,22 225,48 C235,75 245,105 260,115 C272,124 285,124 285,124" stroke="var(--teal)" stroke-width="2.5" fill="rgba(100,255,218,0.09)"/>
-          <!-- shift arrow -->
-          <line x1="125" y1="85" x2="200" y2="85" stroke="var(--teal)" stroke-width="1.8" marker-end="url(#arrow-teal)"/>
-          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">before</text>
-          <text x="218" y="25" font-family="monospace" font-size="8" fill="var(--teal)">after</text>
-          <text x="152" y="78" font-family="monospace" font-size="7.5" fill="var(--teal)">shift →</text>
-        </svg>
-        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours one extreme phenotype. Mean shifts in one direction; diversity <strong>decreases</strong>.</p>
-        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Antibiotic resistance — bacteria with resistance alleles survive, sensitive ones die. Beak depth in Galápagos finches during drought.</p>
-      </div>
+    <!-- 1. Directional Selection -->
+    <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
+      <h3 style="color:var(--teal);margin:0 0 0.4rem;font-size:1.25rem;">Directional Selection</h3>
+      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ds-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#64ffda"/></marker>
+        </defs>
+        <!-- Background -->
+        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
+        <!-- Y-axis label (rotated) -->
+        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
+        <!-- Y-axis -->
+        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- X-axis -->
+        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- X-axis label -->
+        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
+        <!-- Tick marks every 72px on x-axis -->
+        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+          <line x1="112" y1="188" x2="112" y2="194"/>
+          <line x1="184" y1="188" x2="184" y2="194"/>
+          <line x1="256" y1="188" x2="256" y2="194"/>
+          <line x1="328" y1="188" x2="328" y2="194"/>
+          <line x1="400" y1="188" x2="400" y2="194"/>
+          <line x1="472" y1="188" x2="472" y2="194"/>
+          <line x1="544" y1="188" x2="544" y2="194"/>
+          <line x1="616" y1="188" x2="616" y2="194"/>
+          <line x1="688" y1="188" x2="688" y2="194"/>
+        </g>
+        <!-- BEFORE bell: centered at x=280, σ≈80, peak y=40 (height 150) -->
+        <path d="M40,190 C80,190 140,190 180,185 C210,180 240,165 260,135 C270,115 276,80 280,40 C284,80 290,115 300,135 C320,165 350,180 380,185 C420,190 480,190 520,190" stroke="rgba(100,255,218,0.35)" stroke-width="2" fill="rgba(100,255,218,0.04)" stroke-dasharray="6,4"/>
+        <!-- AFTER bell: centered at x=480, same shape -->
+        <path d="M240,190 C280,190 340,190 380,185 C410,180 440,165 460,135 C470,115 476,80 480,40 C484,80 490,115 500,135 C520,165 550,180 580,185 C620,190 680,190 720,190" stroke="#64ffda" stroke-width="2.5" fill="rgba(100,255,218,0.09)"/>
+        <!-- Bold shift arrow -->
+        <line x1="280" y1="100" x2="460" y2="100" stroke="#64ffda" stroke-width="3" marker-end="url(#ds-arrow)"/>
+        <text x="370" y="92" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#64ffda">mean shifts →</text>
+        <!-- X mark at left tail (removed) -->
+        <line x1="88" y1="175" x2="106" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
+        <line x1="106" y1="175" x2="88" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="97" y="168" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">removed</text>
+        <!-- Checkmark at right peak of after-curve -->
+        <text x="620" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="16" fill="#64ffda">✓</text>
+        <!-- Legend top-right -->
+        <rect x="580" y="22" width="170" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(100,255,218,0.2)" stroke-width="1"/>
+        <line x1="592" y1="37" x2="620" y2="37" stroke="rgba(100,255,218,0.4)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="628" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (dashed)</text>
+        <line x1="592" y1="55" x2="620" y2="55" stroke="#64ffda" stroke-width="2"/>
+        <text x="628" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (solid)</text>
+        <!-- Title inside SVG -->
+        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.7)" letter-spacing="1">DIRECTIONAL — mean shifts toward favored extreme</text>
+      </svg>
+      <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours one extreme phenotype. The population mean shifts in one direction over generations; genetic diversity <strong>decreases</strong> as disfavoured alleles are removed.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Examples:</strong> Antibiotic resistance — bacteria with resistance alleles survive, sensitive ones die. Beak depth in Galápagos finches during drought when only large hard seeds remain.</p>
+    </div>
 
-      <div class="sel-type-card">
-        <h3 style="color:var(--violet);">Stabilizing Selection</h3>
-        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
-          <!-- x-axis -->
-          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
-          <!-- before: wide bell -->
-          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(167,139,250,0.4)" stroke-width="2" fill="rgba(167,139,250,0.04)" stroke-dasharray="6,3"/>
-          <!-- after: narrow tall bell -->
-          <path d="M60,124 C80,124 110,124 125,115 C135,107 140,80 147,50 C150,32 150,8 150,8 C150,8 150,32 153,50 C160,80 165,107 175,115 C190,124 220,124 240,124" stroke="var(--violet)" stroke-width="2.5" fill="rgba(167,139,250,0.09)"/>
-          <!-- converging arrows from both sides -->
-          <line x1="55" y1="80" x2="105" y2="80" stroke="var(--violet)" stroke-width="1.6" marker-end="url(#arr-v)"/>
-          <line x1="245" y1="80" x2="195" y2="80" stroke="var(--violet)" stroke-width="1.6" marker-end="url(#arr-v)"/>
-          <defs><marker id="arr-v" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--violet)"/></marker></defs>
-          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">before</text>
-          <text x="125" y="22" font-family="monospace" font-size="8" fill="var(--violet)">narrower after</text>
-        </svg>
-        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours the intermediate phenotype; selects against both extremes. Diversity <strong>decreases</strong>.</p>
-        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Human birth weight — very low and very high birth weights have lower survival; intermediate weights are favoured.</p>
-      </div>
+    <!-- 2. Stabilizing Selection -->
+    <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
+      <h3 style="color:var(--violet);margin:0 0 0.4rem;font-size:1.25rem;">Stabilizing Selection</h3>
+      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="stab-arr-l" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#a78bfa"/></marker>
+          <marker id="stab-arr-r" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 Z" fill="#a78bfa"/></marker>
+        </defs>
+        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
+        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
+        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
+        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
+          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
+          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
+          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
+          <line x1="688" y1="188" x2="688" y2="194"/>
+        </g>
+        <!-- BEFORE: wide bell, center=400, σ≈120, peak y=70 -->
+        <path d="M40,190 C80,190 120,190 160,186 C200,182 240,172 290,148 C330,128 360,100 380,78 C390,67 396,60 400,70 C404,60 410,67 420,78 C440,100 470,128 510,148 C560,172 600,182 640,186 C680,190 720,190 760,190" stroke="rgba(167,139,250,0.4)" stroke-width="2" fill="rgba(167,139,250,0.04)" stroke-dasharray="6,4"/>
+        <!-- AFTER: narrow tall bell, center=400, σ≈60, peak y=30 -->
+        <path d="M160,190 C220,190 280,190 320,186 C350,183 370,170 385,148 C393,133 397,100 400,30 C403,100 407,133 415,148 C430,170 450,183 480,186 C520,190 580,190 640,190" stroke="#a78bfa" stroke-width="2.5" fill="rgba(167,139,250,0.1)"/>
+        <!-- X marks at both tails (extremes removed) -->
+        <line x1="64" y1="176" x2="82" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="82" y1="176" x2="64" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="73" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <line x1="718" y1="176" x2="736" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="736" y1="176" x2="718" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="727" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <!-- Converging arrows -->
+        <line x1="150" y1="115" x2="270" y2="115" stroke="#a78bfa" stroke-width="2" marker-end="url(#stab-arr-l)"/>
+        <line x1="650" y1="115" x2="530" y2="115" stroke="#a78bfa" stroke-width="2" marker-end="url(#stab-arr-r)"/>
+        <text x="400" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(167,139,250,0.7)">intermediate favored</text>
+        <!-- Legend -->
+        <rect x="580" y="22" width="170" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+        <line x1="592" y1="37" x2="620" y2="37" stroke="rgba(167,139,250,0.45)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="628" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (wide)</text>
+        <line x1="592" y1="55" x2="620" y2="55" stroke="#a78bfa" stroke-width="2"/>
+        <text x="628" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (narrow)</text>
+        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(167,139,250,0.7)" letter-spacing="1">STABILIZING — intermediate favored, extremes removed</text>
+      </svg>
+      <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours the intermediate phenotype and selects against both extremes. The distribution becomes taller and narrower. Diversity <strong>decreases</strong>.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Human birth weight — very low and very high birth weights both have reduced survival; intermediate weights are favoured. Human gestational length shows a similar pattern.</p>
+    </div>
 
-      <div class="sel-type-card">
-        <h3 style="color:var(--gold);">Balancing Selection</h3>
-        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
-          <!-- x-axis -->
-          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
-          <!-- before (dashed) and after (solid) — virtually identical -->
-          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(255,209,102,0.4)" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
-          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="var(--gold)" stroke-width="2.5" fill="rgba(255,209,102,0.08)"/>
-          <!-- "stable" label with double-headed arrow -->
-          <line x1="60" y1="60" x2="240" y2="60" stroke="rgba(255,209,102,0.5)" stroke-width="1.2" stroke-dasharray="3,2"/>
-          <text x="150" y="55" text-anchor="middle" font-family="monospace" font-size="8.5" fill="var(--gold)">maintained over time</text>
-          <text x="150" y="18" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(255,209,102,0.6)">both alleles persist</text>
-          <text x="10" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">stable</text>
-        </svg>
-        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Maintains multiple alleles in a population. Diversity <strong>maintained</strong>. Includes heterozygote advantage &amp; frequency-dependent selection.</p>
-        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Sickle-cell anaemia in malaria regions — HbA/HbS heterozygotes resist malaria better than HbA/HbA; both alleles maintained.</p>
-      </div>
+    <!-- 3. Balancing Selection -->
+    <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
+      <h3 style="color:var(--gold);margin:0 0 0.4rem;font-size:1.25rem;">Balancing Selection</h3>
+      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
+        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
+        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
+        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
+          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
+          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
+          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
+          <line x1="688" y1="188" x2="688" y2="194"/>
+        </g>
+        <!-- Generation 1 (40% opacity) -->
+        <path d="M40,190 C80,190 130,190 175,185 C215,180 250,168 290,145 C320,126 345,100 368,75 C382,57 390,45 400,42 C410,45 418,57 432,75 C455,100 480,126 510,145 C550,168 585,180 625,185 C670,190 720,190 760,190" stroke="rgba(255,209,102,0.35)" stroke-width="1.8" fill="rgba(255,209,102,0.03)" stroke-dasharray="8,4"/>
+        <!-- Generation 2 (70% opacity) -->
+        <path d="M40,190 C80,190 130,190 176,185 C216,180 251,168 291,144 C321,125 346,99 369,74 C383,56 391,44 400,41 C409,44 417,56 431,74 C454,99 479,125 509,144 C549,168 584,180 624,185 C669,190 719,190 760,190" stroke="rgba(255,209,102,0.65)" stroke-width="2" fill="rgba(255,209,102,0.05)"/>
+        <!-- Generation 3 (solid, 100%) -->
+        <path d="M40,190 C80,190 130,190 177,185 C217,180 252,168 292,143 C322,124 347,98 370,73 C384,55 392,43 400,40 C408,43 416,55 430,73 C453,98 478,124 508,143 C548,168 583,180 623,185 C668,190 718,190 760,190" stroke="#ffd166" stroke-width="2.5" fill="rgba(255,209,102,0.08)"/>
+        <!-- Stable horizontal line with double-headed arrows -->
+        <line x1="200" y1="130" x2="600" y2="130" stroke="rgba(255,209,102,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="25" y="134" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">↔</text>
+        <text x="738" y="134" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">↔</text>
+        <text x="400" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">no net shift — stable over time</text>
+        <!-- HbA/HbS fitness schematic (inset) -->
+        <rect x="570" y="20" width="185" height="105" rx="8" fill="rgba(0,0,0,0.35)" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
+        <text x="662" y="35" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.7)" letter-spacing="0.5">HETEROZYGOTE ADVANTAGE</text>
+        <!-- AA bar (medium) -->
+        <rect x="588" y="88" width="30" height="28" rx="3" fill="rgba(100,255,218,0.45)" stroke="#64ffda" stroke-width="1"/>
+        <text x="603" y="105" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">AA</text>
+        <text x="603" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.4)">medium</text>
+        <!-- AS bar (tallest / green) -->
+        <rect x="632" y="52" width="30" height="64" rx="3" fill="rgba(184,240,137,0.5)" stroke="#b8f089" stroke-width="1"/>
+        <text x="647" y="84" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#b8f089">AS</text>
+        <text x="647" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#b8f089">highest ✓</text>
+        <!-- SS bar (short / red) -->
+        <rect x="676" y="104" width="30" height="12" rx="3" fill="rgba(255,138,138,0.45)" stroke="#ff8a8a" stroke-width="1"/>
+        <text x="691" y="114" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff8a8a">SS</text>
+        <text x="691" y="121" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff8a8a">low ✗</text>
+        <text x="662" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.35)">Relative Fitness</text>
+        <!-- Generation legend -->
+        <rect x="40" y="22" width="185" height="50" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>
+        <line x1="52" y1="37" x2="82" y2="37" stroke="rgba(255,209,102,0.35)" stroke-width="1.5" stroke-dasharray="7,4"/>
+        <text x="90" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 1</text>
+        <line x1="52" y1="52" x2="82" y2="52" stroke="rgba(255,209,102,0.65)" stroke-width="2"/>
+        <text x="90" y="56" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 2</text>
+        <line x1="52" y1="64" x2="82" y2="64" stroke="#ffd166" stroke-width="2.5"/>
+        <text x="90" y="68" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 3</text>
+        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.7)" letter-spacing="1">BALANCING — diversity maintained; both alleles persist</text>
+      </svg>
+      <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Maintains multiple alleles in a population simultaneously. Diversity is <strong>maintained</strong>. Includes heterozygote advantage (heterosis) and negative frequency-dependent selection.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Sickle-cell anaemia in malaria-endemic regions — HbA/HbS heterozygotes are more resistant to malaria than either homozygote, so both HbA and HbS alleles persist in the population at stable frequencies.</p>
+    </div>
 
-      <div class="sel-type-card">
-        <h3 style="color:var(--rose);">Disruptive Selection</h3>
-        <svg class="sel-curve" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
-          <!-- x-axis -->
-          <line x1="15" y1="125" x2="285" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          <text x="150" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.25)">phenotype value →</text>
-          <!-- before: single bell centred -->
-          <path d="M15,124 C40,124 65,124 85,112 C105,99 115,68 130,38 C138,20 143,8 150,8 C157,8 162,20 170,38 C185,68 195,99 215,112 C235,124 260,124 285,124" stroke="rgba(255,110,199,0.35)" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
-          <!-- after: two peaks, valley in middle -->
-          <path d="M15,124 C30,124 45,122 60,108 C72,94 78,68 88,44 C95,26 98,10 105,10 C112,10 115,26 122,44 C130,62 138,82 150,105 C162,82 170,62 178,44 C185,26 188,10 195,10 C202,10 205,26 212,44 C222,68 228,94 240,108 C255,122 270,124 285,124" stroke="var(--rose)" stroke-width="2.5" fill="rgba(255,110,199,0.08)"/>
-          <!-- diverging arrows -->
-          <line x1="150" y1="85" x2="90" y2="55" stroke="var(--rose)" stroke-width="1.5" marker-end="url(#arr-r)"/>
-          <line x1="150" y1="85" x2="210" y2="55" stroke="var(--rose)" stroke-width="1.5" marker-end="url(#arr-r)"/>
-          <defs><marker id="arr-r" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--rose)"/></marker></defs>
-          <text x="150" y="118" text-anchor="middle" font-family="monospace" font-size="8" fill="var(--rose)">valley (middle selected against)</text>
-        </svg>
-        <p style="font-size:0.88rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours both extremes over the intermediate. Population splits into two phenotypic clusters. Diversity <strong>increases</strong>.</p>
-        <p style="font-size:0.85rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> African seedcracker finches — large beaks crack hard seeds, small beaks crack soft seeds; intermediate beak size is ineffective at both.</p>
-      </div>
-
+    <!-- 4. Disruptive Selection -->
+    <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
+      <h3 style="color:var(--rose);margin:0 0 0.4rem;font-size:1.25rem;">Disruptive Selection</h3>
+      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="dis-arr-l" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#ff6ec7"/></marker>
+          <marker id="dis-arr-r" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 Z" fill="#ff6ec7"/></marker>
+        </defs>
+        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
+        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
+        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
+        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
+          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
+          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
+          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
+          <line x1="688" y1="188" x2="688" y2="194"/>
+        </g>
+        <!-- BEFORE: single bell centered at 400 -->
+        <path d="M40,190 C80,190 130,190 175,185 C215,180 250,168 290,145 C320,126 345,100 368,75 C382,57 390,45 400,42 C410,45 418,57 432,75 C455,100 480,126 510,145 C550,168 585,180 625,185 C670,190 720,190 760,190" stroke="rgba(255,110,199,0.35)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <!-- AFTER: bimodal — peak at x=230 and x=570, valley at x=400 -->
+        <path d="M40,190 C70,190 110,190 150,183 C178,178 200,162 218,138 C226,120 229,95 230,62 C231,95 234,120 242,138 C260,162 282,178 310,183 C340,188 370,190 400,188 C430,190 460,188 490,183 C518,178 540,162 558,138 C566,120 569,95 570,62 C571,95 574,120 582,138 C600,162 622,178 650,183 C688,188 720,190 760,190" stroke="#ff6ec7" stroke-width="2.5" fill="rgba(255,110,199,0.09)"/>
+        <!-- X mark at valley (intermediate removed) -->
+        <line x1="386" y1="176" x2="400" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="400" y1="176" x2="386" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="400" y="168" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <!-- Diverging arrows from center -->
+        <line x1="370" y1="120" x2="270" y2="80" stroke="#ff6ec7" stroke-width="2" marker-end="url(#dis-arr-l)"/>
+        <line x1="430" y1="120" x2="530" y2="80" stroke="#ff6ec7" stroke-width="2" marker-end="url(#dis-arr-r)"/>
+        <!-- Peak labels -->
+        <text x="190" y="52" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme A</text>
+        <text x="610" y="52" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme B</text>
+        <!-- Legend -->
+        <rect x="40" y="22" width="175" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+        <line x1="52" y1="37" x2="82" y2="37" stroke="rgba(255,110,199,0.35)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="90" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (dashed)</text>
+        <line x1="52" y1="55" x2="82" y2="55" stroke="#ff6ec7" stroke-width="2"/>
+        <text x="90" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (bimodal)</text>
+        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.7)" letter-spacing="1">DISRUPTIVE — both extremes favored, middle removed</text>
+      </svg>
+      <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours both extremes over the intermediate phenotype. The population splits into two phenotypic clusters. Diversity <strong>increases</strong> and can be a driver of speciation.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> African seedcracker finches — large beaks crack hard seeds efficiently, small beaks crack soft seeds efficiently; intermediate beak size is poor at both, so both extremes are favoured over the middle.</p>
     </div>
 
     <!-- Interactive Selection Visualiser -->
@@ -682,7 +787,7 @@
         <button class="sel-btn" data-sel="balancing">Balancing</button>
         <button class="sel-btn" data-sel="disruptive">Disruptive</button>
       </div>
-      <canvas id="canvas-selection" width="900" height="380"></canvas>
+      <canvas id="canvas-selection" width="1200" height="420"></canvas>
       <div id="sel-info">Select a mode above to see how the phenotype distribution shifts over generations.</div>
     </div>
   </section>
@@ -1042,6 +1147,106 @@
 
     </div>
   </section>
+
+<!-- ══════ MEGA QUIZ ══════ -->
+<section class="quiz-section reveal" id="module-quiz">
+  <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--teal),var(--sky));color:#080b1a;padding:0.3rem 1rem;">Module 03 Quiz</span></div>
+  <div class="quiz-meta">
+    <p>10 randomly selected questions from a pool of 26 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <div class="quiz-controls">
+      <button class="quiz-btn secondary" id="q-new-qm3">↻ New Questions</button>
+      <button class="quiz-btn" id="q-grade-qm3">Grade Quiz</button>
+    </div>
+  </div>
+  <div class="quiz-score-bar" id="q-score-qm3">
+    <div class="quiz-score-number" id="q-snum-qm3"></div>
+    <div class="quiz-score-label">questions correct</div>
+    <div class="quiz-score-msg" id="q-smsg-qm3"></div>
+  </div>
+  <div class="quiz-grid" id="q-grid-qm3"></div>
+</section>
+<script>
+(function(){
+  const QID='qm3',N=10,L=['A','B','C','D'];
+  const BANK=[
+    {q:"Hardy-Weinberg equilibrium requires which set of conditions?",options:["Small population, high mutation, natural selection","Large random-mating population with no selection, mutation, drift, or migration","Non-random mating in any population","Genetic drift in small populations"],correct:1,explain:"H-W equilibrium holds when: (1) population is large (no drift), (2) mating is random, (3) no natural selection, (4) no mutation, (5) no gene flow. Violation of any condition causes allele frequencies to change over time."},
+    {q:"If allele frequency p = 0.6, the expected Hardy-Weinberg frequency of heterozygotes is:",options:["0.36","0.48","0.16","0.64"],correct:1,explain:"Heterozygote frequency = 2pq = 2 × 0.6 × 0.4 = 0.48. Also note: p² (AA) = 0.36; q² (aa) = 0.16; sum = 0.36 + 0.48 + 0.16 = 1.0 ✓"},
+    {q:"Which type of natural selection increases the frequency of intermediate phenotypes?",options:["Directional selection","Disruptive selection","Stabilizing selection","Sexual selection"],correct:2,explain:"Stabilizing selection favors intermediate phenotypes and removes extremes, reducing variation. Classic example: human birth weight — very small and very large babies have higher mortality; intermediate weight has highest survival."},
+    {q:"Genetic drift has the greatest effect in:",options:["Large, stable populations","Small, isolated populations","Populations experiencing strong selection","Populations with high immigration"],correct:1,explain:"Genetic drift is random sampling error in allele transmission. Its effect is inversely proportional to population size (variance = p(1-p)/2N). In small populations, chance fluctuations can fix or eliminate alleles regardless of fitness."},
+    {q:"Gene flow between populations tends to:",options:["Increase genetic differentiation","Reduce genetic differentiation","Have no effect on allele frequencies","Only affect neutral alleles"],correct:1,explain:"Gene flow (migration of alleles between populations) homogenizes allele frequencies, reducing genetic divergence. High gene flow prevents populations from diverging enough to speciate. This is why geographic isolation (preventing gene flow) promotes speciation."},
+    {q:"The bottleneck effect is a type of:",options:["Natural selection","Genetic drift","Gene flow","Mutation"],correct:1,explain:"The bottleneck effect occurs when a population is drastically reduced in size (e.g., disease, disaster), and the survivors carry only a small, random sample of the original genetic variation. The resulting reduced diversity reflects random sampling, not selection — it is a form of genetic drift."},
+    {q:"Disruptive (diversifying) selection favors:",options:["The average phenotype","Both extreme phenotypes simultaneously","Only the largest extreme","Phenotypes with highest heterozygosity"],correct:1,explain:"Disruptive selection favors both extremes of a phenotypic distribution simultaneously, reducing the frequency of intermediate phenotypes. Over time, it can lead to a bimodal distribution and potentially sympatric speciation if the extremes become reproductively isolated."},
+    {q:"In the H-W equation p² + 2pq + q² = 1, what does 2pq represent?",options:["Frequency of homozygous dominant genotype","Frequency of homozygous recessive genotype","Frequency of heterozygous genotype","Sum of all allele frequencies"],correct:2,explain:"p² = freq(AA), q² = freq(aa), 2pq = freq(Aa). This is the binomial expansion of (p + q)² = 1. The heterozygote frequency 2pq is maximum when p = q = 0.5, giving 2pq = 0.5."},
+    {q:"The elephant seal bottleneck is an example of which evolutionary force?",options:["Non-random mating","Mutation","Genetic drift (bottleneck effect)","Strong directional selection"],correct:2,explain:"Northern elephant seals were hunted to ~20 individuals in the 1890s. The population has rebounded to ~200,000, but has extremely low genetic variation — all individuals are nearly genetically identical — because the small founding population carried only a fraction of the original gene pool."},
+    {q:"Directional selection shifts phenotypic distribution toward:",options:["A stable balance between two alleles","One end of the phenotypic distribution","The mean phenotype","Increased variance"],correct:1,explain:"Directional selection consistently favors individuals at one extreme of the phenotypic distribution. Over generations, allele frequencies shift toward the favored extreme. Example: antibiotic resistance evolution — resistant bacteria are favored, sensitive bacteria eliminated."},
+    {q:"The founder effect occurs when:",options:["A large population faces a new pathogen","A small group colonizes a new area, carrying limited genetic variation","Two populations merge","Selection removes all variation"],correct:1,explain:"The founder effect is a form of genetic drift where a small group of individuals establishes a new population. The founders carry only a random subset of the source population's alleles, leading to reduced diversity and potentially different allele frequencies than the source."},
+    {q:"Evolutionary fitness is best defined as:",options:["Physical strength and body size","Probability of survival to adulthood","Relative reproductive success (contribution to next generation's gene pool)","Resistance to disease"],correct:2,explain:"Fitness in evolutionary biology is a measure of reproductive success — specifically the relative number of offspring an individual contributes to the next generation. A strong, large organism that leaves no offspring has zero fitness."},
+    {q:"Sexual selection can produce traits that reduce survival because:",options:["Evolution always maximizes survival","Reproductive success can outweigh survival costs (Fisher's runaway, honest signals)","Large populations always eliminate costly traits","Random mutation favors ornamental traits"],correct:1,explain:"Sexual selection can drive evolution of costly ornamental traits (peacock tails, antlers) because the reproductive advantage of attracting mates outweighs survival costs. Fisher's runaway: if females prefer a trait, sons with the trait and daughters preferring it are both advantaged."},
+    {q:"Which condition would cause a DEPARTURE from Hardy-Weinberg equilibrium?",options:["Large random-mating population","No mutation over time","Positive assortative mating (like with like)","No migration between populations"],correct:2,explain:"Non-random mating (assortative or disassortative) changes genotype frequencies without changing allele frequencies. Positive assortative mating increases homozygosity; negative assortative mating increases heterozygosity — both depart from H-W genotype predictions."},
+    {q:"An allele that reaches a frequency of 1.0 (100%) is said to have undergone:",options:["Balanced polymorphism","Fixation","Genetic drift (incomplete)","Selection-mutation balance"],correct:1,explain:"Fixation means an allele has reached frequency 1.0 and all other alleles at that locus have been lost. It can occur by drift (especially in small populations) or by strong positive selection. Once fixed, the locus is monomorphic."},
+    {q:"Heterozygote advantage (overdominance) maintains a polymorphism because:",options:["It fixes the most common allele","Both alleles are maintained as heterozygotes have highest fitness","Only recessive alleles are favored","Natural selection cannot act on heterozygotes"],correct:1,explain:"When heterozygotes (Aa) have higher fitness than either homozygote (AA or aa), selection maintains both alleles at a stable equilibrium frequency. Neither allele can be eliminated because each is favored when rare (in the heterozygous state). Classic example: HbA/HbS in malaria-endemic regions."},
+    {q:"Sickle-cell trait heterozygotes (HbA/HbS) have high fitness in malaria regions because:",options:["They are completely immune to malaria","They balance partial malaria resistance against a mild sickling phenotype","HbS encodes a stronger oxygen-carrying hemoglobin","Natural selection cannot distinguish heterozygotes from homozygotes"],correct:1,explain:"HbA/HbS heterozygotes are partially protected from Plasmodium falciparum malaria (infected red cells sickle and are cleared more rapidly) without suffering the severe anemia of HbS/HbS homozygotes. This heterozygote advantage maintains both alleles in malaria-endemic populations."},
+    {q:"Genetic drift differs from natural selection in that:",options:["Drift is directional; selection is random","Drift is random (stochastic); selection is deterministic (depends on fitness)","Drift only affects dominant alleles","Selection has no effect in small populations"],correct:1,explain:"Natural selection is deterministic — it consistently favors higher-fitness genotypes. Genetic drift is stochastic — allele frequencies change due to random sampling variation in reproduction. Both operate simultaneously; drift dominates in small populations and for neutral alleles."},
+    {q:"A population in H-W equilibrium has p = 0.3 (dominant allele). What is the frequency of recessive homozygotes (q²)?",options:["0.49","0.09","0.42","0.21"],correct:0,explain:"q = 1 − p = 1 − 0.3 = 0.7. Therefore q² = 0.7² = 0.49. So nearly half the population would be aa homozygotes. This is why rare dominant alleles are much more 'visible' to selection than rare recessive ones (which hide in heterozygotes when rare)."},
+    {q:"Island populations typically show less genetic diversity than mainland populations because of:",options:["Higher mutation rates on islands","Founder effects and ongoing genetic drift in small populations","Stronger natural selection on islands","Greater gene flow between islands"],correct:1,explain:"Island colonization typically involves small founding groups (founder effect), reducing initial diversity. Small island population sizes then sustain ongoing genetic drift. Reduced immigration maintains this reduced diversity. This pattern (island biogeography + population genetics) explains endemic island species."},
+    {q:"Stabilizing selection on human birth weight selects against:",options:["The average birth weight","Heterozygotes","Extreme phenotypes (very low and very high birth weight)","The most common phenotype"],correct:2,explain:"Stabilizing selection removes both extremes. Very low birth weight babies have respiratory difficulties and other complications; very high birth weight babies face birth canal difficulties and metabolic issues. Intermediate birth weights (~3.4 kg) have highest survival."},
+    {q:"If a new advantageous mutation arises, natural selection will:",options:["Fix it in the next generation","Gradually increase its frequency over many generations","Have no effect — only drift matters for new mutations","Eliminate it because new mutations are initially rare"],correct:1,explain:"Selection gradually increases the frequency of advantageous alleles over generations. Even strongly advantageous mutations start at 1/(2N) frequency and can be lost by drift when rare. Those that survive drift will be progressively increased by selection over time."},
+    {q:"Which of the following is the ONLY source of genuinely NEW genetic variation in a population?",options:["Natural selection","Genetic drift","Mutation (and recombination)","Non-random mating"],correct:2,explain:"Mutation is the ultimate source of new alleles. Recombination reshuffles existing variation but doesn't create new alleles. Selection, drift, and gene flow change the frequencies of existing alleles but do not create new variation."},
+    {q:"In a population of 1000 individuals: 360 are AA, 480 are Aa, 160 are aa. What is the frequency of the a allele?",options:["0.4","0.6","0.16","0.48"],correct:0,explain:"Total alleles = 2000. a alleles = (2 × 160) + 480 = 320 + 480 = 800. Frequency of a = q = 800/2000 = 0.4. Note: expected H-W genotype frequencies would be p²=0.36, 2pq=0.48, q²=0.16 — which matches the observed proportions! This population IS in H-W equilibrium."},
+    {q:"The effective population size (Ne) primarily determines the rate of:",options:["Mutation","Genetic drift","Gene flow","Recombination"],correct:1,explain:"Ne is the size of an idealized H-W population that would experience the same rate of genetic drift as the actual population. Smaller Ne → faster drift → faster fixation of neutral alleles (average time to fixation ≈ 4Ne generations for a neutral allele)."},
+    {q:"Which of the following best describes a 'selective sweep'?",options:["Selection removing only recessive alleles","Rapid increase in frequency of an advantageous allele, dragging linked variants along with it","Stabilizing selection reducing variation","Selection favoring heterozygotes at all loci simultaneously"],correct:1,explain:"A selective sweep occurs when a new advantageous mutation rises rapidly to fixation. Because it is initially on one chromosome, nearby linked neutral variants also increase in frequency ('hitchhiking'), reducing genetic variation in the genomic region around the selected locus."}
+  ];
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+  function render(){
+    const grid=document.getElementById('q-grid-'+QID);
+    document.getElementById('q-score-'+QID).classList.remove('visible');
+    const qs=shuffle(BANK).slice(0,N);
+    grid.innerHTML=qs.map((q,i)=>{
+      const opts=shuffle(q.options.map((t,j)=>({t,c:j===q.correct})));
+      return `<div class="quiz-card">
+        <div class="quiz-q-num">Question ${i+1} of ${N}</div>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">${opts.map((o,k)=>`<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}</div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.quiz-options').forEach(wrap=>{
+      wrap.addEventListener('click',e=>{
+        const btn=e.target.closest('.quiz-opt');
+        if(!btn||btn.classList.contains('locked'))return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  function grade(){
+    let correct=0;
+    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
+      const sel=card.querySelector('.quiz-opt.selected');
+      card.querySelectorAll('.quiz-opt').forEach(o=>{
+        o.classList.add('locked');
+        if(o.dataset.c==='true')o.classList.add('opt-correct');
+      });
+      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
+      else card.classList.add('wrong');
+      card.classList.add('revealed');
+    });
+    const scr=document.getElementById('q-score-'+QID);
+    document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
+    const p=correct/N;
+    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 03.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 03 and try again.';
+    scr.classList.add('visible');
+    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('q-new-'+QID).addEventListener('click',render);
+  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
+  render();
+})();
+</script>
 
 </main>
 
