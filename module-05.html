@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 05 · Animal Diversity: Protostomes · BIO 212</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── Characteristic cards ── */
+.char-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem; margin: 1.5rem 0;
+}
+.char-card {
+  background: var(--glass); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 1.4rem;
+  position: relative; overflow: hidden;
+}
+.char-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+.char-card.c-teal::before  { background: var(--teal); }
+.char-card.c-violet::before{ background: var(--violet); }
+.char-card.c-gold::before  { background: var(--gold); }
+.char-card.c-rose::before  { background: var(--rose); }
+.char-card.c-lime::before  { background: var(--lime); }
+.char-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+.char-title { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); margin-bottom: 0.4rem; }
+.char-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; margin: 0; }
+
+/* ── Body plan aspect cards ── */
+.bp-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem; margin: 1.5rem 0;
+}
+.bp-card {
+  background: var(--glass); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 1.6rem;
+  transition: all 0.3s;
+}
+.bp-card:hover { transform: translateY(-3px); border-color: rgba(100,255,218,0.3); }
+.bp-num { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+.bp-card h4 { margin: 0 0 0.7rem; color: var(--ink); }
+.bp-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; margin: 0 0 0.5rem; }
+.bp-examples { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+
+/* ── Clade comparison ── */
+.clade-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;
+}
+@media (max-width: 640px) { .clade-split { grid-template-columns: 1fr; } }
+.clade-box {
+  border-radius: var(--radius); padding: 1.8rem;
+  position: relative; overflow: hidden;
+}
+.clade-box.lopho {
+  background: rgba(100,255,218,0.05); border: 1px solid rgba(100,255,218,0.25);
+}
+.clade-box.ecdyso {
+  background: rgba(255,209,102,0.05); border: 1px solid rgba(255,209,102,0.25);
+}
+.clade-label {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em;
+  text-transform: uppercase; margin-bottom: 0.5rem; display: block;
+}
+.lopho  .clade-label { color: var(--teal); }
+.ecdyso .clade-label { color: var(--gold); }
+.clade-box h3 { margin: 0 0 0.8rem; }
+.clade-box li { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.85; }
+.phylum-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.8rem; }
+.ph-chip {
+  font-family: var(--mono); font-size: 0.7rem; padding: 0.2rem 0.7rem;
+  border-radius: 999px; letter-spacing: 0.06em;
+}
+.ph-chip.t { background: rgba(100,255,218,0.1); color: var(--teal); border: 1px solid rgba(100,255,218,0.3); }
+.ph-chip.g { background: rgba(255,209,102,0.1); color: var(--gold); border: 1px solid rgba(255,209,102,0.3); }
+
+/* ── Phylum profile cards ── */
+.phylum-card {
+  background: var(--glass); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 1.8rem 2rem;
+  margin: 1.5rem 0; position: relative; overflow: hidden;
+}
+.phylum-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.phylum-card.teal::before   { background: linear-gradient(90deg,var(--teal),var(--violet)); }
+.phylum-card.violet::before { background: linear-gradient(90deg,var(--violet),var(--rose)); }
+.phylum-card.gold::before   { background: linear-gradient(90deg,var(--gold),var(--coral)); }
+.phylum-card.lime::before   { background: linear-gradient(90deg,var(--lime),var(--teal)); }
+.phylum-card.rose::before   { background: linear-gradient(90deg,var(--rose),var(--violet)); }
+.phylum-name {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink-dim); margin-bottom: 0.3rem;
+}
+.phylum-card h3 { margin: 0 0 0.2rem; }
+.phylum-examples {
+  font-style: italic; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 1rem;
+}
+.feat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem; margin: 0.8rem 0;
+}
+.feat-item {
+  font-size: 0.84rem; color: var(--ink-soft); line-height: 1.5;
+  padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.feat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.15rem; }
+
+/* ── Comparison wide table ── */
+.compare-wide {
+  width: 100%; border-collapse: collapse; font-size: 0.84rem; margin: 1.5rem 0;
+}
+.compare-wide th {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); text-align: left;
+  padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+}
+.compare-wide td {
+  padding: 0.65rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top; line-height: 1.5;
+}
+.compare-wide tr:last-child td { border-bottom: none; }
+.compare-wide tr:hover td { background: rgba(255,255,255,0.02); }
+.row-head { font-weight: 600; color: var(--ink); white-space: nowrap; }
+.yes { color: var(--teal); }
+.no  { color: var(--rose); }
+
+/* ── Phylo container ── */
+.phylo-wrap {
+  background: var(--glass); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0; overflow: hidden;
+}
+
+/* ── Class tabs ── */
+.class-tabs { margin: 1.5rem 0; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- ══════ NAV ══════ -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+      <a href="module-05.html" class="active">05 · Protostomes</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<header class="page-hero">
+  <div class="module-eyebrow">Module 05</div>
+  <h1>Animal Diversity: <em>Protostomes</em></h1>
+  <p class="page-desc">From the defining features of animal life to the staggering diversity of worms, molluscs, and arthropods — a deep dive into protostome body plans, phylogenetic relationships, and the innovations that made invertebrate life so successful.</p>
+  <div class="hero-tags">
+    <span class="pill teal">Body Plans</span>
+    <span class="pill violet">Lophotrochozoa</span>
+    <span class="pill gold">Ecdysozoa</span>
+    <span class="pill rose">Mollusca</span>
+    <span class="pill">Arthropoda</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ══════ LEARNING GOALS ══════ -->
+  <section class="reveal">
+    <div class="divider">Learning Objectives</div>
+    <div class="learning-goals">
+      <div class="lg-header">
+        <span class="lg-header-title">Module 05 · Animal Diversity: Protostomes</span>
+        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-dim);margin-left:auto;">Click a tier to expand</span>
+      </div>
+
+      <div class="lg-tier tier-1">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">1</div>
+          <div><div class="lg-tier-label">Level 1 · Know</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Master these first</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>List the characteristics that distinguish animals from organisms in other kingdoms.</li>
+          <li>Define the term <em>body plan</em>.</li>
+          <li>List the four primary aspects of an animal's body plan: number of germ layers, body symmetry, body cavity, and early development.</li>
+          <li>Identify the two major lineages within the protostome clade.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="lg-tier tier-2">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">2</div>
+          <div><div class="lg-tier-label">Level 2 · Understand</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Mechanisms and distinctions</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>Describe the four primary aspects of an animal body plan and identify each in animal examples.</li>
+          <li>Describe secondary aspects of animal body plans and identify each in examples: limbs, nervous systems, cephalization, segmentation, etc.</li>
+          <li>Describe the phylogenetic relationships of the major animal phyla.</li>
+          <li>Identify the major structural innovations in the phylogenetic tree of animal life and associate these innovations with the appropriate lineages.</li>
+          <li>Describe the defining features of Lophotrochozoa and Ecdysozoa and identify the protostome phyla that belong to each group.</li>
+          <li>Identify and distinguish between the four important lineages in phylum Mollusca: gastropods, chitons, bivalves, and cephalopods.</li>
+          <li>Identify and distinguish between the four important lineages in phylum Arthropoda: crustaceans, myriapods, chelicerates (arachnids), and insects.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="lg-tier tier-3">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">3</div>
+          <div><div class="lg-tier-label">Level 3 · Apply &amp; Analyse</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Class discussions will focus here</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>Compare and contrast the major protostome phyla in terms of their body plans: Platyhelminthes, Annelida, Mollusca, Nematoda, Arthropoda.</li>
+        </ul></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 1
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l1 reveal">⬡ Level 1 · Remember &amp; Identify</div>
+
+  <!-- What is an Animal? -->
+  <section class="reveal">
+    <div class="section-label">Animal Kingdom</div>
+    <h2>What Distinguishes Animals?</h2>
+    <p style="color:var(--ink-soft);max-width:680px;">Kingdom Animalia is defined by a set of shared derived characters (synapomorphies) not found together in any other kingdom.</p>
+
+    <div class="char-grid">
+      <div class="char-card c-teal reveal reveal-item delay-1">
+        <span class="char-icon">🔬</span>
+        <div class="char-title">Eukaryotic &amp; Multicellular</div>
+        <p>All animals are multicellular eukaryotes. No animal is unicellular (unlike protists). Cell differentiation into tissues is a defining feature of most animals.</p>
+      </div>
+      <div class="char-card c-violet reveal reveal-item delay-2">
+        <span class="char-icon">🍖</span>
+        <div class="char-title">Heterotrophic</div>
+        <p>Animals cannot synthesise organic molecules from inorganic sources (no photosynthesis). All animals ingest other organisms or their products. No cell walls (unlike plants and fungi).</p>
+      </div>
+      <div class="char-card c-gold reveal reveal-item delay-3">
+        <span class="char-icon">🏃</span>
+        <div class="char-title">Motility</div>
+        <p>Most animals are motile at some stage of their life cycle — typically by muscle contraction. Even sessile adults (sponges, barnacles) often have motile larval stages.</p>
+      </div>
+      <div class="char-card c-rose reveal reveal-item delay-4">
+        <span class="char-icon">🧬</span>
+        <div class="char-title">Sexual Reproduction &amp; Diploid Dominance</div>
+        <p>Animals are typically diploid for most of their life cycle. Gametes are the only haploid stage. Most reproduce sexually; the egg is typically larger than the sperm.</p>
+      </div>
+      <div class="char-card c-lime reveal reveal-item delay-5">
+        <span class="char-icon">🥚</span>
+        <div class="char-title">Embryonic Development</div>
+        <p>All animals develop through embryonic stages: fertilisation → cleavage → blastula → gastrula. Embryonic development is a unique shared feature of the animal kingdom.</p>
+      </div>
+      <div class="char-card c-teal reveal reveal-item delay-1">
+        <span class="char-icon">🕸</span>
+        <div class="char-title">Collagen &amp; Extracellular Matrix</div>
+        <p>Animals produce collagen — a structural protein unique to animals — and have an extracellular matrix (ECM) holding cells together. No cell walls of cellulose or chitin surround animal cells.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body Plan Definition -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Body Plan</div>
+    <h2>What is a Body Plan?</h2>
+    <div class="callout callout-teal reveal">
+      <div class="callout-label">◈ Definition</div>
+      <p><strong>Body plan:</strong> The set of morphological and developmental features shared by members of a phylum — the overall organisation of an animal's body, including the arrangement of tissues, organ systems, and symmetry. Body plans are largely established during early embryonic development (gastrulation and beyond) and are phylogenetically conserved within phyla.</p>
+    </div>
+
+    <p style="color:var(--ink-soft);margin-top:1rem;max-width:700px;">Four <strong>primary aspects</strong> of a body plan are used to classify animals and reflect key evolutionary innovations:</p>
+
+    <div class="bp-grid">
+      <div class="bp-card reveal reveal-item delay-1">
+        <div class="bp-num">Primary Aspect 01</div>
+        <h4>Number of Germ Layers</h4>
+        <p><strong>Diploblastic:</strong> 2 layers — ectoderm + endoderm only. No true mesoderm.</p>
+        <p><strong>Triploblastic:</strong> 3 layers — ecto + meso + endo. Mesoderm enables muscles, organs, coelom.</p>
+        <div class="bp-examples">
+          <span class="pill">Cnidaria = diploblastic</span>
+          <span class="pill teal">All Bilateria = triploblastic</span>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-item delay-2">
+        <div class="bp-num">Primary Aspect 02</div>
+        <h4>Body Symmetry</h4>
+        <p><strong>Asymmetric:</strong> No plane of symmetry (sponges).</p>
+        <p><strong>Radial:</strong> Multiple planes through central axis. Sessile/slow-moving.</p>
+        <p><strong>Bilateral:</strong> One plane of symmetry (dorsal/ventral, anterior/posterior). Associated with active movement and cephalization.</p>
+        <div class="bp-examples">
+          <span class="pill">Sponges = asymmetric</span>
+          <span class="pill violet">Cnidaria = radial</span>
+          <span class="pill teal">Bilateria = bilateral</span>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-item delay-3">
+        <div class="bp-num">Primary Aspect 03</div>
+        <h4>Body Cavity (Coelom)</h4>
+        <p><strong>Acoelomate:</strong> No body cavity. Mesoderm fills space between gut and body wall (e.g., flatworms).</p>
+        <p><strong>Pseudocoelomate:</strong> Cavity present but NOT fully lined by mesoderm (e.g., nematodes).</p>
+        <p><strong>Eucoelomate:</strong> True coelom fully lined by mesoderm (peritoneum). Provides space for organs (e.g., annelids, molluscs, arthropods, chordates).</p>
+      </div>
+      <div class="bp-card reveal reveal-item delay-4">
+        <div class="bp-num">Primary Aspect 04</div>
+        <h4>Early Development Pattern</h4>
+        <p><strong>Protostomes:</strong> Spiral + determinate cleavage; blastopore → mouth; schizocoely (coelom from mesoderm splits).</p>
+        <p><strong>Deuterostomes:</strong> Radial + indeterminate cleavage; blastopore → anus; enterocoely (coelom from gut pockets).</p>
+        <div class="bp-examples">
+          <span class="pill gold">Insects, worms, molluscs = protostome</span>
+          <span class="pill teal">Chordates, echinoderms = deuterostome</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Protostome clade overview -->
+  <section class="reveal" style="margin-top:2rem;">
+    <div class="section-label">Protostomia</div>
+    <h2>Two Major Lineages of Protostomes</h2>
+
+    <div class="clade-split">
+      <div class="clade-box lopho reveal reveal-item delay-1">
+        <span class="clade-label">Clade 1</span>
+        <h3 style="color:var(--teal);">Lophotrochozoa</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);line-height:1.7;">Named for the <strong>lophophore</strong> (a ciliated feeding structure) and/or the <strong>trochophore larva</strong> (a free-swimming ciliated larval form). Members share one or both of these features.</p>
+        <div class="phylum-chips">
+          <span class="ph-chip t">Platyhelminthes</span>
+          <span class="ph-chip t">Annelida</span>
+          <span class="ph-chip t">Mollusca</span>
+          <span class="ph-chip t">Rotifera</span>
+          <span class="ph-chip t">Bryozoa</span>
+          <span class="ph-chip t">Brachiopoda</span>
+        </div>
+      </div>
+      <div class="clade-box ecdyso reveal reveal-item delay-2">
+        <span class="clade-label">Clade 2</span>
+        <h3 style="color:var(--gold);">Ecdysozoa</h3>
+        <p style="font-size:0.9rem;color:var(--ink-soft);line-height:1.7;">Named for <strong>ecdysis</strong> — the periodic moulting of a hard external cuticle. All ecdysozoans grow by shedding their cuticle rather than by continuously expanding it.</p>
+        <div class="phylum-chips">
+          <span class="ph-chip g">Nematoda</span>
+          <span class="ph-chip g">Arthropoda</span>
+          <span class="ph-chip g">Priapulida</span>
+          <span class="ph-chip g">Tardigrada</span>
+          <span class="ph-chip g">Onychophora</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 2
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l2 reveal">⬡ Level 2 · Understand &amp; Describe</div>
+
+  <!-- Animal Phylogeny SVG -->
+  <section class="reveal">
+    <div class="section-label">Phylogenetics</div>
+    <h2>Animal Phylogenetic Tree — Major Innovations</h2>
+
+    <div class="phylo-wrap reveal">
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-dim);margin-bottom:1rem;">Fig 5.1 · Simplified animal cladogram with key synapomorphies</div>
+      <svg viewBox="0 0 860 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:520px;">
+        <!-- Background panels -->
+        <!-- Protostome region -->
+        <rect x="420" y="10" width="430" height="480" rx="10" fill="rgba(255,209,102,0.04)" stroke="rgba(255,209,102,0.1)" stroke-width="1"/>
+        <text x="635" y="28" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,209,102,0.4)" letter-spacing="1">PROTOSTOMIA</text>
+
+        <!-- Lophotrochozoa sub-region -->
+        <rect x="580" y="35" width="130" height="240" rx="6" fill="rgba(100,255,218,0.04)" stroke="rgba(100,255,218,0.12)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="645" y="50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.4)">LOPHOTROCHOZOA</text>
+
+        <!-- Ecdysozoa sub-region -->
+        <rect x="580" y="295" width="130" height="180" rx="6" fill="rgba(255,209,102,0.04)" stroke="rgba(255,209,102,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="645" y="310" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.45)">ECDYSOZOA</text>
+
+        <!-- ── TREE LINES ── -->
+        <!-- Root vertical spine -->
+        <line x1="60" y1="70" x2="60" y2="450" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+
+        <!-- Sponges branch -->
+        <line x1="60" y1="450" x2="160" y2="450" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+
+        <!-- Eumetazoa node -->
+        <line x1="60" y1="70" x2="80" y2="70" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+        <!-- Eumetazoa vertical -->
+        <line x1="80" y1="70" x2="80" y2="380" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+
+        <!-- Cnidaria branch -->
+        <line x1="80" y1="380" x2="160" y2="380" stroke="rgba(255,110,199,0.5)" stroke-width="2"/>
+
+        <!-- Bilateria node -->
+        <line x1="80" y1="70" x2="100" y2="70" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+        <line x1="100" y1="70" x2="100" y2="300" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+
+        <!-- Deuterostome branch (upward) -->
+        <line x1="100" y1="70" x2="120" y2="70" stroke="rgba(100,255,218,0.4)" stroke-width="2"/>
+        <line x1="120" y1="70" x2="120" y2="120" stroke="rgba(100,255,218,0.4)" stroke-width="2"/>
+        <!-- Echinodermata -->
+        <line x1="120" y1="70" x2="160" y2="70" stroke="rgba(100,255,218,0.5)" stroke-width="2"/>
+        <!-- Chordata -->
+        <line x1="120" y1="120" x2="160" y2="120" stroke="rgba(100,255,218,0.5)" stroke-width="2"/>
+
+        <!-- Protostome node -->
+        <line x1="100" y1="300" x2="140" y2="300" stroke="rgba(255,209,102,0.5)" stroke-width="2"/>
+        <line x1="140" y1="300" x2="140" y2="170" stroke="rgba(255,209,102,0.5)" stroke-width="2"/>
+
+        <!-- Lophotrochozoa vertical -->
+        <line x1="140" y1="170" x2="160" y2="170" stroke="rgba(100,255,218,0.45)" stroke-width="2"/>
+        <line x1="160" y1="170" x2="160" y2="60" stroke="rgba(100,255,218,0.45)" stroke-width="2"/>
+        <!-- Platyhelminthes -->
+        <line x1="160" y1="60" x2="580" y2="60" stroke="rgba(100,255,218,0.55)" stroke-width="1.8"/>
+        <!-- Annelida -->
+        <line x1="160" y1="100" x2="580" y2="100" stroke="rgba(100,255,218,0.55)" stroke-width="1.8"/>
+        <!-- Mollusca -->
+        <line x1="160" y1="140" x2="580" y2="140" stroke="rgba(100,255,218,0.55)" stroke-width="1.8"/>
+        <!-- Other Lopho -->
+        <line x1="160" y1="180" x2="580" y2="180" stroke="rgba(100,255,218,0.3)" stroke-width="1.2" stroke-dasharray="5,3"/>
+        <line x1="160" y1="220" x2="580" y2="220" stroke="rgba(100,255,218,0.3)" stroke-width="1.2" stroke-dasharray="5,3"/>
+
+        <!-- Ecdysozoa vertical -->
+        <line x1="140" y1="300" x2="160" y2="300" stroke="rgba(255,209,102,0.45)" stroke-width="2"/>
+        <line x1="160" y1="300" x2="160" y2="420" stroke="rgba(255,209,102,0.45)" stroke-width="2"/>
+        <!-- Nematoda -->
+        <line x1="160" y1="320" x2="580" y2="320" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+        <!-- Arthropoda -->
+        <line x1="160" y1="380" x2="580" y2="380" stroke="rgba(255,209,102,0.65)" stroke-width="2.2"/>
+        <!-- Other Ecdyso -->
+        <line x1="160" y1="420" x2="580" y2="420" stroke="rgba(255,209,102,0.3)" stroke-width="1.2" stroke-dasharray="5,3"/>
+
+        <!-- ── TAXON LABELS ── -->
+        <!-- Sponges -->
+        <text x="165" y="454" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.55)">Porifera (sponges)</text>
+        <!-- Cnidaria -->
+        <text x="165" y="384" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.75)">Cnidaria</text>
+        <!-- Echinodermata -->
+        <text x="165" y="74" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(100,255,218,0.75)">Echinodermata</text>
+        <!-- Chordata -->
+        <text x="165" y="124" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(100,255,218,0.75)">Chordata</text>
+        <!-- Lopho taxa -->
+        <text x="590" y="64" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.85)" font-weight="600">Platyhelminthes</text>
+        <text x="590" y="104" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.85)" font-weight="600">Annelida</text>
+        <text x="590" y="144" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.85)" font-weight="600">Mollusca</text>
+        <text x="590" y="184" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.5)" font-style="italic">Rotifera, Bryozoa…</text>
+        <text x="590" y="224" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.5)" font-style="italic">Brachiopoda…</text>
+        <!-- Ecdyso taxa -->
+        <text x="590" y="324" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.85)" font-weight="600">Nematoda</text>
+        <text x="590" y="384" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,209,102,0.95)" font-weight="600">Arthropoda</text>
+        <text x="590" y="424" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.5)" font-style="italic">Priapulida, Tardigrada…</text>
+
+        <!-- ── INNOVATION CALLOUTS ── -->
+        <!-- True tissues -->
+        <rect x="4" y="56" width="54" height="24" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.25)" stroke-width="1"/>
+        <text x="31" y="67" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.7)">True</text>
+        <text x="31" y="76" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.7)">tissues</text>
+
+        <!-- Bilateral + mesoderm -->
+        <rect x="4" y="158" width="56" height="28" rx="4" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+        <text x="32" y="169" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(167,139,250,0.75)">Bilateral +</text>
+        <text x="32" y="179" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(167,139,250,0.75)">3 germ layers</text>
+
+        <!-- Protostome -->
+        <rect x="4" y="282" width="56" height="28" rx="4" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
+        <text x="32" y="293" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,209,102,0.75)">Spiral cleavage</text>
+        <text x="32" y="303" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,209,102,0.75)">blastopore→mouth</text>
+
+        <!-- Ecdysis innovation -->
+        <rect x="430" y="282" width="62" height="24" rx="4" fill="rgba(255,209,102,0.1)" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>
+        <text x="461" y="293" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.8)">Ecdysis /</text>
+        <text x="461" y="303" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.8)">cuticle moulting</text>
+
+        <!-- Trochophore / lophophore -->
+        <rect x="430" y="148" width="62" height="24" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.22)" stroke-width="1"/>
+        <text x="461" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.7)">Trochophore</text>
+        <text x="461" y="169" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.7)">larva / lophophore</text>
+
+        <!-- DEUTEROSTOME label -->
+        <text x="112" y="90" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.4)" transform="rotate(-90,112,90)">DEUTEROSTOMIA</text>
+
+      </svg>
+    </div>
+
+    <!-- Key innovations table -->
+    <h3 style="margin-top:2rem;">Major Structural Innovations</h3>
+    <div class="table-wrap reveal">
+      <table class="compare-wide">
+        <thead>
+          <tr><th>Innovation</th><th>Significance</th><th>First appears in…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-head">True tissues</td><td>Cells specialise into coordinated functional units; enables organs</td><td>Eumetazoa (all except sponges)</td></tr>
+          <tr><td class="row-head">Bilateral symmetry</td><td>Defines anterior/posterior → cephalization, directed movement</td><td>Bilateria</td></tr>
+          <tr><td class="row-head">Mesoderm (3 germ layers)</td><td>Source of muscle, connective tissue, circulatory system, coelom</td><td>Triploblastica (all Bilateria)</td></tr>
+          <tr><td class="row-head">True coelom</td><td>Fluid-filled cavity cushions organs, enables hydrostatic skeleton, large body size</td><td>Eucoelomates (annelids, molluscs, arthropods, chordates)</td></tr>
+          <tr><td class="row-head">Segmentation</td><td>Modular body plan — segments can specialise independently (tagmatization in arthropods)</td><td>Annelida; modified in Arthropoda</td></tr>
+          <tr><td class="row-head">Hard exoskeleton + jointed appendages</td><td>Enabled terrestrial life, flight, rapid locomotion, tool-use</td><td>Arthropoda</td></tr>
+          <tr><td class="row-head">Ecdysis (moulting)</td><td>Growth possible despite rigid cuticle; enables metamorphosis</td><td>Ecdysozoa</td></tr>
+          <tr><td class="row-head">Trochophore larva / lophophore</td><td>Free-swimming larva disperses population; lophophore enhances suspension feeding</td><td>Lophotrochozoa</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Secondary Body Plan Aspects -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Body Plan Details</div>
+    <h2>Secondary Aspects of Body Plans</h2>
+
+    <div class="grid g2 reveal">
+      <div class="definition">
+        <div class="def-term">Cephalization</div>
+        <div class="def-body">Concentration of sensory organs and the nervous system at the anterior end, forming a head. Associated with bilateral symmetry and active directional movement. Allows rapid processing of information encountered at the leading end of the body. Varies from minimal (flatworms — anterior ganglia only) to extreme (cephalopods — sophisticated brain, camera eyes).</div>
+      </div>
+      <div class="definition">
+        <div class="def-term">Segmentation (Metamerism)</div>
+        <div class="def-body">Serial repetition of body units (segments or metameres) along the A-P axis, each containing copies of organ systems. True metamerism (same set of organs in each segment) in Annelida. <strong>Tagmatization</strong> in Arthropoda = segments fused into specialised functional groups (tagmata): head, thorax, abdomen. Enables regional specialisation while retaining a modular developmental programme.</div>
+      </div>
+      <div class="definition">
+        <div class="def-term">Nervous System Organisation</div>
+        <div class="def-body"><strong>Nerve net:</strong> no centralisation, diffuse (Cnidaria). <strong>Ladder-type:</strong> paired ventral nerve cords with ganglia in each segment (Platyhelminthes, Annelida). <strong>Fused ganglia:</strong> brain + ventral nerve cord in Arthropoda. <strong>Highly centralised:</strong> Cephalopods — the most complex invertebrate nervous system. Complexity correlates with ecological niche and behavioural repertoire.</div>
+      </div>
+      <div class="definition">
+        <div class="def-term">Limbs &amp; Appendages</div>
+        <div class="def-body">Arthropod appendages are <strong>jointed</strong> (articulated by muscles across a rigid exoskeleton joint), enabling precise fine motor control. Biramous appendages (two branches) in ancestral crustaceans. Uniramous (one branch) in insects, myriapods, arachnids. Molluscs have a muscular foot (not a jointed limb). Annelids may have parapodia (unjointed fleshy lobes). Vertebrate limbs are endoskeletal.</div>
+      </div>
+    </div>
+
+    <!-- Coelom types SVG -->
+    <div class="figure reveal" style="margin-top:2rem;">
+      <div class="fig-label">Fig 5.2 · Body Cavity Types — Cross-Section</div>
+      <svg viewBox="0 0 840 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:260px;">
+
+        <!-- ACOELOMATE -->
+        <g transform="translate(20,20)">
+          <rect x="0" y="0" width="240" height="195" rx="8" fill="rgba(8,11,26,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="120" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.4)">ACOELOMATE</text>
+          <!-- Body wall (ectoderm outer ring) -->
+          <ellipse cx="120" cy="105" rx="96" ry="70" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2.5"/>
+          <!-- Mesoderm fill (between body wall and gut) -->
+          <ellipse cx="120" cy="105" rx="72" ry="52" fill="rgba(167,139,250,0.25)" stroke="none"/>
+          <!-- Gut (endoderm) -->
+          <ellipse cx="120" cy="105" rx="28" ry="22" fill="rgba(255,110,199,0.25)" stroke="#ff6ec7" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="26"  y="75"  font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">ectoderm</text>
+          <text x="54"  y="118" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">mesoderm</text>
+          <text x="105" y="108" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">gut</text>
+          <text x="40"  y="148" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.6)">(solid; no cavity)</text>
+          <text x="120" y="176" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.45)">e.g. Platyhelminthes</text>
+        </g>
+
+        <!-- PSEUDOCOELOMATE -->
+        <g transform="translate(300,20)">
+          <rect x="0" y="0" width="240" height="195" rx="8" fill="rgba(8,11,26,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="120" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.4)">PSEUDOCOELOMATE</text>
+          <!-- Body wall ectoderm -->
+          <ellipse cx="120" cy="105" rx="96" ry="70" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2.5"/>
+          <!-- Thin mesoderm layer just inside ectoderm -->
+          <ellipse cx="120" cy="105" rx="85" ry="60" fill="rgba(167,139,250,0.15)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <!-- Pseudocoelom cavity -->
+          <ellipse cx="120" cy="105" rx="72" ry="50" fill="rgba(100,200,255,0.12)" stroke="rgba(100,200,255,0.3)" stroke-width="1"/>
+          <!-- Gut (endoderm, no meso on outside) -->
+          <ellipse cx="120" cy="105" rx="28" ry="22" fill="rgba(255,110,199,0.25)" stroke="#ff6ec7" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="26"  y="72"  font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">ectoderm</text>
+          <text x="36"  y="100" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.65)">meso (partial)</text>
+          <text x="50"  y="130" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,200,255,0.7)">pseudocoelom</text>
+          <text x="105" y="108" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">gut</text>
+          <text x="120" y="176" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.45)">e.g. Nematoda</text>
+        </g>
+
+        <!-- EUCOELOMATE -->
+        <g transform="translate(580,20)">
+          <rect x="0" y="0" width="240" height="195" rx="8" fill="rgba(8,11,26,0.5)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="120" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.4)">EUCOELOMATE</text>
+          <!-- Body wall ectoderm -->
+          <ellipse cx="120" cy="105" rx="96" ry="70" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2.5"/>
+          <!-- Outer mesoderm lining body wall (peritoneum outer) -->
+          <ellipse cx="120" cy="105" rx="84" ry="59" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.8"/>
+          <!-- True coelom cavity -->
+          <ellipse cx="120" cy="105" rx="70" ry="48" fill="rgba(100,200,255,0.14)" stroke="rgba(100,200,255,0.4)" stroke-width="1.2"/>
+          <!-- Inner mesoderm lining gut (peritoneum inner) -->
+          <ellipse cx="120" cy="105" rx="38" ry="30" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.5"/>
+          <!-- Gut (endoderm) -->
+          <ellipse cx="120" cy="105" rx="24" ry="18" fill="rgba(255,110,199,0.3)" stroke="#ff6ec7" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="26"  y="70"  font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">ectoderm</text>
+          <text x="28"  y="95"  font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">mesoderm</text>
+          <text x="48"  y="128" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,200,255,0.75)">coelom</text>
+          <text x="82"  y="140" font-family="JetBrains Mono,monospace" font-size="7" fill="#a78bfa">meso</text>
+          <text x="107" y="107" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">gut</text>
+          <text x="120" y="176" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.45)">e.g. Annelida, Arthropoda</text>
+        </g>
+      </svg>
+      <div class="fig-caption">Body cavity types. Acoelomates (Platyhelminthes) have mesoderm filling the space between ectoderm and gut with no body cavity. Pseudocoelomates (Nematoda) have a body cavity not fully lined by mesoderm. Eucoelomates have a true coelom fully lined by mesoderm (peritoneum) on both sides.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════ LOPHOTROCHOZOA ══════ -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Lophotrochozoa</div>
+    <h2>Lophotrochozoa — Three Key Phyla</h2>
+
+    <!-- Platyhelminthes -->
+    <div class="phylum-card teal reveal">
+      <div class="phylum-name">Phylum</div>
+      <h3>Platyhelminthes <span style="font-size:0.7em;font-weight:400;color:var(--ink-dim);">(flatworms)</span></h3>
+      <div class="phylum-examples">Planaria, tapeworms, liver flukes, polyclad flatworms</div>
+      <div class="feat-grid">
+        <div class="feat-item"><span class="feat-label">Symmetry</span>Bilateral</div>
+        <div class="feat-item"><span class="feat-label">Germ layers</span>Triploblastic</div>
+        <div class="feat-item"><span class="feat-label">Body cavity</span><span class="no">Acoelomate</span> — mesoderm fills solid</div>
+        <div class="feat-item"><span class="feat-label">Segmentation</span><span class="no">None</span></div>
+        <div class="feat-item"><span class="feat-label">Circulatory system</span><span class="no">None</span> — diffusion only (flat body)</div>
+        <div class="feat-item"><span class="feat-label">Excretion</span>Flame cells (protonephridia)</div>
+        <div class="feat-item"><span class="feat-label">Nervous system</span>Anterior ganglia + ladder-like nerve cords</div>
+        <div class="feat-item"><span class="feat-label">Cephalization</span>Present (anterior eyespots in free-living)</div>
+        <div class="feat-item"><span class="feat-label">Feeding</span>Gastrovascular cavity with one opening (mouth = anus)</div>
+        <div class="feat-item"><span class="feat-label">Coelom clade</span>Lophotrochozoa</div>
+      </div>
+      <div class="tip" style="margin-top:0.8rem;">
+        <strong>Parasitic adaptations:</strong> Tapeworms (<em>Taenia</em>) are highly modified lophotrochozoans — no digestive system at all (absorb nutrients through the tegument), complex life cycles requiring intermediate hosts. Liver flukes (<em>Fasciola</em>) use a snail intermediate host. Free-living planaria can regenerate an entire organism from 1/300th of the body.
+      </div>
+    </div>
+
+    <!-- Annelida -->
+    <div class="phylum-card violet reveal">
+      <div class="phylum-name">Phylum</div>
+      <h3>Annelida <span style="font-size:0.7em;font-weight:400;color:var(--ink-dim);">(segmented worms)</span></h3>
+      <div class="phylum-examples">Earthworms (<em>Lumbricus</em>), polychaetes (ragworms, tubeworms), leeches</div>
+      <div class="feat-grid">
+        <div class="feat-item"><span class="feat-label">Symmetry</span>Bilateral</div>
+        <div class="feat-item"><span class="feat-label">Germ layers</span>Triploblastic</div>
+        <div class="feat-item"><span class="feat-label">Body cavity</span><span class="yes">True coelom</span> (eucoelomate)</div>
+        <div class="feat-item"><span class="feat-label">Segmentation</span><span class="yes">True metamerism</span> — each segment has own muscles, excretory organs, nerve ganglia</div>
+        <div class="feat-item"><span class="feat-label">Circulatory system</span><span class="yes">Closed</span> — dorsal vessel pumps blood anteriorly</div>
+        <div class="feat-item"><span class="feat-label">Excretion</span>Metanephridia (one pair per segment)</div>
+        <div class="feat-item"><span class="feat-label">Nervous system</span>Ventral nerve cord with segmental ganglia; brain (cerebral ganglia)</div>
+        <div class="feat-item"><span class="feat-label">Locomotion</span>Hydrostatic skeleton — circular + longitudinal muscles act on coelomic fluid</div>
+        <div class="feat-item"><span class="feat-label">Appendages</span>Parapodia (in polychaetes) — fleshy unjointed lobes used in locomotion and gas exchange</div>
+        <div class="feat-item"><span class="feat-label">Larva</span>Trochophore (in marine polychaetes)</div>
+      </div>
+    </div>
+
+    <!-- Mollusca with 4 classes as tabs -->
+    <div class="phylum-card gold reveal">
+      <div class="phylum-name">Phylum</div>
+      <h3>Mollusca <span style="font-size:0.7em;font-weight:400;color:var(--ink-dim);">(second most diverse animal phylum)</span></h3>
+      <div class="phylum-examples">~100,000 living species: snails, clams, octopus, squid, chitons, nudibranchs</div>
+
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin:0.8rem 0;line-height:1.7;"><strong>Shared molluscan features:</strong> muscular <strong>foot</strong> (locomotion), <strong>mantle</strong> (dorsal tissue fold that secretes shell), <strong>mantle cavity</strong> (contains gills/ctenidia for gas exchange), <strong>radula</strong> (toothed feeding ribbon, absent in bivalves), <strong>visceral mass</strong> (digestive/reproductive organs), trochophore larva → veliger larva.</p>
+
+      <div class="class-tabs tabs reveal">
+        <div class="tab-list" role="tablist">
+          <button class="tab-btn" data-tab="gastro" role="tab">Gastropoda</button>
+          <button class="tab-btn" data-tab="chiton" role="tab">Chitons</button>
+          <button class="tab-btn" data-tab="bivalve" role="tab">Bivalvia</button>
+          <button class="tab-btn" data-tab="cephalo" role="tab">Cephalopoda</button>
+        </div>
+
+        <div class="tab-panel" data-tab="gastro">
+          <h4 style="color:var(--teal);margin:1rem 0 0.5rem;">Gastropoda — snails &amp; slugs</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">Largest mollusk class (~70,000 sp.). Defined by <strong>torsion</strong> — a 180° rotation of the visceral mass relative to the head and foot during larval development, bringing the mantle cavity (and anus) over the head. Consequences: U-shaped gut, potential fouling of the mantle cavity (resolved by evolution of an asymmetric body). Most have a single coiled shell (reduced or absent in slugs and sea slugs). Radula present; herbivores, predators, or parasites. Terrestrial species (snails, slugs) breathe via a vascularised mantle cavity (lung); aquatic species use ctenidia.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill teal">Torsion</span><span class="pill">Single coiled shell</span><span class="pill">Radula present</span><span class="pill">Terrestrial + aquatic</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="chiton">
+          <h4 style="color:var(--violet);margin:1rem 0 0.5rem;">Polyplacophora — chitons</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~1,000 species of marine, rock-clinging molluscs. The most morphologically "primitive" class. Defined by <strong>8 overlapping dorsal shell plates</strong> (valves) — the only molluscs with a multi-part shell. Broad muscular foot clings tenaciously to rock surfaces. Girdle (thick mantle edge) surrounds the plates. Pairs of ctenidia run in a groove around the foot. Radula present. No cephalization (head not distinct, no eyes or tentacles on head). Scrape algae and encrusting organisms from rock surfaces. No free larval stage.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill violet">8 shell plates</span><span class="pill">Broad adhesive foot</span><span class="pill">No cephalization</span><span class="pill">Marine only</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="bivalve">
+          <h4 style="color:var(--gold);margin:1rem 0 0.5rem;">Bivalvia — clams, mussels, oysters, scallops</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~15,000 species. Defined by <strong>two hinged shells</strong> (valves) joined by a ligament and adductor muscles. <strong>No radula</strong> — unique among major mollusk classes. Most are <strong>suspension/filter feeders</strong>: enlarged ctenidia (gills) trap particles from the water current; labial palps sort particles. <strong>No distinct head</strong>. Open circulatory system. Many sessile as adults (mussels attach via byssal threads; oysters cement to substrate). Scallops can swim by clapping valves. Commercially significant: oysters, clams, mussels, geoducks, pearl oysters.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill gold">Two shells (valves)</span><span class="pill">No radula</span><span class="pill">Filter feeders</span><span class="pill">No head</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="cephalo">
+          <h4 style="color:var(--rose);margin:1rem 0 0.5rem;">Cephalopoda — octopus, squid, nautilus, cuttlefish</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~800 living species. The most derived molluscs — reduced or internalised shell (squid pen, cuttlebone) or absent (octopus), except Nautilus (external coiled shell). Foot modified into <strong>tentacles</strong> (arms) with suckers surrounding the head. <strong>Jet propulsion</strong> via muscular siphon. Most sophisticated invertebrate nervous system — large brain, complex learning and memory. <strong>Camera eyes</strong> that rival vertebrate eyes in resolution (convergent evolution). <strong>Closed circulatory system</strong> (unique among molluscs — high metabolic demand). Chromatophores enable rapid colour change for camouflage and communication. Ink gland for defence.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill rose">Closed circulation</span><span class="pill">Tentacles + siphon</span><span class="pill">Camera eyes</span><span class="pill">Complex brain</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ ECDYSOZOA ══════ -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Ecdysozoa</div>
+    <h2>Ecdysozoa — Nematoda &amp; Arthropoda</h2>
+
+    <div class="callout callout-gold reveal">
+      <div class="callout-label">◈ Defining Feature</div>
+      <p><strong>Ecdysis</strong> — all ecdysozoans grow by periodically shedding (moulting) a hard external <strong>cuticle</strong>. Growth occurs in the soft interval between moults. The hormone <strong>ecdysone</strong> (a steroid) triggers moulting in arthropods. This innovation solved the growth-constraint problem of rigid external coverings and also enables <strong>metamorphosis</strong> in insects.</p>
+    </div>
+
+    <!-- Nematoda -->
+    <div class="phylum-card lime reveal" style="margin-top:1.5rem;">
+      <div class="phylum-name">Phylum</div>
+      <h3>Nematoda <span style="font-size:0.7em;font-weight:400;color:var(--ink-dim);">(roundworms)</span></h3>
+      <div class="phylum-examples"><em>Caenorhabditis elegans</em> (model organism), <em>Ascaris lumbricoides</em>, hookworms, filarial worms, <em>Trichinella</em></div>
+      <div class="feat-grid">
+        <div class="feat-item"><span class="feat-label">Symmetry</span>Bilateral</div>
+        <div class="feat-item"><span class="feat-label">Body cavity</span><span class="no">Pseudocoelom</span> (not lined by mesoderm)</div>
+        <div class="feat-item"><span class="feat-label">Segmentation</span><span class="no">None</span></div>
+        <div class="feat-item"><span class="feat-label">Body shape</span>Cylindrical, tapered at both ends; cuticle is collagenous</div>
+        <div class="feat-item"><span class="feat-label">Cuticle / ecdysis</span><span class="yes">Yes</span> — moult 4 times during development</div>
+        <div class="feat-item"><span class="feat-label">Circulatory / respiratory</span><span class="no">None</span> — diffusion through body wall</div>
+        <div class="feat-item"><span class="feat-label">Digestive system</span>Complete: mouth → pharynx → intestine → anus (one-way gut)</div>
+        <div class="feat-item"><span class="feat-label">Nervous system</span>Simple: nerve ring around pharynx, dorsal + ventral nerve cords</div>
+        <div class="feat-item"><span class="feat-label">Locomotion</span>Thrashing movement — longitudinal muscles only (no circular), acts against pseudocoelomic pressure</div>
+        <div class="feat-item"><span class="feat-label">Ecological importance</span>Most abundant animals on Earth; ~60 billion per human; free-living in soil/water; many parasitic</div>
+      </div>
+      <div class="tip" style="margin-top:0.8rem;"><strong><em>C. elegans</em> as a model organism:</strong> 959 somatic cells (all named and mapped), complete cell lineage known, transparent body, short generation time. Provided the first complete animal neural connectome (302 neurons, all connections mapped). Nobel Prize 2002 (apoptosis), 2006 (RNAi), 2008 (GFP used in C. elegans).</div>
+    </div>
+
+    <!-- Arthropoda with 4 groups as tabs -->
+    <div class="phylum-card rose reveal" style="margin-top:1.5rem;">
+      <div class="phylum-name">Phylum</div>
+      <h3>Arthropoda <span style="font-size:0.7em;font-weight:400;color:var(--ink-dim);">(most diverse animal phylum)</span></h3>
+      <div class="phylum-examples">~1.2 million described species — insects, spiders, crabs, lobsters, centipedes, mites, barnacles</div>
+
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin:0.8rem 0;line-height:1.7;"><strong>Shared arthropod features:</strong> <strong>segmented body</strong> with <strong>tagmatization</strong> (segments fused into functional regions), <strong>jointed appendages</strong> (one pair per segment, at minimum), hard <strong>chitinous exoskeleton</strong> (moulted via ecdysis), <strong>open circulatory system</strong> (hemocoel — hemolymph bathes organs directly), well-developed <strong>brain</strong> (fused head ganglia) + ventral nerve cord.</p>
+
+      <div class="class-tabs tabs reveal">
+        <div class="tab-list" role="tablist">
+          <button class="tab-btn" data-tab="crust" role="tab">Crustacea</button>
+          <button class="tab-btn" data-tab="myria" role="tab">Myriapoda</button>
+          <button class="tab-btn" data-tab="cheli" role="tab">Chelicerata</button>
+          <button class="tab-btn" data-tab="insect" role="tab">Insecta</button>
+        </div>
+
+        <div class="tab-panel" data-tab="crust">
+          <h4 style="color:var(--teal);margin:1rem 0 0.5rem;">Crustacea — shrimp, crabs, lobsters, barnacles, copepods</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~67,000 species. Primarily <strong>aquatic</strong> (freshwater and marine); some terrestrial (wood lice, coconut crabs). Distinguishing features: <strong>two pairs of antennae</strong> (unique among arthropods — all others have at most one pair or none), <strong>biramous appendages</strong> (two-branched: exopodite + endopodite), <strong>calcified exoskeleton</strong> (calcium carbonate deposited in chitin), nauplius larva in many species. Tagmata: cephalothorax (head + thorax fused = cephalon + thorax protected by carapace) + abdomen. Gills for gas exchange. Economically and ecologically critical — copepods are the most abundant animal in the ocean.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill teal">2 pairs antennae</span><span class="pill">Biramous appendages</span><span class="pill">Calcified exoskeleton</span><span class="pill">Nauplius larva</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="myria">
+          <h4 style="color:var(--violet);margin:1rem 0 0.5rem;">Myriapoda — centipedes &amp; millipedes</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~16,000 species. All <strong>terrestrial</strong>. Defined by a body divided into <strong>head + elongated trunk</strong> with <strong>many leg-bearing segments</strong> (the name means "many-legged"). <strong>One pair of antennae</strong>. <strong>Centipedes</strong> (Chilopoda): one pair of legs per segment; predatory; first pair of legs modified into <strong>venomous forcipules</strong> for prey capture; fast-moving. <strong>Millipedes</strong> (Diplopoda): two pairs of legs per segment (two segments fused = diplosegment); detritivores (eat decomposing plant matter); slow; defensive coiling and chemical defence (cyanide compounds in some). Gas exchange via tracheae (air tubes opening at spiracles).</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill violet">Many leg-bearing segments</span><span class="pill">Terrestrial</span><span class="pill">1 pair antennae</span><span class="pill">Tracheae</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="cheli">
+          <h4 style="color:var(--gold);margin:1rem 0 0.5rem;">Chelicerata — spiders, scorpions, ticks, mites, horseshoe crabs</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">~100,000 species. Defined by <strong>chelicerae</strong> (first pair of appendages modified as fangs or pincers for feeding/defence — not legs) and <strong>pedipalps</strong> (second pair, used for sensing or grasping). <strong>No antennae</strong> (unique among major arthropod groups). Body divided into <strong>prosoma</strong> (cephalothorax = head + thorax fused) + <strong>opisthosoma</strong> (abdomen). <strong>4 pairs of walking legs</strong>. Arachnids (spiders, scorpions, ticks, mites) are entirely terrestrial or parasitic; horseshoe crabs (Xiphosura) are marine and ancient (little changed in 450 Ma). Spiders produce silk; chelicerae in spiders deliver venom. Gas exchange via book lungs (leaf-like respiratory structures) and/or tracheae.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill gold">Chelicerae (no mandibles)</span><span class="pill">No antennae</span><span class="pill">4 pairs walking legs</span><span class="pill">Prosoma + opisthosoma</span>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="insect">
+          <h4 style="color:var(--rose);margin:1rem 0 0.5rem;">Insecta — the most species-rich animal class (~1 million described)</h4>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.7;">Distinguishing features: body divided into <strong>3 tagmata</strong> — <strong>head</strong> (1 pair antennae, compound eyes, mouthparts), <strong>thorax</strong> (3 pairs walking legs, typically 1–2 pairs wings), <strong>abdomen</strong> (no legs; digestive, reproductive systems). <strong>Wings</strong> are unique to insects among arthropods (and among invertebrates entirely). Gas exchange via <strong>tracheal system</strong> — tubes delivering O₂ directly to tissues. Malpighian tubules for excretion (conserve water — key to terrestrial success). Two modes of metamorphosis: <strong>incomplete (hemimetabolous)</strong> — egg → nymph → adult (grasshoppers, cockroaches); <strong>complete (holometabolous)</strong> — egg → larva → pupa → adult (beetles, butterflies, flies, bees) — enables larvae and adults to exploit different resources, reducing intraspecific competition.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+            <span class="pill rose">3 tagmata</span><span class="pill">3 pairs legs</span><span class="pill">Wings</span><span class="pill">Tracheal system</span><span class="pill">Malpighian tubules</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 3
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l3 reveal">⬡ Level 3 · Apply &amp; Analyse</div>
+
+  <section class="reveal">
+    <div class="section-label">Comparison</div>
+    <h2>Major Protostome Phyla — Body Plan Comparison</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Use this table to identify which body plan features evolved at which point in animal evolution, and to distinguish phyla from each other on exams.</p>
+
+    <div class="table-wrap reveal" style="overflow-x:auto;">
+      <table class="compare-wide" style="min-width:750px;">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="color:var(--teal);">Platyhelminthes</th>
+            <th style="color:var(--violet);">Annelida</th>
+            <th style="color:var(--gold);">Mollusca</th>
+            <th style="color:var(--lime);">Nematoda</th>
+            <th style="color:var(--rose);">Arthropoda</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">Clade</td>
+            <td><span style="color:var(--teal);">Lophotrochozoa</span></td>
+            <td><span style="color:var(--teal);">Lophotrochozoa</span></td>
+            <td><span style="color:var(--teal);">Lophotrochozoa</span></td>
+            <td><span style="color:var(--gold);">Ecdysozoa</span></td>
+            <td><span style="color:var(--gold);">Ecdysozoa</span></td>
+          </tr>
+          <tr>
+            <td class="row-head">Germ layers</td>
+            <td>Triploblastic</td>
+            <td>Triploblastic</td>
+            <td>Triploblastic</td>
+            <td>Triploblastic</td>
+            <td>Triploblastic</td>
+          </tr>
+          <tr>
+            <td class="row-head">Body cavity</td>
+            <td><span class="no">Acoelomate</span></td>
+            <td><span class="yes">True coelom</span></td>
+            <td>Reduced coelom (haemocoel)</td>
+            <td><span style="color:var(--gold);">Pseudocoelom</span></td>
+            <td>Haemocoel (open circulatory)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Segmentation</td>
+            <td><span class="no">None</span></td>
+            <td><span class="yes">True metamerism</span></td>
+            <td><span class="no">None</span> (mostly)</td>
+            <td><span class="no">None</span></td>
+            <td><span class="yes">Yes</span> (tagmatized)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Ecdysis (moult)</td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+            <td><span class="yes">Yes</span></td>
+            <td><span class="yes">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="row-head">Circulatory system</td>
+            <td><span class="no">None</span></td>
+            <td><span class="yes">Closed</span></td>
+            <td>Open (closed in cephalopods)</td>
+            <td><span class="no">None</span></td>
+            <td>Open (haemocoel)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Excretion</td>
+            <td>Flame cells (protonephridia)</td>
+            <td>Metanephridia</td>
+            <td>Nephridia / Keber's organ</td>
+            <td>Pseudocoelom / excretory cells</td>
+            <td>Malpighian tubules (insects); green glands (crustaceans)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Nervous system</td>
+            <td>Anterior ganglia + ladder nerve cords</td>
+            <td>Cerebral ganglia + ventral nerve cord, segmental ganglia</td>
+            <td>Ganglia ring (varies: simple in bivalves → complex in cephalopods)</td>
+            <td>Nerve ring + dorsal + ventral cords; simple</td>
+            <td>Brain + ventral nerve cord; highly developed</td>
+          </tr>
+          <tr>
+            <td class="row-head">Cephalization</td>
+            <td>Minimal (anterior ganglia, eyespots)</td>
+            <td>Present (prostomium with sense organs in polychaetes)</td>
+            <td>Varies: absent in bivalves → extreme in cephalopods</td>
+            <td>Minimal</td>
+            <td><span class="yes">Pronounced</span> — complex compound eyes, diverse mouthparts</td>
+          </tr>
+          <tr>
+            <td class="row-head">Skeleton</td>
+            <td>None</td>
+            <td>Hydrostatic (coelomic fluid)</td>
+            <td>Shell (most); absent in slugs + octopus</td>
+            <td>Hydrostatic (pseudocoelomic pressure)</td>
+            <td>Chitinous exoskeleton (ecdysis for growth)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Feeding structures</td>
+            <td>Gastrovascular cavity (one opening); pharynx in some</td>
+            <td>Complete digestive tract; earthworms ingest soil; polychaetes varied</td>
+            <td>Radula (most) — absent in bivalves; bivalves = filter-feed</td>
+            <td>Stylet (piercing) or muscular pharynx; both free-living and parasitic</td>
+            <td>Mandibles (crustacea, insects, myriapods) or chelicerae (arachnids)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Gas exchange</td>
+            <td>Diffusion through flat body</td>
+            <td>Skin (earthworms); parapodia / gills (polychaetes)</td>
+            <td>Ctenidia (gills); mantle cavity; modified in terrestrial gastropods (lung)</td>
+            <td>Diffusion through cuticle</td>
+            <td>Gills (crustacea); tracheae (insects, myriapods); book lungs (arachnids)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Key distinguishing feature</td>
+            <td style="color:var(--teal);">Flat body; acoelomate; single gut opening; many parasitic</td>
+            <td style="color:var(--violet);">Metamerism; closed circulation; metanephridia</td>
+            <td style="color:var(--gold);">Mantle + radula + foot; shell; highly diverse classes</td>
+            <td style="color:var(--lime);">Pseudocoelom; unsegmented; ecdysis; cylindrical</td>
+            <td style="color:var(--rose);">Jointed appendages; exoskeleton; tagmatization; most diverse</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn reveal" style="margin-top:1.5rem;">
+      <strong>Exam trap:</strong> Nematoda and Arthropoda are both Ecdysozoa (both moult) but Nematoda is <em>pseudocoelomate</em> and <em>unsegmented</em> while Arthropoda is eucoelomate (haemocoel) and <em>segmented</em>. Annelida and Arthropoda are both segmented but Annelida is Lophotrochozoa (closed circulation, no ecdysis) while Arthropoda is Ecdysozoa (moults, open haemocoel).
+    </div>
+  </section>
+
+
+  <!-- ══════ QUIZ ══════ -->
+  <section class="quiz-section reveal" id="module-quiz">
+    <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--teal),var(--violet));color:#080b1a;padding:0.3rem 1rem;">Module 05 Quiz</span></div>
+    <div class="quiz-meta">
+      <p>12 randomly selected questions from a pool of 28 · Click <strong>Grade Quiz</strong> when done</p>
+      <div class="quiz-controls">
+        <button class="quiz-btn secondary" id="q-new-qm5">↻ New Questions</button>
+        <button class="quiz-btn" id="q-grade-qm5">Grade Quiz</button>
+      </div>
+    </div>
+    <div class="quiz-score-bar" id="q-score-qm5">
+      <div class="quiz-score-number" id="q-snum-qm5"></div>
+      <div class="quiz-score-label">questions correct</div>
+      <div class="quiz-score-msg" id="q-smsg-qm5"></div>
+    </div>
+    <div class="quiz-grid" id="q-grid-qm5"></div>
+  </section>
+
+<script>
+(function(){
+  const QID='qm5', N=12, L=['A','B','C','D'];
+  const BANK=[
+    {q:"Which feature is shared by ALL animals and distinguishes them from other kingdoms?",options:["Photosynthetic autotrophy","Multicellular, heterotrophic eukaryotes with no cell walls and embryonic development","Presence of a cell wall made of chitin","Ability to carry out aerobic respiration"],correct:1,explain:"Animals are defined by: multicellularity, eukaryotic cells, heterotrophic nutrition (no photosynthesis), absence of cell walls (unlike plants with cellulose walls and fungi with chitin walls), and embryonic development (cleavage → blastula → gastrula). Aerobic respiration occurs in many organisms. Chitin cell walls are found in fungi, not animals."},
+    {q:"The four PRIMARY aspects of an animal body plan include all of the following EXCEPT:",options:["Number of germ layers","Body symmetry","Type of body cavity (coelom)","Mode of locomotion"],correct:3,explain:"The four primary aspects are: (1) number of germ layers (diploblastic vs triploblastic), (2) body symmetry (radial vs bilateral vs asymmetric), (3) type of body cavity (acoelomate/pseudocoelomate/eucoelomate), and (4) early development pattern (protostome vs deuterostome). Mode of locomotion is a secondary or derived feature, not a primary body plan criterion used for major phylogenetic classification."},
+    {q:"An animal with a body cavity that is NOT lined on all sides by mesoderm is described as:",options:["Eucoelomate","Acoelomate","Pseudocoelomate","Coelomate"],correct:2,explain:"A pseudocoelom is a body cavity present between the gut (endoderm) and body wall, but it is not fully lined by mesoderm (peritoneum). The classic example is Nematoda. Eucoelomates have a true coelom fully lined by mesodermal peritoneum on both sides. Acoelomates (Platyhelminthes) have no body cavity at all — mesoderm fills the space solidly."},
+    {q:"In protostomes, the blastopore becomes the:",options:["Anus","Mouth","Notochord","Coelom"],correct:1,explain:"'Proto-' = first, 'stome' = mouth. In protostomes, the blastopore (the first opening formed during gastrulation) becomes the mouth, and the anus forms later. In deuterostomes ('second mouth'), the blastopore becomes the anus and the mouth forms secondarily. This is a key developmental synapomorphy of the Protostomia (Lophotrochozoa + Ecdysozoa)."},
+    {q:"Bilateral symmetry is most strongly associated with which secondary body plan feature?",options:["Sessile lifestyle and filter feeding","Radial development and no head","Cephalization — concentration of sensory organs and nervous system at the anterior end","Lack of a nervous system"],correct:2,explain:"Bilateral symmetry defines a clear anterior-posterior axis and dorsal-ventral surface. The anterior end (the leading end) encounters new environments first — strong natural selection pressure for concentrating sensory organs, nervous tissue, and feeding structures at the anterior = cephalization. Radially symmetric animals (Cnidaria) are often sessile or slow-drifting and encounter their environment from all directions equally."},
+    {q:"The two major lineages of protostomes are:",options:["Deuterostomia and Lophotrochozoa","Lophotrochozoa and Ecdysozoa","Ecdysozoa and Radiata","Platyhelminthes and Nematoda"],correct:1,explain:"All protostomes fall into one of two major clades recovered by molecular phylogenetics: Lophotrochozoa (named for the lophophore feeding structure and/or trochophore larva — includes Platyhelminthes, Annelida, Mollusca, Rotifera, Bryozoa) and Ecdysozoa (named for ecdysis/moulting — includes Nematoda, Arthropoda, Priapulida, Tardigrada)."},
+    {q:"What is the defining feature of Ecdysozoa that gives the clade its name?",options:["Having a lophophore feeding structure","Producing a free-swimming trochophore larva","Periodic moulting (ecdysis) of a cuticle to grow","Having a true coelom lined by mesoderm"],correct:2,explain:"Ecdysis = the periodic shedding of an external cuticle. Because a rigid cuticle cannot expand continuously, ecdysozoans must shed it periodically to grow. Between moults, the animal is soft and vulnerable — the moulting process is hormonally controlled (ecdysone in arthropods). This innovation enabled the evolution of hard, protective external skeletons (arthropod exoskeleton) and metamorphosis (insects)."},
+    {q:"Which is the correct body cavity for Platyhelminthes?",options:["Eucoelomate — true coelom fully lined by mesoderm","Pseudocoelomate — cavity not fully lined by mesoderm","Acoelomate — no body cavity; mesoderm fills the space between gut and body wall","Haemocoel — open circulatory cavity"],correct:2,explain:"Platyhelminthes (flatworms) are acoelomate — there is no body cavity. The space between the gut (gastrovascular cavity) and the outer body wall is filled solidly with mesodermal cells and parenchyma. No coelom is present. This limits body size because diffusion must supply all cells — hence the flat, thin body shape that maximises surface area for gas exchange."},
+    {q:"The radula is a characteristic feeding structure of most Mollusca. In which class is it ABSENT?",options:["Gastropoda (snails)","Polyplacophora (chitons)","Bivalvia (clams, mussels)","Cephalopoda (octopus, squid)"],correct:2,explain:"Bivalves have no radula — they are filter feeders that use enlarged, ciliated gills (ctenidia) to trap suspended particles from the water. They also have no distinct head. The radula (a toothed ribbon used to rasp food) is present in gastropods, chitons, and cephalopods, and is considered a synapomorphy of Mollusca (with secondary loss in bivalves)."},
+    {q:"Torsion is a developmental event unique to which class of Mollusca?",options:["Bivalvia","Cephalopoda","Polyplacophora (chitons)","Gastropoda"],correct:3,explain:"During gastropod larval development, a 180° rotation of the visceral mass and mantle/shell relative to the head and foot occurs (torsion). This brings the mantle cavity (with gills, anus, and excretory openings) from the posterior to the anterior, over the head. Torsion has consequences for waste removal (potential fouling of the mantle cavity) which drove further evolution of asymmetry in gastropods."},
+    {q:"Which class of Mollusca has a closed circulatory system, tentacles, and the most complex invertebrate nervous system?",options:["Gastropoda","Bivalvia","Cephalopoda","Polyplacophora"],correct:2,explain:"Cephalopods (octopus, squid, cuttlefish, nautilus) are the most derived molluscs. Their closed circulatory system (unique among molluscs) supports the high metabolic rate of active predation. They have a complex brain enabling learning, problem-solving, and spatial memory. Camera eyes that rival vertebrate eyes in resolution evolved independently. These features make cephalopods the most intelligent invertebrates."},
+    {q:"Annelida are best distinguished from Nematoda by:",options:["Annelids undergo ecdysis; nematodes do not","Annelids have true metamerism (segmentation) and a true coelom; nematodes are unsegmented with a pseudocoelom","Annelids are acoelomate; nematodes have a haemocoel","Annelids are Ecdysozoa; nematodes are Lophotrochozoa"],correct:1,explain:"Key differences: Annelida (Lophotrochozoa) have true segmentation (metamerism), a true coelom fully lined by mesoderm, a closed circulatory system, and metanephridia. Nematoda (Ecdysozoa) are unsegmented, have a pseudocoelom (not mesodermal-lined), undergo ecdysis, and have no circulatory system. Annelids are Lophotrochozoa; nematodes are Ecdysozoa — the naming in option D is reversed."},
+    {q:"Which arthropod group is characterised by CHELICERAE and NO antennae?",options:["Crustacea (crabs, shrimp)","Myriapoda (centipedes, millipedes)","Chelicerata (spiders, scorpions, mites)","Insecta"],correct:2,explain:"Chelicerata are defined by chelicerae (the first pair of appendages, modified as fangs, pincers, or chelae) and pedipalps (second pair). Crucially, chelicerates have NO antennae — this distinguishes them from all other arthropod groups. Crustacea have two pairs of antennae; myriapods and insects have one pair. Chelicerata also typically have 4 pairs of walking legs (8 legs total in arachnids) and body divided into prosoma + opisthosoma."},
+    {q:"Insects are distinguished from all other arthropods by:",options:["Having an open circulatory system (haemocoel)","Having a chitinous exoskeleton","Three body tagmata (head, thorax, abdomen), three pairs of legs, and typically wings","Using tracheal tubes for gas exchange"],correct:2,explain:"Insects (Hexapoda) uniquely have: 3 body tagmata (head/thorax/abdomen), exactly 3 pairs of walking legs (attached to thorax), and wings (1–2 pairs, also on thorax — only animals to have evolved wings independently among invertebrates). The other features (open circulatory system, chitinous exoskeleton, tracheae) are shared with other arthropods or ecdysozoans and so are not uniquely diagnostic for insects."},
+    {q:"Crustacea are distinguished from other arthropods by having:",options:["Chelicerae instead of mandibles","No antennae","Two pairs of antennae and biramous appendages","Tracheal tubes for gas exchange"],correct:2,explain:"Crustaceans are the only arthropods with TWO pairs of antennae (antennules and antennae). They also typically have biramous (two-branched) appendages — each limb has an exopodite and endopodite. Most are aquatic and use gills for gas exchange (not tracheae). Chelicerae are the defining feature of Chelicerata, not Crustacea; Crustacea have mandibles like insects and myriapods."},
+    {q:"True segmentation (metamerism) with the same organ set repeated in each segment is the defining feature of which phylum?",options:["Platyhelminthes","Mollusca","Nematoda","Annelida"],correct:3,explain:"Annelida show true metamerism — each segment (metamere) contains its own coelom compartment, excretory organ (metanephridia), muscles, and branch of the nerve cord. This serial repetition of structures is the hallmark of annelid segmentation. Arthropods also have segmentation but it is modified (tagmatization — segments fused into functional groups). Platyhelminthes, Mollusca, and Nematoda are largely unsegmented."},
+    {q:"C. elegans (a nematode) is a valuable model organism partly because:",options:["It has the largest genome of any animal","Every adult hermaphrodite has exactly 959 somatic cells with a completely mapped cell lineage","It is easily visible without magnification","It can regenerate its entire body from a small fragment"],correct:1,explain:"C. elegans has 959 somatic cells in the adult hermaphrodite (1,031 in the male). The complete cell lineage — exactly how each of these cells is generated from the fertilised egg — is known for every cell. The animal is transparent, has a short generation time (3 days at 20°C), and a sequenced genome. It provided the first complete neural connectome (302 neurons), led to Nobel Prizes for apoptosis (2002), RNAi (2006), and GFP (2008)."},
+    {q:"Which best describes the haemocoel of arthropods?",options:["A true coelom fully lined by mesoderm containing coelomic fluid","A false coelom (pseudocoelom) not lined by mesoderm","An open circulatory space where haemolymph directly bathes the organs","A closed system of blood vessels separate from interstitial fluid"],correct:2,explain:"Arthropods (and molluscs) have an open circulatory system — the true coelom is reduced to gonadal/pericardial cavities, and the main body cavity is the haemocoel. A dorsal heart pumps haemolymph into sinuses surrounding organs directly (no separate interstitial fluid space). Gas exchange molecules and nutrients diffuse directly between haemolymph and cells. This is less efficient than closed systems but adequate for arthropod body sizes and activity levels."},
+    {q:"Insect metamorphosis in which the larva looks completely different from the adult (e.g., caterpillar → butterfly) is called:",options:["Hemimetabolous (incomplete metamorphosis)","Holometabolous (complete metamorphosis)","Ecdysis","Tagmatization"],correct:1,explain:"Holometabolous (complete) metamorphosis: egg → larva (worm-like, e.g., caterpillar, maggot, grub) → pupa (non-feeding, restructuring) → adult. Larva and adult occupy different ecological niches, reducing competition between age classes. Found in approximately 80% of insects (beetles, flies, moths, bees, wasps, ants). Hemimetabolous (incomplete) metamorphosis: egg → nymph (looks like small adult, just lacks wings/reproductive maturity) → adult. Found in grasshoppers, cockroaches, dragonflies."},
+    {q:"Which phylum has a gastrovascular cavity with only ONE opening (mouth = anus)?",options:["Annelida","Nematoda","Platyhelminthes","Arthropoda"],correct:2,explain:"Platyhelminthes have an incomplete digestive system — a gastrovascular cavity with a single opening that functions as both mouth and anus. Food enters, digestion occurs, and undigested waste exits through the same opening. This is less efficient than a complete one-way gut. Annelida, Nematoda, and Arthropoda all have complete digestive tracts with a separate mouth and anus, enabling continuous directional food processing."},
+    {q:"Myriapods (centipedes and millipedes) differ in that centipedes are:",options:["Herbivores with two pairs of legs per segment","Predators with one pair of legs per segment and venomous forcipules","Aquatic, unlike millipedes","Slow-moving detritivores that coil defensively"],correct:1,explain:"Centipedes (Chilopoda): predatory, one pair of legs per segment, first pair modified into venomous forcipules for prey capture, fast-moving. Millipedes (Diplopoda): detritivores, two pairs of legs per apparent segment (actually two fused segments = diplosegments), slow, defensive coiling and chemical secretions. Both are terrestrial and use tracheae for gas exchange. The 'many legs per segment' feature = millipedes; 'one pair per segment' + predatory = centipedes."},
+    {q:"Which Mollusca class consists entirely of marine animals with 8 overlapping dorsal shell plates and no cephalization?",options:["Gastropoda","Polyplacophora (chitons)","Bivalvia","Cephalopoda"],correct:1,explain:"Chitons (Polyplacophora) are marine molluscs defined by their 8 overlapping dorsal valves (shell plates) surrounded by a muscular girdle. They cling to rocky intertidal surfaces with a broad adhesive foot. Uniquely among major mollusc classes, chitons show virtually no cephalization — the head is not distinct and there are no eyes or tentacles on the head region. They scrape algae with a radula."},
+    {q:"The trochophore larva is shared by which two protostome phyla, supporting their grouping in Lophotrochozoa?",options:["Nematoda and Arthropoda","Annelida and Mollusca","Platyhelminthes and Annelida","Arthropoda and Mollusca"],correct:1,explain:"Annelida and Mollusca share the trochophore larva — a free-swimming, ciliated, top-shaped larval form with a characteristic band of cilia (prototroch) around the equator. This shared larval form is one of the phylogenetic characters uniting them in Lophotrochozoa. Platyhelminthes generally lack a free-swimming larva. Nematoda and Arthropoda are Ecdysozoa, not Lophotrochozoa."},
+    {q:"The structural innovation of jointed appendages in Arthropoda enables all of the following EXCEPT:",options:["Precise manipulation of food and objects","Rapid running, jumping, and swimming","Continuous growth without moulting","Flight (modified thoracic appendages in insects)"],correct:2,explain:"Jointed appendages allow precise motor control across rigid articulations moved by muscles — enabling manipulation, locomotion, and flight. However, because arthropods have a rigid exoskeleton, they CANNOT grow continuously — they must moult (ecdysis) to grow larger. The rigid exoskeleton is both a strength (protection, lever arm for muscles) and a constraint (requires moulting). Jointed appendages actually make ecdysis more complex because each joint must be correctly reformed."},
+    {q:"Which statement correctly distinguishes Lophotrochozoa from Ecdysozoa?",options:["Lophotrochozoans moult their cuticle; ecdysozoans have a trochophore larva","Lophotrochozoans are characterised by a trochophore larva and/or lophophore; ecdysozoans are characterised by periodic moulting of a cuticle","Lophotrochozoans are all marine; ecdysozoans are all terrestrial","Lophotrochozoans have a pseudocoelom; ecdysozoans have a true coelom"],correct:1,explain:"Lophotrochozoa: named for the lophophore (ciliated tentacle crown for suspension feeding, in bryozoans and brachiopods) and the trochophore larva (free-swimming ciliated larva, in annelids and molluscs). Ecdysozoa: named for ecdysis (periodic moulting of a cuticle) — the key shared derived character. Both clades contain aquatic and terrestrial members. Coelom type varies within both groups."},
+    {q:"All Arthropoda share which two derived characters (synapomorphies)?",options:["Closed circulatory system and endoskeleton","Jointed appendages and a chitinous exoskeleton that is moulted","Trochophore larva and true coelom","Radula and mantle cavity"],correct:1,explain:"The two defining synapomorphies of Arthropoda are: (1) jointed appendages (arthos = joint, poda = feet) with muscles acting across a rigid exoskeleton articulation, enabling precise locomotion and manipulation; (2) chitinous exoskeleton, hard, light, and mouldable but requiring periodic ecdysis for growth. The open circulatory system is also ancestral for arthropods. Trochophore larva and radula are molluscan/annelid features."},
+    {q:"Nematodes are capable of locomotion despite having only longitudinal muscles because:",options:["They have a highly flexible exoskeleton that bends easily","Internal pseudocoelomic fluid provides hydrostatic pressure that the longitudinal muscles act against to produce wave-like thrashing","They use cilia on their body surface for propulsion","Their cuticle is stretchable and acts as a spring"],correct:1,explain:"Nematodes have only longitudinal (not circular) muscles. They move by dorsoventral (not peristaltic) waves — the longitudinal muscles on alternating sides contract, creating a sinusoidal body wave. This works because the pseudocoelom contains fluid at internal pressure, providing a hydrostatic skeleton that resists compression. Without antagonistic circular muscles, nematodes cannot move in a straight line — they thrash in S-shaped waves, which is efficient in soil or host tissues."}
+  ];
+
+  function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+  function render(){
+    const grid=document.getElementById('q-grid-'+QID);
+    document.getElementById('q-score-'+QID).classList.remove('visible');
+    const qs=shuffle(BANK).slice(0,N);
+    grid.innerHTML=qs.map((q,i)=>{
+      const opts=shuffle(q.options.map((t,j)=>({t,c:j===q.correct})));
+      return `<div class="quiz-card">
+        <div class="quiz-q-num">Question ${i+1} of ${N}</div>
+        <div class="quiz-q-text">${q.q}</div>
+        <div class="quiz-options">${opts.map((o,k)=>`<button class="quiz-opt" data-c="${o.c}"><span class="quiz-opt-letter">${L[k]}</span><span>${o.t}</span></button>`).join('')}</div>
+        <div class="quiz-explanation">${q.explain}</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.quiz-options').forEach(wrap=>{
+      wrap.addEventListener('click',e=>{
+        const btn=e.target.closest('.quiz-opt');
+        if(!btn||btn.classList.contains('locked'))return;
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  function grade(){
+    let correct=0;
+    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
+      const sel=card.querySelector('.quiz-opt.selected');
+      card.querySelectorAll('.quiz-opt').forEach(o=>{
+        o.classList.add('locked');
+        if(o.dataset.c==='true')o.classList.add('opt-correct');
+      });
+      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
+      else card.classList.add('wrong');
+      card.classList.add('revealed');
+    });
+    const scr=document.getElementById('q-score-'+QID);
+    document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
+    const p=correct/N;
+    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! Module 05 mastered.':p>=0.75?'Strong work — review the highlighted questions.':p>=0.5?'Keep studying — revisit the phyla you missed.':'Review Module 05 and try again.';
+    scr.classList.add('visible');
+    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.getElementById('q-new-'+QID).addEventListener('click',render);
+  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
+  render();
+})();
+</script>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-title">Module 05 · Animal Diversity: Protostomes</div>
+    <p>← <a href="module-04.html" style="color:var(--teal);">Module 04</a> &nbsp;·&nbsp; <a href="exam.html" style="color:var(--gold);">Final Exam →</a> &nbsp;·&nbsp; <a href="index.html" style="color:var(--teal);">Back to Home</a></p>
+    <div class="foot-marks">☽ ✦ ☾</div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initPage === 'function') initPage({});
+  });
+</script>
+</body>
+</html>

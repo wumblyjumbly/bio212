@@ -121,17 +121,17 @@ const SVG_BARRIERS = `
 
   <!-- Timeline bar: sperm meets egg -->
   <line x1="40" y1="80" x2="860" y2="80" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
-  <!-- fertilization event marker -->
+  <!-- Fertilisation event marker -->
   <line x1="500" y1="60" x2="500" y2="100" stroke="rgba(255,209,102,0.5)" stroke-width="2" stroke-dasharray="4,4"/>
-  <text x="500" y="53" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,209,102,0.7)" text-anchor="middle">fertilization</text>
+  <text x="500" y="53" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,209,102,0.7)" text-anchor="middle">FERTILISATION</text>
 
   <!-- PRE-ZYGOTIC region -->
   <rect x="30" y="30" width="455" height="20" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.25)" stroke-width="1"/>
-  <text x="255" y="44" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.7)" text-anchor="middle" letter-spacing="1">PRE-ZYGOTIC (before fertilization)</text>
+  <text x="255" y="44" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.7)" text-anchor="middle" letter-spacing="1">PRE-ZYGOTIC (before fertilisation)</text>
 
   <!-- POST-ZYGOTIC region -->
   <rect x="510" y="30" width="360" height="20" rx="4" fill="rgba(255,110,199,0.08)" stroke="rgba(255,110,199,0.25)" stroke-width="1"/>
-  <text x="690" y="44" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.7)" text-anchor="middle" letter-spacing="1">POST-ZYGOTIC (after fertilization)</text>
+  <text x="690" y="44" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.7)" text-anchor="middle" letter-spacing="1">POST-ZYGOTIC (after fertilisation)</text>
 
   <!-- PRE-ZYGOTIC BARRIERS (5 types) -->
   <!-- 1: Habitat -->
@@ -395,12 +395,12 @@ html: `
   <div class="section-break reveal">
     <div class="section-label">§ 4.2</div>
     <h3>Reproductive Isolation Barriers</h3>
-    <p>Speciation requires <strong>reproductive isolation</strong> — mechanisms that prevent gene flow between populations. These barriers are classified by whether they act before or after fertilization:</p>
+    <p>Speciation requires <strong>reproductive isolation</strong> — mechanisms that prevent gene flow between populations. These barriers are classified by whether they act before or after fertilisation:</p>
 
     <div class="figure reveal">
       <div class="fig-label">Fig 4.1 — Reproductive Isolation Barriers</div>
       ${SVG_BARRIERS}
-      <div class="fig-caption">Reproductive barriers form a sequential gauntlet. Prezygotic barriers act before fertilization and are generally more efficient (less costly). Postzygotic barriers require the energetic investment of producing a hybrid, only to fail. Natural selection generally reinforces barriers over time when hybrids are less fit (character displacement, reinforcement).</div>
+      <div class="fig-caption">Reproductive barriers form a sequential gauntlet. Prezygotic barriers act before fertilisation and are generally more efficient (less costly). Postzygotic barriers require the energetic investment of producing a hybrid, only to fail. Natural selection generally reinforces barriers over time when hybrids are less fit (character displacement, reinforcement).</div>
     </div>
 
     <div class="keypoint reveal">

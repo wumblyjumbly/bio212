@@ -268,7 +268,8 @@ function driftSim () {
     ctx.fillStyle='rgba(255,110,199,0.5)'; ctx.fillText('LOST (p=0)',w-pR-4,pT+cH-4);
     hist.forEach((hh,pi)=>{
       const col=COLS[pi%COLS.length];
-      ctx.strokeStyle=col; ctx.lineWidth=1.8; ctx.shadowColor=col; ctx.shadowBlur=5;
+      ctx.strokeStyle=col; ctx.lineWidth=1.8; ctx.lineJoin='round'; ctx.lineCap='round';
+      ctx.shadowColor=col; ctx.shadowBlur=5;
       ctx.beginPath();
       const lim=Math.min(up+1,hh.length);
       for(let g=0;g<lim;g++){const x=pL+(g/NUM_GEN)*cW,y=pT+cH-hh[g]*cH;g===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
@@ -304,7 +305,7 @@ function driftSim () {
 function initSelectionViz () {
   const canvas = document.getElementById('canvas-selection');
   if (!canvas) return;
-  canvas.style.height = '380px';
+  // Let CSS control height (520px); do not override here.
   let current = 'directional';
 
   const types = {
@@ -312,7 +313,6 @@ function initSelectionViz () {
       color: C.teal, label: 'Directional',
       before: {mu:0, sigma:1},
       after:  {mu:1.4, sigma:0.9},
-      arrow: 'right',
       example: 'Antibiotic resistance — bacteria with resistance gene survive and reproduce → allele frequency shifts.',
       effect: '↓ genetic diversity — one extreme favored'
     },
@@ -320,98 +320,119 @@ function initSelectionViz () {
       color: C.violet, label: 'Stabilizing',
       before: {mu:0, sigma:1.2},
       after:  {mu:0, sigma:0.55},
-      arrow: 'in',
       example: 'Human birth weight — very small OR very large babies have lower survival; intermediate size is optimal.',
       effect: '↓ genetic diversity — intermediate favored'
     },
     balancing: {
       color: C.gold, label: 'Balancing',
       before: {mu:0, sigma:1},
-      after:  {mu:0, sigma:1.3, bimodal:true, sep:1.4},
-      arrow: 'both',
+      after:  {mu:0, sigma:1.0},
       example: 'Sickle-cell anemia — HbA/HbS heterozygotes are protected from malaria (heterozygote advantage).',
       effect: '↑ genetic diversity — multiple alleles maintained'
     },
     disruptive: {
       color: C.rose, label: 'Disruptive',
       before: {mu:0, sigma:1},
-      after:  {mu:0, sigma:1, bimodal:true, sep:2.2, dip:true},
-      arrow: 'out',
+      after:  {mu:0, sigma:1, bimodal:true, sep:2.2},
       example: 'Beak size in seed-cracker finches (Pyrenestes) — large beaks crack hard seeds, small beaks crack soft seeds; intermediates starve.',
       effect: '↑ genetic diversity — both extremes favored'
     },
   };
 
   function gaussian(x, mu, sigma) {
-    return Math.exp(-0.5*((x-mu)/sigma)**2)/(sigma*Math.sqrt(2*Math.PI));
+    return Math.exp(-0.5*((x-mu)/sigma)**2) / (sigma*Math.sqrt(2*Math.PI));
   }
 
-  function drawCurve(ctx, mu, sigma, chartH, padL, padT, cW, color, alpha, scale) {
-    const pts=120;
+  // scale = chartH * (max-peak-normalised fraction). cy uses raw gaussian y directly.
+  function drawCurve(ctx, mu, sigma, chartH, padL, padT, cW, color, alpha, scale, fill) {
+    const pts = 180;
+    const baseY = padT + chartH;
+    ctx.globalAlpha = alpha;
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+
+    if (fill) {
+      // Filled area under curve
+      ctx.beginPath();
+      ctx.moveTo(padL, baseY);  // start at left baseline
+      for (let i = 0; i <= pts; i++) {
+        const x = -4 + i * 8/pts;
+        const y = gaussian(x, mu, sigma);
+        const cx = padL + (x+4)*cW/8;
+        const cy = baseY - y * scale;
+        ctx.lineTo(cx, cy);
+      }
+      ctx.lineTo(padL + cW, baseY);  // close back to baseline
+      ctx.closePath();
+      ctx.fillStyle = color + '22';
+      ctx.fill();
+    }
+
+    // Stroke
     ctx.beginPath();
-    ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.globalAlpha=alpha;
-    ctx.shadowColor=color; ctx.shadowBlur=10;
-    for(let i=0;i<=pts;i++){
-      const x=-4+i*8/pts;
-      const y=gaussian(x,mu,sigma);
-      const cx=padL+(x+4)*cW/8;
-      const cy=padT+chartH-(y/(1/(sigma*Math.sqrt(2*Math.PI))))*chartH*scale;
-      i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);
+    ctx.strokeStyle = color; ctx.lineWidth = 2.8;
+    ctx.shadowColor = color; ctx.shadowBlur = 10;
+    for (let i = 0; i <= pts; i++) {
+      const x = -4 + i * 8/pts;
+      const y = gaussian(x, mu, sigma);
+      const cx = padL + (x+4)*cW/8;
+      const cy = baseY - y * scale;
+      i===0 ? ctx.moveTo(cx,cy) : ctx.lineTo(cx,cy);
     }
     ctx.stroke();
-    ctx.globalAlpha=1; ctx.shadowBlur=0;
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
   }
 
   function draw(type) {
-    const {ctx,w,h}=setupCanvas(canvas);
-    const info=types[type];
-    ctx.fillStyle=C.bg; ctx.fillRect(0,0,w,h);
-    const padL=50,padR=20,padT=20,padB=60,cW=w-padL-padR,chartH=h-padT-padB;
+    const {ctx,w,h} = setupCanvas(canvas);
+    const info = types[type];
+    ctx.fillStyle = C.bg; ctx.fillRect(0,0,w,h);
+
+    // Generous padT so title sits above curves without overlap
+    const padL=55, padR=20, padT=54, padB=72, cW=w-padL-padR, chartH=h-padT-padB;
+
+    // Title + legend — drawn in header band (above padT)
+    ctx.fillStyle = info.color;
+    ctx.font = 'bold 14px Fraunces,Georgia,serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(info.label + ' Selection', padL+cW/2, 18);
+    ctx.fillStyle = C.inkDim; ctx.font = '10px JetBrains Mono,monospace';
+    ctx.fillText('ghost = before selection    solid = after selection', padL+cW/2, 36);
 
     // Axes
-    ctx.strokeStyle=C.line; ctx.lineWidth=0.8;
-    ctx.beginPath(); ctx.moveTo(padL,padT+chartH); ctx.lineTo(w-padR,padT+chartH); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,padT+chartH); ctx.stroke();
-    ctx.fillStyle=C.inkDim; ctx.font='10px JetBrains Mono,monospace';
-    ctx.textAlign='center'; ctx.fillText('Phenotype Value',padL+cW/2,h-12);
-    ctx.save(); ctx.translate(14,padT+chartH/2); ctx.rotate(-Math.PI/2);
-    ctx.fillText('Frequency',0,0); ctx.restore();
+    ctx.strokeStyle = C.line; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(padL, padT+chartH); ctx.lineTo(w-padR, padT+chartH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(padL, padT);        ctx.lineTo(padL, padT+chartH);   ctx.stroke();
 
-    const b=info.before, a=info.after;
-    const maxY=1/(b.sigma*Math.sqrt(2*Math.PI));
+    // Axis labels
+    ctx.fillStyle = C.inkDim; ctx.font = '10px JetBrains Mono,monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Phenotype Value →', padL+cW/2, h-10);
+    ctx.save(); ctx.translate(14, padT+chartH/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText('Frequency', 0, 0); ctx.restore();
 
-    // Before curve (ghost)
-    drawCurve(ctx,b.mu,b.sigma,chartH,padL,padT,cW,'rgba(255,255,255,0.25)',0.5,0.82/maxY);
+    // Compute a single y-scale shared by ALL curves so heights are comparable
+    const b = info.before, a = info.after;
+    const peakB = 1/(b.sigma * Math.sqrt(2*Math.PI));
+    const peakA = 1/(a.sigma * Math.sqrt(2*Math.PI)); // same formula for bimodal lobes
+    const maxPeak = Math.max(peakB, peakA);
+    // scale maps raw gaussian y → canvas pixels (88% of chartH for the tallest peak)
+    const scale = chartH * 0.88 / maxPeak;
+
+    // Before curve (ghost, dashed feel via lower alpha + fill)
+    drawCurve(ctx, b.mu, b.sigma, chartH, padL, padT, cW, 'rgba(255,255,255,0.55)', 0.45, scale, true);
 
     // After curve
-    if(a.bimodal){
-      drawCurve(ctx,-a.sep/2,a.sigma,chartH,padL,padT,cW,info.color,0.9,0.82/maxY);
-      drawCurve(ctx, a.sep/2,a.sigma,chartH,padL,padT,cW,info.color,0.9,0.82/maxY);
+    if (a.bimodal) {
+      drawCurve(ctx, -a.sep/2, a.sigma, chartH, padL, padT, cW, info.color, 0.9, scale, true);
+      drawCurve(ctx,  a.sep/2, a.sigma, chartH, padL, padT, cW, info.color, 0.9, scale, true);
     } else {
-      drawCurve(ctx,a.mu,a.sigma,chartH,padL,padT,cW,info.color,0.9,0.82/maxY);
+      drawCurve(ctx, a.mu, a.sigma, chartH, padL, padT, cW, info.color, 0.9, scale, true);
     }
 
-    // Arrow / shading indicator
-    const baseY=padT+chartH;
-    if(a.arrow==='right'||a.arrow==='out'||type==='directional') {
-      // Shading on right
-      ctx.fillStyle='rgba(100,255,218,0.08)';
-      const fx=padL+(4.5+4)*cW/8-20;
-      ctx.fillRect(fx,padT,w-padR-fx,chartH);
-    }
-
-    // Labels
-    ctx.fillStyle=info.color;
-    ctx.font='bold 14px Fraunces,Georgia,serif';
-    ctx.textAlign='center'; ctx.fillText(info.label+' Selection',padL+cW/2,padT+16);
-    ctx.fillStyle=C.inkDim; ctx.font='10px JetBrains Mono,monospace';
-    ctx.fillText('— before   ─── after',padL+cW/2,padT+30);
-
-    // Effect badge
-    ctx.fillStyle=info.color+'88';
-    const eff=info.effect;
-    ctx.font='10px JetBrains Mono,monospace'; ctx.textAlign='right';
-    ctx.fillText(eff,w-padR,h-6);
+    // Effect badge bottom-right
+    ctx.fillStyle = info.color + 'aa';
+    ctx.font = '10px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+    ctx.fillText(info.effect, w-padR, h-26);
   }
 
   // Info div

@@ -26,7 +26,7 @@ html: `
         <tr><td><strong>Mechanism</strong></td><td>Membrane depolarisation (Na⁺ influx)</td><td>Cortical granule exocytosis (Ca²⁺ wave)</td></tr>
         <tr><td><strong>Speed</strong></td><td>Seconds (&lt;1 sec)</td><td>~30–60 seconds</td></tr>
         <tr><td><strong>Duration</strong></td><td>Temporary (minutes)</td><td>Permanent</td></tr>
-        <tr><td><strong>What changes</strong></td><td>Egg membrane potential (−70 → +20 mV)</td><td>fertilization envelope raised; zona pellucida modified</td></tr>
+        <tr><td><strong>What changes</strong></td><td>Egg membrane potential (−70 → +20 mV)</td><td>Fertilisation envelope raised; zona pellucida modified</td></tr>
         <tr><td><strong>Signal</strong></td><td>Sperm fusion opens Na⁺ channels</td><td>IP₃ → Ca²⁺ release from ER → CICR wave</td></tr>
         <tr><td><strong>Prevents</strong></td><td>Additional sperm membrane fusion</td><td>Sperm binding to egg coat</td></tr>
       </tbody>
@@ -196,7 +196,7 @@ html: `
         <div class="qa-q">2. In sea urchins, the cortical reaction is triggered by a Ca²⁺ wave. Propose a pharmacological experiment to test whether Ca²⁺ release from intracellular stores (ER) is required for the cortical reaction. <span class="qa-arrow">▾</span></div>
         <div class="qa-a"><div class="qa-a-inner">
           <p><strong>Prediction:</strong> If Ca²⁺ released from ER stores is required, then blocking ER Ca²⁺ release should prevent the cortical reaction even if sperm entry occurs normally.</p>
-          <p><strong>Experiment:</strong> Treat unfertilised eggs with <strong>heparin</strong> (an IP₃ receptor antagonist that blocks Ca²⁺ release from ER) or <strong>thapsigargin</strong> (depletes ER Ca²⁺ stores by inhibiting SERCA pumps). Then fertilise with normal sperm. If ER Ca²⁺ is required, these eggs should show a fast block (membrane depolarisation — that doesn't require ER Ca²⁺) but <em>no</em> cortical reaction and <em>no</em> fertilization envelope elevation. Polyspermy should increase. Compare with control eggs (no drug) which show normal cortical reaction and single-sperm fertilization.</p>
+          <p><strong>Experiment:</strong> Treat unfertilised eggs with <strong>heparin</strong> (an IP₃ receptor antagonist that blocks Ca²⁺ release from ER) or <strong>thapsigargin</strong> (depletes ER Ca²⁺ stores by inhibiting SERCA pumps). Then fertilise with normal sperm. If ER Ca²⁺ is required, these eggs should show a fast block (membrane depolarisation — that doesn't require ER Ca²⁺) but <em>no</em> cortical reaction and <em>no</em> fertilisation envelope elevation. Polyspermy should increase. Compare with control eggs (no drug) which show normal cortical reaction and single-sperm fertilisation.</p>
           <p><strong>Controls needed:</strong> Confirm drug doesn't prevent sperm binding; confirm sperm can still fuse; use Ca²⁺-sensitive fluorescent dyes to verify the Ca²⁺ wave is absent.</p>
         </div></div>
       </div>

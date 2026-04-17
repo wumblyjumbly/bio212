@@ -59,10 +59,37 @@
 /* ── Selection type sections (expanded) ── */
 .sel-type-section-svg {
   width: 100%;
-  max-height: 240px;
+  max-height: 400px;
   border-radius: 10px;
   display: block;
   margin: 1.2rem 0;
+}
+
+/* ── Generation slider canvases ── */
+.gen-slider-wrap {
+  margin: 1.2rem 0 0;
+  padding: 1rem 1.2rem;
+  background: rgba(0,0,0,0.22);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.gen-slider-wrap label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+.gen-slider-wrap input[type=range] { flex: 1; max-width: 320px; }
+.gen-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: 180px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  display: block;
 }
 
 /* ── H-W sim ── */
@@ -142,13 +169,18 @@
 
 /* ── Selection visualiser ── */
 .sel-viz-wrap {
-  background: var(--glass);
+  background: rgba(8,11,26,0.82);
   border: 1px solid var(--line);
+  border-top: 3px solid var(--violet);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 3rem;
   margin: 2rem 0;
-  overflow: visible;
+  overflow-x: auto;
 }
+.sel-viz-wrap.active-directional { border-top-color: #64ffda; }
+.sel-viz-wrap.active-stabilizing { border-top-color: #a78bfa; }
+.sel-viz-wrap.active-balancing   { border-top-color: #ffd166; }
+.sel-viz-wrap.active-disruptive  { border-top-color: #ff6ec7; }
 .sel-btn-row {
   display: flex;
   gap: 0.7rem;
@@ -171,8 +203,8 @@
 .sel-btn.active, .sel-btn:hover { border-color: var(--violet); color: var(--violet); background: rgba(167,139,250,0.08); }
 #canvas-selection {
   width: 100%;
-  height: 420px;
-  min-height: 420px;
+  height: 520px;
+  min-height: 520px;
   border-radius: 10px;
   background: rgba(0,0,0,0.3);
   display: block;
@@ -321,6 +353,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html" class="active">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
+      <a href="module-05.html">05 · Protostomes</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
@@ -578,216 +611,299 @@
     <!-- 1. Directional Selection -->
     <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
       <h3 style="color:var(--teal);margin:0 0 0.4rem;font-size:1.25rem;">Directional Selection</h3>
-      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+      <svg class="sel-type-section-svg" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <marker id="ds-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#64ffda"/></marker>
+          <marker id="ds-arrow" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0,1 L8,4.5 L0,8 Z" fill="#64ffda"/></marker>
+          <linearGradient id="ds-zone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#64ffda" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#64ffda" stop-opacity="0.03"/>
+          </linearGradient>
         </defs>
-        <!-- Background -->
-        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
-        <!-- Y-axis label (rotated) -->
-        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
-        <!-- Y-axis -->
-        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <!-- X-axis -->
-        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <rect width="900" height="280" fill="rgba(0,0,0,0.22)" rx="12"/>
+        <!-- Title -->
+        <text x="450" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" font-weight="bold" fill="#64ffda" letter-spacing="1">DIRECTIONAL SELECTION</text>
+        <text x="450" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.55)">mean shifts toward the favored extreme; disfavored alleles removed</text>
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="840" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <line x1="60" y1="55" x2="60" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <!-- Y-axis label -->
+        <text transform="rotate(-90,18,147)" x="18" y="147" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Population Frequency</text>
         <!-- X-axis label -->
-        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
-        <!-- Tick marks every 72px on x-axis -->
+        <text x="450" y="268" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Phenotype Value</text>
+        <!-- Y-axis ticks -->
         <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
-          <line x1="112" y1="188" x2="112" y2="194"/>
-          <line x1="184" y1="188" x2="184" y2="194"/>
-          <line x1="256" y1="188" x2="256" y2="194"/>
-          <line x1="328" y1="188" x2="328" y2="194"/>
-          <line x1="400" y1="188" x2="400" y2="194"/>
-          <line x1="472" y1="188" x2="472" y2="194"/>
-          <line x1="544" y1="188" x2="544" y2="194"/>
-          <line x1="616" y1="188" x2="616" y2="194"/>
-          <line x1="688" y1="188" x2="688" y2="194"/>
+          <line x1="57" y1="190" x2="63" y2="190"/><text x="50" y="194" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">low</text>
+          <line x1="57" y1="140" x2="63" y2="140"/><text x="50" y="144" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">mid</text>
+          <line x1="57" y1="90" x2="63" y2="90"/><text x="50" y="94" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">high</text>
         </g>
-        <!-- BEFORE bell: centered at x=280, σ≈80, peak y=40 (height 150) -->
-        <path d="M40,190 C80,190 140,190 180,185 C210,180 240,165 260,135 C270,115 276,80 280,40 C284,80 290,115 300,135 C320,165 350,180 380,185 C420,190 480,190 520,190" stroke="rgba(100,255,218,0.35)" stroke-width="2" fill="rgba(100,255,218,0.04)" stroke-dasharray="6,4"/>
-        <!-- AFTER bell: centered at x=480, same shape -->
-        <path d="M240,190 C280,190 340,190 380,185 C410,180 440,165 460,135 C470,115 476,80 480,40 C484,80 490,115 500,135 C520,165 550,180 580,185 C620,190 680,190 720,190" stroke="#64ffda" stroke-width="2.5" fill="rgba(100,255,218,0.09)"/>
+        <!-- X-axis tick marks and labels -->
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="1">
+          <line x1="60" y1="238" x2="60" y2="244"/>
+          <line x1="216" y1="238" x2="216" y2="244"/>
+          <line x1="372" y1="238" x2="372" y2="244"/>
+          <line x1="528" y1="238" x2="528" y2="244"/>
+          <line x1="684" y1="238" x2="684" y2="244"/>
+          <line x1="840" y1="238" x2="840" y2="244"/>
+        </g>
+        <text x="60"  y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Low</text>
+        <text x="216" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Below Avg</text>
+        <text x="372" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Average</text>
+        <text x="528" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Above Avg</text>
+        <text x="684" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">High</text>
+        <!-- Selection zone: right 30% highlight -->
+        <rect x="588" y="55" width="252" height="185" fill="url(#ds-zone)" rx="4"/>
+        <text x="714" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.5)">selection zone</text>
+        <!-- BEFORE bell -->
+        <path data-bell="1" data-mu="0.36" data-sigma="0.11" data-x0="60" data-x1="840" data-base="240" data-peak="70" stroke="rgba(100,255,218,0.4)" stroke-width="2.2" fill="rgba(100,255,218,0.05)" stroke-dasharray="7,4"/>
+        <!-- AFTER bell -->
+        <path data-bell="1" data-mu="0.64" data-sigma="0.11" data-x0="60" data-x1="840" data-base="240" data-peak="70" stroke="#64ffda" stroke-width="2.8" fill="rgba(100,255,218,0.1)"/>
+        <!-- Red X at left tail -->
+        <line x1="92" y1="218" x2="112" y2="238" stroke="#ff6ec7" stroke-width="2.5"/>
+        <line x1="112" y1="218" x2="92" y2="238" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="102" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗</text>
+        <text x="102" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.7)">removed</text>
+        <!-- Checkmark at right -->
+        <text x="720" y="195" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="20" fill="#64ffda">✓</text>
+        <text x="720" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.7)">favored</text>
         <!-- Bold shift arrow -->
-        <line x1="280" y1="100" x2="460" y2="100" stroke="#64ffda" stroke-width="3" marker-end="url(#ds-arrow)"/>
-        <text x="370" y="92" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#64ffda">mean shifts →</text>
-        <!-- X mark at left tail (removed) -->
-        <line x1="88" y1="175" x2="106" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
-        <line x1="106" y1="175" x2="88" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
-        <text x="97" y="168" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">removed</text>
-        <!-- Checkmark at right peak of after-curve -->
-        <text x="620" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="16" fill="#64ffda">✓</text>
-        <!-- Legend top-right -->
-        <rect x="580" y="22" width="170" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(100,255,218,0.2)" stroke-width="1"/>
-        <line x1="592" y1="37" x2="620" y2="37" stroke="rgba(100,255,218,0.4)" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="628" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (dashed)</text>
-        <line x1="592" y1="55" x2="620" y2="55" stroke="#64ffda" stroke-width="2"/>
-        <text x="628" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (solid)</text>
-        <!-- Title inside SVG -->
-        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,255,218,0.7)" letter-spacing="1">DIRECTIONAL — mean shifts toward favored extreme</text>
+        <line x1="340" y1="120" x2="540" y2="120" stroke="#64ffda" stroke-width="3" marker-end="url(#ds-arrow)"/>
+        <text x="440" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="bold" fill="#64ffda">mean shifts →</text>
+        <!-- Legend box top-right -->
+        <rect x="690" y="86" width="195" height="52" rx="7" fill="rgba(0,0,0,0.4)" stroke="rgba(100,255,218,0.22)" stroke-width="1"/>
+        <line x1="702" y1="102" x2="736" y2="102" stroke="rgba(100,255,218,0.4)" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <text x="744" y="106" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">Before</text>
+        <line x1="702" y1="122" x2="736" y2="122" stroke="#64ffda" stroke-width="2.2"/>
+        <text x="744" y="126" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">After</text>
       </svg>
       <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours one extreme phenotype. The population mean shifts in one direction over generations; genetic diversity <strong>decreases</strong> as disfavoured alleles are removed.</p>
-      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Examples:</strong> Antibiotic resistance — bacteria with resistance alleles survive, sensitive ones die. Beak depth in Galápagos finches during drought when only large hard seeds remain.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0 0 0.2rem;"><strong>Examples:</strong> Antibiotic resistance — bacteria with resistance alleles survive, sensitive ones die. Beak depth in Galápagos finches during drought when only large hard seeds remain.</p>
+      <!-- Generation slider -->
+      <div class="gen-slider-wrap">
+        <label>Show Generation: <input type="range" id="gen-dir" min="0" max="20" value="0"> <span id="gen-dir-val" style="color:#64ffda;min-width:2ch;display:inline-block;">0</span></label>
+        <canvas id="canvas-dir" class="gen-canvas" width="500" height="180"></canvas>
+      </div>
     </div>
 
     <!-- 2. Stabilizing Selection -->
     <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
       <h3 style="color:var(--violet);margin:0 0 0.4rem;font-size:1.25rem;">Stabilizing Selection</h3>
-      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+      <svg class="sel-type-section-svg" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <marker id="stab-arr-l" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#a78bfa"/></marker>
-          <marker id="stab-arr-r" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 Z" fill="#a78bfa"/></marker>
+          <marker id="stab-arr-l" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0,1 L8,4.5 L0,8 Z" fill="#a78bfa"/></marker>
+          <marker id="stab-arr-r" markerWidth="9" markerHeight="9" refX="3" refY="4.5" orient="auto-start-reverse"><path d="M0,1 L8,4.5 L0,8 Z" fill="#a78bfa"/></marker>
+          <linearGradient id="stab-zone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.14"/>
+            <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.02"/>
+          </linearGradient>
         </defs>
-        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
-        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
-        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
-        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
-          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
-          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
-          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
-          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
-          <line x1="688" y1="188" x2="688" y2="194"/>
+        <rect width="900" height="280" fill="rgba(0,0,0,0.22)" rx="12"/>
+        <!-- Title -->
+        <text x="450" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" font-weight="bold" fill="#a78bfa" letter-spacing="1">STABILIZING SELECTION</text>
+        <text x="450" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(167,139,250,0.55)">intermediate phenotype favored; both extremes selected against</text>
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="840" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <line x1="60" y1="55" x2="60" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <!-- Y-axis label -->
+        <text transform="rotate(-90,18,147)" x="18" y="147" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Population Frequency</text>
+        <!-- X-axis label -->
+        <text x="450" y="268" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Phenotype Value</text>
+        <!-- Tick labels -->
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="1">
+          <line x1="60" y1="238" x2="60" y2="244"/><line x1="216" y1="238" x2="216" y2="244"/>
+          <line x1="372" y1="238" x2="372" y2="244"/><line x1="528" y1="238" x2="528" y2="244"/>
+          <line x1="684" y1="238" x2="684" y2="244"/><line x1="840" y1="238" x2="840" y2="244"/>
         </g>
-        <!-- BEFORE: wide bell, center=400, σ≈120, peak y=70 -->
-        <path d="M40,190 C80,190 120,190 160,186 C200,182 240,172 290,148 C330,128 360,100 380,78 C390,67 396,60 400,70 C404,60 410,67 420,78 C440,100 470,128 510,148 C560,172 600,182 640,186 C680,190 720,190 760,190" stroke="rgba(167,139,250,0.4)" stroke-width="2" fill="rgba(167,139,250,0.04)" stroke-dasharray="6,4"/>
-        <!-- AFTER: narrow tall bell, center=400, σ≈60, peak y=30 -->
-        <path d="M160,190 C220,190 280,190 320,186 C350,183 370,170 385,148 C393,133 397,100 400,30 C403,100 407,133 415,148 C430,170 450,183 480,186 C520,190 580,190 640,190" stroke="#a78bfa" stroke-width="2.5" fill="rgba(167,139,250,0.1)"/>
-        <!-- X marks at both tails (extremes removed) -->
-        <line x1="64" y1="176" x2="82" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="82" y1="176" x2="64" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
-        <text x="73" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
-        <line x1="718" y1="176" x2="736" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="736" y1="176" x2="718" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
-        <text x="727" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
-        <!-- Converging arrows -->
-        <line x1="150" y1="115" x2="270" y2="115" stroke="#a78bfa" stroke-width="2" marker-end="url(#stab-arr-l)"/>
-        <line x1="650" y1="115" x2="530" y2="115" stroke="#a78bfa" stroke-width="2" marker-end="url(#stab-arr-r)"/>
-        <text x="400" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(167,139,250,0.7)">intermediate favored</text>
-        <!-- Legend -->
-        <rect x="580" y="22" width="170" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
-        <line x1="592" y1="37" x2="620" y2="37" stroke="rgba(167,139,250,0.45)" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="628" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (wide)</text>
-        <line x1="592" y1="55" x2="620" y2="55" stroke="#a78bfa" stroke-width="2"/>
-        <text x="628" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (narrow)</text>
-        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(167,139,250,0.7)" letter-spacing="1">STABILIZING — intermediate favored, extremes removed</text>
+        <text x="60"  y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Low</text>
+        <text x="216" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Below Avg</text>
+        <text x="372" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Average</text>
+        <text x="528" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Above Avg</text>
+        <text x="684" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">High</text>
+        <!-- Optimal zone shading (center region) -->
+        <rect x="320" y="55" width="260" height="185" fill="url(#stab-zone)" rx="4"/>
+        <text x="450" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.5)">optimal zone</text>
+        <!-- BEFORE: wide bell -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.13" data-x0="60" data-x1="840" data-base="240" data-peak="125" stroke="rgba(167,139,250,0.45)" stroke-width="2.2" fill="rgba(167,139,250,0.05)" stroke-dasharray="7,4"/>
+        <!-- AFTER: narrow tall bell -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.055" data-x0="60" data-x1="840" data-base="240" data-peak="70" stroke="#a78bfa" stroke-width="2.8" fill="rgba(167,139,250,0.12)"/>
+        <!-- Teal checkmark at center -->
+        <text x="450" y="188" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="22" fill="#64ffda">✓</text>
+        <text x="450" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.7)">favored</text>
+        <!-- X marks at both tails -->
+        <line x1="80" y1="218" x2="100" y2="238" stroke="#ff6ec7" stroke-width="2.5"/><line x1="100" y1="218" x2="80" y2="238" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="90" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <line x1="800" y1="218" x2="820" y2="238" stroke="#ff6ec7" stroke-width="2.5"/><line x1="820" y1="218" x2="800" y2="238" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="810" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <!-- Converging arrows from sides toward center -->
+        <line x1="180" y1="145" x2="310" y2="145" stroke="#a78bfa" stroke-width="2.2" marker-end="url(#stab-arr-l)"/>
+        <line x1="720" y1="145" x2="590" y2="145" stroke="#a78bfa" stroke-width="2.2" marker-end="url(#stab-arr-r)"/>
+        <text x="450" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(167,139,250,0.8)">intermediate favored</text>
+        <!-- Legend top-right -->
+        <rect x="698" y="86" width="188" height="52" rx="7" fill="rgba(0,0,0,0.4)" stroke="rgba(167,139,250,0.22)" stroke-width="1"/>
+        <line x1="710" y1="102" x2="744" y2="102" stroke="rgba(167,139,250,0.45)" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <text x="752" y="106" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">Before (wide)</text>
+        <line x1="710" y1="122" x2="744" y2="122" stroke="#a78bfa" stroke-width="2.2"/>
+        <text x="752" y="126" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">After (narrow)</text>
       </svg>
       <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours the intermediate phenotype and selects against both extremes. The distribution becomes taller and narrower. Diversity <strong>decreases</strong>.</p>
-      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Human birth weight — very low and very high birth weights both have reduced survival; intermediate weights are favoured. Human gestational length shows a similar pattern.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0 0 0.2rem;"><strong>Example:</strong> Human birth weight — very low and very high birth weights both have reduced survival; intermediate weights are favoured. Human gestational length shows a similar pattern.</p>
+      <!-- Generation slider -->
+      <div class="gen-slider-wrap">
+        <label>Show Generation: <input type="range" id="gen-stab" min="0" max="20" value="0"> <span id="gen-stab-val" style="color:#a78bfa;min-width:2ch;display:inline-block;">0</span></label>
+        <canvas id="canvas-stab" class="gen-canvas" width="500" height="180"></canvas>
+      </div>
     </div>
 
     <!-- 3. Balancing Selection -->
     <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
       <h3 style="color:var(--gold);margin:0 0 0.4rem;font-size:1.25rem;">Balancing Selection</h3>
-      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
-        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
-        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
-        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
-        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
-          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
-          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
-          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
-          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
-          <line x1="688" y1="188" x2="688" y2="194"/>
+      <svg class="sel-type-section-svg" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+        <rect width="900" height="280" fill="rgba(0,0,0,0.22)" rx="12"/>
+        <!-- Title -->
+        <text x="450" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" font-weight="bold" fill="#ffd166" letter-spacing="1">BALANCING SELECTION</text>
+        <text x="450" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.55)">multiple alleles maintained at stable equilibrium; diversity preserved</text>
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="700" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <line x1="60" y1="55" x2="60" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <!-- Y-axis label -->
+        <text transform="rotate(-90,18,147)" x="18" y="147" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Population Frequency</text>
+        <!-- X-axis label -->
+        <text x="380" y="268" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Phenotype Value</text>
+        <!-- Tick labels -->
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="1">
+          <line x1="60"  y1="238" x2="60"  y2="244"/><line x1="188" y1="238" x2="188" y2="244"/>
+          <line x1="316" y1="238" x2="316" y2="244"/><line x1="444" y1="238" x2="444" y2="244"/>
+          <line x1="572" y1="238" x2="572" y2="244"/><line x1="700" y1="238" x2="700" y2="244"/>
         </g>
-        <!-- Generation 1 (40% opacity) -->
-        <path d="M40,190 C80,190 130,190 175,185 C215,180 250,168 290,145 C320,126 345,100 368,75 C382,57 390,45 400,42 C410,45 418,57 432,75 C455,100 480,126 510,145 C550,168 585,180 625,185 C670,190 720,190 760,190" stroke="rgba(255,209,102,0.35)" stroke-width="1.8" fill="rgba(255,209,102,0.03)" stroke-dasharray="8,4"/>
-        <!-- Generation 2 (70% opacity) -->
-        <path d="M40,190 C80,190 130,190 176,185 C216,180 251,168 291,144 C321,125 346,99 369,74 C383,56 391,44 400,41 C409,44 417,56 431,74 C454,99 479,125 509,144 C549,168 584,180 624,185 C669,190 719,190 760,190" stroke="rgba(255,209,102,0.65)" stroke-width="2" fill="rgba(255,209,102,0.05)"/>
-        <!-- Generation 3 (solid, 100%) -->
-        <path d="M40,190 C80,190 130,190 177,185 C217,180 252,168 292,143 C322,124 347,98 370,73 C384,55 392,43 400,40 C408,43 416,55 430,73 C453,98 478,124 508,143 C548,168 583,180 623,185 C668,190 718,190 760,190" stroke="#ffd166" stroke-width="2.5" fill="rgba(255,209,102,0.08)"/>
-        <!-- Stable horizontal line with double-headed arrows -->
-        <line x1="200" y1="130" x2="600" y2="130" stroke="rgba(255,209,102,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <text x="25" y="134" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">↔</text>
-        <text x="738" y="134" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">↔</text>
-        <text x="400" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.6)">no net shift — stable over time</text>
-        <!-- HbA/HbS fitness schematic (inset) -->
-        <rect x="570" y="20" width="185" height="105" rx="8" fill="rgba(0,0,0,0.35)" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
-        <text x="662" y="35" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.7)" letter-spacing="0.5">HETEROZYGOTE ADVANTAGE</text>
-        <!-- AA bar (medium) -->
-        <rect x="588" y="88" width="30" height="28" rx="3" fill="rgba(100,255,218,0.45)" stroke="#64ffda" stroke-width="1"/>
-        <text x="603" y="105" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">AA</text>
-        <text x="603" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.4)">medium</text>
-        <!-- AS bar (tallest / green) -->
-        <rect x="632" y="52" width="30" height="64" rx="3" fill="rgba(184,240,137,0.5)" stroke="#b8f089" stroke-width="1"/>
-        <text x="647" y="84" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#b8f089">AS</text>
-        <text x="647" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#b8f089">highest ✓</text>
+        <text x="60"  y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Low</text>
+        <text x="188" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Below Avg</text>
+        <text x="316" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Average</text>
+        <text x="444" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Above Avg</text>
+        <text x="572" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">High</text>
+        <!-- Generation 1 (dashed, pale) -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.12" data-x0="60" data-x1="700" data-base="240" data-peak="82" stroke="rgba(255,209,102,0.35)" stroke-width="2" fill="rgba(255,209,102,0.04)" stroke-dasharray="8,4"/>
+        <!-- Generation 2 (medium opacity) -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.12" data-x0="60" data-x1="700" data-base="240" data-peak="76" stroke="rgba(255,209,102,0.65)" stroke-width="2.2" fill="rgba(255,209,102,0.06)"/>
+        <!-- Generation 3 (solid, stable shape) -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.12" data-x0="60" data-x1="700" data-base="240" data-peak="70" stroke="#ffd166" stroke-width="2.8" fill="rgba(255,209,102,0.09)"/>
+        <!-- Double-headed horizontal arrow showing stable freq -->
+        <line x1="140" y1="155" x2="620" y2="155" stroke="rgba(255,209,102,0.45)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="70" y="159" font-family="JetBrains Mono,monospace" font-size="13" fill="rgba(255,209,102,0.65)">↔</text>
+        <text x="680" y="159" font-family="JetBrains Mono,monospace" font-size="13" fill="rgba(255,209,102,0.65)">↔</text>
+        <text x="380" y="172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.65)">stable allele frequencies maintained</text>
+        <text x="380" y="187" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.45)">Both alleles persist at stable equilibrium</text>
+        <!-- Generation legend (top-left) -->
+        <rect x="68" y="58" width="185" height="58" rx="6" fill="rgba(0,0,0,0.4)" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>
+        <line x1="80" y1="74" x2="116" y2="74" stroke="rgba(255,209,102,0.35)" stroke-width="1.8" stroke-dasharray="7,4"/>
+        <text x="124" y="78" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 1</text>
+        <line x1="80" y1="90" x2="116" y2="90" stroke="rgba(255,209,102,0.65)" stroke-width="2"/>
+        <text x="124" y="94" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 2</text>
+        <line x1="80" y1="106" x2="116" y2="106" stroke="#ffd166" stroke-width="2.5"/>
+        <text x="124" y="110" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 3</text>
+        <!-- HbA/HbS fitness inset (right panel) -->
+        <rect x="725" y="55" width="165" height="175" rx="8" fill="rgba(0,0,0,0.38)" stroke="rgba(255,209,102,0.28)" stroke-width="1"/>
+        <text x="807" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" font-weight="bold" fill="rgba(255,209,102,0.75)" letter-spacing="0.4">HETEROZYGOTE</text>
+        <text x="807" y="84" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.75)">ADVANTAGE</text>
+        <text x="807" y="96" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.3)">Relative Fitness</text>
+        <!-- AA bar (medium height) -->
+        <rect x="740" y="148" width="32" height="42" rx="3" fill="rgba(100,255,218,0.42)" stroke="#64ffda" stroke-width="1"/>
+        <text x="756" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda">AA</text>
+        <text x="756" y="202" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.4)">med</text>
+        <!-- AS bar (tallest / lime) -->
+        <rect x="788" y="108" width="32" height="82" rx="3" fill="rgba(184,240,137,0.48)" stroke="#b8f089" stroke-width="1"/>
+        <text x="804" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#b8f089">AS</text>
+        <text x="804" y="202" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#b8f089">high ✓</text>
         <!-- SS bar (short / red) -->
-        <rect x="676" y="104" width="30" height="12" rx="3" fill="rgba(255,138,138,0.45)" stroke="#ff8a8a" stroke-width="1"/>
-        <text x="691" y="114" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff8a8a">SS</text>
-        <text x="691" y="121" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff8a8a">low ✗</text>
-        <text x="662" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.35)">Relative Fitness</text>
-        <!-- Generation legend -->
-        <rect x="40" y="22" width="185" height="50" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>
-        <line x1="52" y1="37" x2="82" y2="37" stroke="rgba(255,209,102,0.35)" stroke-width="1.5" stroke-dasharray="7,4"/>
-        <text x="90" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 1</text>
-        <line x1="52" y1="52" x2="82" y2="52" stroke="rgba(255,209,102,0.65)" stroke-width="2"/>
-        <text x="90" y="56" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 2</text>
-        <line x1="52" y1="64" x2="82" y2="64" stroke="#ffd166" stroke-width="2.5"/>
-        <text x="90" y="68" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.45)">Generation 3</text>
-        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,209,102,0.7)" letter-spacing="1">BALANCING — diversity maintained; both alleles persist</text>
+        <rect x="836" y="172" width="32" height="18" rx="3" fill="rgba(255,138,138,0.42)" stroke="#ff8a8a" stroke-width="1"/>
+        <text x="852" y="184" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff8a8a">SS</text>
+        <text x="852" y="202" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff8a8a">low ✗</text>
       </svg>
       <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Maintains multiple alleles in a population simultaneously. Diversity is <strong>maintained</strong>. Includes heterozygote advantage (heterosis) and negative frequency-dependent selection.</p>
-      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> Sickle-cell anaemia in malaria-endemic regions — HbA/HbS heterozygotes are more resistant to malaria than either homozygote, so both HbA and HbS alleles persist in the population at stable frequencies.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0 0 0.2rem;"><strong>Example:</strong> Sickle-cell anaemia in malaria-endemic regions — HbA/HbS heterozygotes are more resistant to malaria than either homozygote, so both HbA and HbS alleles persist in the population at stable frequencies.</p>
+      <!-- Generation slider -->
+      <div class="gen-slider-wrap">
+        <label>Show Generation: <input type="range" id="gen-bal" min="0" max="20" value="0"> <span id="gen-bal-val" style="color:#ffd166;min-width:2ch;display:inline-block;">0</span></label>
+        <canvas id="canvas-bal" class="gen-canvas" width="500" height="180"></canvas>
+      </div>
     </div>
 
     <!-- 4. Disruptive Selection -->
     <div class="card-glow reveal" style="margin:2rem 0;padding:2rem 2.4rem;">
       <h3 style="color:var(--rose);margin:0 0 0.4rem;font-size:1.25rem;">Disruptive Selection</h3>
-      <svg class="sel-type-section-svg" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+      <svg class="sel-type-section-svg" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <marker id="dis-arr-l" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,1 L7,4 L0,7 Z" fill="#ff6ec7"/></marker>
-          <marker id="dis-arr-r" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 Z" fill="#ff6ec7"/></marker>
+          <marker id="dis-arr-l" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0,1 L8,4.5 L0,8 Z" fill="#ff6ec7"/></marker>
+          <marker id="dis-arr-r" markerWidth="9" markerHeight="9" refX="3" refY="4.5" orient="auto-start-reverse"><path d="M0,1 L8,4.5 L0,8 Z" fill="#ff6ec7"/></marker>
         </defs>
-        <rect width="800" height="220" fill="rgba(0,0,0,0.18)" rx="10"/>
-        <text transform="rotate(-90,14,110)" x="14" y="110" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Population Frequency</text>
-        <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <line x1="40" y1="190" x2="760" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <text x="400" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.4)">Phenotype Value</text>
-        <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
-          <line x1="112" y1="188" x2="112" y2="194"/><line x1="184" y1="188" x2="184" y2="194"/>
-          <line x1="256" y1="188" x2="256" y2="194"/><line x1="328" y1="188" x2="328" y2="194"/>
-          <line x1="400" y1="188" x2="400" y2="194"/><line x1="472" y1="188" x2="472" y2="194"/>
-          <line x1="544" y1="188" x2="544" y2="194"/><line x1="616" y1="188" x2="616" y2="194"/>
-          <line x1="688" y1="188" x2="688" y2="194"/>
+        <rect width="900" height="280" fill="rgba(0,0,0,0.22)" rx="12"/>
+        <!-- Title -->
+        <text x="450" y="22" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" font-weight="bold" fill="#ff6ec7" letter-spacing="1">DISRUPTIVE SELECTION</text>
+        <text x="450" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.55)">both extremes favored; intermediate removed — may lead to speciation</text>
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="840" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <line x1="60" y1="55" x2="60" y2="240" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <!-- Y-axis label -->
+        <text transform="rotate(-90,18,147)" x="18" y="147" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Population Frequency</text>
+        <!-- X-axis label -->
+        <text x="450" y="268" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(255,255,255,0.45)">Phenotype Value</text>
+        <!-- Tick labels -->
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="1">
+          <line x1="60"  y1="238" x2="60"  y2="244"/><line x1="216" y1="238" x2="216" y2="244"/>
+          <line x1="372" y1="238" x2="372" y2="244"/><line x1="528" y1="238" x2="528" y2="244"/>
+          <line x1="684" y1="238" x2="684" y2="244"/><line x1="840" y1="238" x2="840" y2="244"/>
         </g>
-        <!-- BEFORE: single bell centered at 400 -->
-        <path d="M40,190 C80,190 130,190 175,185 C215,180 250,168 290,145 C320,126 345,100 368,75 C382,57 390,45 400,42 C410,45 418,57 432,75 C455,100 480,126 510,145 C550,168 585,180 625,185 C670,190 720,190 760,190" stroke="rgba(255,110,199,0.35)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
-        <!-- AFTER: bimodal — peak at x=230 and x=570, valley at x=400 -->
-        <path d="M40,190 C70,190 110,190 150,183 C178,178 200,162 218,138 C226,120 229,95 230,62 C231,95 234,120 242,138 C260,162 282,178 310,183 C340,188 370,190 400,188 C430,190 460,188 490,183 C518,178 540,162 558,138 C566,120 569,95 570,62 C571,95 574,120 582,138 C600,162 622,178 650,183 C688,188 720,190 760,190" stroke="#ff6ec7" stroke-width="2.5" fill="rgba(255,110,199,0.09)"/>
-        <!-- X mark at valley (intermediate removed) -->
-        <line x1="386" y1="176" x2="400" y2="190" stroke="#ff6ec7" stroke-width="2.5"/><line x1="400" y1="176" x2="386" y2="190" stroke="#ff6ec7" stroke-width="2.5"/>
-        <text x="400" y="168" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
-        <!-- Diverging arrows from center -->
-        <line x1="370" y1="120" x2="270" y2="80" stroke="#ff6ec7" stroke-width="2" marker-end="url(#dis-arr-l)"/>
-        <line x1="430" y1="120" x2="530" y2="80" stroke="#ff6ec7" stroke-width="2" marker-end="url(#dis-arr-r)"/>
-        <!-- Peak labels -->
-        <text x="190" y="52" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme A</text>
-        <text x="610" y="52" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme B</text>
-        <!-- Legend -->
-        <rect x="40" y="22" width="175" height="44" rx="6" fill="rgba(0,0,0,0.35)" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
-        <line x1="52" y1="37" x2="82" y2="37" stroke="rgba(255,110,199,0.35)" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="90" y="41" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">Before (dashed)</text>
-        <line x1="52" y1="55" x2="82" y2="55" stroke="#ff6ec7" stroke-width="2"/>
-        <text x="90" y="59" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.5)">After (bimodal)</text>
-        <text x="400" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.7)" letter-spacing="1">DISRUPTIVE — both extremes favored, middle removed</text>
+        <text x="60"  y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Low</text>
+        <text x="216" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Below Avg</text>
+        <text x="372" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Average</text>
+        <text x="528" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">Above Avg</text>
+        <text x="684" y="255" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.35)">High</text>
+        <!-- BEFORE: single bell -->
+        <path data-bell="1" data-mu="0.5" data-sigma="0.12" data-x0="60" data-x1="840" data-base="240" data-peak="70" stroke="rgba(255,110,199,0.38)" stroke-width="2.2" fill="none" stroke-dasharray="7,4"/>
+        <!-- AFTER: bimodal -->
+        <path data-bell="1" data-mu="0.27" data-sigma="0.09" data-mu2="0.73" data-sigma2="0.09" data-x0="60" data-x1="840" data-base="240" data-peak="70" stroke="#ff6ec7" stroke-width="2.8" fill="rgba(255,110,199,0.1)"/>
+        <!-- Red X at center valley -->
+        <line x1="432" y1="218" x2="452" y2="238" stroke="#ff6ec7" stroke-width="2.5"/><line x1="452" y1="218" x2="432" y2="238" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="442" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">✗ removed</text>
+        <!-- Checkmarks at both peaks -->
+        <text x="220" y="76" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="20" fill="#ff6ec7">✓</text>
+        <text x="220" y="56" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme A</text>
+        <text x="680" y="76" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="20" fill="#ff6ec7">✓</text>
+        <text x="680" y="56" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.8)">extreme B</text>
+        <!-- Diverging arrows from center outward -->
+        <line x1="410" y1="135" x2="300" y2="100" stroke="#ff6ec7" stroke-width="2.2" marker-end="url(#dis-arr-l)"/>
+        <line x1="490" y1="135" x2="600" y2="100" stroke="#ff6ec7" stroke-width="2.2" marker-end="url(#dis-arr-r)"/>
+        <!-- Speciation note -->
+        <text x="450" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.65)">may → speciation</text>
+        <!-- Legend top-left -->
+        <rect x="68" y="62" width="188" height="52" rx="7" fill="rgba(0,0,0,0.4)" stroke="rgba(255,110,199,0.22)" stroke-width="1"/>
+        <line x1="80" y1="78" x2="114" y2="78" stroke="rgba(255,110,199,0.38)" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <text x="122" y="82" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">Before (dashed)</text>
+        <line x1="80" y1="98" x2="114" y2="98" stroke="#ff6ec7" stroke-width="2.2"/>
+        <text x="122" y="102" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,255,255,0.5)">After (bimodal)</text>
       </svg>
       <p style="font-size:0.92rem;color:var(--ink-soft);margin:0 0 0.6rem;">Favours both extremes over the intermediate phenotype. The population splits into two phenotypic clusters. Diversity <strong>increases</strong> and can be a driver of speciation.</p>
-      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0;"><strong>Example:</strong> African seedcracker finches — large beaks crack hard seeds efficiently, small beaks crack soft seeds efficiently; intermediate beak size is poor at both, so both extremes are favoured over the middle.</p>
+      <p style="font-size:0.88rem;color:var(--ink-dim);margin:0 0 0.2rem;"><strong>Example:</strong> African seedcracker finches — large beaks crack hard seeds efficiently, small beaks crack soft seeds efficiently; intermediate beak size is poor at both, so both extremes are favoured over the middle.</p>
+      <!-- Generation slider -->
+      <div class="gen-slider-wrap">
+        <label>Show Generation: <input type="range" id="gen-dis" min="0" max="20" value="0"> <span id="gen-dis-val" style="color:#ff6ec7;min-width:2ch;display:inline-block;">0</span></label>
+        <canvas id="canvas-dis" class="gen-canvas" width="500" height="180"></canvas>
+      </div>
     </div>
 
     <!-- Interactive Selection Visualiser -->
-    <div class="sel-viz-wrap reveal">
-      <div class="section-label" style="margin:0 0 0.6rem;">Interactive Simulation</div>
+    <div class="sel-viz-wrap reveal active-directional" id="sel-viz-wrap">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+        <div class="section-label" style="margin:0;">Interactive Simulation</div>
+        <span style="font-family:var(--mono);font-size:0.75rem;color:var(--violet);letter-spacing:0.12em;text-transform:uppercase;margin-left:auto;">Live Simulation</span>
+      </div>
       <h3 style="margin:0 0 1.2rem;">Selection Type Visualiser</h3>
-      <div class="sel-btn-row">
+      <div class="sel-btn-row" style="align-items:center;">
         <button class="sel-btn active" data-sel="directional">Directional</button>
         <button class="sel-btn" data-sel="stabilizing">Stabilizing</button>
         <button class="sel-btn" data-sel="balancing">Balancing</button>
         <button class="sel-btn" data-sel="disruptive">Disruptive</button>
+        <button class="drift-btn" id="sel-autocycle" style="margin-left:auto;border-color:rgba(167,139,250,0.4);color:var(--violet);background:rgba(167,139,250,0.06);">▶ Auto-cycle</button>
       </div>
-      <canvas id="canvas-selection" width="1200" height="420"></canvas>
+      <canvas id="canvas-selection" width="1200" height="520"></canvas>
       <div id="sel-info">Select a mode above to see how the phenotype distribution shifts over generations.</div>
     </div>
   </section>
@@ -1282,7 +1398,230 @@
     if (driftP && driftPVal) {
       driftP.addEventListener('input', () => { driftPVal.textContent = (parseFloat(driftP.value) / 100).toFixed(2); });
     }
+
+
+    // ── Auto-cycle ──────────────────────────────────────────────────────
+    const cycleBtn = document.getElementById('sel-autocycle');
+    const selWrap = document.getElementById('sel-viz-wrap');
+    const selTypes = ['directional', 'stabilizing', 'balancing', 'disruptive'];
+    const colorClasses = { directional:'active-directional', stabilizing:'active-stabilizing', balancing:'active-balancing', disruptive:'active-disruptive' };
+    let cycleTimer = null;
+    let cycleIdx = 0;
+
+    function activateSelType(type) {
+      // click the matching sel-btn
+      document.querySelectorAll('.sel-btn').forEach(b => {
+        if (b.dataset.sel === type) b.click();
+      });
+      // update border color class on wrap
+      if (selWrap) {
+        Object.values(colorClasses).forEach(c => selWrap.classList.remove(c));
+        selWrap.classList.add(colorClasses[type]);
+      }
+    }
+
+    if (cycleBtn) {
+      cycleBtn.addEventListener('click', () => {
+        if (cycleTimer) {
+          clearInterval(cycleTimer);
+          cycleTimer = null;
+          cycleBtn.textContent = '▶ Auto-cycle';
+          cycleBtn.style.color = 'var(--violet)';
+        } else {
+          cycleBtn.textContent = '⏹ Stop';
+          cycleBtn.style.color = 'var(--rose)';
+          cycleTimer = setInterval(() => {
+            cycleIdx = (cycleIdx + 1) % selTypes.length;
+            activateSelType(selTypes[cycleIdx]);
+          }, 2000);
+        }
+      });
+    }
+
+    // Update border class when sel-btn is manually clicked
+    document.querySelectorAll('.sel-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.sel;
+        if (selWrap && colorClasses[type]) {
+          Object.values(colorClasses).forEach(c => selWrap.classList.remove(c));
+          selWrap.classList.add(colorClasses[type]);
+        }
+      });
+    });
+
   });
+</script>
+
+<!-- Bell curve path generator — replaces data-bell paths with computed Gaussian polylines -->
+<script>
+(function () {
+  document.querySelectorAll('[data-bell]').forEach(function (el) {
+    var mu   = parseFloat(el.dataset.mu);
+    var sig  = parseFloat(el.dataset.sigma);
+    var mu2  = el.dataset.mu2  !== undefined ? parseFloat(el.dataset.mu2)  : null;
+    var sig2 = el.dataset.sigma2 !== undefined ? parseFloat(el.dataset.sigma2) : null;
+    var x0   = parseFloat(el.dataset.x0   || 60);
+    var x1   = parseFloat(el.dataset.x1   || 840);
+    var base = parseFloat(el.dataset.base  || 240);
+    var peakY = parseFloat(el.dataset.peak || 70);
+    var chartH = base - peakY;
+    var chartW = x1 - x0;
+    var n = 120;
+    var pts = [];
+    for (var i = 0; i <= n; i++) {
+      var x = i / n;
+      var g = Math.exp(-0.5 * Math.pow((x - mu) / sig, 2));
+      if (mu2 !== null) g += Math.exp(-0.5 * Math.pow((x - mu2) / sig2, 2));
+      if (g > 1) g = 1;
+      pts.push((x0 + x * chartW).toFixed(1) + ',' + (base - g * chartH).toFixed(1));
+    }
+    var noFill = (el.getAttribute('fill') === 'none');
+    var d = noFill
+      ? 'M' + pts.join(' L')
+      : 'M' + x0 + ',' + base + ' L' + pts.join(' L') + ' L' + x1 + ',' + base + ' Z';
+    el.setAttribute('d', d);
+  });
+})();
+</script>
+
+<!-- Generation slider canvases — isolated script, runs after DOM is built -->
+<script>
+(function () {
+  function gaussian(x, mu, sigma) {
+    return Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+  }
+
+  function drawGen(canvasId, type, gen) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var pl = 12, pr = 12, pt = 24, pb = 28;
+    var cw = W - pl - pr, ch = H - pt - pb;
+    var baseY = pt + ch;
+    var yScale = ch * 0.88;
+    var steps = 400;
+    var t = gen / 20;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(0,0,0,0.32)';
+    ctx.fillRect(0, 0, W, H);
+
+    // baseline
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pl, baseY);
+    ctx.lineTo(pl + cw, baseY);
+    ctx.stroke();
+
+    var colors = { directional:'#64ffda', stabilizing:'#a78bfa', balancing:'#ffd166', disruptive:'#ff6ec7' };
+    var color = colors[type] || '#64ffda';
+
+    function xC(x) { return pl + x * cw; }
+    function yC(y) { return baseY - y * yScale; }
+
+    function getY(x, mus, sigs, alps) {
+      var y = 0;
+      for (var k = 0; k < mus.length; k++) y += alps[k] * gaussian(x, mus[k], sigs[k]);
+      return y;
+    }
+
+    function drawFill(mus, sigs, alps, fillColor) {
+      ctx.beginPath();
+      ctx.moveTo(xC(0), baseY);
+      for (var i = 0; i <= steps; i++) {
+        var x = i / steps;
+        ctx.lineTo(xC(x), yC(getY(x, mus, sigs, alps)));
+      }
+      ctx.lineTo(xC(1), baseY);
+      ctx.closePath();
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+    }
+
+    function drawLine(mus, sigs, alps, strokeColor, lw, dash) {
+      ctx.beginPath();
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      for (var i = 0; i <= steps; i++) {
+        var x = i / steps;
+        var cx = xC(x), cy = yC(getY(x, mus, sigs, alps));
+        if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+      }
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = lw;
+      ctx.setLineDash(dash || []);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawLabel(txt) {
+      ctx.fillStyle = color;
+      ctx.font = 'bold 10px JetBrains Mono, monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(txt, pl + 4, pt - 6);
+    }
+
+    if (type === 'directional') {
+      var muB = 0.35, muA = 0.35 + t * 0.30, sig = 0.10;
+      drawFill([muB], [sig], [1], 'rgba(100,255,218,0.06)');
+      drawLine([muB], [sig], [1], 'rgba(100,255,218,0.35)', 1.8, [6,4]);
+      drawFill([muA], [sig], [1], 'rgba(100,255,218,0.15)');
+      drawLine([muA], [sig], [1], color, 2.5, null);
+      drawLabel('Gen ' + gen + '  mean \u2192 ' + muA.toFixed(2));
+
+    } else if (type === 'stabilizing') {
+      var mu = 0.5, sigB = 0.13, sigA = Math.max(0.05, 0.13 - t * 0.08);
+      drawFill([mu], [sigB], [1], 'rgba(167,139,250,0.06)');
+      drawLine([mu], [sigB], [1], 'rgba(167,139,250,0.4)', 1.8, [6,4]);
+      drawFill([mu], [sigA], [1], 'rgba(167,139,250,0.16)');
+      drawLine([mu], [sigA], [1], color, 2.5, null);
+      drawLabel('Gen ' + gen + '  \u03c3 = ' + sigA.toFixed(3));
+
+    } else if (type === 'balancing') {
+      var sig2 = 0.11;
+      drawLine([0.5], [sig2 * 1.02], [1], 'rgba(255,209,102,0.3)', 1.5, [7,4]);
+      drawLine([0.5], [sig2 * 1.01], [1], 'rgba(255,209,102,0.6)', 1.5, [7,4]);
+      var muBal = 0.5 + Math.sin(t * Math.PI * 2) * 0.004;
+      drawFill([muBal], [sig2], [1], 'rgba(255,209,102,0.1)');
+      drawLine([muBal], [sig2], [1], color, 2.5, null);
+      drawLabel('Gen ' + gen + '  freq stable');
+
+    } else if (type === 'disruptive') {
+      var sigD = 0.10, muBD = 0.5;
+      var muL = 0.5 - t * 0.20, muR = 0.5 + t * 0.20;
+      drawFill([muBD], [sigD], [1], 'rgba(255,110,199,0.06)');
+      drawLine([muBD], [sigD], [1], 'rgba(255,110,199,0.38)', 1.8, [6,4]);
+      if (t > 0.05) {
+        var sigF = sigD * (1 - t * 0.25);
+        drawFill([muL, muR], [sigF, sigF], [t, t], 'rgba(255,110,199,0.15)');
+        drawLine([muL, muR], [sigF, sigF], [t, t], color, 2.5, null);
+      }
+      drawLabel('Gen ' + gen + (t > 0.5 ? '  bimodal' : '  unimodal'));
+    }
+  }
+
+  var configs = [
+    { sliderId: 'gen-dir',  valId: 'gen-dir-val',  canvasId: 'canvas-dir',  type: 'directional' },
+    { sliderId: 'gen-stab', valId: 'gen-stab-val', canvasId: 'canvas-stab', type: 'stabilizing' },
+    { sliderId: 'gen-bal',  valId: 'gen-bal-val',  canvasId: 'canvas-bal',  type: 'balancing'   },
+    { sliderId: 'gen-dis',  valId: 'gen-dis-val',  canvasId: 'canvas-dis',  type: 'disruptive'  }
+  ];
+
+  configs.forEach(function(cfg) {
+    var slider = document.getElementById(cfg.sliderId);
+    var valEl  = document.getElementById(cfg.valId);
+    if (!slider) return;
+    function update() {
+      var g = parseInt(slider.value, 10);
+      if (valEl) valEl.textContent = g;
+      drawGen(cfg.canvasId, cfg.type, g);
+    }
+    slider.addEventListener('input', update);
+    update();
+  });
+})();
 </script>
 </body>
 </html>
