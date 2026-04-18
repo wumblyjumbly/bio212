@@ -370,6 +370,69 @@
   </section>
 
 
+  <!-- ══ INTERACTIVE: Clade Classifier ══ -->
+  <section class="reveal" style="margin-top:1.5rem;">
+    <div class="section-label">Practice</div>
+    <h3>Classify the Phylum <span style="font-size:.72em;font-weight:400;color:var(--ink-dim);">— click each card to reveal its clade</span></h3>
+    <p style="color:var(--ink-soft);font-size:.88rem;max-width:640px;margin-bottom:1.3rem;">Decide: Lophotrochozoa or Ecdysozoa? Then click to reveal. Each card shows the key feature that places it in that clade.</p>
+    <div id="clade-clf" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:.85rem;"></div>
+    <div style="margin-top:1rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
+      <span id="clf-score" style="font-family:var(--mono);font-size:.82rem;color:var(--fg-2);"></span>
+      <button id="clf-reset" style="font-family:var(--mono);font-size:.72rem;padding:.35rem .9rem;background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-sm);color:var(--ink-dim);cursor:pointer;transition:border-color .2s;">↻ Reset</button>
+    </div>
+  </section>
+  <script>
+  (function(){
+    var DATA=[
+      {name:'Platyhelminthes', clade:'Lopho', hint:'Flat body · acoelomate · trochophore larva'},
+      {name:'Annelida',        clade:'Lopho', hint:'True metamerism · closed circulation · trochophore'},
+      {name:'Mollusca',        clade:'Lopho', hint:'Mantle + foot + radula · trochophore→veliger'},
+      {name:'Rotifera',        clade:'Lopho', hint:'Ciliated corona · related to trochophore'},
+      {name:'Nematoda',        clade:'Ecdyso', hint:'Pseudocoelom · unsegmented · moults 4×'},
+      {name:'Arthropoda',      clade:'Ecdyso', hint:'Jointed legs · chitin exoskeleton · ecdysis'},
+      {name:'Tardigrada',      clade:'Ecdyso', hint:'"Water bears" · lobopod walking legs · cuticle moulting'},
+      {name:'Onychophora',     clade:'Ecdyso', hint:'Velvet worms · lobopods · ecdysis'},
+    ];
+    var revealed=0, cont=document.getElementById('clade-clf'), scoreEl=document.getElementById('clf-score');
+    function upd(){
+      scoreEl.textContent=revealed+'/'+DATA.length+' revealed';
+      if(revealed===DATA.length){scoreEl.style.color='var(--teal)';}
+    }
+    function build(){
+      revealed=0; scoreEl.style.color='var(--fg-2)';
+      cont.innerHTML=DATA.map(function(p,i){
+        return '<div class="clf-card" data-i="'+i+'" style="cursor:pointer;border-radius:var(--radius-sm);border:1px solid var(--line);padding:1rem .9rem;text-align:center;transition:all .25s;background:var(--glass);user-select:none;">'
+          +'<div style="font-family:var(--mono);font-size:.83rem;font-weight:600;color:var(--fg);line-height:1.3;">'+p.name+'</div>'
+          +'<div class="clf-tap" style="font-family:var(--mono);font-size:.67rem;color:var(--ink-dim);margin-top:.45rem;">tap to reveal</div>'
+          +'<div class="clf-back" style="display:none;margin-top:.55rem;">'
+          +'<div class="clf-clade-lbl" style="font-family:var(--mono);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;"></div>'
+          +'<div style="font-size:.75rem;color:var(--ink-soft);line-height:1.45;">'+p.hint+'</div>'
+          +'</div>'
+          +'</div>';
+      }).join('');
+      upd();
+      cont.querySelectorAll('.clf-card').forEach(function(card){
+        card.addEventListener('click',function(){
+          var i=parseInt(card.dataset.i), p=DATA[i];
+          var back=card.querySelector('.clf-back');
+          if(back.style.display==='none'){
+            var lp=p.clade==='Lopho';
+            back.style.display='block';
+            back.querySelector('.clf-clade-lbl').textContent=lp?'Lophotrochozoa':'Ecdysozoa';
+            back.querySelector('.clf-clade-lbl').style.color=lp?'var(--teal)':'var(--gold)';
+            card.querySelector('.clf-tap').style.display='none';
+            card.style.borderColor=lp?'rgba(100,255,218,0.45)':'rgba(255,209,102,0.45)';
+            card.style.background=lp?'rgba(100,255,218,0.06)':'rgba(255,209,102,0.06)';
+            revealed++; upd();
+          }
+        });
+      });
+    }
+    document.getElementById('clf-reset').addEventListener('click',build);
+    build();
+  })();
+  </script>
+
   <!-- ══════════════════════════════════════════
        LEVEL 2
   ══════════════════════════════════════════ -->
@@ -643,6 +706,251 @@
       <div class="tip" style="margin-top:0.8rem;">
         <strong>Parasitic adaptations:</strong> Tapeworms (<em>Taenia</em>) are highly modified lophotrochozoans — no digestive system at all (absorb nutrients through the tegument), complex life cycles requiring intermediate hosts. Liver flukes (<em>Fasciola</em>) use a snail intermediate host. Free-living planaria can regenerate an entire organism from 1/300th of the body.
       </div>
+
+      <!-- ── Platyhelminthes interactive visuals ── -->
+      <style>
+        .platy-wrap { margin-top:1.2rem; }
+        .platy-species-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.75rem; margin-top:.8rem; }
+        .platy-card {
+          background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius-sm);
+          padding:.9rem; cursor:pointer; transition:border-color .25s, background .25s; position:relative;
+        }
+        .platy-card:hover { border-color:rgba(100,255,218,.4); background:rgba(100,255,218,.04); }
+        .platy-card.selected { border-color:rgba(100,255,218,.6); background:rgba(100,255,218,.07); }
+        .platy-card-name { font-family:var(--mono); font-size:.7rem; color:var(--teal); letter-spacing:.06em; margin-bottom:.3rem; }
+        .platy-card-common { font-size:.82rem; color:var(--fg); font-weight:600; margin-bottom:.25rem; }
+        .platy-card-hint { font-size:.76rem; color:var(--fg-3); line-height:1.55; }
+        .platy-detail { display:none; margin-top:.9rem; padding:1rem; background:var(--bg-2); border:1px solid rgba(100,255,218,.2); border-radius:var(--radius-sm); }
+        .platy-detail.active { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:start; }
+        @media(max-width:580px){ .platy-detail.active { grid-template-columns:1fr; } }
+        .platy-detail-text { font-size:.84rem; color:var(--fg-2); line-height:1.75; }
+        .platy-detail-text strong { color:var(--teal); }
+        .platy-key-facts { display:flex; flex-direction:column; gap:.35rem; margin-top:.6rem; }
+        .platy-fact { font-family:var(--mono); font-size:.7rem; color:var(--fg-3); padding:.3rem .6rem; background:var(--glass); border-radius:var(--radius-sm); border-left:2px solid var(--teal); }
+      </style>
+      <div class="platy-wrap figure reveal">
+        <div class="fig-label">Fig 5.1A · Platyhelminthes — Body Plan &amp; Diversity</div>
+
+        <!-- Cross-section + lateral plan SVG -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center;">
+          <div>
+            <div style="font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.3);margin-bottom:.4rem;letter-spacing:.05em;">CROSS-SECTION (acoelomate)</div>
+            <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+              <!-- Outer epidermis -->
+              <ellipse cx="120" cy="80" rx="108" ry="62" fill="rgba(100,255,218,0.08)" stroke="#64ffda" stroke-width="2"/>
+              <!-- Mesoderm fill (packed parenchyma — NO body cavity) -->
+              <ellipse cx="120" cy="80" rx="90" ry="48" fill="rgba(167,139,250,0.14)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- Gut (gastrovascular cavity) — flattened oval, central -->
+              <ellipse cx="120" cy="80" rx="32" ry="18" fill="rgba(255,209,102,0.18)" stroke="#ffd166" stroke-width="1.5"/>
+              <!-- Flame cells (small circles in parenchyma) -->
+              <circle cx="80" cy="65" r="5" fill="rgba(125,211,252,0.3)" stroke="#7dd3fc" stroke-width="1"/>
+              <circle cx="80" cy="95" r="5" fill="rgba(125,211,252,0.3)" stroke="#7dd3fc" stroke-width="1"/>
+              <circle cx="158" cy="65" r="5" fill="rgba(125,211,252,0.3)" stroke="#7dd3fc" stroke-width="1"/>
+              <circle cx="158" cy="95" r="5" fill="rgba(125,211,252,0.3)" stroke="#7dd3fc" stroke-width="1"/>
+              <!-- Nerve cord dots -->
+              <circle cx="120" cy="44" r="4" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1"/>
+              <circle cx="120" cy="116" r="4" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1"/>
+              <!-- Labels -->
+              <text x="120" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">epidermis (ciliated in free-living)</text>
+              <text x="6" y="50" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(167,139,250,.8)">mesoderm</text>
+              <text x="6" y="60" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(167,139,250,.6)">parenchyma</text>
+              <text x="6" y="70" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(167,139,250,.5)">(SOLID FILL)</text>
+              <text x="98" y="84" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">GVC</text>
+              <text x="164" y="62" font-family="JetBrains Mono,monospace" font-size="7" fill="#7dd3fc">flame</text>
+              <text x="164" y="72" font-family="JetBrains Mono,monospace" font-size="7" fill="#7dd3fc">cell</text>
+              <text x="127" y="43" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff6ec7">nerve</text>
+              <text x="127" y="120" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff6ec7">cord</text>
+              <text x="120" y="151" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.22)">NO COELOM — mesoderm fills space between gut &amp; body wall</text>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.3);margin-bottom:.4rem;letter-spacing:.05em;">PLANARIA · DORSAL VIEW (lateral)</div>
+            <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+              <!-- Body outline — flat, anterior pointed, posterior rounded -->
+              <path d="M30,80 Q40,38 120,30 Q200,38 218,80 Q200,122 120,130 Q40,122 30,80Z" fill="rgba(100,255,218,0.07)" stroke="#64ffda" stroke-width="1.8"/>
+              <!-- Auricles (ear-like flaps at anterior) -->
+              <path d="M40,60 Q28,50 30,80 Q28,110 40,100" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.5"/>
+              <!-- Eyespots (ocelli) -->
+              <circle cx="88" cy="52" r="9" fill="rgba(255,110,199,0.2)" stroke="#ff6ec7" stroke-width="1.5"/>
+              <circle cx="152" cy="52" r="9" fill="rgba(255,110,199,0.2)" stroke="#ff6ec7" stroke-width="1.5"/>
+              <circle cx="86" cy="51" r="4" fill="rgba(8,11,26,.9)"/>
+              <circle cx="150" cy="51" r="4" fill="rgba(8,11,26,.9)"/>
+              <!-- Brain (anterior ganglia) -->
+              <ellipse cx="120" cy="54" rx="22" ry="10" fill="rgba(255,110,199,0.15)" stroke="rgba(255,110,199,.5)" stroke-width="1" stroke-dasharray="3,2"/>
+              <!-- Pharynx (central, extendable) -->
+              <ellipse cx="120" cy="84" rx="12" ry="18" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.3"/>
+              <!-- Gastrovascular cavity branches -->
+              <path d="M120,66 Q90,72 72,64 M120,66 Q150,72 168,64" stroke="rgba(255,209,102,.4)" stroke-width="1.2" fill="none"/>
+              <path d="M120,100 Q90,108 72,116 M120,100 Q150,108 168,116" stroke="rgba(255,209,102,.4)" stroke-width="1.2" fill="none"/>
+              <!-- Nerve cords -->
+              <line x1="106" y1="54" x2="92" y2="130" stroke="rgba(255,110,199,.35)" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <line x1="134" y1="54" x2="148" y2="130" stroke="rgba(255,110,199,.35)" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <!-- Labels -->
+              <text x="32" y="48" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">auricle</text>
+              <text x="73" y="42" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">eyespot</text>
+              <text x="136" y="58" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,.7)">brain</text>
+              <text x="128" y="86" font-family="JetBrains Mono,monospace" font-size="7" fill="#ffd166">pharynx</text>
+              <text x="165" y="100" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,.6)">GVC</text>
+              <text x="120" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.22)">click species below for details</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Species selector -->
+        <div style="font-family:var(--mono);font-size:.68rem;color:var(--fg-3);letter-spacing:.06em;margin:.9rem 0 .4rem;">SELECT A SPECIES</div>
+        <div class="platy-species-grid" id="platy-species">
+          <div class="platy-card" data-sp="planaria">
+            <div class="platy-card-name">Dugesia sp.</div>
+            <div class="platy-card-common">Planaria</div>
+            <div class="platy-card-hint">Free-living · freshwater · famous regeneration</div>
+          </div>
+          <div class="platy-card" data-sp="tapeworm">
+            <div class="platy-card-name">Taenia solium</div>
+            <div class="platy-card-common">Pork Tapeworm</div>
+            <div class="platy-card-hint">Parasite · NO digestive system · proglottids</div>
+          </div>
+          <div class="platy-card" data-sp="fluke">
+            <div class="platy-card-name">Fasciola hepatica</div>
+            <div class="platy-card-common">Liver Fluke</div>
+            <div class="platy-card-hint">Digenean parasite · 2-host life cycle</div>
+          </div>
+          <div class="platy-card" data-sp="polyclad">
+            <div class="platy-card-name">Pseudoceros sp.</div>
+            <div class="platy-card-common">Polyclad Flatworm</div>
+            <div class="platy-card-hint">Free-living · marine · vibrant coloration</div>
+          </div>
+        </div>
+
+        <!-- Detail panel -->
+        <div class="platy-detail" id="platy-detail">
+          <div id="platy-svg-panel"></div>
+          <div>
+            <div id="platy-detail-name" style="font-family:var(--mono);font-size:.75rem;color:var(--teal);letter-spacing:.06em;margin-bottom:.35rem;"></div>
+            <div id="platy-detail-text" class="platy-detail-text"></div>
+            <div id="platy-detail-facts" class="platy-key-facts"></div>
+          </div>
+        </div>
+
+        <div class="fig-caption">Left: acoelomate cross-section — mesoderm fills solid, no body cavity. Right: planaria dorsal anatomy. Below: select a species to explore key adaptations.</div>
+      </div>
+
+      <script>
+      (function(){
+        var DATA = {
+          planaria: {
+            name: 'Dugesia sp. · Planaria',
+            svg: '<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">'
+              + '<path d="M26,70 Q34,30 110,24 Q186,30 200,70 Q186,110 110,116 Q34,110 26,70Z" fill="rgba(100,255,218,.08)" stroke="#64ffda" stroke-width="1.8"/>'
+              + '<circle cx="82" cy="44" r="8" fill="rgba(255,110,199,.2)" stroke="#ff6ec7" stroke-width="1.5"/>'
+              + '<circle cx="80" cy="43" r="4" fill="rgba(8,11,26,.95)"/>'
+              + '<circle cx="138" cy="44" r="8" fill="rgba(255,110,199,.2)" stroke="#ff6ec7" stroke-width="1.5"/>'
+              + '<circle cx="136" cy="43" r="4" fill="rgba(8,11,26,.95)"/>'
+              + '<ellipse cx="110" cy="50" rx="20" ry="8" fill="rgba(255,110,199,.12)" stroke="rgba(255,110,199,.4)" stroke-width="1" stroke-dasharray="3,2"/>'
+              + '<line x1="98" y1="58" x2="88" y2="116" stroke="rgba(255,110,199,.3)" stroke-width="1" stroke-dasharray="2,3"/>'
+              + '<line x1="122" y1="58" x2="132" y2="116" stroke="rgba(255,110,199,.3)" stroke-width="1" stroke-dasharray="2,3"/>'
+              + '<ellipse cx="110" cy="76" rx="11" ry="16" fill="rgba(255,209,102,.18)" stroke="#ffd166" stroke-width="1.3"/>'
+              + '<text x="110" y="130" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,.6)">Dugesia · dorsal</text>'
+              + '</svg>',
+            text: 'Free-living freshwater predator. Cilia on ventral epidermis enable gliding. <strong>Regeneration</strong>: neoblasts (adult stem cells) can regrow any body part — even an entire animal from a small fragment. The anterior ganglia and eyespots detect light gradients for negative phototaxis.',
+            facts: ['Acoelomate — mesoderm fills all space between gut & body wall','GVC: single opening (mouth = anus), branched','Ladder NS: brain + 2 ventral nerve cords + cross-commissures','Flame cells (protonephridia): osmotic regulation only']
+          },
+          tapeworm: {
+            name: 'Taenia solium · Pork Tapeworm',
+            svg: '<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">'
+              + '<!-- Scolex (head) -->'
+              + '<circle cx="40" cy="70" r="18" fill="rgba(255,209,102,.12)" stroke="#ffd166" stroke-width="1.8"/>'
+              + '<text x="40" y="73" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ffd166">scolex</text>'
+              + '<!-- Suckers on scolex -->'
+              + '<circle cx="30" cy="62" r="4.5" fill="none" stroke="rgba(255,209,102,.7)" stroke-width="1.3"/>'
+              + '<circle cx="50" cy="62" r="4.5" fill="none" stroke="rgba(255,209,102,.7)" stroke-width="1.3"/>'
+              + '<circle cx="30" cy="78" r="4.5" fill="none" stroke="rgba(255,209,102,.7)" stroke-width="1.3"/>'
+              + '<circle cx="50" cy="78" r="4.5" fill="none" stroke="rgba(255,209,102,.7)" stroke-width="1.3"/>'
+              + '<!-- Neck -->'
+              + '<rect x="57" y="65" width="12" height="10" rx="2" fill="rgba(255,209,102,.2)" stroke="rgba(255,209,102,.4)" stroke-width="1"/>'
+              + '<text x="63" y="54" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,.6)">neck</text>'
+              + '<!-- Proglottids (strobila) -->'
+              + '<rect x="68" y="55" width="24" height="30" rx="2" fill="rgba(100,255,218,.08)" stroke="#64ffda" stroke-width="1.2"/>'
+              + '<rect x="90" y="52" width="26" height="36" rx="2" fill="rgba(100,255,218,.1)" stroke="#64ffda" stroke-width="1.2"/>'
+              + '<rect x="114" y="48" width="30" height="44" rx="2" fill="rgba(100,255,218,.12)" stroke="#64ffda" stroke-width="1.4"/>'
+              + '<rect x="142" y="44" width="40" height="52" rx="2" fill="rgba(100,255,218,.15)" stroke="#64ffda" stroke-width="1.5"/>'
+              + '<text x="79" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(100,255,218,.5)">imm.</text>'
+              + '<text x="103" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(100,255,218,.55)">mat.</text>'
+              + '<text x="129" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(100,255,218,.65)">grav.</text>'
+              + '<text x="162" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#64ffda">eggs</text>'
+              + '<text x="110" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.25)">strobila (chain of proglottids)</text>'
+              + '<text x="110" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,.5)">NO digestive system · absorbs through tegument</text>'
+              + '</svg>',
+            text: '<strong>Obligate endoparasite</strong> — never free-living. The body is a reproductive machine: the <strong>scolex</strong> anchors to intestinal wall with 4 suckers + hooks (rostellum). New <strong>proglottids</strong> bud from the neck continuously. Each mature proglottid contains a complete set of male + female reproductive organs. Gravid proglottids (full of eggs) detach and exit in faeces.',
+            facts: ['NO digestive tract — completely lost; absorbs host nutrients through tegument','Intermediate host: pig (larval cysticercus in muscle); definitive host: human','Neurocysticercosis: larval cysts in human brain → seizures','Can reach 10m length; single tapeworm = tens of thousands of proglottids']
+          },
+          fluke: {
+            name: 'Fasciola hepatica · Liver Fluke',
+            svg: '<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">'
+              + '<path d="M100,16 Q154,22 170,70 Q154,118 100,124 Q46,118 30,70 Q46,22 100,16Z" fill="rgba(184,240,137,.08)" stroke="#b8f089" stroke-width="1.8"/>'
+              + '<!-- Oral sucker -->'
+              + '<circle cx="100" cy="28" r="10" fill="rgba(255,209,102,.2)" stroke="#ffd166" stroke-width="1.5"/>'
+              + '<text x="100" y="31" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#ffd166">oral</text>'
+              + '<!-- Ventral sucker (acetabulum) -->'
+              + '<circle cx="100" cy="54" r="12" fill="rgba(255,209,102,.15)" stroke="#ffd166" stroke-width="1.5"/>'
+              + '<text x="100" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#ffd166">ventral</text>'
+              + '<!-- Branched GVC -->'
+              + '<path d="M100,64 Q80,78 68,72 M100,64 Q120,78 132,72" stroke="rgba(255,209,102,.4)" stroke-width="1.2" fill="none"/>'
+              + '<path d="M68,72 Q58,90 62,112 M132,72 Q142,90 138,112" stroke="rgba(255,209,102,.35)" stroke-width="1.2" fill="none"/>'
+              + '<!-- Testes (branched) -->'
+              + '<path d="M88,80 Q72,88 70,100 Q78,112 90,106 Q96,94 88,80Z" fill="rgba(167,139,250,.15)" stroke="rgba(167,139,250,.5)" stroke-width="1"/>'
+              + '<path d="M112,80 Q128,88 130,100 Q122,112 110,106 Q104,94 112,80Z" fill="rgba(167,139,250,.15)" stroke="rgba(167,139,250,.5)" stroke-width="1"/>'
+              + '<text x="100" y="130" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.25)">oral sucker · ventral sucker · GVC · testes</text>'
+              + '</svg>',
+            text: 'Digenean trematode with a <strong>complex 2-host life cycle</strong>: adult in sheep/cattle bile duct → eggs in faeces → miracidium → infects snail (<em>Galba truncatula</em>) → sporocysts → rediae → cercariae → encyst as metacercariae on grass → ingested by definitive host. Two suckers (oral + acetabulum) anchor to host tissue. Causes fasciolosis: liver damage, anaemia.',
+            facts: ['2-host life cycle: mud snail (intermediate) → mammal (definitive)','GVC present (unlike tapeworm) — highly branched to distribute nutrients','Oral sucker feeds on bile duct epithelium & blood','Eggs shed in faeces — diagnosis via faecal egg count']
+          },
+          polyclad: {
+            name: 'Pseudoceros sp. · Marine Polyclad',
+            svg: '<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">'
+              + '<path d="M18,70 Q28,20 100,14 Q172,20 182,70 Q172,120 100,126 Q28,120 18,70Z" fill="rgba(255,110,199,.08)" stroke="#ff6ec7" stroke-width="2"/>'
+              + '<!-- Margin undulations -->'
+              + '<path d="M18,70 Q24,50 30,60 Q36,70 42,56 Q48,42 54,56 Q60,70 66,52 Q72,34 78,50 Q84,66 90,46 Q96,26 100,14" fill="none" stroke="rgba(255,110,199,.4)" stroke-width="1.5"/>'
+              + '<path d="M182,70 Q176,50 170,60 Q164,70 158,56 Q152,42 146,56 Q140,70 134,52 Q128,34 122,50 Q116,66 110,46 Q104,26 100,14" fill="none" stroke="rgba(255,110,199,.4)" stroke-width="1.5"/>'
+              + '<!-- Eyespots cluster (anterior) -->'
+              + '<circle cx="88" cy="34" r="3.5" fill="rgba(255,209,102,.5)" stroke="#ffd166" stroke-width="1"/>'
+              + '<circle cx="96" cy="30" r="3.5" fill="rgba(255,209,102,.5)" stroke="#ffd166" stroke-width="1"/>'
+              + '<circle cx="104" cy="30" r="3.5" fill="rgba(255,209,102,.5)" stroke="#ffd166" stroke-width="1"/>'
+              + '<circle cx="112" cy="34" r="3.5" fill="rgba(255,209,102,.5)" stroke="#ffd166" stroke-width="1"/>'
+              + '<!-- GVC (highly branched) -->  '
+              + '<path d="M100,40 Q80,55 64,50 M100,40 Q120,55 136,50" stroke="rgba(255,209,102,.3)" stroke-width="1.2" fill="none"/>'
+              + '<path d="M64,50 Q52,68 58,90 M136,50 Q148,68 142,90" stroke="rgba(255,209,102,.25)" stroke-width="1.2" fill="none"/>'
+              + '<path d="M100,40 Q94,70 96,110 M100,40 Q106,70 104,110" stroke="rgba(255,209,102,.25)" stroke-width="1.2" fill="none"/>'
+              + '<!-- Pharynx -->'
+              + '<ellipse cx="100" cy="70" rx="14" ry="20" fill="rgba(255,209,102,.15)" stroke="rgba(255,209,102,.5)" stroke-width="1.2"/>'
+              + '<text x="100" y="130" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.25)">ruffled body margins · multiple eyespots · branched GVC</text>'
+              + '</svg>',
+            text: '<strong>Free-living marine flatworms</strong> — the most morphologically complex turbellarians. Found on coral reefs, mimicking toxic nudibranchs (Batesian mimicry). Vibrant coloration is aposematic or mimetic. Eyespots occur in clusters at the anterior margin. The <strong>highly branched GVC</strong> distributes nutrients across the flat body without a circulatory system. Eversible pharynx engulfs ascidians, bryozoans, and molluscs.',
+            facts: ['FREE-living — no parasitism in this group','Multiple eyespots (vs. 2 in planaria): better light detection','Ruffled body margins increase surface area for gas exchange','Aposematic or mimetic coloration — reef-associated']
+          }
+        };
+
+        var cards = document.querySelectorAll('#platy-species .platy-card');
+        var detail = document.getElementById('platy-detail');
+        var svgPanel = document.getElementById('platy-svg-panel');
+        var nameEl = document.getElementById('platy-detail-name');
+        var textEl = document.getElementById('platy-detail-text');
+        var factsEl = document.getElementById('platy-detail-facts');
+
+        cards.forEach(function(card){
+          card.addEventListener('click', function(){
+            var sp = card.dataset.sp;
+            var d = DATA[sp];
+            cards.forEach(function(c){ c.classList.remove('selected'); });
+            card.classList.add('selected');
+            nameEl.textContent = d.name;
+            textEl.innerHTML = d.text;
+            factsEl.innerHTML = d.facts.map(function(f){ return '<div class="platy-fact">'+f+'</div>'; }).join('');
+            svgPanel.innerHTML = d.svg;
+            detail.classList.add('active');
+          });
+        });
+      })();
+      </script>
     </div>
 
     <!-- Annelida -->
@@ -662,6 +970,305 @@
         <div class="feat-item"><span class="feat-label">Appendages</span>Parapodia (in polychaetes) — fleshy unjointed lobes used in locomotion and gas exchange</div>
         <div class="feat-item"><span class="feat-label">Larva</span>Trochophore (in marine polychaetes)</div>
       </div>
+
+      <!-- ── Annelida interactive visuals ── -->
+      <style>
+        .annelid-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:.9rem 0 .6rem; }
+        .annelid-tab-btn {
+          font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; padding:.35rem .85rem;
+          border-radius:var(--radius-sm); border:1px solid var(--line); background:var(--glass);
+          color:var(--fg-3); cursor:pointer; transition:background .2s, border-color .2s, color .2s;
+        }
+        .annelid-tab-btn.active { background:rgba(167,139,250,.13); border-color:rgba(167,139,250,.55); color:#a78bfa; }
+        .annelid-panel { display:none; }
+        .annelid-panel.active { display:block; }
+        .seg-highlight { transition: opacity .25s; cursor:pointer; }
+        .seg-label-badge {
+          font-family:var(--mono); font-size:.7rem; padding:.2rem .55rem; border-radius:999px;
+          background:rgba(167,139,250,.12); border:1px solid rgba(167,139,250,.35); color:#a78bfa;
+          cursor:pointer; transition:background .2s;
+        }
+        .seg-label-badge:hover, .seg-label-badge.active { background:rgba(167,139,250,.28); border-color:rgba(167,139,250,.65); }
+        #annelid-seg-info { min-height:2.5rem; font-size:.82rem; color:var(--fg-2); line-height:1.65; padding:.5rem .75rem; background:rgba(167,139,250,.05); border-left:2px solid rgba(167,139,250,.4); border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-top:.5rem; }
+      </style>
+
+      <div class="figure reveal" style="margin-top:1.2rem;">
+        <div class="fig-label">Fig 5.2 · Annelida — Segment Anatomy &amp; Class Diversity</div>
+        <div class="annelid-tabs">
+          <button class="annelid-tab-btn active" data-at="xsec">Cross-Section (segment)</button>
+          <button class="annelid-tab-btn" data-at="lateral">Earthworm · Lateral</button>
+          <button class="annelid-tab-btn" data-at="classes">Class Comparison</button>
+        </div>
+
+        <!-- Panel 1: Cross-section with clickable labels -->
+        <div class="annelid-panel active" id="at-xsec">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
+            <svg id="annelid-xsec-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+              <!-- Outer body wall (circular muscle + epidermis) -->
+              <circle cx="130" cy="130" r="112" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="2.5" id="anat-bw"/>
+              <!-- Inner body wall (longitudinal muscle) -->
+              <circle cx="130" cy="130" r="94" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <!-- Coelom (true body cavity) -->
+              <circle cx="130" cy="130" r="78" fill="rgba(100,255,218,0.04)" stroke="rgba(100,255,218,0.3)" stroke-width="1.5" id="anat-coelom"/>
+              <!-- Dorsal blood vessel -->
+              <ellipse cx="130" cy="68" rx="10" ry="7" fill="rgba(255,110,199,0.4)" stroke="#ff6ec7" stroke-width="1.5" id="anat-dbv"/>
+              <!-- Ventral blood vessel -->
+              <ellipse cx="130" cy="192" rx="10" ry="7" fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="1.5" id="anat-vbv"/>
+              <!-- Nerve cord (ventral, below VBV) -->
+              <ellipse cx="130" cy="208" rx="8" ry="6" fill="rgba(255,209,102,0.45)" stroke="#ffd166" stroke-width="1.5" id="anat-vnc"/>
+              <!-- Gut / intestine (large central oval) -->
+              <ellipse cx="130" cy="130" rx="32" ry="28" fill="rgba(184,240,137,0.15)" stroke="#b8f089" stroke-width="1.8" id="anat-gut"/>
+              <!-- Typhlosole (dorsal infolding of gut wall) -->
+              <path d="M118,108 Q130,116 142,108" stroke="rgba(184,240,137,0.6)" stroke-width="2" fill="none" id="anat-typh"/>
+              <!-- Metanephridium (one pair, lateral) -->
+              <ellipse cx="76" cy="118" rx="12" ry="8" fill="rgba(125,211,252,0.25)" stroke="#7dd3fc" stroke-width="1.2" id="anat-neph-l"/>
+              <ellipse cx="184" cy="118" rx="12" ry="8" fill="rgba(125,211,252,0.25)" stroke="#7dd3fc" stroke-width="1.2" id="anat-neph-r"/>
+              <!-- Chaetae (setae) — paired bristles at ventrolateral -->
+              <line x1="52" y1="148" x2="34" y2="164" stroke="rgba(255,209,102,0.7)" stroke-width="2.5" id="anat-ch-l1"/>
+              <line x1="62" y1="154" x2="46" y2="172" stroke="rgba(255,209,102,0.7)" stroke-width="2.5"/>
+              <line x1="208" y1="148" x2="226" y2="164" stroke="rgba(255,209,102,0.7)" stroke-width="2.5" id="anat-ch-r1"/>
+              <line x1="198" y1="154" x2="214" y2="172" stroke="rgba(255,209,102,0.7)" stroke-width="2.5"/>
+              <!-- Peritoneum label line -->
+              <text x="130" y="12" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.2)">click labels to highlight</text>
+              <!-- Labels with pointer lines -->
+              <line x1="130" y1="68" x2="130" y2="38" stroke="rgba(255,110,199,.3)" stroke-width="1"/>
+              <text x="130" y="32" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">dorsal vessel</text>
+              <line x1="130" y1="192" x2="130" y2="222" stroke="rgba(255,110,199,.3)" stroke-width="1"/>
+              <text x="130" y="235" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">ventral vessel</text>
+              <line x1="130" y1="214" x2="130" y2="246" stroke="rgba(255,209,102,.3)" stroke-width="1"/>
+              <text x="130" y="257" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">ventral nerve cord</text>
+              <line x1="76" y1="110" x2="58" y2="82" stroke="rgba(125,211,252,.3)" stroke-width="1"/>
+              <text x="32" y="78" font-family="JetBrains Mono,monospace" font-size="8" fill="#7dd3fc">nephridium</text>
+              <line x1="162" y1="130" x2="188" y2="110" stroke="rgba(184,240,137,.3)" stroke-width="1"/>
+              <text x="188" y="106" font-family="JetBrains Mono,monospace" font-size="8" fill="#b8f089">intestine</text>
+              <line x1="52" y1="148" x2="30" y2="136" stroke="rgba(255,209,102,.3)" stroke-width="1"/>
+              <text x="4" y="132" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">setae</text>
+            </svg>
+            <div>
+              <div style="font-family:var(--mono);font-size:.68rem;color:var(--fg-3);letter-spacing:.06em;margin-bottom:.5rem;">CLICK TO LEARN</div>
+              <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+                <span class="seg-label-badge" data-anat="bwall">Body wall</span>
+                <span class="seg-label-badge" data-anat="coelom">True coelom</span>
+                <span class="seg-label-badge" data-anat="vessels">Blood vessels</span>
+                <span class="seg-label-badge" data-anat="gut">Intestine</span>
+                <span class="seg-label-badge" data-anat="neph">Metanephridia</span>
+                <span class="seg-label-badge" data-anat="vnc">Nerve cord</span>
+                <span class="seg-label-badge" data-anat="setae">Setae (chaetae)</span>
+              </div>
+              <div id="annelid-seg-info">Select a structure above to learn about it.</div>
+              <p style="font-size:.8rem;color:var(--fg-3);line-height:1.6;margin-top:.7rem;">Each annelid segment is a self-contained module repeated along the A-P axis. In the earthworm, all ~150 segments contain a complete set: circular muscles, longitudinal muscles, coelom compartment, metanephridium pair, and segment of the nerve cord — <strong>true metamerism</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Earthworm lateral -->
+        <div class="annelid-panel" id="at-lateral">
+          <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+            <!-- Body outline (long, segmented worm) -->
+            <path d="M30,90 Q40,50 80,48 L560,50 Q600,52 610,90 Q600,130 560,132 L80,134 Q40,132 30,90Z" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="2"/>
+            <!-- Segment rings (~18 visible) -->
+            <g stroke="rgba(167,139,250,0.25)" stroke-width="1">
+              <line x1="80" y1="48" x2="80" y2="134"/>
+              <line x1="110" y1="47" x2="110" y2="135"/>
+              <line x1="140" y1="47" x2="140" y2="135"/>
+              <line x1="170" y1="47" x2="170" y2="135"/>
+              <line x1="200" y1="47" x2="200" y2="135"/>
+              <line x1="230" y1="47" x2="230" y2="135"/>
+              <line x1="260" y1="48" x2="260" y2="134"/>
+              <line x1="290" y1="48" x2="290" y2="134"/>
+              <line x1="320" y1="48" x2="320" y2="134"/>
+              <line x1="350" y1="48" x2="350" y2="134"/>
+              <line x1="380" y1="49" x2="380" y2="133"/>
+              <line x1="410" y1="49" x2="410" y2="133"/>
+              <line x1="440" y1="49" x2="440" y2="133"/>
+              <line x1="470" y1="49" x2="470" y2="133"/>
+              <line x1="500" y1="50" x2="500" y2="132"/>
+              <line x1="530" y1="50" x2="530" y2="132"/>
+              <line x1="560" y1="50" x2="560" y2="132"/>
+            </g>
+            <!-- Mouth (anterior) -->
+            <ellipse cx="40" cy="90" rx="14" ry="22" fill="rgba(184,240,137,0.2)" stroke="#b8f089" stroke-width="1.5"/>
+            <text x="40" y="93" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#b8f089">mouth</text>
+            <!-- Prostomium (lip) -->
+            <ellipse cx="30" cy="90" rx="8" ry="12" fill="rgba(184,240,137,0.12)" stroke="rgba(184,240,137,.4)" stroke-width="1"/>
+            <!-- Clitellum (band ~seg 32-37) -->
+            <rect x="270" y="42" width="90" height="98" rx="4" fill="rgba(255,110,199,0.15)" stroke="#ff6ec7" stroke-width="2"/>
+            <text x="315" y="36" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">clitellum</text>
+            <line x1="315" y1="40" x2="315" y2="42" stroke="#ff6ec7" stroke-width="1"/>
+            <!-- Dorsal vessel (running along top) -->
+            <path d="M40,64 Q200,62 560,64" stroke="#ff6ec7" stroke-width="2.2" fill="none" opacity=".6"/>
+            <text x="580" y="66" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">dorsal vessel</text>
+            <!-- "Hearts" (aortic arches) — 5 pairs around segs 7-11 -->
+            <g fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="1">
+              <circle cx="130" cy="70" r="5"/>
+              <circle cx="160" cy="70" r="5"/>
+              <circle cx="190" cy="70" r="5"/>
+              <circle cx="220" cy="70" r="5"/>
+              <circle cx="250" cy="70" r="5"/>
+            </g>
+            <text x="190" y="162" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,.6)">5 pairs aortic arches (pseudohearts)</text>
+            <!-- Anus -->
+            <ellipse cx="610" cy="90" rx="10" ry="18" fill="rgba(184,240,137,0.12)" stroke="rgba(184,240,137,.35)" stroke-width="1.2"/>
+            <text x="624" y="93" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(184,240,137,.6)">anus</text>
+            <!-- Setae markers -->
+            <g stroke="rgba(255,209,102,.6)" stroke-width="1.8">
+              <line x1="95" y1="134" x2="92" y2="148"/><line x1="99" y1="134" x2="96" y2="148"/>
+              <line x1="125" y1="134" x2="122" y2="148"/><line x1="129" y1="134" x2="126" y2="148"/>
+            </g>
+            <text x="112" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">setae (grip)</text>
+            <!-- A-P labels -->
+            <text x="32" y="16" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.3)">ANTERIOR</text>
+            <text x="574" y="16" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.3)">POSTERIOR</text>
+          </svg>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.6rem;margin-top:.75rem;">
+            <div class="casc-meta-item"><div class="casc-meta-label">HYDROSTATIC SKELETON</div><div class="casc-meta-val" style="font-size:.78rem;">Circular muscles shorten = elongate body. Longitudinal muscles shorten = thicken. Acts against incompressible coelomic fluid. Peristaltic locomotion.</div></div>
+            <div class="casc-meta-item"><div class="casc-meta-label">CLITELLUM</div><div class="casc-meta-val" style="font-size:.78rem;">Glandular girdle at segs 32-37. Secretes mucous cocoon for egg deposition. Key ID feature — only present in sexually mature worm.</div></div>
+            <div class="casc-meta-item"><div class="casc-meta-label">CLOSED CIRCULATION</div><div class="casc-meta-val" style="font-size:.78rem;">Dorsal vessel pumps anterior. Ventral vessel distributes posterior. 5 aortic arches connect them. Blood stays in vessels (unlike arthropods).</div></div>
+            <div class="casc-meta-item"><div class="casc-meta-label">METANEPHRIDIA</div><div class="casc-meta-val" style="font-size:.78rem;">One pair per segment (except first 3 + last). Each opens from coelomic fluid via nephrostome → tubule → pore. More efficient than flame cells.</div></div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Class comparison -->
+        <div class="annelid-panel" id="at-classes">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:.5rem;">
+
+            <!-- Oligochaeta -->
+            <div style="text-align:center;">
+              <div style="font-family:var(--mono);font-size:.68rem;color:var(--violet);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Oligochaeta</div>
+              <svg viewBox="0 0 200 180" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);" xmlns="http://www.w3.org/2000/svg">
+                <text x="100" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.22)">earthworm · lateral</text>
+                <path d="M16,90 Q26,52 80,50 L140,50 Q178,52 188,90 Q178,130 140,132 L80,132 Q26,130 16,90Z" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="1.8"/>
+                <g stroke="rgba(167,139,250,.25)" stroke-width="1">
+                  <line x1="50" y1="50" x2="50" y2="132"/><line x1="76" y1="50" x2="76" y2="132"/>
+                  <line x1="102" y1="50" x2="102" y2="132"/><line x1="128" y1="50" x2="128" y2="132"/>
+                  <line x1="154" y1="50" x2="154" y2="132"/>
+                </g>
+                <rect x="90" y="44" width="40" height="90" rx="3" fill="rgba(255,110,199,.15)" stroke="#ff6ec7" stroke-width="1.5"/>
+                <text x="110" y="94" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">clitellum</text>
+                <g stroke="rgba(255,209,102,.5)" stroke-width="1.5">
+                  <line x1="36" y1="132" x2="34" y2="144"/><line x1="40" y1="132" x2="38" y2="144"/>
+                  <line x1="62" y1="132" x2="60" y2="144"/><line x1="66" y1="132" x2="64" y2="144"/>
+                </g>
+                <text x="100" y="162" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">few setae per seg</text>
+                <text x="100" y="174" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,.55)">hermaphrodite · no parapodia</text>
+              </svg>
+            </div>
+
+            <!-- Polychaeta -->
+            <div style="text-align:center;">
+              <div style="font-family:var(--mono);font-size:.68rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Polychaeta</div>
+              <svg viewBox="0 0 200 180" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);" xmlns="http://www.w3.org/2000/svg">
+                <text x="100" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.22)">polychaete · dorsal view</text>
+                <!-- Head with prostomium -->
+                <ellipse cx="100" cy="34" rx="26" ry="18" fill="rgba(100,255,218,.12)" stroke="#64ffda" stroke-width="1.8"/>
+                <!-- Palps/tentacles on head -->
+                <line x1="90" y1="18" x2="82" y2="4" stroke="#64ffda" stroke-width="1.5"/>
+                <line x1="100" y1="16" x2="100" y2="2" stroke="#64ffda" stroke-width="1.5"/>
+                <line x1="110" y1="18" x2="118" y2="4" stroke="#64ffda" stroke-width="1.5"/>
+                <line x1="86" y1="22" x2="74" y2="10" stroke="rgba(100,255,218,.55)" stroke-width="1"/>
+                <line x1="114" y1="22" x2="126" y2="10" stroke="rgba(100,255,218,.55)" stroke-width="1"/>
+                <!-- Eyes -->
+                <circle cx="86" cy="32" r="4" fill="rgba(255,110,199,.3)" stroke="#ff6ec7" stroke-width="1"/>
+                <circle cx="114" cy="32" r="4" fill="rgba(255,110,199,.3)" stroke="#ff6ec7" stroke-width="1"/>
+                <!-- Body segments with parapodia -->
+                <rect x="76" y="50" width="48" height="118" rx="4" fill="rgba(100,255,218,.06)" stroke="rgba(100,255,218,.3)" stroke-width="1.5"/>
+                <g stroke="rgba(100,255,218,.2)" stroke-width="1">
+                  <line x1="76" y1="68" x2="124" y2="68"/><line x1="76" y1="86" x2="124" y2="86"/>
+                  <line x1="76" y1="104" x2="124" y2="104"/><line x1="76" y1="122" x2="124" y2="122"/>
+                  <line x1="76" y1="140" x2="124" y2="140"/>
+                </g>
+                <!-- Parapodia (fleshy lobes) per segment -->
+                <g fill="rgba(100,255,218,.15)" stroke="#64ffda" stroke-width="1.2">
+                  <ellipse cx="60" cy="59" rx="14" ry="7"/><ellipse cx="140" cy="59" rx="14" ry="7"/>
+                  <ellipse cx="60" cy="77" rx="14" ry="7"/><ellipse cx="140" cy="77" rx="14" ry="7"/>
+                  <ellipse cx="60" cy="95" rx="14" ry="7"/><ellipse cx="140" cy="95" rx="14" ry="7"/>
+                  <ellipse cx="60" cy="113" rx="14" ry="7"/><ellipse cx="140" cy="113" rx="14" ry="7"/>
+                  <ellipse cx="60" cy="131" rx="14" ry="7"/><ellipse cx="140" cy="131" rx="14" ry="7"/>
+                </g>
+                <!-- Bristles on parapodia -->
+                <g stroke="rgba(255,209,102,.6)" stroke-width="1.3">
+                  <line x1="46" y1="57" x2="38" y2="52"/><line x1="46" y1="61" x2="38" y2="58"/><line x1="46" y1="65" x2="38" y2="64"/>
+                  <line x1="154" y1="57" x2="162" y2="52"/><line x1="154" y1="61" x2="162" y2="58"/>
+                </g>
+                <text x="100" y="178" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">parapodia · many bristles (chaetae)</text>
+              </svg>
+            </div>
+
+            <!-- Hirudinea -->
+            <div style="text-align:center;">
+              <div style="font-family:var(--mono);font-size:.68rem;color:var(--rose);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Hirudinea</div>
+              <svg viewBox="0 0 200 180" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);" xmlns="http://www.w3.org/2000/svg">
+                <text x="100" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.22)">leech · dorsal view</text>
+                <!-- Anterior sucker -->
+                <ellipse cx="100" cy="32" rx="20" ry="14" fill="rgba(255,110,199,.2)" stroke="#ff6ec7" stroke-width="2"/>
+                <circle cx="100" cy="32" r="7" fill="rgba(8,11,26,.8)" stroke="rgba(255,110,199,.5)" stroke-width="1.2"/>
+                <text x="100" y="35" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#ff6ec7">ant. sucker</text>
+                <!-- Body: tapered at ends -->
+                <path d="M80,46 Q56,78 58,110 Q60,148 100,162 Q140,148 142,110 Q144,78 120,46Z" fill="rgba(255,110,199,.07)" stroke="#ff6ec7" stroke-width="1.8"/>
+                <!-- Segment annuli (more annuli than segments) -->
+                <g stroke="rgba(255,110,199,.18)" stroke-width="1">
+                  <line x1="74" y1="60" x2="126" y2="60"/>
+                  <line x1="70" y1="72" x2="130" y2="72"/>
+                  <line x1="68" y1="84" x2="132" y2="84"/>
+                  <line x1="66" y1="96" x2="134" y2="96"/>
+                  <line x1="64" y1="108" x2="136" y2="108"/>
+                  <line x1="64" y1="120" x2="136" y2="120"/>
+                  <line x1="66" y1="132" x2="134" y2="132"/>
+                  <line x1="70" y1="144" x2="130" y2="144"/>
+                </g>
+                <!-- Posterior sucker -->
+                <ellipse cx="100" cy="160" rx="26" ry="14" fill="rgba(255,110,199,.2)" stroke="#ff6ec7" stroke-width="2"/>
+                <circle cx="100" cy="160" r="9" fill="rgba(8,11,26,.8)" stroke="rgba(255,110,199,.5)" stroke-width="1.2"/>
+                <text x="100" y="163" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#ff6ec7">post. sucker</text>
+                <text x="100" y="178" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">2 suckers · no setae · coelom reduced</text>
+              </svg>
+            </div>
+          </div>
+          <div style="font-size:.8rem;color:var(--fg-3);line-height:1.7;margin-top:.75rem;padding:.6rem .8rem;background:var(--glass);border-radius:var(--radius-sm);">
+            <strong style="color:var(--fg);">Key differences:</strong>
+            <strong style="color:#a78bfa;">Oligochaeta</strong> (earthworms) — few setae per segment, no parapodia, clitellum, hermaphrodite, terrestrial/freshwater.
+            <strong style="color:#64ffda;">Polychaeta</strong> — parapodia (fleshy lobes) with many chaetae per lobe, distinct head with tentacles, separate sexes, trochophore larva, marine.
+            <strong style="color:#ff6ec7;">Hirudinea</strong> (leeches) — anterior + posterior suckers, no setae, coelom reduced (filled with connective tissue), fixed segment count (33 segments, each subdivided into annuli), ectoparasitic or predatory.
+          </div>
+        </div>
+
+        <div class="fig-caption">Annelida body plan. Clickable cross-section shows structures present in every segment — the defining feature of true metamerism. Lateral view shows whole-organism organization. Class comparison: Oligochaeta / Polychaeta / Hirudinea.</div>
+      </div>
+
+      <script>
+      (function(){
+        var ANAT = {
+          bwall: { title:'Body Wall', text:'Two muscle layers: outer <strong>circular muscles</strong> (contraction = narrow + elongate) and inner <strong>longitudinal muscles</strong> (contraction = shorten + widen). They act antagonistically against the coelomic fluid. The outermost layer is a thin epidermis secreting a moist cuticle.' },
+          coelom: { title:'True Coelom', text:'A fluid-filled body cavity <strong>fully lined by mesoderm</strong> (peritoneum). Septa divide it into per-segment compartments. Functions: hydrostatic skeleton for locomotion, reproductive tract, circulatory role (coelomic fluid carries nutrients). Eucoelomate = Annelida, Mollusca, Arthropoda, Echinodermata, Vertebrata.' },
+          vessels: { title:'Closed Circulatory System', text:'<strong>Dorsal vessel</strong> (visible as red-brown line on dorsal surface) contracts peristaltically to pump blood anteriorly. <strong>Ventral vessel</strong> distributes blood posteriorly. Five pairs of <strong>aortic arches</strong> (pseudohearts, segs 7–11) connect them. Blood stays inside vessels — closed system, unlike arthropod hemocoel.' },
+          gut: { title:'Complete Digestive Tract (Intestine)', text:'One-way gut: <strong>mouth → pharynx → esophagus → crop → gizzard → intestine → anus</strong>. The intestine has a dorsal infolding called the <strong>typhlosole</strong> that increases surface area for absorption. Separate mouth and anus enables continuous directional flow (more efficient than GVC of flatworms).' },
+          neph: { title:'Metanephridia (excretory organs)', text:'One pair per segment (except a few terminal ones). Each has a <strong>nephrostome</strong> (ciliated funnel opening into coelom), a tubule that reabsorbs useful molecules, and a <strong>nephridiopore</strong> opening externally. More sophisticated than flame cells — can regulate both volume AND composition. Excretes ammonia/urea.' },
+          vnc: { title:'Ventral Nerve Cord', text:'Paired ganglia in each segment connected by the <strong>ventral nerve cord</strong>. Anterior cerebral ganglia (brain) sit above the pharynx connected by circumesophageal connectives. Each segmental ganglion controls that segment\'s muscles independently — enables complex coordinated movement (peristalsis). Ladder-type nervous system.' },
+          setae: { title:'Setae (chaetae)', text:'Chitin-containing bristles anchored in the body wall. In earthworms: 4 pairs per segment, provide grip against soil during locomotion. In polychaetes: many per parapodium, used for swimming/crawling. <strong>Hirudinea (leeches) lack setae entirely</strong> — diagnostic feature. Setae are non-homologous to arthropod appendages.' }
+        };
+        var badges = document.querySelectorAll('.seg-label-badge');
+        var info = document.getElementById('annelid-seg-info');
+        badges.forEach(function(b){
+          b.addEventListener('click', function(){
+            badges.forEach(function(x){ x.classList.remove('active'); });
+            b.classList.add('active');
+            var d = ANAT[b.dataset.anat];
+            info.innerHTML = '<strong style="color:var(--violet);">' + d.title + '</strong> — ' + d.text;
+          });
+        });
+
+        var atBtns = document.querySelectorAll('.annelid-tab-btn');
+        var atPanels = { xsec: document.getElementById('at-xsec'), lateral: document.getElementById('at-lateral'), classes: document.getElementById('at-classes') };
+        atBtns.forEach(function(btn){
+          btn.addEventListener('click', function(){
+            atBtns.forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            Object.values(atPanels).forEach(function(p){ p.classList.remove('active'); });
+            atPanels[btn.dataset.at].classList.add('active');
+          });
+        });
+      })();
+      </script>
     </div>
 
     <!-- Mollusca with 4 classes as tabs -->
@@ -671,6 +1278,150 @@
       <div class="phylum-examples">~100,000 living species: snails, clams, octopus, squid, chitons, nudibranchs</div>
 
       <p style="font-size:0.9rem;color:var(--ink-soft);margin:0.8rem 0;line-height:1.7;"><strong>Shared molluscan features:</strong> muscular <strong>foot</strong> (locomotion), <strong>mantle</strong> (dorsal tissue fold that secretes shell), <strong>mantle cavity</strong> (contains gills/ctenidia for gas exchange), <strong>radula</strong> (toothed feeding ribbon, absent in bivalves), <strong>visceral mass</strong> (digestive/reproductive organs), trochophore larva → veliger larva.</p>
+
+      <!-- Mollusca 4-class anatomy diagrams -->
+      <div class="figure reveal" style="margin-bottom:1.8rem;">
+        <div class="fig-label">Fig 5.3 · Mollusca — Four Major Classes: Key Anatomical Features</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;">
+
+          <!-- Gastropoda -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Gastropoda</div>
+            <svg viewBox="0 0 200 190" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <!-- Shell: 4 concentric offset ellipses = coil suggestion -->
+              <ellipse cx="125" cy="65" rx="58" ry="44" fill="rgba(100,255,218,0.07)" stroke="#64ffda" stroke-width="1.8"/>
+              <ellipse cx="120" cy="63" rx="42" ry="31" fill="rgba(8,11,26,0.7)" stroke="rgba(100,255,218,0.3)" stroke-width="1.2"/>
+              <ellipse cx="116" cy="61" rx="27" ry="19" fill="rgba(100,255,218,0.07)" stroke="rgba(100,255,218,0.22)" stroke-width="1"/>
+              <ellipse cx="113" cy="60" rx="13" ry="9" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.45)" stroke-width="1"/>
+              <!-- Aperture curve -->
+              <path d="M82,86 Q72,104 82,122" stroke="rgba(100,255,218,0.45)" stroke-width="1.5" fill="none"/>
+              <!-- Mantle collar -->
+              <path d="M70,112 Q86,124 108,124" stroke="#a78bfa" stroke-width="2" fill="rgba(167,139,250,0.07)"/>
+              <!-- Head oval -->
+              <ellipse cx="62" cy="116" rx="20" ry="15" fill="rgba(100,255,218,0.1)" stroke="#64ffda" stroke-width="1.5"/>
+              <!-- Eye tentacles -->
+              <line x1="53" y1="107" x2="45" y2="93" stroke="#64ffda" stroke-width="1.5"/>
+              <circle cx="44" cy="91" r="3.5" fill="#64ffda"/>
+              <line x1="70" y1="106" x2="77" y2="92" stroke="#64ffda" stroke-width="1.5"/>
+              <circle cx="78" cy="90" r="3.5" fill="#64ffda"/>
+              <!-- Foot -->
+              <ellipse cx="82" cy="158" rx="48" ry="12" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.5"/>
+              <!-- Labels -->
+              <text x="4" y="23" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">coiled shell</text>
+              <line x1="56" y1="22" x2="72" y2="38" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>
+              <text x="4" y="94" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.65)">eye stalk</text>
+              <text x="4" y="116" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">head</text>
+              <text x="4" y="127" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.55)">(+ radula)</text>
+              <text x="4" y="142" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">mantle</text>
+              <line x1="36" y1="140" x2="68" y2="118" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+              <text x="82" y="178" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">muscular foot</text>
+            </svg>
+          </div>
+
+          <!-- Chiton -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--violet);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Polyplacophora</div>
+            <svg viewBox="0 0 200 190" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <!-- Dorsal view label -->
+              <text x="100" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.25)">dorsal view</text>
+              <!-- Girdle (large oval) -->
+              <ellipse cx="100" cy="95" rx="80" ry="58" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="2"/>
+              <!-- Inner body -->
+              <ellipse cx="100" cy="95" rx="62" ry="43" fill="rgba(8,11,26,0.65)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+              <!-- 8 Shell plates (rounded rects in a row) -->
+              <rect x="48" y="67" width="14" height="54" rx="3" fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="60" y="63" width="14" height="62" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="72" y="61" width="14" height="66" rx="3" fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="84" y="60" width="14" height="68" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="96" y="60" width="14" height="68" rx="3" fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="108" y="61" width="14" height="66" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="120" y="63" width="14" height="62" rx="3" fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="1.2"/>
+              <rect x="132" y="67" width="14" height="54" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2"/>
+              <!-- Labels -->
+              <text x="4" y="74" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">8 shell</text>
+              <text x="4" y="85" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">plates</text>
+              <line x1="36" y1="78" x2="48" y2="82" stroke="rgba(167,139,250,0.4)" stroke-width="1"/>
+              <text x="100" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.65)">girdle (mantle edge)</text>
+              <text x="100" y="165" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.3)">broad adhesive foot (ventral)</text>
+              <text x="100" y="179" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.6)">NO cephalization</text>
+            </svg>
+          </div>
+
+          <!-- Bivalvia -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Bivalvia</div>
+            <svg viewBox="0 0 200 190" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <!-- Outer valve (left, slightly wider) -->
+              <path d="M42,46 Q18,96 44,152 Q100,170 156,152 Q182,96 158,46 Q100,28 42,46Z" fill="rgba(255,209,102,0.08)" stroke="#ffd166" stroke-width="1.8"/>
+              <!-- Inner valve (right, slightly gaping) -->
+              <path d="M48,55 Q28,97 50,146 Q100,161 150,146 Q172,97 152,55 Q100,40 48,55Z" fill="rgba(8,11,26,0.72)" stroke="rgba(255,209,102,0.32)" stroke-width="1.2"/>
+              <!-- Hinge ligament at top -->
+              <path d="M76,38 Q100,28 124,38" stroke="#ffd166" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <!-- Gills (ctenidia) — wavy teal lines -->
+              <path d="M62,80 Q78,88 94,80 Q110,72 126,80 Q142,88 158,80" stroke="rgba(100,255,218,0.75)" stroke-width="1.8" fill="none"/>
+              <path d="M61,95 Q77,103 93,95 Q109,87 125,95 Q141,103 158,95" stroke="rgba(100,255,218,0.65)" stroke-width="1.8" fill="none"/>
+              <path d="M62,110 Q78,118 94,110 Q110,102 126,110 Q142,118 158,110" stroke="rgba(100,255,218,0.55)" stroke-width="1.8" fill="none"/>
+              <!-- Foot (small) -->
+              <path d="M90,138 Q100,162 110,138" stroke="#a78bfa" stroke-width="1.8" fill="rgba(167,139,250,0.18)"/>
+              <!-- NO HEAD badge -->
+              <text x="100" y="68" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.18)">NO HEAD · NO RADULA</text>
+              <!-- Labels -->
+              <text x="4" y="48" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">valve</text>
+              <line x1="28" y1="48" x2="44" y2="56" stroke="rgba(255,209,102,0.35)" stroke-width="1"/>
+              <text x="100" y="26" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.7)">hinge ligament</text>
+              <text x="4" y="88" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">ctenidia</text>
+              <text x="4" y="99" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.55)">(gills)</text>
+              <line x1="44" y1="93" x2="60" y2="95" stroke="rgba(100,255,218,0.35)" stroke-width="1"/>
+              <text x="118" y="172" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">foot</text>
+              <line x1="116" y1="168" x2="102" y2="156" stroke="rgba(167,139,250,0.35)" stroke-width="1"/>
+            </svg>
+          </div>
+
+          <!-- Cephalopoda (octopus) -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--rose);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Cephalopoda</div>
+            <svg viewBox="0 0 200 190" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <!-- Mantle -->
+              <ellipse cx="100" cy="56" rx="38" ry="34" fill="rgba(255,110,199,0.1)" stroke="#ff6ec7" stroke-width="1.8"/>
+              <!-- Neck (narrow connection) -->
+              <rect x="84" y="84" width="32" height="12" fill="rgba(8,11,26,0.8)" stroke="none"/>
+              <line x1="84" y1="84" x2="84" y2="96" stroke="#ff6ec7" stroke-width="1.3"/>
+              <line x1="116" y1="84" x2="116" y2="96" stroke="#ff6ec7" stroke-width="1.3"/>
+              <!-- Head -->
+              <ellipse cx="100" cy="102" rx="28" ry="22" fill="rgba(255,110,199,0.08)" stroke="#ff6ec7" stroke-width="1.5"/>
+              <!-- Camera eye -->
+              <circle cx="118" cy="98" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+              <circle cx="119" cy="98" r="5" fill="rgba(8,11,26,0.95)"/>
+              <circle cx="120" cy="97" r="1.5" fill="rgba(255,255,255,0.7)"/>
+              <!-- Siphon -->
+              <path d="M88,116 Q82,130 88,126" stroke="#ff6ec7" stroke-width="2" fill="none"/>
+              <!-- 8 arms -->
+              <line x1="76" y1="116" x2="52" y2="152" stroke="rgba(255,110,199,0.7)" stroke-width="2"/>
+              <line x1="82" y1="120" x2="62" y2="162" stroke="rgba(255,110,199,0.7)" stroke-width="2"/>
+              <line x1="90" y1="122" x2="78" y2="168" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="99" y1="123" x2="94" y2="170" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="108" y1="123" x2="114" y2="170" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="116" y1="121" x2="132" y2="166" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="122" y1="118" x2="144" y2="158" stroke="rgba(255,110,199,0.7)" stroke-width="2"/>
+              <line x1="126" y1="114" x2="152" y2="148" stroke="rgba(255,110,199,0.7)" stroke-width="2"/>
+              <!-- Suckers on two arms -->
+              <circle cx="66" cy="136" r="2" fill="rgba(255,110,199,0.55)"/>
+              <circle cx="57" cy="152" r="2" fill="rgba(255,110,199,0.55)"/>
+              <circle cx="145" cy="136" r="2" fill="rgba(255,110,199,0.55)"/>
+              <circle cx="152" cy="148" r="2" fill="rgba(255,110,199,0.55)"/>
+              <!-- Labels -->
+              <text x="4" y="38" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">mantle</text>
+              <line x1="34" y1="37" x2="62" y2="44" stroke="rgba(255,110,199,0.35)" stroke-width="1"/>
+              <text x="4" y="97" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.65)">camera</text>
+              <text x="4" y="107" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.65)">eye</text>
+              <line x1="34" y1="101" x2="108" y2="98" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <text x="56" y="128" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.65)">siphon</text>
+              <text x="100" y="183" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.7)">8 arms · suckers</text>
+            </svg>
+          </div>
+        </div>
+        <div class="fig-caption">Schematic body plans. All four classes share the mantle and (mostly) the foot, but differ radically in shell form, feeding mode, and cephalization.</div>
+      </div>
 
       <div class="class-tabs tabs reveal">
         <div class="tab-list" role="tablist">
@@ -744,6 +1495,152 @@
         <div class="feat-item"><span class="feat-label">Ecological importance</span>Most abundant animals on Earth; ~60 billion per human; free-living in soil/water; many parasitic</div>
       </div>
       <div class="tip" style="margin-top:0.8rem;"><strong><em>C. elegans</em> as a model organism:</strong> 959 somatic cells (all named and mapped), complete cell lineage known, transparent body, short generation time. Provided the first complete animal neural connectome (302 neurons, all connections mapped). Nobel Prize 2002 (apoptosis), 2006 (RNAi), 2008 (GFP used in C. elegans).</div>
+
+      <!-- ── Nematoda interactive visuals ── -->
+      <style>
+        .nem-wrap { margin-top:1.2rem; }
+        .nem-hotspot { cursor:pointer; }
+        .nem-hotspot circle, .nem-hotspot ellipse, .nem-hotspot rect { transition: fill-opacity .2s, stroke-opacity .2s; }
+        .nem-hotspot:hover circle, .nem-hotspot:hover ellipse, .nem-hotspot:hover rect { fill-opacity:.55; stroke-opacity:1; }
+        #nem-info { min-height:3rem; font-size:.82rem; color:var(--fg-2); line-height:1.7; padding:.5rem .75rem; background:rgba(184,240,137,.04); border-left:2px solid rgba(184,240,137,.4); border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-top:.6rem; }
+        .nem-contrast-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; margin-top:.85rem; }
+        @media(max-width:580px){ .nem-contrast-grid { grid-template-columns:1fr; } }
+        .nem-contrast-item { background:var(--bg-2); border-radius:var(--radius-sm); padding:.7rem .8rem; }
+        .nem-contrast-label { font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--fg-3); margin-bottom:.3rem; }
+        .nem-contrast-val { font-size:.78rem; color:var(--fg-2); line-height:1.55; }
+      </style>
+
+      <div class="nem-wrap figure reveal">
+        <div class="fig-label">Fig 5.5 · Nematoda — Body Plan (C. elegans) &amp; Pseudocoelom Cross-Section</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
+
+          <!-- C. elegans lateral diagram (clickable anatomy) -->
+          <div>
+            <div style="font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.28);margin-bottom:.4rem;letter-spacing:.05em;">C. elegans · LATERAL (click structures)</div>
+            <svg id="nem-lateral" viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+              <!-- Cuticle (outer body) -->
+              <path d="M20,60 Q30,18 80,14 L200,14 Q250,18 260,60 Q250,102 200,106 L80,106 Q30,102 20,60Z" fill="rgba(184,240,137,0.06)" stroke="#b8f089" stroke-width="2" id="nem-cuticle"/>
+              <!-- Pseudocoelom layer (inside cuticle) -->
+              <path d="M26,60 Q36,26 80,22 L200,22 Q244,26 254,60 Q244,94 200,98 L80,98 Q36,94 26,60Z" fill="rgba(100,255,218,0.05)" stroke="rgba(100,255,218,.3)" stroke-width="1.2" stroke-dasharray="4,3"/>
+              <!-- Pharynx (anterior muscular, triradiate) -->
+              <g class="nem-hotspot" data-nem="pharynx">
+                <ellipse cx="68" cy="60" rx="30" ry="24" fill="rgba(255,209,102,0.2)" fill-opacity=".35" stroke="#ffd166" stroke-width="1.8"/>
+                <text x="68" y="63" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">pharynx</text>
+              </g>
+              <!-- Intestine (central tube) -->
+              <g class="nem-hotspot" data-nem="intestine">
+                <rect x="96" y="46" width="100" height="28" rx="4" fill="rgba(184,240,137,0.18)" fill-opacity=".4" stroke="#b8f089" stroke-width="1.5"/>
+                <text x="146" y="63" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#b8f089">intestine</text>
+              </g>
+              <!-- Gonad (posterior) -->
+              <g class="nem-hotspot" data-nem="gonad">
+                <path d="M194,52 Q228,44 250,60 Q228,76 194,68 Z" fill="rgba(167,139,250,0.25)" fill-opacity=".4" stroke="#a78bfa" stroke-width="1.5"/>
+                <text x="222" y="63" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#a78bfa">gonad</text>
+              </g>
+              <!-- Mouth (tip) -->
+              <g class="nem-hotspot" data-nem="mouth">
+                <circle cx="22" cy="60" r="6" fill="rgba(255,110,199,.3)" fill-opacity=".5" stroke="#ff6ec7" stroke-width="1.5"/>
+              </g>
+              <!-- Anus -->
+              <g class="nem-hotspot" data-nem="anus">
+                <circle cx="258" cy="60" r="5" fill="rgba(255,110,199,.25)" fill-opacity=".4" stroke="rgba(255,110,199,.6)" stroke-width="1.2"/>
+              </g>
+              <!-- Nerve ring (around pharynx) -->
+              <g class="nem-hotspot" data-nem="nervering">
+                <ellipse cx="74" cy="60" rx="34" ry="28" fill="none" stroke="#ff6ec7" stroke-width="1.5" stroke-dasharray="3,3" fill-opacity="0"/>
+              </g>
+              <!-- Labels -->
+              <text x="22" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#b8f089">cuticle</text>
+              <line x1="22" y1="17" x2="22" y2="28" stroke="rgba(184,240,137,.3)" stroke-width="1"/>
+              <text x="22" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">mouth</text>
+              <text x="258" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,.6)">anus</text>
+              <text x="140" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,.5)">pseudocoelom</text>
+              <text x="140" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.2)">click a structure</text>
+            </svg>
+            <div id="nem-info">Click any colored structure in the diagram to learn about it.</div>
+          </div>
+
+          <!-- Pseudocoelom cross-section vs eucoelomate comparison -->
+          <div>
+            <div style="font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.28);margin-bottom:.4rem;letter-spacing:.05em;">CROSS-SECTION: pseudocoelom vs true coelom</div>
+            <svg viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:rgba(8,11,26,.55);border-radius:8px;border:1px solid rgba(255,255,255,.06);">
+              <!-- LEFT: Nematode pseudocoelom -->
+              <text x="70" y="13" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(184,240,137,.8)">NEMATODA</text>
+              <text x="70" y="23" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">(pseudocoelomate)</text>
+              <!-- Epidermis + cuticle -->
+              <circle cx="70" cy="72" r="44" fill="rgba(184,240,137,.06)" stroke="#b8f089" stroke-width="2"/>
+              <!-- Muscle layer (no circular — only longitudinal) -->
+              <circle cx="70" cy="72" r="36" fill="rgba(184,240,137,.1)" stroke="rgba(184,240,137,.35)" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <!-- Pseudocoelom (NO peritoneum lining) -->
+              <circle cx="70" cy="72" r="26" fill="rgba(100,255,218,.06)" stroke="none"/>
+              <!-- Gut lumen (directly in pseudocoelom) -->
+              <circle cx="70" cy="72" r="14" fill="rgba(255,209,102,.2)" stroke="#ffd166" stroke-width="1.5"/>
+              <!-- Pseudocoelom label indicator -->
+              <text x="97" y="68" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(100,255,218,.65)">pseudo-</text>
+              <text x="97" y="76" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(100,255,218,.65)">coelom</text>
+              <text x="70" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ffd166">gut</text>
+              <!-- NO peritoneum note -->
+              <text x="70" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,100,100,.6)">NO mesodermal lining</text>
+
+              <!-- Divider -->
+              <line x1="142" y1="8" x2="142" y2="118" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
+
+              <!-- RIGHT: Annelida eucoelomate -->
+              <text x="212" y="13" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,.8)">ANNELIDA</text>
+              <text x="212" y="23" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">(eucoelomate)</text>
+              <!-- Body wall -->
+              <circle cx="212" cy="72" r="44" fill="rgba(167,139,250,.06)" stroke="#a78bfa" stroke-width="2"/>
+              <!-- Longitudinal muscle -->
+              <circle cx="212" cy="72" r="36" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.35)" stroke-width="1.5"/>
+              <!-- Peritoneum (mesoderm lining BOTH sides of coelom) -->
+              <circle cx="212" cy="72" r="27" fill="rgba(100,255,218,.08)" stroke="#64ffda" stroke-width="1.8"/>
+              <!-- Inner peritoneum -->
+              <circle cx="212" cy="72" r="18" fill="rgba(167,139,250,.06)" stroke="#64ffda" stroke-width="1.5"/>
+              <!-- Gut in centre -->
+              <circle cx="212" cy="72" r="11" fill="rgba(255,209,102,.2)" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="212" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ffd166">gut</text>
+              <text x="240" y="68" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#64ffda">peri-</text>
+              <text x="240" y="76" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#64ffda">toneum</text>
+              <text x="212" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,.6)">mesodermal lining BOTH sides</text>
+            </svg>
+
+            <div class="nem-contrast-grid" style="margin-top:.75rem;">
+              <div class="nem-contrast-item">
+                <div class="nem-contrast-label">LOCOMOTION</div>
+                <div class="nem-contrast-val">Longitudinal muscles ONLY (no circular) → thrashing S-shape motion in liquid. Can't crawl — use substrate friction.</div>
+              </div>
+              <div class="nem-contrast-item">
+                <div class="nem-contrast-label">ECDYSIS</div>
+                <div class="nem-contrast-val">Moult cuticle 4× during L1→L2→L3→L4→adult. Cuticle is collagenous (not chitin). Triggered by ecdysone homologue.</div>
+              </div>
+              <div class="nem-contrast-item">
+                <div class="nem-contrast-label">C. ELEGANS STATS</div>
+                <div class="nem-contrast-val">959 somatic cells, 302 neurons, complete connectome mapped, 20,000 genes (~same as humans).</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var NEM_INFO = {
+          pharynx: { title:'Triradiate Pharynx', text:'Muscular pump with a characteristic <strong>Y-shaped (triradiate) lumen</strong> — the single most diagnostic feature of nematodes in cross-section. Grips and grinds food. In free-living species it sucks up bacteria. In parasitic species it may pierce host tissue. Works against pseudocoelomic pressure to pull food in.' },
+          intestine: { title:'Intestine (complete gut)', text:'One-way tube from pharynx → anus. Non-muscular in nematodes — food moves by hydrostatic pressure from pseudocoelom. Cells are microvilli-lined for absorption. <strong>Complete gut</strong> = separate mouth and anus (unlike flatworm GVC). Enables efficient directional digestion.' },
+          gonad: { title:'Reproductive Tract (gonad)', text:'In <em>C. elegans</em> hermaphrodites: a bilobed gonad produces both sperm (early larval) then oocytes (adult). Sperm is stored in spermatheca. Fertilization occurs internally; eggs laid through vulva. The fixed cell lineage means every worm has <strong>exactly 959 somatic cells</strong>.' },
+          mouth: { title:'Mouth', text:'Anterior opening ringed by <strong>lips and sensilla</strong> (chemosensory organs). In parasitic species may have stylets (piercing), hooks, or cutting plates. The nerve ring encircles the pharynx just posterior to the mouth — equivalent to a brain.' },
+          anus: { title:'Anus', text:'Separate from mouth — <strong>complete one-way digestive tract</strong>. This distinguishes nematodes from platyhelminthes (one opening) and allows uninterrupted directional digestion. In males the anus is modified into a cloaca where reproductive ducts also open.' },
+          nervering: { title:'Nerve Ring (circumpharyngeal connective)', text:'The main integrating centre of the nematode nervous system — encircles the pharynx like a ring and connects dorsal and ventral nerve cords. In <em>C. elegans</em>: 302 neurons, all named, all connections mapped (the <strong>connectome</strong>, first completed in 1986). No brain per se — just this ganglionic ring.' }
+        };
+        document.querySelectorAll('#nem-lateral .nem-hotspot').forEach(function(el){
+          el.addEventListener('click', function(){
+            var d = NEM_INFO[el.dataset.nem];
+            if(d) document.getElementById('nem-info').innerHTML = '<strong style="color:var(--lime);">' + d.title + '</strong> — ' + d.text;
+          });
+        });
+      })();
+      </script>
     </div>
 
     <!-- Arthropoda with 4 groups as tabs -->
@@ -753,6 +1650,176 @@
       <div class="phylum-examples">~1.2 million described species — insects, spiders, crabs, lobsters, centipedes, mites, barnacles</div>
 
       <p style="font-size:0.9rem;color:var(--ink-soft);margin:0.8rem 0;line-height:1.7;"><strong>Shared arthropod features:</strong> <strong>segmented body</strong> with <strong>tagmatization</strong> (segments fused into functional regions), <strong>jointed appendages</strong> (one pair per segment, at minimum), hard <strong>chitinous exoskeleton</strong> (moulted via ecdysis), <strong>open circulatory system</strong> (hemocoel — hemolymph bathes organs directly), well-developed <strong>brain</strong> (fused head ganglia) + ventral nerve cord.</p>
+
+      <!-- Arthropoda 4-group body plan diagrams -->
+      <div class="figure reveal" style="margin-bottom:1.8rem;">
+        <div class="fig-label">Fig 5.4 · Arthropoda — Four Major Groups: Body Plan &amp; Tagmata</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;">
+
+          <!-- Crustacea (dorsal view) -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Crustacea</div>
+            <svg viewBox="0 0 200 200" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.22)">dorsal view</text>
+              <!-- Carapace (cephalothorax shield) -->
+              <path d="M55,32 Q28,80 44,128 Q68,148 100,150 Q132,148 156,128 Q172,80 145,32 Q122,20 100,20 Q78,20 55,32Z" fill="rgba(100,255,218,0.08)" stroke="#64ffda" stroke-width="1.8"/>
+              <text x="100" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.4)">cephalothorax</text>
+              <text x="100" y="91" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.3)">(carapace)</text>
+              <!-- Long antennae pair 1 -->
+              <line x1="75" y1="26" x2="22" y2="4" stroke="#64ffda" stroke-width="1.5"/>
+              <line x1="80" y1="24" x2="30" y2="2" stroke="rgba(100,255,218,0.55)" stroke-width="1"/>
+              <!-- Short antennules pair 2 -->
+              <line x1="78" y1="29" x2="44" y2="14" stroke="rgba(100,255,218,0.7)" stroke-width="1.5"/>
+              <line x1="82" y1="27" x2="50" y2="14" stroke="rgba(100,255,218,0.45)" stroke-width="1"/>
+              <!-- Chelipeds (claws) -->
+              <path d="M48,52 Q28,48 22,60 Q18,70 28,74 Q36,74 40,66 Q44,58 52,60Z" fill="rgba(100,255,218,0.14)" stroke="#64ffda" stroke-width="1.5"/>
+              <path d="M152,52 Q172,48 178,60 Q182,70 172,74 Q164,74 160,66 Q156,58 148,60Z" fill="rgba(100,255,218,0.14)" stroke="#64ffda" stroke-width="1.5"/>
+              <!-- Walking legs (4 pairs = 8) -->
+              <line x1="50" y1="75" x2="26" y2="98" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="48" y1="88" x2="22" y2="110" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="50" y1="100" x2="26" y2="122" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="54" y1="112" x2="32" y2="134" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="150" y1="75" x2="174" y2="98" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="152" y1="88" x2="178" y2="110" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="150" y1="100" x2="174" y2="122" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <line x1="146" y1="112" x2="168" y2="134" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <!-- Abdomen -->
+              <rect x="76" y="148" width="48" height="34" rx="6" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+              <text x="100" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">abdomen</text>
+              <!-- Labels -->
+              <text x="4" y="10" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">2 pr.</text>
+              <text x="4" y="20" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">antennae</text>
+              <text x="4" y="60" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.65)">chelipeds</text>
+              <text x="4" y="98" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.55)">4 pr.</text>
+              <text x="4" y="108" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.55)">legs</text>
+              <text x="100" y="194" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.6)">biramous appendages</text>
+            </svg>
+          </div>
+
+          <!-- Myriapoda (centipede, lateral) -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--violet);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Myriapoda</div>
+            <svg viewBox="0 0 200 200" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.22)">centipede · lateral view</text>
+              <!-- Head circle -->
+              <circle cx="34" cy="85" r="18" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.8"/>
+              <!-- Antenna (long) -->
+              <line x1="28" y1="70" x2="10" y2="38" stroke="#a78bfa" stroke-width="1.5"/>
+              <text x="4" y="36" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">1 pr.</text>
+              <text x="4" y="46" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">antenna</text>
+              <!-- Forcipules (fangs from head) -->
+              <path d="M46,90 Q56,98 52,108" stroke="rgba(255,209,102,0.85)" stroke-width="2" fill="none"/>
+              <path d="M50,86 Q60,92 58,102" stroke="rgba(255,209,102,0.7)" stroke-width="2" fill="none"/>
+              <text x="62" y="110" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">forcipules</text>
+              <text x="62" y="121" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.6)">(venomous)</text>
+              <!-- Trunk (segmented rectangle) -->
+              <rect x="50" y="70" width="126" height="32" rx="4" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5"/>
+              <!-- Segment dividers -->
+              <line x1="68" y1="70" x2="68" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <line x1="86" y1="70" x2="86" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <line x1="104" y1="70" x2="104" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <line x1="122" y1="70" x2="122" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <line x1="140" y1="70" x2="140" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <line x1="158" y1="70" x2="158" y2="102" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+              <!-- 1 pair legs per segment (below trunk) -->
+              <line x1="59" y1="102" x2="52" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="77" y1="102" x2="70" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="95" y1="102" x2="88" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="113" y1="102" x2="106" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="131" y1="102" x2="124" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="149" y1="102" x2="142" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <line x1="167" y1="102" x2="160" y2="118" stroke="rgba(167,139,250,0.6)" stroke-width="1.5"/>
+              <!-- Labels -->
+              <text x="100" y="142" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.65)">1 pr. legs per segment</text>
+              <text x="100" y="157" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.5)">(2 pr. in millipedes)</text>
+              <text x="100" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">head + elongated trunk</text>
+              <text x="100" y="188" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.55)">terrestrial · tracheae</text>
+            </svg>
+          </div>
+
+          <!-- Chelicerata (spider, dorsal) -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Chelicerata</div>
+            <svg viewBox="0 0 200 200" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.22)">spider · dorsal view</text>
+              <!-- Prosoma (front, smaller oval) -->
+              <ellipse cx="100" cy="76" rx="36" ry="30" fill="rgba(255,209,102,0.1)" stroke="#ffd166" stroke-width="1.8"/>
+              <text x="100" y="79" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.5)">prosoma</text>
+              <!-- Pedicel (narrow waist) -->
+              <rect x="94" y="104" width="12" height="12" rx="3" fill="rgba(8,11,26,0.8)" stroke="rgba(255,209,102,0.4)" stroke-width="1"/>
+              <!-- Opisthosoma (back, larger oval) -->
+              <ellipse cx="100" cy="148" rx="42" ry="38" fill="rgba(255,209,102,0.07)" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <text x="100" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.45)">opisthosoma</text>
+              <!-- Chelicerae (fangs at front of prosoma) -->
+              <line x1="90" y1="50" x2="82" y2="34" stroke="#ffd166" stroke-width="2"/>
+              <line x1="94" y1="48" x2="88" y2="32" stroke="#ffd166" stroke-width="2"/>
+              <line x1="110" y1="50" x2="118" y2="34" stroke="#ffd166" stroke-width="2"/>
+              <line x1="106" y1="48" x2="112" y2="32" stroke="#ffd166" stroke-width="2"/>
+              <!-- Pedipalps (short, near chelicerae) -->
+              <line x1="74" y1="60" x2="58" y2="48" stroke="rgba(255,209,102,0.6)" stroke-width="1.5"/>
+              <line x1="126" y1="60" x2="142" y2="48" stroke="rgba(255,209,102,0.6)" stroke-width="1.5"/>
+              <!-- 4 pairs walking legs from prosoma -->
+              <line x1="68" y1="70" x2="38" y2="58" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="66" y1="78" x2="32" y2="74" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="68" y1="88" x2="34" y2="90" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="70" y1="96" x2="38" y2="104" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="132" y1="70" x2="162" y2="58" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="134" y1="78" x2="168" y2="74" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="132" y1="88" x2="166" y2="90" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <line x1="130" y1="96" x2="162" y2="104" stroke="rgba(255,209,102,0.55)" stroke-width="1.8"/>
+              <!-- Labels -->
+              <text x="4" y="32" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">chelicerae</text>
+              <text x="4" y="50" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.65)">pedipalps</text>
+              <text x="4" y="80" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.55)">4 pr.</text>
+              <text x="4" y="90" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.55)">legs</text>
+              <text x="100" y="194" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">NO antennae</text>
+            </svg>
+          </div>
+
+          <!-- Insecta (lateral view) -->
+          <div style="text-align:center;">
+            <div style="font-family:var(--mono);font-size:.68rem;color:var(--rose);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">Insecta</div>
+            <svg viewBox="0 0 200 200" style="width:100%;display:block;max-width:200px;margin:0 auto;background:rgba(8,11,26,0.55);border-radius:8px;border:1px solid rgba(255,255,255,0.06);" xmlns="http://www.w3.org/2000/svg">
+              <text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.22)">lateral view · 3 tagmata</text>
+              <!-- HEAD -->
+              <circle cx="36" cy="90" r="20" fill="rgba(255,110,199,0.12)" stroke="#ff6ec7" stroke-width="1.8"/>
+              <text x="36" y="93" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.6)">HEAD</text>
+              <!-- Compound eye -->
+              <circle cx="28" cy="84" r="7" fill="rgba(255,110,199,0.2)" stroke="#ff6ec7" stroke-width="1.2"/>
+              <!-- Antenna -->
+              <line x1="30" y1="72" x2="14" y2="44" stroke="#ff6ec7" stroke-width="1.5"/>
+              <!-- THORAX -->
+              <rect x="55" y="68" width="60" height="48" rx="5" fill="rgba(255,110,199,0.1)" stroke="#ff6ec7" stroke-width="1.8"/>
+              <text x="85" y="96" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.6)">THORAX</text>
+              <!-- Wings (2 pairs on thorax top) -->
+              <path d="M65,68 Q62,42 100,38 Q120,42 115,68" fill="rgba(255,110,199,0.08)" stroke="rgba(255,110,199,0.55)" stroke-width="1.5"/>
+              <path d="M72,68 Q70,52 100,48 Q118,52 113,68" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.35)" stroke-width="1"/>
+              <!-- 3 pairs of legs from thorax -->
+              <line x1="68" y1="116" x2="52" y2="140" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="85" y1="116" x2="72" y2="142" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <line x1="102" y1="116" x2="92" y2="142" stroke="rgba(255,110,199,0.65)" stroke-width="2"/>
+              <!-- ABDOMEN -->
+              <rect x="114" y="74" width="72" height="36" rx="5" fill="rgba(255,110,199,0.07)" stroke="rgba(255,110,199,0.4)" stroke-width="1.8"/>
+              <!-- Abdomen segments -->
+              <line x1="126" y1="74" x2="126" y2="110" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+              <line x1="138" y1="74" x2="138" y2="110" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+              <line x1="150" y1="74" x2="150" y2="110" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+              <line x1="162" y1="74" x2="162" y2="110" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+              <line x1="174" y1="74" x2="174" y2="110" stroke="rgba(255,110,199,0.2)" stroke-width="1"/>
+              <text x="150" y="96" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.5)">ABDOMEN</text>
+              <!-- Labels -->
+              <text x="4" y="44" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">antenna</text>
+              <text x="4" y="55" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.55)">(1 pr.)</text>
+              <text x="58" y="30" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.7)">wings</text>
+              <text x="4" y="140" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.55)">3 pr.</text>
+              <text x="4" y="150" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.55)">legs</text>
+              <text x="100" y="172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">head · thorax · abdomen</text>
+              <text x="100" y="185" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.55)">tracheal system · Malpighian tubules</text>
+            </svg>
+          </div>
+        </div>
+        <div class="fig-caption">Arthropod body plans. Key distinguishing features: number of antennae pairs, type of first appendage, and tagmata (body regions). All groups share jointed appendages and a moulted chitinous exoskeleton.</div>
+      </div>
 
       <div class="class-tabs tabs reveal">
         <div class="tab-list" role="tablist">
@@ -797,6 +1864,200 @@
     </div>
   </section>
 
+
+  <!-- ══ Insect Metamorphosis Visualizer ══ -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Insect Development</div>
+    <h2>Two Modes of Insect Metamorphosis</h2>
+    <p style="color:var(--ink-soft);max-width:700px;margin-bottom:1.5rem;">Click the stage buttons to step through each life cycle. Holometabolous insects have a pupal restructuring stage that allows larvae and adults to exploit entirely different resources.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+
+      <!-- Holometabolous -->
+      <div>
+        <div style="font-family:var(--mono);font-size:.75rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">Holometabolous · Complete Metamorphosis</div>
+        <div style="font-size:.8rem;color:var(--ink-dim);font-style:italic;margin-bottom:.8rem;">Butterfly · Fly · Beetle · Bee</div>
+        <!-- Stage buttons -->
+        <div id="holo-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+          <button class="meta-btn active" data-stage="0" data-group="holo" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:rgba(100,255,218,0.12);border:1px solid rgba(100,255,218,0.4);color:var(--teal);cursor:pointer;">Egg</button>
+          <button class="meta-btn" data-stage="1" data-group="holo" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;">Larva</button>
+          <button class="meta-btn" data-stage="2" data-group="holo" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;">Pupa</button>
+          <button class="meta-btn" data-stage="3" data-group="holo" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;">Adult</button>
+        </div>
+        <div id="holo-display" style="background:rgba(8,11,26,0.55);border-radius:var(--radius-sm);border:1px solid var(--line);padding:1.2rem;min-height:160px;transition:all .3s;">
+        </div>
+      </div>
+
+      <!-- Hemimetabolous -->
+      <div>
+        <div style="font-family:var(--mono);font-size:.75rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">Hemimetabolous · Incomplete Metamorphosis</div>
+        <div style="font-size:.8rem;color:var(--ink-dim);font-style:italic;margin-bottom:.8rem;">Grasshopper · Cockroach · Dragonfly</div>
+        <!-- Stage buttons -->
+        <div id="hemi-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+          <button class="meta-btn active" data-stage="0" data-group="hemi" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:rgba(255,209,102,0.12);border:1px solid rgba(255,209,102,0.4);color:var(--gold);cursor:pointer;">Egg</button>
+          <button class="meta-btn" data-stage="1" data-group="hemi" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;">Nymph</button>
+          <button class="meta-btn" data-stage="2" data-group="hemi" style="font-family:var(--mono);font-size:.72rem;padding:.3rem .75rem;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--line);color:var(--ink-dim);cursor:pointer;">Adult</button>
+        </div>
+        <div id="hemi-display" style="background:rgba(8,11,26,0.55);border-radius:var(--radius-sm);border:1px solid var(--line);padding:1.2rem;min-height:160px;transition:all .3s;">
+        </div>
+      </div>
+    </div>
+    <!-- Comparison callout -->
+    <div class="callout callout-teal reveal" style="margin-top:1.5rem;">
+      <div class="callout-label">◈ Exam Key</div>
+      <p><strong>Holometabolous</strong> (~80% of insects): larvae and adults exploit <em>different</em> ecological niches — caterpillar eats leaves, butterfly drinks nectar. Reduces intraspecific competition between age classes. Pupa is the non-feeding restructuring stage where larval tissues are histolysed and adult structures built from <strong>imaginal discs</strong>. Examples: <em>Lepidoptera, Diptera, Coleoptera, Hymenoptera</em>.<br><br><strong>Hemimetabolous</strong>: nymph resembles a miniature wingless adult. No pupal stage. Wings develop externally as <strong>wing pads</strong> (visible in later instars). Examples: <em>Orthoptera (grasshoppers), Blattodea (cockroaches), Odonata (dragonflies)</em>.</p>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var HOLO=[
+      {label:'Egg',color:'#64ffda',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<ellipse cx="90" cy="60" rx="36" ry="44" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="2"/>'
+         +'<ellipse cx="90" cy="60" rx="26" ry="32" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>'
+         +'<text x="90" y="64" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda">embryo</text>'
+         +'<text x="90" y="15" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.5)">chorion (shell)</text>'
+         +'</svg>',
+       desc:'A single fertilised egg with a protective chorion shell. Contains all yolk reserves for larval development. Diploid embryo. No metamorphosis yet — just cleavage and organogenesis.'},
+      {label:'Larva',color:'#64ffda',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<!-- Caterpillar body -->'
+         +'<ellipse cx="32" cy="68" rx="18" ry="16" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.8"/>'
+         +'<circle cx="24" cy="62" r="4" fill="rgba(100,255,218,0.35)"/>'
+         +'<rect x="48" y="56" width="16" height="24" rx="5" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<rect x="62" y="56" width="16" height="24" rx="5" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<rect x="76" y="56" width="16" height="24" rx="5" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<rect x="90" y="56" width="16" height="24" rx="5" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<rect x="104" y="56" width="16" height="24" rx="5" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<rect x="118" y="58" width="14" height="20" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>'
+         +'<!-- Prolegs -->'
+         +'<line x1="56" y1="80" x2="52" y2="94" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>'
+         +'<line x1="70" y1="80" x2="66" y2="94" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>'
+         +'<line x1="84" y1="80" x2="80" y2="94" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>'
+         +'<line x1="98" y1="80" x2="94" y2="94" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>'
+         +'<line x1="112" y1="80" x2="108" y2="94" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>'
+         +'<text x="90" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">caterpillar — eating, growing</text>'
+         +'<text x="90" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.55)">imaginal discs present but dormant</text>'
+         +'</svg>',
+       desc:'The larva (caterpillar, maggot, grub) is the primary feeding and growth stage. It moults multiple times, growing larger. <strong>Imaginal discs</strong> — small groups of undifferentiated cells — are present but dormant, waiting to form adult structures during the pupal stage. Larva and adult exploit different food sources.'},
+      {label:'Pupa',color:'#64ffda',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<!-- Chrysalis shape -->'
+         +'<path d="M70,20 Q50,40 52,80 Q58,105 90,108 Q122,105 128,80 Q130,40 110,20 Q100,12 90,12 Q80,12 70,20Z" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="2"/>'
+         +'<!-- Internal restructuring lines -->'
+         +'<path d="M72,50 Q90,58 108,50" stroke="rgba(167,139,250,0.35)" stroke-width="1" stroke-dasharray="3,2"/>'
+         +'<path d="M68,65 Q90,73 112,65" stroke="rgba(167,139,250,0.3)" stroke-width="1" stroke-dasharray="3,2"/>'
+         +'<path d="M70,80 Q90,88 110,80" stroke="rgba(167,139,250,0.25)" stroke-width="1" stroke-dasharray="3,2"/>'
+         +'<text x="90" y="40" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">histolysis</text>'
+         +'<text x="90" y="55" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.6)">&amp; remodelling</text>'
+         +'<text x="90" y="12" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.7)">chrysalis (non-feeding)</text>'
+         +'</svg>',
+       desc:'The pupa is a non-feeding restructuring stage unique to holometabolous insects. Larval tissues undergo <strong>histolysis</strong> (breakdown) and <strong>histogenesis</strong> (rebuilding) from imaginal discs. Adult wings, legs, compound eyes, and reproductive organs form. Duration: days to months depending on species. Not "dormant" — extremely active metabolism inside.'},
+      {label:'Adult',color:'#64ffda',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<!-- Butterfly body -->'
+         +'<ellipse cx="90" cy="68" rx="8" ry="30" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.8"/>'
+         +'<!-- Wings (4) -->'
+         +'<path d="M82,62 Q50,30 20,42 Q18,70 60,78 Q72,78 82,74Z" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.55)" stroke-width="1.5"/>'
+         +'<path d="M82,74 Q50,84 32,104 Q52,108 72,90 Q80,84 82,80Z" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<path d="M98,62 Q130,30 160,42 Q162,70 120,78 Q108,78 98,74Z" fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.55)" stroke-width="1.5"/>'
+         +'<path d="M98,74 Q130,84 148,104 Q128,108 108,90 Q100,84 98,80Z" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.4)" stroke-width="1.3"/>'
+         +'<!-- Head with antennae -->'
+         +'<circle cx="90" cy="38" r="7" fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.5"/>'
+         +'<line x1="86" y1="32" x2="74" y2="18" stroke="#64ffda" stroke-width="1.5"/>'
+         +'<circle cx="73" cy="16" r="3" fill="#64ffda"/>'
+         +'<line x1="94" y1="32" x2="106" y2="18" stroke="#64ffda" stroke-width="1.5"/>'
+         +'<circle cx="107" cy="16" r="3" fill="#64ffda"/>'
+         +'<text x="90" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.6)">reproduce · disperse</text>'
+         +'</svg>',
+       desc:'The adult (imago) is the reproductive stage. Adults do not grow — they disperse, mate, and lay eggs. Many adults are short-lived (mayflies: ~1 day as adults). The adult exploits a completely different niche from the larva (e.g., adult butterfly drinks nectar; larval caterpillar eats leaves), reducing competition between age classes. This ecological separation is a major driver of holometaboly\'s evolutionary success.'}
+    ];
+
+    var HEMI=[
+      {label:'Egg',color:'#ffd166',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<ellipse cx="90" cy="62" rx="32" ry="38" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="2"/>'
+         +'<ellipse cx="90" cy="62" rx="22" ry="26" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>'
+         +'<text x="90" y="66" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">embryo</text>'
+         +'<text x="90" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.55)">deposited in soil/bark</text>'
+         +'</svg>',
+       desc:'Eggs are deposited in soil, bark, or plant tissue. The embryo develops inside. No imaginal discs — the nymph that hatches resembles the adult in basic body plan from the start.'},
+      {label:'Nymph',color:'#ffd166',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<!-- Nymph grasshopper (looks like small adult, no/small wings) -->'
+         +'<!-- Head -->'
+         +'<circle cx="30" cy="58" r="14" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.8"/>'
+         +'<circle cx="24" cy="52" r="4" fill="rgba(255,209,102,0.3)"/>'
+         +'<!-- Antenna -->'
+         +'<line x1="28" y1="46" x2="14" y2="28" stroke="#ffd166" stroke-width="1.5"/>'
+         +'<!-- Thorax -->'
+         +'<rect x="42" y="48" width="32" height="22" rx="4" fill="rgba(255,209,102,0.1)" stroke="#ffd166" stroke-width="1.5"/>'
+         +'<!-- Small wing pads on thorax -->'
+         +'<rect x="46" y="40" width="22" height="10" rx="3" fill="rgba(255,209,102,0.15)" stroke="rgba(255,209,102,0.5)" stroke-width="1" stroke-dasharray="2,1"/>'
+         +'<!-- Abdomen -->'
+         +'<rect x="72" y="50" width="56" height="18" rx="4" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>'
+         +'<!-- Legs -->'
+         +'<line x1="50" y1="70" x2="42" y2="86" stroke="rgba(255,209,102,0.6)" stroke-width="2"/>'
+         +'<line x1="60" y1="70" x2="55" y2="86" stroke="rgba(255,209,102,0.6)" stroke-width="2"/>'
+         +'<!-- Big hindleg (grasshopper) -->'
+         +'<path d="M72,70 Q88,62 98,76 Q88,90 72,88Z" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>'
+         +'<text x="90" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.6)">wing pads visible (dashed)</text>'
+         +'<text x="90" y="16" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">nymph — looks like small adult</text>'
+         +'</svg>',
+       desc:'The nymph resembles a small, wingless (or wing-padded) adult. It eats the same food and occupies the same habitat as adults. <strong>Wing pads</strong> grow externally on the thorax, becoming more developed with each moult (instar). There are typically 5–8 nymphal instars. <strong>No pupal stage.</strong> No histolysis — the body plan is gradually remodelled, not rebuilt.'},
+      {label:'Adult',color:'#ffd166',
+       svg:'<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto .8rem;">'
+         +'<!-- Adult grasshopper -->'
+         +'<!-- Head -->'
+         +'<circle cx="22" cy="60" r="14" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.8"/>'
+         +'<circle cx="16" cy="54" r="4" fill="rgba(255,209,102,0.35)"/>'
+         +'<line x1="18" y1="48" x2="8" y2="28" stroke="#ffd166" stroke-width="1.5"/>'
+         +'<!-- Thorax -->'
+         +'<rect x="34" y="48" width="32" height="24" rx="4" fill="rgba(255,209,102,0.1)" stroke="#ffd166" stroke-width="1.8"/>'
+         +'<!-- Wings (full-sized) -->'
+         +'<path d="M38,48 Q44,22 80,26 Q96,32 90,48Z" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.5"/>'
+         +'<path d="M42,48 Q48,30 84,32 Q98,38 92,48Z" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.35)" stroke-width="1"/>'
+         +'<!-- Abdomen -->'
+         +'<rect x="64" y="52" width="80" height="18" rx="4" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.4)" stroke-width="1.8"/>'
+         +'<line x1="80" y1="52" x2="80" y2="70" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>'
+         +'<line x1="96" y1="52" x2="96" y2="70" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>'
+         +'<line x1="112" y1="52" x2="112" y2="70" stroke="rgba(255,209,102,0.2)" stroke-width="1"/>'
+         +'<!-- Legs -->'
+         +'<line x1="42" y1="72" x2="30" y2="90" stroke="rgba(255,209,102,0.65)" stroke-width="2"/>'
+         +'<line x1="52" y1="72" x2="45" y2="90" stroke="rgba(255,209,102,0.65)" stroke-width="2"/>'
+         +'<!-- Hindleg (big) -->'
+         +'<path d="M64,72 Q80,62 92,78 Q80,94 64,90Z" fill="rgba(255,209,102,0.18)" stroke="#ffd166" stroke-width="1.8"/>'
+         +'<text x="90" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.65)">full wings · reproductive</text>'
+         +'</svg>',
+       desc:'The adult is similar to the nymph but fully winged and sexually mature. Because the nymph and adult eat the same food and live in the same habitat, competition between age classes occurs — unlike holometabolous insects. Adults moult one final time (the "imaginal moult") to reveal full wings.'}
+    ];
+
+    function buildGroup(stages, displayId, btnContainer, isTeal){
+      var display=document.getElementById(displayId);
+      var btns=document.querySelectorAll('#'+btnContainer+' .meta-btn');
+      function show(i){
+        var s=stages[i];
+        display.innerHTML='<div style="text-align:center;">'+s.svg+'</div>'
+          +'<p style="font-size:.84rem;color:var(--ink-soft);line-height:1.7;margin:.25rem 0 0;">'+s.desc+'</p>';
+        btns.forEach(function(b,j){
+          if(j===i){
+            b.style.background=isTeal?'rgba(100,255,218,0.12)':'rgba(255,209,102,0.12)';
+            b.style.borderColor=isTeal?'rgba(100,255,218,0.45)':'rgba(255,209,102,0.45)';
+            b.style.color=isTeal?'var(--teal)':'var(--gold)';
+          } else {
+            b.style.background='var(--glass)';
+            b.style.borderColor='var(--line)';
+            b.style.color='var(--ink-dim)';
+          }
+        });
+      }
+      btns.forEach(function(btn,i){ btn.addEventListener('click',function(){show(i);}); });
+      show(0);
+    }
+    buildGroup(HOLO,'holo-display','holo-btns',true);
+    buildGroup(HEMI,'hemi-display','hemi-btns',false);
+  })();
+  </script>
 
   <!-- ══════════════════════════════════════════
        LEVEL 3

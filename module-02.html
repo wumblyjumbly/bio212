@@ -688,12 +688,363 @@
   <h3>Gastrulation — Three Germ Layers Form</h3>
   <p>Gastrulation transforms the blastula into a three-layered embryo (the gastrula). Cells undergo dramatic coordinated movements — invagination, involution, convergent extension — that move presumptive endoderm and mesoderm to the interior while ectoderm covers the outside.</p>
 
-  <div class="figure reveal">
-    <div class="fig-label">Fig 2.2 · Gastrulation (Sea Urchin)</div>
-    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:380px;">
-      <!-- STAGE 1: Blastula -->
-      <!-- Outer cell ring -->
-      <circle cx="110" cy="165" r="75" fill="none" stroke="rgba(100,255,218,0.55)" stroke-width="2.5"/>
+  <div class="figure reveal" id="gastrul-wrap">
+    <style>
+    #gastrul-wrap{padding:1.2rem;background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);}
+    .gast-nav{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+    .gast-btn{font-family:var(--mono);font-size:.72rem;padding:.3rem .65rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-sm);color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;}
+    .gast-btn.active{background:rgba(255,110,199,.13);border-color:rgba(255,110,199,.55);color:#ff6ec7;}
+    .gast-stage{display:none;}
+    .gast-stage.active{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;align-items:start;}
+    .gast-title{font-family:var(--mono);font-size:.88rem;color:#ff6ec7;font-weight:700;margin-bottom:.55rem;}
+    .gast-desc{font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:.7rem;}
+    .gast-term{font-family:var(--mono);font-size:.7rem;padding:.28rem .55rem;border-radius:var(--radius-sm);border-left:3px solid;margin-bottom:.3rem;}
+    .gast-term.tc{border-color:#64ffda;background:rgba(100,255,218,.07);}
+    .gast-term.tv{border-color:#a78bfa;background:rgba(167,139,250,.07);}
+    .gast-term.tr{border-color:#ff6ec7;background:rgba(255,110,199,.07);}
+    .gast-term.tg{border-color:#fbbf24;background:rgba(251,191,36,.07);}
+    .gast-term.tb{border-color:rgba(100,180,255,.8);background:rgba(100,180,255,.07);}
+    @media(max-width:620px){.gast-stage.active{grid-template-columns:1fr;}}
+    </style>
+    <div style="font-family:var(--mono);font-size:.75rem;color:rgba(255,255,255,.3);margin-bottom:.6rem;">Fig 2.2 · Sea Urchin Gastrulation — click each stage to step through</div>
+    <div class="gast-nav">
+      <button class="gast-btn active" data-g="0">① Blastula</button>
+      <button class="gast-btn" data-g="1">② PMC Ingression</button>
+      <button class="gast-btn" data-g="2">③ Invagination · Blastopore</button>
+      <button class="gast-btn" data-g="3">④ Archenteron Extends</button>
+      <button class="gast-btn" data-g="4">⑤ Full Gastrula</button>
+    </div>
+
+    <!-- ─── Stage 0: Blastula ─── -->
+    <div class="gast-stage active" data-g="0">
+      <svg viewBox="0 0 340 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+        <rect width="340" height="390" fill="rgba(8,11,26,0.5)" rx="10"/>
+        <!-- Blastocoel fluid -->
+        <circle cx="170" cy="200" r="124" fill="rgba(15,35,85,0.75)"/>
+        <!-- Animal hemisphere (teal tint, smaller cells) -->
+        <path d="M46,200 A124,124 0 0,1 294,200" fill="rgba(100,255,218,0.12)"/>
+        <!-- Vegetal hemisphere (gold tint, yolky) -->
+        <path d="M294,200 A124,124 0 0,1 46,200" fill="rgba(251,191,36,0.12)"/>
+        <!-- Outer cell layer fill -->
+        <circle cx="170" cy="200" r="138" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14"/>
+        <!-- Ectoderm outer ring -->
+        <circle cx="170" cy="200" r="138" fill="none" stroke="#64ffda" stroke-width="2.5"/>
+        <!-- Inner cell surface -->
+        <circle cx="170" cy="200" r="124" fill="none" stroke="rgba(100,255,218,0.22)" stroke-width="1.2"/>
+        <!-- Radial cell division lines (16) -->
+        <g stroke="rgba(100,255,218,0.3)" stroke-width="1">
+          <line x1="170" y1="62" x2="170" y2="76"/>
+          <line x1="218" y1="68" x2="212" y2="80"/>
+          <line x1="257" y1="90" x2="247" y2="100"/>
+          <line x1="285" y1="126" x2="272" y2="133"/>
+          <line x1="294" y1="165" x2="281" y2="167"/>
+          <line x1="294" y1="200" x2="308" y2="200"/>
+          <line x1="285" y1="235" x2="272" y2="231"/>
+          <line x1="257" y1="265" x2="247" y2="256"/>
+          <line x1="218" y1="285" x2="212" y2="274"/>
+          <line x1="170" y1="338" x2="170" y2="324"/>
+          <line x1="122" y1="285" x2="128" y2="274"/>
+          <line x1="83"  y1="265" x2="93"  y2="256"/>
+          <line x1="55"  y1="235" x2="68"  y2="231"/>
+          <line x1="46"  y1="200" x2="32"  y2="200"/>
+          <line x1="55"  y1="165" x2="68"  y2="167"/>
+          <line x1="83"  y1="126" x2="93"  y2="133"/>
+        </g>
+        <!-- Equator dashed line -->
+        <line x1="46" y1="200" x2="294" y2="200" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="5,4"/>
+        <!-- Animal pole -->
+        <circle cx="170" cy="62" r="4.5" fill="#64ffda"/>
+        <text x="170" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#64ffda" font-weight="700">ANIMAL POLE</text>
+        <text x="170" y="32" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.5)">small cells · less yolk</text>
+        <!-- Vegetal pole -->
+        <circle cx="170" cy="338" r="4.5" fill="#fbbf24"/>
+        <text x="170" y="357" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#fbbf24" font-weight="700">VEGETAL POLE</text>
+        <text x="170" y="370" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(251,191,36,0.5)">large cells · yolk-rich</text>
+        <!-- Blastocoel label -->
+        <text x="170" y="194" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" fill="rgba(100,160,255,0.85)" font-weight="700">blastocoel</text>
+        <text x="170" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,160,255,0.5)">fluid-filled cavity</text>
+        <!-- Cell layer bracket (right side) -->
+        <line x1="301" y1="162" x2="313" y2="162" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <line x1="301" y1="238" x2="313" y2="238" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <line x1="313" y1="162" x2="313" y2="238" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <text x="317" y="202" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.3)">cell</text>
+        <text x="317" y="213" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.3)">layer</text>
+      </svg>
+      <div>
+        <div class="gast-title">① Blastula — hollow ball</div>
+        <div class="gast-desc">After cleavage the embryo is a hollow sphere of ~1,000 cells exactly one cell thick. The interior is the <strong style="color:rgba(100,160,255,.9)">blastocoel</strong> — a fluid-filled cavity that creates space for cells to migrate. Two poles are established by maternal mRNA gradients.</div>
+        <div class="gast-term tc"><strong>Animal pole</strong> — small cells, little yolk; will form ectoderm (nervous system, skin)</div>
+        <div class="gast-term tg"><strong>Vegetal pole</strong> — large yolk-rich cells; will form endoderm and mesoderm</div>
+        <div class="gast-term tb"><strong>Blastocoel</strong> — fluid cavity; will be invaded and displaced by the archenteron during gastrulation</div>
+        <div class="gast-term tc" style="margin-top:.5rem;">Next: vegetal plate thickens → primary mesenchyme cells (PMCs) break free and migrate inward</div>
+      </div>
+    </div>
+
+    <!-- ─── Stage 1: PMC Ingression ─── -->
+    <div class="gast-stage" data-g="1">
+      <svg viewBox="0 0 340 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+        <defs>
+          <marker id="gast-arr1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#a78bfa"/></marker>
+        </defs>
+        <rect width="340" height="390" fill="rgba(8,11,26,0.5)" rx="10"/>
+        <circle cx="170" cy="200" r="124" fill="rgba(15,35,85,0.72)"/>
+        <path d="M46,200 A124,124 0 0,1 294,200" fill="rgba(100,255,218,0.09)"/>
+        <path d="M294,200 A124,124 0 0,1 46,200" fill="rgba(251,191,36,0.09)"/>
+        <!-- Vegetal plate: thickened arc (gold) -->
+        <path d="M124,315 A124,124 0 0,0 216,315" fill="rgba(251,191,36,0.35)" stroke="#fbbf24" stroke-width="2.2"/>
+        <path d="M116,326 A138,138 0 0,0 224,326" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- PMC cells inside blastocoel -->
+        <circle cx="150" cy="288" r="6.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.5"/>
+        <circle cx="170" cy="276" r="6.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.5"/>
+        <circle cx="190" cy="288" r="6.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.5"/>
+        <circle cx="140" cy="265" r="5"   fill="rgba(167,139,250,0.6)"  stroke="#a78bfa" stroke-width="1.2"/>
+        <circle cx="200" cy="265" r="5"   fill="rgba(167,139,250,0.6)"  stroke="#a78bfa" stroke-width="1.2"/>
+        <!-- Migration arrows (vegetal plate → blastocoel) -->
+        <line x1="148" y1="310" x2="148" y2="298" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#gast-arr1)"/>
+        <line x1="170" y1="308" x2="170" y2="286" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#gast-arr1)"/>
+        <line x1="192" y1="310" x2="192" y2="298" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#gast-arr1)"/>
+        <!-- Embryo ring -->
+        <circle cx="170" cy="200" r="138" fill="none" stroke="#64ffda" stroke-width="2.5"/>
+        <circle cx="170" cy="200" r="124" fill="none" stroke="rgba(100,255,218,0.18)" stroke-width="1"/>
+        <!-- Animal pole -->
+        <circle cx="170" cy="62" r="4" fill="#64ffda"/>
+        <text x="170" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#64ffda" font-weight="700">ANIMAL POLE</text>
+        <!-- Vegetal pole -->
+        <circle cx="170" cy="338" r="4" fill="#fbbf24"/>
+        <text x="170" y="357" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#fbbf24" font-weight="700">VEGETAL POLE</text>
+        <!-- PMC label -->
+        <line x1="200" y1="263" x2="232" y2="246" stroke="rgba(167,139,250,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="234" y="243" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#a78bfa" font-weight="700">PMCs</text>
+        <text x="228" y="256" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.55)">delaminating</text>
+        <!-- Vegetal plate label -->
+        <line x1="126" y1="318" x2="88" y2="340" stroke="rgba(251,191,36,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="42" y="348" font-family="JetBrains Mono,monospace" font-size="9" fill="#fbbf24">vegetal plate</text>
+        <text x="50" y="360" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(251,191,36,0.5)">thickening</text>
+        <!-- Blastocoel label -->
+        <text x="170" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,160,255,0.55)">blastocoel</text>
+      </svg>
+      <div>
+        <div class="gast-title">② PMC Ingression — cells break free</div>
+        <div class="gast-desc">The <strong style="color:#fbbf24">vegetal plate</strong> thickens as cells increase adhesion to each other. <strong style="color:#a78bfa">Primary mesenchyme cells (PMCs)</strong> undergo epithelial-to-mesenchymal transition (EMT) — losing tight junctions, gaining motility — and migrate into the blastocoel. These become the skeleton-forming cells.</div>
+        <div class="gast-term tg"><strong>Vegetal plate</strong> — thickened ring at vegetal pole; the organizing center for invagination</div>
+        <div class="gast-term tv"><strong>PMCs</strong> — break from vegetal plate via EMT; migrate to equatorial ring; secrete Ca²⁺ carbonate larval spicules</div>
+        <div class="gast-term tc"><strong>EMT</strong> — cells lose E-cadherin, gain motility; driven by Snail/Twist transcription factors (same process in cancer metastasis)</div>
+        <div class="gast-term tb">Next: remaining vegetal plate cells fold inward → blastopore forms</div>
+      </div>
+    </div>
+
+    <!-- ─── Stage 2: Invagination / Blastopore ─── -->
+    <div class="gast-stage" data-g="2">
+      <svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+        <defs>
+          <clipPath id="gast-clip2"><path d="M221,327 A138,138 0 1,1 119,327 Z"/></clipPath>
+          <marker id="gast-arr2g" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#fbbf24"/></marker>
+          <marker id="gast-arr2r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 Z" fill="#ff6ec7"/></marker>
+        </defs>
+        <rect width="340" height="400" fill="rgba(8,11,26,0.5)" rx="10"/>
+        <!-- Embryo cell layer fill (clipped to embryo arc) -->
+        <circle cx="170" cy="200" r="138" fill="rgba(100,255,218,0.08)" clip-path="url(#gast-clip2)"/>
+        <!-- Blastocoel fill -->
+        <circle cx="170" cy="200" r="124" fill="rgba(15,35,85,0.75)" clip-path="url(#gast-clip2)"/>
+        <!-- Archenteron outer walls (endoderm, rose) — short tube 1/3 of the way -->
+        <path d="M119,327 C123,305 136,284 147,268 A24,13 0 0,0 193,268 C204,284 217,305 221,327 Z"
+              fill="rgba(255,110,199,0.22)" stroke="#ff6ec7" stroke-width="2"/>
+        <!-- Archenteron lumen (inner dark) -->
+        <path d="M129,325 C132,305 143,285 153,269 A15,8 0 0,0 187,269 C197,285 208,305 211,325 Z"
+              fill="rgba(8,11,26,0.88)"/>
+        <!-- SMC cells at archenteron tip -->
+        <circle cx="160" cy="270" r="4.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.2"/>
+        <circle cx="170" cy="266" r="4.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.2"/>
+        <circle cx="180" cy="270" r="4.5" fill="rgba(167,139,250,0.75)" stroke="#a78bfa" stroke-width="1.2"/>
+        <!-- Embryo outer arc (with blastopore gap) -->
+        <path d="M221,327 A138,138 0 1,1 119,327" fill="none" stroke="#64ffda" stroke-width="2.5"/>
+        <!-- Inner cell surface -->
+        <circle cx="170" cy="200" r="124" fill="none" stroke="rgba(100,255,218,0.15)" stroke-width="1"/>
+        <!-- ══ BLASTOPORE ══ -->
+        <!-- Blastopore lips -->
+        <circle cx="119" cy="327" r="6" fill="#ff6ec7"/>
+        <circle cx="221" cy="327" r="6" fill="#ff6ec7"/>
+        <!-- Blastopore bracket -->
+        <path d="M107,337 L119,327 L221,327 L233,337" fill="none" stroke="#ff6ec7" stroke-width="2.5"/>
+        <!-- Blastopore label line -->
+        <line x1="170" y1="337" x2="170" y2="354" stroke="#ff6ec7" stroke-width="1.8"/>
+        <text x="170" y="366" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" fill="#ff6ec7" font-weight="700">BLASTOPORE</text>
+        <text x="170" y="381" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)">opening of invagination · future anus</text>
+        <!-- Cell rolling-inward arrows at lips -->
+        <path d="M111,318 Q108,304 114,294" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#gast-arr2g)"/>
+        <path d="M229,318 Q232,304 226,294" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#gast-arr2g)"/>
+        <!-- Archenteron label -->
+        <line x1="193" y1="285" x2="232" y2="268" stroke="rgba(255,110,199,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="234" y="265" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#ff6ec7" font-weight="700">archenteron</text>
+        <text x="236" y="278" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.5)">forming (future gut)</text>
+        <!-- SMC label -->
+        <line x1="159" y1="265" x2="120" y2="248" stroke="rgba(167,139,250,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="62" y="246" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa">SMC tip</text>
+        <!-- Animal pole -->
+        <circle cx="170" cy="62" r="4" fill="#64ffda"/>
+        <text x="170" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#64ffda" font-weight="700">ANIMAL POLE</text>
+        <!-- Blastocoel label -->
+        <text x="170" y="178" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(100,160,255,0.55)">blastocoel</text>
+      </svg>
+      <div>
+        <div class="gast-title">③ Invagination — blastopore opens</div>
+        <div class="gast-desc">Remaining vegetal plate cells <strong>fold inward</strong> (invaginate). This creates a tube-like pocket — the <strong style="color:#ff6ec7">archenteron</strong> (future gut). The opening where cells are still rolling inward is the <strong style="color:#ff6ec7">BLASTOPORE</strong>. Secondary mesenchyme cells (SMC, violet) form at the tip.</div>
+        <div class="gast-term tr"><strong>BLASTOPORE</strong> — the hole created by invagination; in deuterostomes (sea urchins, vertebrates) → becomes ANUS; mouth forms separately later at animal pole</div>
+        <div class="gast-term tr"><strong>Archenteron</strong> — tube pushing inward; walls = presumptive endoderm; interior = future gut lumen; will span the whole embryo</div>
+        <div class="gast-term tv"><strong>SMC</strong> (secondary mesenchyme) — at archenteron tip; extend filopodia to pull the tube forward; become muscle and coelom</div>
+        <div class="gast-term tg"><strong>Yellow arrows</strong> — vegetal ectoderm cells rolling over the blastopore lip (involution) to line the inside of the archenteron</div>
+        <div class="gast-term tc" style="margin-top:.5rem;border-color:#a78bfa;background:rgba(167,139,250,.06);"><strong>Dorsal lip (vertebrates):</strong> In frogs the blastopore has a special dorsal lip = Spemann's organizer. In sea urchins the equivalent is the vegetal plate/PMC region. Same concept: the blastopore rim organizes the whole body axis.</div>
+      </div>
+    </div>
+
+    <!-- ─── Stage 3: Archenteron extends ─── -->
+    <div class="gast-stage" data-g="3">
+      <svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+        <defs>
+          <clipPath id="gast-clip3"><path d="M221,327 A138,138 0 1,1 119,327 Z"/></clipPath>
+          <marker id="gast-arr3v" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#a78bfa"/></marker>
+        </defs>
+        <rect width="340" height="400" fill="rgba(8,11,26,0.5)" rx="10"/>
+        <circle cx="170" cy="200" r="138" fill="rgba(100,255,218,0.07)" clip-path="url(#gast-clip3)"/>
+        <circle cx="170" cy="200" r="124" fill="rgba(15,35,85,0.70)" clip-path="url(#gast-clip3)"/>
+        <!-- Archenteron — 2/3 of the way across -->
+        <path d="M119,327 C123,278 139,215 155,148 A16,9 0 0,0 185,148 C201,215 217,278 221,327 Z"
+              fill="rgba(255,110,199,0.22)" stroke="#ff6ec7" stroke-width="2"/>
+        <path d="M129,325 C133,278 147,217 161,150 A10,6 0 0,0 179,150 C193,217 207,278 211,325 Z"
+              fill="rgba(8,11,26,0.88)"/>
+        <!-- Filopodia from SMC tip -->
+        <line x1="162" y1="147" x2="153" y2="90"  stroke="rgba(167,139,250,0.65)" stroke-width="1.3" stroke-dasharray="4,3"/>
+        <line x1="170" y1="144" x2="170" y2="82"  stroke="rgba(167,139,250,0.75)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="178" y1="147" x2="187" y2="90"  stroke="rgba(167,139,250,0.65)" stroke-width="1.3" stroke-dasharray="4,3"/>
+        <!-- Filopodia contact dots -->
+        <circle cx="153" cy="87" r="3" fill="rgba(167,139,250,0.85)"/>
+        <circle cx="170" cy="79" r="3.5" fill="rgba(167,139,250,0.9)"/>
+        <circle cx="187" cy="87" r="3" fill="rgba(167,139,250,0.85)"/>
+        <!-- SMC cells at tip -->
+        <circle cx="161" cy="149" r="5" fill="rgba(167,139,250,0.8)" stroke="#a78bfa" stroke-width="1.5"/>
+        <circle cx="170" cy="145" r="5" fill="rgba(167,139,250,0.8)" stroke="#a78bfa" stroke-width="1.5"/>
+        <circle cx="179" cy="149" r="5" fill="rgba(167,139,250,0.8)" stroke="#a78bfa" stroke-width="1.5"/>
+        <!-- PMC ring (equatorial) -->
+        <path d="M96,200 A74,74 0 0,1 244,200" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="100" cy="188" r="4" fill="rgba(167,139,250,0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="100" cy="213" r="4" fill="rgba(167,139,250,0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="240" cy="188" r="4" fill="rgba(167,139,250,0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="240" cy="213" r="4" fill="rgba(167,139,250,0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <!-- Embryo outline (arc with blastopore gap) -->
+        <path d="M221,327 A138,138 0 1,1 119,327" fill="none" stroke="#64ffda" stroke-width="2.5"/>
+        <circle cx="170" cy="200" r="124" fill="none" stroke="rgba(100,255,218,0.15)" stroke-width="1"/>
+        <!-- Blastopore -->
+        <circle cx="119" cy="327" r="5.5" fill="#ff6ec7"/>
+        <circle cx="221" cy="327" r="5.5" fill="#ff6ec7"/>
+        <path d="M107,337 L119,327 L221,327 L233,337" fill="none" stroke="#ff6ec7" stroke-width="2.2"/>
+        <text x="170" y="354" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" fill="#ff6ec7" font-weight="700">BLASTOPORE</text>
+        <text x="170" y="368" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.5)">future anus</text>
+        <!-- Filopodia label -->
+        <line x1="187" y1="88" x2="224" y2="76" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="226" y="73" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#a78bfa" font-weight="700">filopodia</text>
+        <text x="220" y="85" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.5)">pulling arch. tip</text>
+        <!-- Archenteron label -->
+        <line x1="183" y1="220" x2="222" y2="210" stroke="rgba(255,110,199,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="224" y="208" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7">archenteron</text>
+        <!-- PMC ring label -->
+        <line x1="98" y1="200" x2="52" y2="212" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="8" y="218" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#a78bfa">PMC ring</text>
+        <!-- Animal pole -->
+        <circle cx="170" cy="62" r="4" fill="#64ffda"/>
+        <text x="170" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#64ffda" font-weight="700">ANIMAL POLE</text>
+        <!-- Blastocoel remaining -->
+        <text x="107" y="198" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,160,255,0.4)">blastocoel</text>
+        <text x="233" y="198" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,160,255,0.4)">blastocoel</text>
+      </svg>
+      <div>
+        <div class="gast-title">④ Archenteron extends — filopodia pull</div>
+        <div class="gast-desc">The archenteron elongates by two mechanisms: <strong>convergent extension</strong> (cells rearrange laterally to lengthen the tube) and active pulling by <strong style="color:#a78bfa">SMC filopodia</strong> that grip the animal pole ectoderm. PMCs rearrange into an equatorial ring.</div>
+        <div class="gast-term tv"><strong>Filopodia</strong> — thin actin projections from SMC; probe the blastocoel, grip animal pole ectoderm, physically pull the archenteron tip forward</div>
+        <div class="gast-term tr"><strong>Convergent extension</strong> — cells intercalate (wedge between neighbors) to lengthen without adding cells; narrows and extends the tube simultaneously</div>
+        <div class="gast-term tv"><strong>PMC ring</strong> — PMCs fuse into a syncytium; begin secreting triradiate CaCO₃ spicules for the larval skeleton</div>
+        <div class="gast-term tb"><strong>Blastocoel</strong> — now compressed into two lateral chambers flanking the archenteron</div>
+      </div>
+    </div>
+
+    <!-- ─── Stage 4: Full Gastrula ─── -->
+    <div class="gast-stage" data-g="4">
+      <svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+        <defs>
+          <clipPath id="gast-clip4"><path d="M221,327 A138,138 0 1,1 119,327 Z"/></clipPath>
+        </defs>
+        <rect width="340" height="400" fill="rgba(8,11,26,0.5)" rx="10"/>
+        <!-- Ectoderm fill (outer cell layer) -->
+        <circle cx="170" cy="200" r="138" fill="rgba(100,255,218,0.1)" clip-path="url(#gast-clip4)"/>
+        <!-- Remaining blastocoel (compressed lateral) -->
+        <circle cx="170" cy="200" r="124" fill="rgba(15,35,85,0.6)" clip-path="url(#gast-clip4)"/>
+        <!-- Archenteron full-length tube -->
+        <path d="M119,327 C123,265 141,186 161,79 A9,6 0 0,0 179,79 C199,186 217,265 221,327 Z"
+              fill="rgba(255,110,199,0.25)" stroke="#ff6ec7" stroke-width="2"/>
+        <path d="M129,325 C133,265 149,188 163,80 A5,4 0 0,0 177,80 C191,188 207,265 211,325 Z"
+              fill="rgba(8,11,26,0.9)"/>
+        <!-- Mesoderm cells (scattered in lateral blastocoel) -->
+        <circle cx="102" cy="168" r="4.5" fill="rgba(167,139,250,0.55)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="95"  cy="204" r="4"   fill="rgba(167,139,250,0.5)"  stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="105" cy="238" r="4.5" fill="rgba(167,139,250,0.55)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="100" cy="272" r="3.5" fill="rgba(167,139,250,0.45)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="238" cy="168" r="4.5" fill="rgba(167,139,250,0.55)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="245" cy="204" r="4"   fill="rgba(167,139,250,0.5)"  stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="235" cy="238" r="4.5" fill="rgba(167,139,250,0.55)" stroke="#a78bfa" stroke-width="1"/>
+        <circle cx="240" cy="272" r="3.5" fill="rgba(167,139,250,0.45)" stroke="#a78bfa" stroke-width="1"/>
+        <!-- Stomodeum (future mouth) — archenteron meets ectoderm -->
+        <circle cx="170" cy="68" r="10" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="2" stroke-dasharray="4,3"/>
+        <!-- Embryo outer ring (ectoderm) -->
+        <path d="M221,327 A138,138 0 1,1 119,327" fill="none" stroke="#64ffda" stroke-width="3"/>
+        <circle cx="170" cy="200" r="124" fill="none" stroke="rgba(100,255,218,0.12)" stroke-width="1"/>
+        <!-- Blastopore = ANUS -->
+        <circle cx="119" cy="327" r="6" fill="#ff6ec7"/>
+        <circle cx="221" cy="327" r="6" fill="#ff6ec7"/>
+        <path d="M107,337 L119,327 L221,327 L233,337" fill="none" stroke="#ff6ec7" stroke-width="2.5"/>
+        <text x="170" y="352" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" fill="#ff6ec7" font-weight="700">BLASTOPORE = ANUS</text>
+        <text x="170" y="366" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.55)">deuterostome hallmark</text>
+        <!-- Stomodeum label -->
+        <text x="170" y="50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#64ffda" font-weight="700">stomodeum (future mouth)</text>
+        <text x="170" y="38" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.45)">archenteron contacts ectoderm</text>
+        <!-- Germ layer callouts (left side) -->
+        <line x1="133" y1="130" x2="44" y2="118" stroke="rgba(100,255,218,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="6"  y="112" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#64ffda" font-weight="700">ECTODERM</text>
+        <text x="6"  y="125" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.45)">outer cell layer</text>
+        <line x1="96" y1="204" x2="40" y2="195" stroke="rgba(167,139,250,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="6"  y="183" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#a78bfa" font-weight="700">MESODERM</text>
+        <text x="6"  y="196" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.45)">cells in blastocoel</text>
+        <line x1="120" y1="278" x2="42" y2="268" stroke="rgba(255,110,199,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="6"  y="256" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#ff6ec7" font-weight="700">ENDODERM</text>
+        <text x="6"  y="269" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.45)">archenteron wall</text>
+        <!-- Archenteron lumen label -->
+        <text x="170" y="232" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,160,255,0.4)">archenteron</text>
+        <text x="170" y="244" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,160,255,0.3)">lumen (future gut)</text>
+      </svg>
+      <div>
+        <div class="gast-title">⑤ Full Gastrula — three layers</div>
+        <div class="gast-desc">Gastrulation is complete. The archenteron spans the entire embryo. Where its tip contacts the animal pole ectoderm, a <strong style="color:#64ffda">stomodeum</strong> will break through to form the mouth. Three germ layers are fully established.</div>
+        <div class="gast-term tc"><strong>Ectoderm</strong> (teal, outer) → nervous system, skin, sensory organs</div>
+        <div class="gast-term tv"><strong>Mesoderm</strong> (violet, scattered cells) → muscle, coelom lining, circulatory system, skeleton (PMC-derived)</div>
+        <div class="gast-term tr"><strong>Endoderm</strong> (rose, archenteron wall) → gut epithelium, digestive glands</div>
+        <div class="gast-term tc"><strong>Stomodeum</strong> — ectoderm contacts archenteron tip; breaks through → mouth opens</div>
+        <div class="gast-term tr" style="margin-top:.5rem;border-left-width:4px;"><strong>Deuterostome rule: blastopore → ANUS.</strong> In protostomes (annelids, molluscs, arthropods) the blastopore becomes the MOUTH. This protostome/deuterostome split is one of the deepest divisions in bilaterian animal evolution.</div>
+      </div>
+    </div>
+
+    <script>
+    (function(){
+      var btns   = document.querySelectorAll('#gastrul-wrap .gast-btn');
+      var stages = document.querySelectorAll('#gastrul-wrap .gast-stage');
+      btns.forEach(function(btn,i){
+        btn.addEventListener('click',function(){
+          btns.forEach(function(b,j){   b.classList.toggle('active', j===i); });
+          stages.forEach(function(s,j){ s.classList.toggle('active', j===i); });
+        });
+      });
+    })();
+    </script>
+
+    <!-- old static SVG content removed -->
+      <REMOVE_TO_HERE/>
       <!-- Inner hollow blastocoel -->
       <circle cx="110" cy="165" r="57" fill="rgba(8,11,26,0.65)" stroke="rgba(100,255,218,0.2)" stroke-width="1.2"/>
       <!-- Cell divisions on outer ring -->

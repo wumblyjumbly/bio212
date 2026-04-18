@@ -290,79 +290,364 @@
   <h3>The Three Major Body Axes</h3>
   <p>Before any organ can form, the embryo must establish a coordinate system. Three perpendicular axes provide positional information for every cell. Gradients of signalling molecules (morphogens) encode this information.</p>
 
-  <div class="figure reveal">
-    <div class="fig-label">Fig 1.1 · Three Body Axes</div>
-    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="ap-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#64ffda" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#64ffda" stop-opacity="0.15"/>
-        </linearGradient>
-        <marker id="arr-teal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,1 L0,7 L7,4 z" fill="#64ffda"/>
-        </marker>
-        <marker id="arr-violet" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,1 L0,7 L7,4 z" fill="#a78bfa"/>
-        </marker>
-        <marker id="arr-gold" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,1 L0,7 L7,4 z" fill="#ffd166"/>
-        </marker>
-      </defs>
-      <!-- Embryo silhouette (stylised frog/generic) -->
-      <ellipse cx="380" cy="155" rx="200" ry="105" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)" stroke-width="1.5"/>
-      <!-- Head blob -->
-      <ellipse cx="190" cy="140" rx="55" ry="60" fill="rgba(100,255,218,0.05)" stroke="rgba(100,255,218,0.15)" stroke-width="1"/>
-      <!-- Tail -->
-      <path d="M560,155 Q620,155 640,140" stroke="rgba(167,139,250,0.15)" stroke-width="2" fill="none"/>
+  <style>
+    .ax-btn {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--fg-2);
+      font-family: var(--mono);
+      font-size: .75rem;
+      padding: .45rem 1.1rem;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+      letter-spacing: .04em;
+    }
+    .ax-btn:hover { border-color: rgba(100,255,218,0.4); color: var(--fg); }
+    .ax-btn.active[data-axis="all"]  { background: rgba(255,255,255,0.07); border-color: var(--fg-2); color: var(--fg); }
+    .ax-btn.active[data-axis="ap"]   { background: rgba(100,255,218,0.1);  border-color: var(--teal);   color: var(--teal); }
+    .ax-btn.active[data-axis="dv"]   { background: rgba(167,139,250,0.1);  border-color: var(--violet); color: var(--violet); }
+    .ax-btn.active[data-axis="lr"]   { background: rgba(255,209,102,0.1);  border-color: var(--gold);   color: var(--gold); }
+    .ax-element { transition: opacity .3s ease; }
+    #axes-diagram[data-active="ap"] .ax-element[data-axis="dv"],
+    #axes-diagram[data-active="ap"] .ax-element[data-axis="lr"] { opacity: 0.1; }
+    #axes-diagram[data-active="dv"] .ax-element[data-axis="ap"],
+    #axes-diagram[data-active="dv"] .ax-element[data-axis="lr"] { opacity: 0.1; }
+    #axes-diagram[data-active="lr"] .ax-element[data-axis="ap"],
+    #axes-diagram[data-active="lr"] .ax-element[data-axis="dv"] { opacity: 0.1; }
+    .ax-panels { display: grid; grid-template-columns: 3fr 2fr; gap: 1.25rem; align-items: center; }
+    .ax-panel-label { font-family: var(--mono); font-size: .68rem; color: var(--fg-2); letter-spacing: .08em; text-transform: uppercase; text-align: center; margin-bottom: .5rem; }
+    @media (max-width: 600px) { .ax-panels { grid-template-columns: 1fr; } }
+  </style>
 
-      <!-- A-P axis -->
-      <line x1="110" y1="155" x2="660" y2="155" stroke="#64ffda" stroke-width="2.5" stroke-dasharray="10,5" opacity="0.8" marker-end="url(#arr-teal)"/>
-      <circle cx="120" cy="155" r="9" fill="#64ffda" opacity="0.9"/>
-      <text x="118" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#64ffda" font-weight="600">ANTERIOR</text>
-      <text x="640" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(100,255,218,0.5)">POSTERIOR</text>
+  <div id="axes-diagram" data-active="all" class="figure reveal">
+    <div class="fig-label">Fig 1.1 · Three Body Axes — interactive</div>
 
-      <!-- D-V axis -->
-      <line x1="380" y1="28" x2="380" y2="270" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="10,5" opacity="0.8" marker-end="url(#arr-violet)"/>
-      <circle cx="380" cy="38" r="9" fill="#a78bfa" opacity="0.9"/>
-      <text x="420" y="38" font-family="JetBrains Mono,monospace" font-size="11" fill="#a78bfa" font-weight="600">DORSAL</text>
-      <text x="420" y="272" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(167,139,250,0.5)">VENTRAL</text>
+    <!-- Axis selector buttons -->
+    <div style="display:flex;gap:.6rem;justify-content:center;margin:.9rem 0 1.2rem;flex-wrap:wrap;">
+      <button class="ax-btn active" data-axis="all">All Axes</button>
+      <button class="ax-btn" data-axis="ap">Anterior-Posterior</button>
+      <button class="ax-btn" data-axis="dv">Dorsal-Ventral</button>
+      <button class="ax-btn" data-axis="lr">Left-Right</button>
+    </div>
 
-      <!-- L-R axis -->
-      <circle cx="380" cy="155" r="18" fill="rgba(255,209,102,0.08)" stroke="#ffd166" stroke-width="1.5" opacity="0.7"/>
-      <circle cx="380" cy="155" r="5" fill="#ffd166" opacity="0.8"/>
-      <path d="M310,155 L350,155" stroke="#ffd166" stroke-width="1.5" opacity="0.6" marker-end="url(#arr-gold)"/>
-      <path d="M450,155 L410,155" stroke="#ffd166" stroke-width="1.5" opacity="0.6" marker-end="url(#arr-gold)"/>
-      <text x="290" y="144" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166" opacity="0.7">LEFT</text>
-      <text x="470" y="144" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166" opacity="0.7">RIGHT</text>
-      <text x="380" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.6)">← L–R Axis →</text>
+    <!-- Two-panel SVG diagram -->
+    <div class="ax-panels" style="align-items:start;">
 
-      <!-- Gradient labels -->
-      <text x="140" y="180" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(100,255,218,0.65)" font-style="italic">Bicoid gradient →</text>
-      <text x="480" y="180" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,110,199,0.65)" font-style="italic">← Nanos gradient</text>
+      <!-- Panel 1: Upright human front view -->
+      <div>
+        <div class="ax-panel-label">Anterior (Front) View · Upright Human</div>
+        <svg viewBox="0 0 480 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <defs>
+            <marker id="ax-ap-fwd" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,1 L0,7 L7,4 z" fill="#64ffda"/></marker>
+            <marker id="ax-ap-bwd" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M7,1 L7,7 L0,4 z" fill="#64ffda" opacity="0.5"/></marker>
+            <marker id="ax-dv-fwd" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,1 L0,7 L7,4 z" fill="#a78bfa"/></marker>
+            <marker id="ax-dv-bwd" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M7,1 L7,7 L0,4 z" fill="#a78bfa" opacity="0.5"/></marker>
+            <marker id="ax-lr-r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,1 L0,7 L7,4 z" fill="#ffd166"/></marker>
+            <marker id="ax-lr-l" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M7,1 L7,7 L0,4 z" fill="#ffd166" opacity="0.5"/></marker>
+          </defs>
 
-      <!-- Legend -->
-      <rect x="540" y="10" width="205" height="80" rx="8" fill="rgba(8,11,26,0.7)" stroke="var(--line)" stroke-width="1"/>
-      <circle cx="557" cy="28" r="4" fill="#64ffda"/><text x="568" y="32" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda">Anterior-Posterior axis</text>
-      <circle cx="557" cy="50" r="4" fill="#a78bfa"/><text x="568" y="54" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa">Dorsal-Ventral axis</text>
-      <circle cx="557" cy="72" r="4" fill="#ffd166"/><text x="568" y="76" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">Left-Right axis</text>
-    </svg>
-    <div class="fig-caption">Three orthogonal body axes established by morphogen gradients before organogenesis begins</div>
+          <!-- ══ HUMAN FIGURE (upright, anterior/front view) ══ -->
+
+          <!-- Head -->
+          <ellipse cx="234" cy="68" rx="34" ry="42"
+            fill="rgba(100,255,218,0.07)" stroke="rgba(100,255,218,0.28)" stroke-width="1.8"/>
+          <!-- Brain outline inside head -->
+          <ellipse cx="234" cy="62" rx="22" ry="28"
+            fill="rgba(100,255,218,0.1)" stroke="rgba(100,255,218,0.22)" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="234" y="65" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.5)">brain</text>
+          <!-- Eyes -->
+          <circle cx="222" cy="72" r="5" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.45)" stroke-width="1.2"/>
+          <circle cx="246" cy="72" r="5" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.45)" stroke-width="1.2"/>
+
+          <!-- Neck -->
+          <path d="M222,108 L222,128 L246,128 L246,108 Z" rx="4"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.4"/>
+
+          <!-- Torso / Trunk -->
+          <path d="M186,128 C172,136 168,176 170,216 C172,250 184,264 206,268 L262,268 C284,264 296,250 298,216 C300,176 296,136 282,128 Z"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.28)" stroke-width="1.8"/>
+
+          <!-- Spine (dashed vertical centre-line) -->
+          <line x1="234" y1="128" x2="234" y2="268"
+            stroke="rgba(167,139,250,0.2)" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+          <!-- Ribcage outline (subtle, upper torso) -->
+          <path d="M186,136 Q196,156 196,180 L272,180 Q272,156 282,136"
+            fill="none" stroke="rgba(167,139,250,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+
+          <!-- Heart (left chest) -->
+          <ellipse cx="212" cy="170" rx="14" ry="15"
+            fill="rgba(255,110,199,0.18)" stroke="rgba(255,110,199,0.5)" stroke-width="1.3"/>
+          <text x="197" y="192" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.6)">heart</text>
+
+          <!-- Lung hints (bilateral, upper torso) -->
+          <path d="M195,146 Q188,162 190,178 Q197,182 204,174 Q206,158 202,142Z"
+            fill="rgba(125,211,252,0.1)" stroke="rgba(125,211,252,0.22)" stroke-width="1"/>
+          <path d="M255,142 Q262,158 260,174 Q266,182 274,178 Q276,162 270,146Z"
+            fill="rgba(125,211,252,0.1)" stroke="rgba(125,211,252,0.22)" stroke-width="1"/>
+
+          <!-- Gut (intestine curves, lower abdomen) -->
+          <path d="M210,226 Q228,218 248,226 Q264,234 248,242 Q228,250 210,242"
+            fill="none" stroke="rgba(255,209,102,0.38)" stroke-width="1.6"/>
+          <path d="M206,256 Q228,264 256,256"
+            fill="none" stroke="rgba(255,209,102,0.25)" stroke-width="1.3"/>
+          <text x="234" y="276" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.5)">gut</text>
+
+          <!-- Left arm (upper) -->
+          <rect x="158" y="130" width="30" height="86" rx="13"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.22)" stroke-width="1.5"/>
+          <!-- Left arm (forearm) -->
+          <rect x="154" y="214" width="26" height="68" rx="11"
+            fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.17)" stroke-width="1.3"/>
+          <!-- Left hand -->
+          <ellipse cx="167" cy="289" rx="14" ry="9"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.2"/>
+
+          <!-- Right arm (upper) -->
+          <rect x="280" y="130" width="30" height="86" rx="13"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.22)" stroke-width="1.5"/>
+          <!-- Right arm (forearm) -->
+          <rect x="288" y="214" width="26" height="68" rx="11"
+            fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.17)" stroke-width="1.3"/>
+          <!-- Right hand -->
+          <ellipse cx="301" cy="289" rx="14" ry="9"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.2"/>
+
+          <!-- Hips / pelvis -->
+          <path d="M182,266 C176,272 178,282 190,286 L278,286 C290,282 292,272 286,266 Z"
+            fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.2)" stroke-width="1.3"/>
+
+          <!-- Left thigh -->
+          <rect x="190" y="284" width="42" height="80" rx="13"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.22)" stroke-width="1.5"/>
+          <!-- Left shin -->
+          <rect x="194" y="362" width="34" height="68" rx="11"
+            fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.17)" stroke-width="1.3"/>
+          <!-- Left foot -->
+          <ellipse cx="209" cy="434" rx="22" ry="9"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.2"/>
+
+          <!-- Right thigh -->
+          <rect x="236" y="284" width="42" height="80" rx="13"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.22)" stroke-width="1.5"/>
+          <!-- Right shin -->
+          <rect x="240" y="362" width="34" height="68" rx="11"
+            fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.17)" stroke-width="1.3"/>
+          <!-- Right foot -->
+          <ellipse cx="259" cy="434" rx="22" ry="9"
+            fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.2"/>
+
+          <!-- ══ AXIS 1: Anterior-Posterior (teal, VERTICAL — head to tail) ══ -->
+          <g class="ax-element" data-axis="ap">
+            <!-- Vertical double arrow — left of figure -->
+            <line x1="110" y1="30" x2="110" y2="454"
+              stroke="#64ffda" stroke-width="2.5" opacity="0.9"
+              marker-end="url(#ax-ap-fwd)" marker-start="url(#ax-ap-bwd)"/>
+            <!-- HEAD / ANTERIOR label -->
+            <rect x="70" y="14" width="76" height="19" rx="4"
+              fill="rgba(100,255,218,0.12)" stroke="rgba(100,255,218,0.38)" stroke-width="1"/>
+            <text x="108" y="27" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda" font-weight="700">ANTERIOR</text>
+            <!-- TAIL / POSTERIOR label -->
+            <rect x="70" y="454" width="76" height="19" rx="4"
+              fill="rgba(100,255,218,0.05)" stroke="rgba(100,255,218,0.2)" stroke-width="1"/>
+            <text x="108" y="467" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.55)">POSTERIOR</text>
+            <!-- Rotated axis name -->
+            <text x="84" y="242" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="9.5" fill="rgba(100,255,218,0.45)" font-style="italic" transform="rotate(-90,84,242)">Anterior–Posterior (head → tail)</text>
+            <!-- Bicoid / Nanos gradient hints -->
+            <text x="136" y="80" font-family="Fraunces,Georgia,serif" font-size="9" fill="rgba(100,255,218,0.45)" font-style="italic">Bicoid ▼</text>
+            <text x="136" y="426" font-family="Fraunces,Georgia,serif" font-size="9" fill="rgba(255,110,199,0.45)" font-style="italic">▲ Nanos</text>
+          </g>
+
+          <!-- ══ AXIS 2: Dorsal-Ventral (violet — back to belly, depth axis) ══ -->
+          <g class="ax-element" data-axis="dv">
+            <!-- Annotation block to the right of figure -->
+            <!-- "DORSAL" side (back = going into page from front view) -->
+            <text x="332" y="160" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700">DORSAL</text>
+            <text x="332" y="172" font-family="Fraunces,Georgia,serif" font-size="8" fill="rgba(167,139,250,0.55)" font-style="italic">back · spine</text>
+            <!-- X-in-circle = axis going INTO page (toward dorsal/back) -->
+            <circle cx="360" cy="196" r="14" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.8"/>
+            <line x1="350" y1="186" x2="370" y2="206" stroke="#a78bfa" stroke-width="1.8"/>
+            <line x1="370" y1="186" x2="350" y2="206" stroke="#a78bfa" stroke-width="1.8"/>
+            <!-- Horizontal depth arrow: right (dorsal/back, into page) ← arrow → left (ventral/front, out of page) -->
+            <line x1="314" y1="208" x2="344" y2="208"
+              stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ax-dv-fwd)"/>
+            <!-- Dot-in-circle = axis coming OUT of page (toward ventral/front) -->
+            <circle cx="382" cy="222" r="14" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.55)" stroke-width="1.8"/>
+            <circle cx="382" cy="222" r="5" fill="#a78bfa" opacity="0.8"/>
+            <!-- Label arrow connecting body surface to ventral symbol -->
+            <line x1="300" y1="208" x2="312" y2="208"
+              stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="3,2"/>
+            <!-- "VENTRAL" side (belly = facing viewer) -->
+            <text x="332" y="246" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.7)" font-weight="700">VENTRAL</text>
+            <text x="332" y="258" font-family="Fraunces,Georgia,serif" font-size="8" fill="rgba(167,139,250,0.5)" font-style="italic">belly · gut</text>
+            <text x="332" y="272" font-family="Fraunces,Georgia,serif" font-size="7.5" fill="rgba(167,139,250,0.38)" font-style="italic">(see cross-section →)</text>
+            <!-- Connecting line from torso to annotation -->
+            <line x1="300" y1="196" x2="330" y2="196"
+              stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="2,3"/>
+            <!-- BMP gradient note on figure -->
+            <text x="320" y="140" font-family="Fraunces,Georgia,serif" font-size="8.5" fill="rgba(167,139,250,0.45)" font-style="italic">BMP low ↑</text>
+            <text x="316" y="300" font-family="Fraunces,Georgia,serif" font-size="8.5" fill="rgba(167,139,250,0.45)" font-style="italic">BMP high ↓</text>
+          </g>
+
+          <!-- ══ AXIS 3: Left-Right (gold, horizontal) ══ -->
+          <g class="ax-element" data-axis="lr">
+            <!-- Horizontal double arrow at pelvis/hip level -->
+            <line x1="96" y1="294" x2="380" y2="294"
+              stroke="#ffd166" stroke-width="2.5" opacity="0.9"
+              marker-end="url(#ax-lr-r)" marker-start="url(#ax-lr-l)"/>
+            <!-- LEFT label -->
+            <rect x="74" y="283" width="24" height="18" rx="4"
+              fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+            <text x="86" y="296" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffd166" font-weight="700">L</text>
+            <!-- RIGHT label -->
+            <rect x="380" y="283" width="24" height="18" rx="4"
+              fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+            <text x="392" y="296" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffd166" font-weight="700">R</text>
+            <!-- Axis name -->
+            <text x="234" y="318" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="9.5" fill="rgba(255,209,102,0.6)" font-style="italic">Left ←→ Right</text>
+            <!-- Nodal hint -->
+            <text x="234" y="332" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="8.5" fill="rgba(255,209,102,0.4)" font-style="italic">Nodal → heart loops R, stomach tilts L</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Panel 2: Transverse cross-section at trunk level -->
+      <div>
+        <div class="ax-panel-label">Cross-Section · Transverse (mid-torso)</div>
+        <svg viewBox="0 0 260 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;margin:0 auto;display:block;">
+          <defs>
+            <marker id="xs-dv-fwd" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,1 L0,7 L7,4 z" fill="#a78bfa"/></marker>
+            <marker id="xs-dv-bwd" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M7,1 L7,7 L0,4 z" fill="#a78bfa" opacity="0.5"/></marker>
+            <marker id="xs-lr-r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,1 L0,7 L7,4 z" fill="#ffd166"/></marker>
+            <marker id="xs-lr-l" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M7,1 L7,7 L0,4 z" fill="#ffd166" opacity="0.5"/></marker>
+          </defs>
+
+          <!-- Outer body wall (skin + muscle) -->
+          <circle cx="130" cy="148" r="92" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.22)" stroke-width="1.8"/>
+
+          <!-- Vertebral body (dorsal, top) -->
+          <rect x="112" y="66" width="36" height="24" rx="6"
+            fill="rgba(167,139,250,0.2)" stroke="rgba(167,139,250,0.55)" stroke-width="1.4"/>
+          <text x="130" y="82" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">vertebra</text>
+
+          <!-- Spinal cord (dorsal, just posterior to vertebra) -->
+          <circle cx="130" cy="102" r="10"
+            fill="rgba(100,255,218,0.15)" stroke="rgba(100,255,218,0.45)" stroke-width="1.3"/>
+          <text x="155" y="106" font-family="Fraunces,Georgia,serif" font-size="8" fill="rgba(100,255,218,0.6)" font-style="italic">spinal cord</text>
+
+          <!-- Aorta (slightly left of center, central) -->
+          <circle cx="122" cy="136" r="8" fill="rgba(255,110,199,0.2)" stroke="rgba(255,110,199,0.5)" stroke-width="1.2"/>
+          <text x="100" y="134" text-anchor="end" font-family="Fraunces,Georgia,serif" font-size="7.5" fill="rgba(255,110,199,0.55)" font-style="italic">aorta</text>
+
+          <!-- Vena cava (slightly right) -->
+          <circle cx="138" cy="136" r="7" fill="rgba(125,211,252,0.15)" stroke="rgba(125,211,252,0.4)" stroke-width="1.1"/>
+          <text x="150" y="128" font-family="Fraunces,Georgia,serif" font-size="7.5" fill="rgba(125,211,252,0.5)" font-style="italic">IVC</text>
+
+          <!-- Left kidney -->
+          <ellipse cx="78" cy="148" rx="14" ry="18"
+            fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1.2"/>
+          <text x="58" y="152" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="7" fill="rgba(255,209,102,0.55)" font-style="italic">kidney</text>
+
+          <!-- Right kidney -->
+          <ellipse cx="182" cy="148" rx="14" ry="18"
+            fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1.2"/>
+          <text x="202" y="152" font-family="Fraunces,Georgia,serif" font-size="7" fill="rgba(255,209,102,0.55)" font-style="italic">kidney</text>
+
+          <!-- Gut (intestine, ventral) -->
+          <ellipse cx="130" cy="204" rx="18" ry="12"
+            fill="rgba(184,240,137,0.15)" stroke="rgba(184,240,137,0.4)" stroke-width="1.2"/>
+          <text x="152" y="208" font-family="Fraunces,Georgia,serif" font-size="8" fill="rgba(184,240,137,0.6)" font-style="italic">gut</text>
+
+          <!-- D-V axis (violet, vertical) -->
+          <g class="ax-element" data-axis="dv">
+            <line x1="130" y1="22" x2="130" y2="252"
+              stroke="#a78bfa" stroke-width="2.4" opacity="0.9"
+              marker-end="url(#xs-dv-fwd)" marker-start="url(#xs-dv-bwd)"/>
+            <rect x="92" y="4" width="76" height="18" rx="4"
+              fill="rgba(167,139,250,0.12)" stroke="rgba(167,139,250,0.38)" stroke-width="1"/>
+            <text x="130" y="17" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#a78bfa" font-weight="700">DORSAL</text>
+            <rect x="92" y="252" width="76" height="18" rx="4"
+              fill="rgba(167,139,250,0.05)" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+            <text x="130" y="265" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(167,139,250,0.55)">VENTRAL</text>
+          </g>
+
+          <!-- L-R axis (gold, horizontal) -->
+          <g class="ax-element" data-axis="lr">
+            <line x1="14" y1="148" x2="232" y2="148"
+              stroke="#ffd166" stroke-width="2.4" opacity="0.9"
+              marker-end="url(#xs-lr-r)" marker-start="url(#xs-lr-l)"/>
+            <rect x="0" y="137" width="18" height="18" rx="4"
+              fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+            <text x="9" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffd166" font-weight="700">L</text>
+            <rect x="236" y="137" width="18" height="18" rx="4"
+              fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+            <text x="245" y="150" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffd166" font-weight="700">R</text>
+          </g>
+
+          <!-- A-P axis (teal, into page — viewing from ANTERIOR side) -->
+          <g class="ax-element" data-axis="ap">
+            <!-- X-in-circle: axis going into the page (away from viewer) -->
+            <circle cx="130" cy="148" r="15"
+              fill="rgba(100,255,218,0.06)" stroke="#64ffda" stroke-width="1.8" opacity="0.8"/>
+            <line x1="120" y1="138" x2="140" y2="158" stroke="#64ffda" stroke-width="1.8" opacity="0.8"/>
+            <line x1="140" y1="138" x2="120" y2="158" stroke="#64ffda" stroke-width="1.8" opacity="0.8"/>
+            <text x="130" y="180" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.65)">A-P into page</text>
+            <text x="130" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.4)">(viewing from front)</text>
+          </g>
+
+          <!-- Viewer direction note -->
+          <text x="130" y="282" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.2)">cut at mid-torso · viewing from below</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Info panel -->
+    <div style="margin-top:1.25rem;">
+      <div class="ax-info" data-axis="all">
+        <p style="text-align:center;font-size:var(--text-sm);color:var(--fg-2);margin:.25rem 0 0;">Select an axis button above to highlight it and learn how it's established.</p>
+      </div>
+      <div class="ax-info" data-axis="ap" style="display:none;">
+        <div class="card" style="border-color:rgba(100,255,218,0.35);margin:0;">
+          <h4 style="color:var(--teal);margin:0 0 .5rem;">Anterior-Posterior — Head ↔ Tail</h4>
+          <p style="font-size:var(--text-sm);margin:0;">Runs from <strong>head (anterior)</strong> to <strong>tail (posterior)</strong> — in an upright human, this is the top-to-bottom axis. In <em>Drosophila</em>, <strong>Bicoid</strong> protein diffuses from the anterior pole creating a gradient that activates head and thorax genes. <strong>Nanos</strong> anchored at the posterior represses hunchback translation posteriorly. The two opposing gradients give every nucleus a unique positional identity along this axis.</p>
+        </div>
+      </div>
+      <div class="ax-info" data-axis="dv" style="display:none;">
+        <div class="card" style="border-color:rgba(167,139,250,0.35);margin:0;">
+          <h4 style="color:var(--violet);margin:0 0 .5rem;">Dorsal-Ventral — Back ↔ Belly</h4>
+          <p style="font-size:var(--text-sm);margin:0;"><strong>Dorsal</strong> = back (spine, neural tube). <strong>Ventral</strong> = belly (gut, heart). In vertebrates, <strong>BMP</strong> (Bone Morphogenetic Protein) promotes ventral identity. The Spemann organizer secretes BMP inhibitors — <strong>Chordin, Noggin, Follistatin</strong> — on the dorsal side, creating an opposing gradient. Low BMP → dorsal neural tube and brain; high BMP → ventral skin and gut. In a front-view human, this axis runs front-to-back (into the page).</p>
+        </div>
+      </div>
+      <div class="ax-info" data-axis="lr" style="display:none;">
+        <div class="card" style="border-color:rgba(255,209,102,0.35);margin:0;">
+          <h4 style="color:var(--gold);margin:0 0 .5rem;">Left-Right Axis</h4>
+          <p style="font-size:var(--text-sm);margin:0;">Established by <strong>motile cilia</strong> at the embryonic node generating a leftward fluid current. This asymmetric flow activates <strong>Nodal</strong> signalling on the left side only, which activates <strong>Pitx2</strong> on the left. These signals direct organ laterality: the heart loops rightward, stomach tilts left, and the liver is right-dominant. Disruption causes <em>situs inversus</em> — mirror-image organ placement.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fig-caption">Three orthogonal axes in an upright human. A-P = head to tail (vertical). D-V = back to belly (front-to-back depth in this view). L-R = left to right. Click an axis to explore how each is established by morphogen gradients.</div>
   </div>
 
-  <div class="grid g3 reveal">
-    <div class="card">
-      <h4 style="color:var(--teal)">Anterior-Posterior</h4>
-      <p style="font-size:var(--text-sm);">Head-to-tail axis. In Drosophila, established by <strong>Bicoid</strong> (anterior) and <strong>Nanos</strong> (posterior) protein gradients from maternal mRNAs.</p>
-    </div>
-    <div class="card">
-      <h4 style="color:var(--violet)">Dorsal-Ventral</h4>
-      <p style="font-size:var(--text-sm);">Back-to-belly axis. In vertebrates, established by BMP gradients (high BMP → ventral identity; BMP inhibitors like Chordin → dorsal).</p>
-    </div>
-    <div class="card">
-      <h4 style="color:var(--gold)">Left-Right</h4>
-      <p style="font-size:var(--text-sm);">Established by directional fluid flow from motile cilia at the node, activating Nodal signalling asymmetrically. Defines heart and gut asymmetry.</p>
-    </div>
-  </div>
+  <script>
+  (function () {
+    var diag = document.getElementById('axes-diagram');
+    if (!diag) return;
+    diag.querySelectorAll('.ax-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var axis = btn.dataset.axis;
+        diag.dataset.active = axis;
+        diag.querySelectorAll('.ax-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.axis === axis);
+        });
+        diag.querySelectorAll('.ax-info').forEach(function (panel) {
+          panel.style.display = panel.dataset.axis === axis ? 'block' : 'none';
+        });
+      });
+    });
+  })();
+  </script>
 </section>
 
 <!-- 1c: Definitions + Central Dogma -->
@@ -613,58 +898,513 @@
 <!-- 3a: Drosophila Regulatory Cascade -->
 <section class="reveal">
   <h3>The Drosophila Regulatory Cascade</h3>
-  <p>The Drosophila embryo uses a four-tier gene regulatory cascade to transform the crude Bicoid/Nanos gradients into a precise, 14-segment body plan. Each tier subdivides the embryo at higher resolution:</p>
+  <p>Six tiers of gene activity transform crude maternal gradients into a precise 14-segment fly body. Each tier reads the previous tier's output at higher spatial resolution. Click each tier to see its expression pattern:</p>
 
-  <div class="figure reveal">
-    <div class="fig-label">Fig 1.4 · Drosophila Gene Regulatory Cascade</div>
-    <svg viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="arr-cascade" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0,0 L0,8 L8,4 z" fill="rgba(100,255,218,0.6)"/>
-        </marker>
-      </defs>
-      <!-- Tier 1: Maternal -->
-      <rect x="20" y="15" width="740" height="66" rx="10" fill="rgba(100,255,218,0.06)" stroke="rgba(100,255,218,0.3)" stroke-width="1.5"/>
-      <text x="40" y="36" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)" letter-spacing="2">TIER 1 · MATERNAL GENES</text>
-      <text x="390" y="58" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="17" fill="#64ffda">Bicoid · Nanos · Dorsal · Cactus · Toll</text>
-      <text x="390" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.4)">Broad gradients across entire embryo · Establish coarse A-P and D-V polarity</text>
-      <!-- Arrow -->
-      <line x1="390" y1="83" x2="390" y2="110" stroke="rgba(100,255,218,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
-      <text x="415" y="102" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.4)">activates</text>
+  <style>
+    #cascade-wrap { background: var(--glass); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
+    .tier-btns { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .tier-btn {
+      font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; padding: .38rem .9rem;
+      border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--glass);
+      color: var(--fg-2); cursor: pointer; transition: background .2s, border-color .2s, color .2s;
+    }
+    .tier-btn[data-t="0"].active { background: rgba(100,255,218,.13); border-color: rgba(100,255,218,.55); color: #64ffda; }
+    .tier-btn[data-t="1"].active { background: rgba(167,139,250,.13); border-color: rgba(167,139,250,.55); color: #a78bfa; }
+    .tier-btn[data-t="2"].active { background: rgba(255,110,199,.13); border-color: rgba(255,110,199,.55); color: #ff6ec7; }
+    .tier-btn[data-t="3"].active { background: rgba(255,209,102,.13); border-color: rgba(255,209,102,.55); color: #ffd166; }
+    .tier-btn[data-t="4"].active { background: rgba(125,211,252,.13); border-color: rgba(125,211,252,.55); color: #7dd3fc; }
+    .tier-btn[data-t="5"].active { background: rgba(184,240,137,.13); border-color: rgba(184,240,137,.55); color: #b8f089; }
+    .casc-emb-wrap { position: relative; }
+    #casc-fig-lbl { font-family: var(--mono); font-size: .72rem; color: var(--fg-3); letter-spacing: .05em; margin-bottom: .4rem; min-height: 1.2em; }
+    .casc-panel { display: none; margin-top: .9rem; }
+    .casc-panel.active { display: block; }
+    .casc-panel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1.25rem; }
+    @media (max-width: 600px) { .casc-panel-inner { grid-template-columns: 1fr; } }
+    .casc-genes { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .55rem; }
+    .gene-chip { font-family: var(--mono); font-size: .72rem; padding: .22rem .7rem; border-radius: 999px; border: 1px solid; }
+    .casc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .55rem; }
+    .casc-meta-item { background: var(--bg-2); border-radius: var(--radius-sm); padding: .45rem .65rem; }
+    .casc-meta-label { font-family: var(--mono); font-size: .62rem; color: var(--fg-3); letter-spacing: .06em; margin-bottom: .2rem; }
+    .casc-meta-val { font-size: .8rem; color: var(--fg); line-height: 1.5; }
+  </style>
 
-      <!-- Tier 2: Gap -->
-      <rect x="50" y="114" width="680" height="66" rx="10" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
-      <text x="70" y="135" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)" letter-spacing="2">TIER 2 · GAP GENES</text>
-      <text x="390" y="157" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="16" fill="#a78bfa">hunchback · Krüppel · knirps · giant · tailless</text>
-      <text x="390" y="173" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.4)">Large non-overlapping domains · Subdivide embryo into broad regions</text>
-      <!-- Arrow -->
-      <line x1="390" y1="182" x2="390" y2="210" stroke="rgba(167,139,250,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
-      <text x="415" y="202" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.4)">subdivides into segments</text>
+  <div id="cascade-wrap">
+    <div class="tier-btns">
+      <button class="tier-btn" data-t="0">T1 · Maternal Effect</button>
+      <button class="tier-btn" data-t="1">T2 · Gap Genes</button>
+      <button class="tier-btn" data-t="2">T3 · Pair-Rule Genes</button>
+      <button class="tier-btn" data-t="3">T4 · Segment Polarity</button>
+      <button class="tier-btn" data-t="4">T5 · Hox Genes</button>
+      <button class="tier-btn" data-t="5">T6 · Effector Genes</button>
+    </div>
 
-      <!-- Tier 3: Pair-rule -->
-      <rect x="80" y="213" width="620" height="66" rx="10" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
-      <text x="100" y="234" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)" letter-spacing="2">TIER 3 · PAIR-RULE GENES</text>
-      <text x="390" y="256" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="#ff6ec7">even-skipped · hairy · fushi tarazu · runt · paired</text>
-      <text x="390" y="272" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.4)">Striped expression in alternating segments · Define segment boundaries</text>
-      <!-- Arrow -->
-      <line x1="390" y1="281" x2="390" y2="308" stroke="rgba(255,209,102,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
-      <text x="415" y="300" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.4)">defines polarity within each segment</text>
+    <div id="casc-fig-lbl">Fig 1.4A · Tier 1: Maternal Effect — Bicoid &amp; Nanos protein gradients</div>
 
-      <!-- Tier 4: Segment polarity -->
-      <rect x="110" y="311" width="560" height="50" rx="10" fill="rgba(255,209,102,0.06)" stroke="rgba(255,209,102,0.2)" stroke-width="1.5"/>
-      <text x="390" y="332" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="14" fill="#ffd166">engrailed · wingless · hedgehog · patched</text>
-      <text x="110" y="352" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.5)" letter-spacing="2">TIER 4 · SEGMENT POLARITY → then HOX GENES assign identity to each segment</text>
-      <!-- Final Arrow -->
-      <line x1="390" y1="363" x2="390" y2="390" stroke="rgba(184,240,137,0.45)" stroke-width="2.5" marker-end="url(#arr-cascade)"/>
-      <text x="390" y="410" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="14" fill="#b8f089">HOX GENES — Antp, Ubx, abdA, AbdB, Scr, Dfd…</text>
-    </svg>
-    <div class="fig-caption">Four-tier cascade: each tier interprets the previous tier's output at higher spatial resolution, from broad gradients to precise segment identities</div>
-  </div>
+    <!-- EMBRYO SVG — all 6 tier layers stacked -->
+    <div class="casc-emb-wrap figure" style="margin:0 0 .25rem;">
+      <svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <defs>
+          <!-- Embryo clip -->
+          <clipPath id="drc-clip">
+            <ellipse cx="318" cy="107" rx="248" ry="80"/>
+          </clipPath>
+          <!-- Bicoid gradient: strong teal → transparent (A→P) -->
+          <linearGradient id="bcd-grad" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%"   stop-color="#64ffda" stop-opacity="0.75"/>
+            <stop offset="55%"  stop-color="#64ffda" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#64ffda" stop-opacity="0.02"/>
+          </linearGradient>
+          <!-- Nanos gradient: strong rose → transparent (P→A) -->
+          <linearGradient id="nan-grad" x1="1" x2="0" y1="0" y2="0">
+            <stop offset="0%"   stop-color="#ff6ec7" stop-opacity="0.72"/>
+            <stop offset="55%"  stop-color="#ff6ec7" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#ff6ec7" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
 
-  <div class="tip">
-    <strong>Exam Insight:</strong> The cascade is hierarchical but combinatorial — gap genes can activate OR repress pair-rule genes depending on their concentration and combination. Multiple inputs are integrated at each promoter to produce precise stripe patterns.
+        <!-- Embryo body fill (dark base) -->
+        <ellipse cx="318" cy="107" rx="248" ry="80" fill="rgba(15,18,30,0.85)" stroke="none"/>
+
+        <!-- ── TIER 0: Maternal gradients ── -->
+        <g id="casc-t0">
+          <rect x="70" y="27" width="496" height="160" fill="url(#bcd-grad)" clip-path="url(#drc-clip)"/>
+          <rect x="70" y="27" width="496" height="160" fill="url(#nan-grad)" clip-path="url(#drc-clip)"/>
+          <!-- Bicoid label arrow -->
+          <line x1="155" y1="60" x2="155" y2="34" stroke="#64ffda" stroke-width="1.2" opacity=".7"/>
+          <text x="158" y="30" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda" opacity=".85">Bicoid (A→P)</text>
+          <!-- Nanos label arrow -->
+          <line x1="490" y1="60" x2="490" y2="34" stroke="#ff6ec7" stroke-width="1.2" opacity=".7"/>
+          <text x="430" y="30" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7" opacity=".85">Nanos (P→A)</text>
+          <!-- Torso/Toll hint -->
+          <text x="318" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.3)">Torso · Toll · Dorsal also active</text>
+        </g>
+
+        <!-- ── TIER 1: Gap genes ── -->
+        <g id="casc-t1" style="display:none;">
+          <!-- tll anterior  x=70–110 lime -->
+          <rect x="70"  y="27" width="40"  height="160" fill="rgba(184,240,137,0.55)" clip-path="url(#drc-clip)"/>
+          <!-- hb            x=110–250 teal -->
+          <rect x="110" y="27" width="140" height="160" fill="rgba(100,255,218,0.45)" clip-path="url(#drc-clip)"/>
+          <!-- Kr            x=250–375 violet -->
+          <rect x="250" y="27" width="125" height="160" fill="rgba(167,139,250,0.52)" clip-path="url(#drc-clip)"/>
+          <!-- kni           x=375–496 gold -->
+          <rect x="375" y="27" width="121" height="160" fill="rgba(255,209,102,0.50)" clip-path="url(#drc-clip)"/>
+          <!-- tll posterior x=496–566 lime -->
+          <rect x="496" y="27" width="70"  height="160" fill="rgba(184,240,137,0.55)" clip-path="url(#drc-clip)"/>
+          <!-- labels -->
+          <text x="90"  y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8"  fill="#b8f089" font-weight="bold">tll</text>
+          <text x="178" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(10,20,30,.9)" font-weight="bold">hb</text>
+          <text x="312" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(10,20,30,.9)" font-weight="bold">Kr</text>
+          <text x="435" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(10,20,30,.9)" font-weight="bold">kni</text>
+          <text x="531" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8"  fill="#b8f089" font-weight="bold">tll</text>
+          <!-- gt overlapping hint -->
+          <text x="318" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,.3)">giant (gt) overlaps hb/kni boundaries</text>
+        </g>
+
+        <!-- ── TIER 2: Pair-rule — 7 eve stripes (violet), 7 ftz stripes (rose) ── -->
+        <g id="casc-t2" style="display:none;">
+          <!-- 14 alternating stripes, 35px each from x=70 -->
+          <!-- eve = violet at positions 0,2,4,6,8,10,12 (even index) -->
+          <!-- ftz = rose at positions 1,3,5,7,9,11,13 (odd index) -->
+          <rect x="70"  y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="105" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="140" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="175" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="210" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="245" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="280" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="315" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="350" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="385" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="420" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="455" y="27" width="35" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="490" y="27" width="35" height="160" fill="rgba(167,139,250,0.60)" clip-path="url(#drc-clip)"/>
+          <rect x="525" y="27" width="41" height="160" fill="rgba(255,110,199,0.60)" clip-path="url(#drc-clip)"/>
+          <!-- legend -->
+          <rect x="95" y="172" width="10" height="10" rx="2" fill="rgba(167,139,250,0.75)"/>
+          <text x="109" y="181" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">eve (7 stripes)</text>
+          <rect x="200" y="172" width="10" height="10" rx="2" fill="rgba(255,110,199,0.75)"/>
+          <text x="214" y="181" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">ftz (7 stripes)</text>
+        </g>
+
+        <!-- ── TIER 3: Segment polarity — en (violet posterior half) + wg (gold anterior half) ── -->
+        <g id="casc-t3" style="display:none;">
+          <!-- Each of 14 segments: anterior 17px = wg/gold, posterior 18px = en/violet -->
+          <rect x="70"  y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="87"  y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="105" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="122" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="140" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="157" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="175" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="192" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="210" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="227" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="245" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="262" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="280" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="297" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="315" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="332" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="350" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="367" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="385" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="402" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="420" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="437" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="455" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="472" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="490" y="27" width="17" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="507" y="27" width="18" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="525" y="27" width="20" height="160" fill="rgba(255,209,102,0.65)" clip-path="url(#drc-clip)"/>
+          <rect x="545" y="27" width="21" height="160" fill="rgba(167,139,250,0.65)" clip-path="url(#drc-clip)"/>
+          <!-- legend -->
+          <rect x="95" y="172" width="10" height="10" rx="2" fill="rgba(255,209,102,0.75)"/>
+          <text x="109" y="181" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">wingless (wg) — anterior</text>
+          <rect x="270" y="172" width="10" height="10" rx="2" fill="rgba(167,139,250,0.75)"/>
+          <text x="284" y="181" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">engrailed (en) — posterior</text>
+        </g>
+
+        <!-- ── TIER 4: Hox genes — segment identity colors ── -->
+        <g id="casc-t4" style="display:none;">
+          <!-- Acron/tel: grey x=70-105 -->
+          <rect x="70"  y="27" width="35" height="160" fill="rgba(100,100,120,0.50)" clip-path="url(#drc-clip)"/>
+          <!-- lab (rose) x=105-140 -->
+          <rect x="105" y="27" width="35" height="160" fill="rgba(255,110,199,0.62)" clip-path="url(#drc-clip)"/>
+          <!-- pb (pink) x=140-175 -->
+          <rect x="140" y="27" width="35" height="160" fill="rgba(244,114,182,0.55)" clip-path="url(#drc-clip)"/>
+          <!-- Dfd (rose-violet) x=175-210 -->
+          <rect x="175" y="27" width="35" height="160" fill="rgba(192,90,220,0.55)" clip-path="url(#drc-clip)"/>
+          <!-- Scr (lime) x=210-245 -->
+          <rect x="210" y="27" width="35" height="160" fill="rgba(184,240,137,0.58)" clip-path="url(#drc-clip)"/>
+          <!-- Antp T2 (teal) x=245-280 -->
+          <rect x="245" y="27" width="35" height="160" fill="rgba(100,255,218,0.58)" clip-path="url(#drc-clip)"/>
+          <!-- Antp/Ubx T3 (teal-sky) x=280-315 -->
+          <rect x="280" y="27" width="35" height="160" fill="rgba(100,220,255,0.55)" clip-path="url(#drc-clip)"/>
+          <!-- Ubx A1 (sky) x=315-350 -->
+          <rect x="315" y="27" width="35" height="160" fill="rgba(125,211,252,0.58)" clip-path="url(#drc-clip)"/>
+          <!-- abd-A A2 (violet) x=350-385 -->
+          <rect x="350" y="27" width="35" height="160" fill="rgba(167,139,250,0.58)" clip-path="url(#drc-clip)"/>
+          <!-- abd-A A3 x=385-420 -->
+          <rect x="385" y="27" width="35" height="160" fill="rgba(167,139,250,0.52)" clip-path="url(#drc-clip)"/>
+          <!-- abd-A A4 x=420-455 -->
+          <rect x="420" y="27" width="35" height="160" fill="rgba(167,139,250,0.46)" clip-path="url(#drc-clip)"/>
+          <!-- abd-A A5 x=455-490 -->
+          <rect x="455" y="27" width="35" height="160" fill="rgba(167,139,250,0.40)" clip-path="url(#drc-clip)"/>
+          <!-- abd-A A6 x=490-525 -->
+          <rect x="490" y="27" width="35" height="160" fill="rgba(167,139,250,0.35)" clip-path="url(#drc-clip)"/>
+          <!-- Abd-B A7/tel (gold) x=525-566 -->
+          <rect x="525" y="27" width="41" height="160" fill="rgba(255,209,102,0.60)" clip-path="url(#drc-clip)"/>
+          <!-- ANT-C bracket -->
+          <line x1="105" y1="22" x2="315" y2="22" stroke="rgba(255,110,199,.5)" stroke-width="1.5"/>
+          <text x="210" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,.7)">ANT-C (lab·pb·Dfd·Scr·Antp)</text>
+          <!-- BX-C bracket -->
+          <line x1="315" y1="22" x2="566" y2="22" stroke="rgba(125,211,252,.5)" stroke-width="1.5"/>
+          <text x="440" y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(125,211,252,.7)">BX-C (Ubx·abd-A·Abd-B)</text>
+          <!-- segment labels (rotated, small) -->
+          <text transform="rotate(-55,122,195)" x="122" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">lab</text>
+          <text transform="rotate(-55,157,195)" x="157" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">pb</text>
+          <text transform="rotate(-55,192,195)" x="192" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Dfd</text>
+          <text transform="rotate(-55,227,195)" x="227" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Scr</text>
+          <text transform="rotate(-55,262,195)" x="262" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Antp</text>
+          <text transform="rotate(-55,297,195)" x="297" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Antp</text>
+          <text transform="rotate(-55,332,195)" x="332" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Ubx</text>
+          <text transform="rotate(-55,367,195)" x="367" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">abd-A</text>
+          <text transform="rotate(-55,402,195)" x="402" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.5)">abd-A</text>
+          <text transform="rotate(-55,437,195)" x="437" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">abd-A</text>
+          <text transform="rotate(-55,507,195)" x="507" y="195" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,.6)">Abd-B</text>
+        </g>
+
+        <!-- ── TIER 5: Effectors — structure labels per segment ── -->
+        <g id="casc-t5" style="display:none;">
+          <!-- Acron: grey -->
+          <rect x="70"  y="27" width="35" height="160" fill="rgba(100,100,120,0.40)" clip-path="url(#drc-clip)"/>
+          <!-- Head segments: rose/pink shades -->
+          <rect x="105" y="27" width="35" height="160" fill="rgba(255,110,199,0.52)" clip-path="url(#drc-clip)"/>
+          <rect x="140" y="27" width="35" height="160" fill="rgba(244,114,182,0.48)" clip-path="url(#drc-clip)"/>
+          <rect x="175" y="27" width="35" height="160" fill="rgba(192,90,220,0.48)" clip-path="url(#drc-clip)"/>
+          <!-- Thorax: lime/teal -->
+          <rect x="210" y="27" width="35" height="160" fill="rgba(184,240,137,0.52)" clip-path="url(#drc-clip)"/>
+          <rect x="245" y="27" width="35" height="160" fill="rgba(100,255,218,0.52)" clip-path="url(#drc-clip)"/>
+          <rect x="280" y="27" width="35" height="160" fill="rgba(100,220,255,0.48)" clip-path="url(#drc-clip)"/>
+          <!-- Abdomen: violet shades + gold -->
+          <rect x="315" y="27" width="35" height="160" fill="rgba(125,211,252,0.48)" clip-path="url(#drc-clip)"/>
+          <rect x="350" y="27" width="175" height="160" fill="rgba(167,139,250,0.42)" clip-path="url(#drc-clip)"/>
+          <rect x="525" y="27" width="41"  height="160" fill="rgba(255,209,102,0.52)" clip-path="url(#drc-clip)"/>
+          <!-- Structure labels -->
+          <text transform="rotate(-60,122,190)" x="122" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">brain</text>
+          <text transform="rotate(-60,157,190)" x="157" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#f472b6">mandibles</text>
+          <text transform="rotate(-60,192,190)" x="192" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#c05adc">maxillae</text>
+          <text transform="rotate(-60,227,190)" x="227" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#b8f089">labium</text>
+          <text transform="rotate(-60,262,190)" x="262" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64ffda">T1 legs</text>
+          <text transform="rotate(-60,297,190)" x="297" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#64dcff">T2 legs+wings</text>
+          <text transform="rotate(-60,332,190)" x="332" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#7dd3fc">T3 legs+halt.</text>
+          <text transform="rotate(-60,367,190)" x="367" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">A1 tergite</text>
+          <text transform="rotate(-60,437,185)" x="437" y="185" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,.7)">A2–A6</text>
+          <text transform="rotate(-60,545,190)" x="545" y="190" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ffd166">A7 repro.</text>
+        </g>
+
+        <!-- Embryo outline (always on top) -->
+        <ellipse cx="318" cy="107" rx="248" ry="80" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+        <!-- Head lobe -->
+        <ellipse cx="78" cy="100" rx="22" ry="28" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Segment divider lines (always visible, subtle) -->
+        <g stroke="rgba(255,255,255,0.08)" stroke-width="0.8" clip-path="url(#drc-clip)">
+          <line x1="105" y1="27" x2="105" y2="187"/><line x1="140" y1="27" x2="140" y2="187"/>
+          <line x1="175" y1="27" x2="175" y2="187"/><line x1="210" y1="27" x2="210" y2="187"/>
+          <line x1="245" y1="27" x2="245" y2="187"/><line x1="280" y1="27" x2="280" y2="187"/>
+          <line x1="315" y1="27" x2="315" y2="187"/><line x1="350" y1="27" x2="350" y2="187"/>
+          <line x1="385" y1="27" x2="385" y2="187"/><line x1="420" y1="27" x2="420" y2="187"/>
+          <line x1="455" y1="27" x2="455" y2="187"/><line x1="490" y1="27" x2="490" y2="187"/>
+          <line x1="525" y1="27" x2="525" y2="187"/>
+        </g>
+        <!-- A-P axis label -->
+        <text x="75"  y="220" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,.35)">◀ ANTERIOR</text>
+        <text x="490" y="220" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,.35)">POSTERIOR ▶</text>
+      </svg>
+    </div>
+
+    <!-- INFO PANELS (one per tier) -->
+    <div class="casc-panel active" data-t="0">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.45);color:#64ffda;">bicoid</span>
+        <span class="gene-chip" style="background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45);color:#ff6ec7;">nanos</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.45);color:#ffd166;">torso</span>
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.45);color:#a78bfa;">dorsal</span>
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.35);color:#a78bfa;">toll · cactus</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;"><strong>Bicoid</strong> mRNA is deposited at the anterior pole by nurse cells — protein diffuses posteriorly, creating a gradient. <strong>Nanos</strong> mRNA is at the posterior; its protein represses <em>hunchback</em> translation in posterior cells. Together they establish coarse A-P polarity.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;"><strong>Dorsal/Toll</strong> pathway sets D-V axis: nuclear Dorsal acts as activator ventrally, repressor dorsally.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Maternally deposited mRNA (nurse cells → oocyte)</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">ACTIVATES NEXT TIER</div>
+            <div class="casc-meta-val">Bicoid protein → activates <em>hb</em> zygotic transcription in anterior half</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">RESOLUTION</div>
+            <div class="casc-meta-val">Whole-embryo gradients — no segments yet</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val">Bicoid is a homeodomain TF — directly binds gap gene promoters</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="casc-panel" data-t="1">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.45);color:#64ffda;">hunchback (hb)</span>
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.45);color:#a78bfa;">Krüppel (Kr)</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.45);color:#ffd166;">knirps (kni)</span>
+        <span class="gene-chip" style="background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45);color:#ff6ec7;">giant (gt)</span>
+        <span class="gene-chip" style="background:rgba(184,240,137,.12);border-color:rgba(184,240,137,.45);color:#b8f089;">tailless (tll)</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;">Gap genes are the first <strong>zygotically expressed</strong> genes. Each is expressed in a broad, largely non-overlapping domain corresponding to future head, thorax, or abdomen regions. Mutations "gap" 2–3 adjacent segments entirely.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;">They interact via <strong>mutual repression</strong>: high Kr represses kni; high hb represses Kr. This cross-repression sharpens domain boundaries.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Bicoid/Nanos gradients + mutual cross-repression among gap genes</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">ACTIVATES NEXT TIER</div>
+            <div class="casc-meta-val">Combinatorial gap inputs → pair-rule stripe enhancers (e.g. <em>eve</em> stripe 2)</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">RESOLUTION</div>
+            <div class="casc-meta-val">~5 broad domains across A-P axis</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val">Each gap gene = unique stripe enhancer responding to specific Bcd/Hb/Kr concentrations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="casc-panel" data-t="2">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.45);color:#a78bfa;">even-skipped (eve)</span>
+        <span class="gene-chip" style="background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45);color:#ff6ec7;">fushi tarazu (ftz)</span>
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.35);color:#64ffda;">hairy (h)</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.35);color:#ffd166;">runt · paired</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;"><strong>Pair-rule genes</strong> are expressed in 7 alternating stripes, each ~2 cells wide. <em>even-skipped</em> and <em>fushi tarazu</em> are "primary" pair-rule genes — each of <em>eve</em>'s 7 stripes has its own enhancer reading a unique combination of gap gene levels.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;">Mutations delete every other segment (even or odd). This doubles spatial resolution: from 5 gap domains to 14 segments.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Combinatorial gap gene inputs; each stripe has a separate enhancer module</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">ACTIVATES NEXT TIER</div>
+            <div class="casc-meta-val">eve/ftz patterns → <em>engrailed</em> and <em>wingless</em> expression at segment boundaries</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">RESOLUTION</div>
+            <div class="casc-meta-val">7 stripe pairs = 14 parasegment primordia</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val"><em>eve</em> stripe 2 is the best-studied cis-regulatory element: 480 bp integrating Bcd+, Hb+, Kr−, Giant−</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="casc-panel" data-t="3">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.45);color:#a78bfa;">engrailed (en)</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.45);color:#ffd166;">wingless (wg)</span>
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.35);color:#64ffda;">hedgehog (hh)</span>
+        <span class="gene-chip" style="background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.35);color:#ff6ec7;">patched (ptc)</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;"><strong>Engrailed (en)</strong> marks the posterior compartment of each segment; <strong>wingless (wg)</strong> marks the anterior. They form a signalling loop: en→Hedgehog secreted → Wg maintained; Wg signal → en maintained. This mutual maintenance locks in <strong>AP polarity within each segment</strong>.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;">Unlike upper tiers, segment polarity gene expression is maintained by cell–cell signalling rather than transcription factor gradients.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Pair-rule genes establish initial en/wg; then Hh-Wg signalling loop maintains them</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">ACTIVATES NEXT TIER</div>
+            <div class="casc-meta-val">Segment polarity defines parasegment boundaries → context for Hox gene readout</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">RESOLUTION</div>
+            <div class="casc-meta-val">28 half-stripes — anterior/posterior polarity within each of 14 segments</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val">Hedgehog + Wg are conserved signalling pathways reused in vertebrate limb development</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="casc-panel" data-t="4">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45);color:#ff6ec7;">labial (lab)</span>
+        <span class="gene-chip" style="background:rgba(244,114,182,.12);border-color:rgba(244,114,182,.45);color:#f472b6;">proboscipedia (pb)</span>
+        <span class="gene-chip" style="background:rgba(192,90,220,.12);border-color:rgba(192,90,220,.45);color:#c05adc;">Deformed (Dfd)</span>
+        <span class="gene-chip" style="background:rgba(184,240,137,.12);border-color:rgba(184,240,137,.45);color:#b8f089;">Sex combs reduced (Scr)</span>
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.45);color:#64ffda;">Antennapedia (Antp)</span>
+        <span class="gene-chip" style="background:rgba(125,211,252,.12);border-color:rgba(125,211,252,.45);color:#7dd3fc;">Ultrabithorax (Ubx)</span>
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.45);color:#a78bfa;">abdominal-A (abd-A)</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.45);color:#ffd166;">Abdominal-B (Abd-B)</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;"><strong>Hox genes</strong> are expressed in nested anterior-limited domains along the A-P axis. Their <strong>chromosomal order</strong> on HOM-C matches their anterior expression boundary — <em>spatial collinearity</em>. Each segment expresses a unique Hox combination; the <strong>posterior prevalence rule</strong> means the most posterior Hox protein dominates.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;">ANT-C (lab–Antp) controls head/thorax; BX-C (Ubx–Abd-B) controls abdomen.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Gap genes + segment polarity context; Polycomb/Trithorax maintain expression</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">ACTIVATES NEXT TIER</div>
+            <div class="casc-meta-val">Hox proteins activate segment-specific effector genes encoding structural proteins + signalling</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">RESOLUTION</div>
+            <div class="casc-meta-val">Unique identity for each of 14 segments</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val">Homeotic mutations: Antennapedia → leg where antenna; Ubx loss → 4-winged fly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="casc-panel" data-t="5">
+      <div class="casc-genes">
+        <span class="gene-chip" style="background:rgba(184,240,137,.12);border-color:rgba(184,240,137,.45);color:#b8f089;">Distalless (Dll) — limbs</span>
+        <span class="gene-chip" style="background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.35);color:#64ffda;">vestigial (vg) — wings</span>
+        <span class="gene-chip" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.35);color:#a78bfa;">eyeless (ey) — eyes</span>
+        <span class="gene-chip" style="background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.35);color:#ffd166;">abdominal targets</span>
+      </div>
+      <div class="casc-panel-inner">
+        <div>
+          <p style="font-size:.85rem;line-height:1.75;margin:0;"><strong>Effector genes</strong> are the final output: activated in specific segments by the Hox code, they encode the structural proteins and signalling molecules that actually <em>build</em> structures — appendages, wings, sensory organs, cuticle patterns.</p>
+          <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;"><strong>Distalless</strong> drives leg and antenna outgrowth (T1–T3). <strong>vestigial</strong> drives wing disc growth (T2). <strong>eyeless</strong> drives eye disc — misexpression causes ectopic eyes on legs, antennae, wings.</p>
+        </div>
+        <div class="casc-meta">
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">REGULATED BY</div>
+            <div class="casc-meta-val">Hox proteins + segment polarity context + other TFs (e.g. Dll activated by Antp; repressed by Ubx)</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">DOWNSTREAM EFFECT</div>
+            <div class="casc-meta-val">Cell proliferation, morphogenesis, differentiation → adult structures</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">CONSERVATION</div>
+            <div class="casc-meta-val">Dll → Dlx in vertebrates (limb); ey → Pax6 in vertebrates (eye) — deep homology</div>
+          </div>
+          <div class="casc-meta-item">
+            <div class="casc-meta-label">KEY CONCEPT</div>
+            <div class="casc-meta-val">Same effector gene, different segment = different structure: Dll in T3 → halter context; T2 → wing context</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#cascade-wrap -->
+
+  <div class="tip" style="margin-top:1rem;">
+    <strong>Exam Insight:</strong> Cascade is hierarchical but combinatorial — gap genes activate OR repress pair-rule genes depending on concentration and combination. Multiple inputs integrate at each promoter. <em>eve</em> stripe 2 is the model cis-regulatory element: a single 480 bp enhancer integrating 4 inputs (Bcd+, Hb+, Kr−, Giant−) to produce one precise stripe.
   </div>
 </section>
+
+<script>
+(function(){
+  var LABELS=[
+    'Fig 1.4A · Tier 1: Maternal Effect — Bicoid &amp; Nanos protein gradients',
+    'Fig 1.4B · Tier 2: Gap Gene products — broad domains (hb, Kr, kni, gt, tll)',
+    'Fig 1.4C · Tier 3: Pair-Rule Gene products — 7 alternating stripe pairs (eve, ftz)',
+    'Fig 1.4D · Tier 4: Segment Polarity products — en/wg pairs within each segment',
+    'Fig 1.4E · Tier 5: Hox Gene expression — segment identity (ANT-C + BX-C)',
+    'Fig 1.4F · Tier 6: Effector Genes — structures built per segment'
+  ];
+  var wrap  = document.getElementById('cascade-wrap');
+  var btns  = wrap.querySelectorAll('.tier-btn');
+  var panels= wrap.querySelectorAll('.casc-panel');
+  var figLbl= document.getElementById('casc-fig-lbl');
+
+  function activate(i){
+    btns.forEach(function(b,j){ b.classList.toggle('active', j===i); });
+    panels.forEach(function(p,j){ p.classList.toggle('active', j===i); });
+    for(var n=0;n<6;n++){
+      var el=document.getElementById('casc-t'+n);
+      if(el) el.style.display = (n===i) ? '' : 'none';
+    }
+    if(figLbl) figLbl.textContent = LABELS[i].replace(/&amp;/g,'&');
+  }
+
+  btns.forEach(function(btn,i){ btn.addEventListener('click',function(){ activate(i); }); });
+  activate(0);
+})();
+</script>
 
 <!-- 3b: Hox Gene Comparison -->
 <section class="reveal">
