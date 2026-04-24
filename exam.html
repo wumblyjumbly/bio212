@@ -131,6 +131,7 @@
       <a href="module-02.html">02 · Animal Dev</a>
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
@@ -177,7 +178,6 @@
   </div>
   <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
     <button class="quiz-btn secondary" id="exam-new">↻ Reshuffle</button>
-    <button class="quiz-btn" id="exam-grade">Grade Exam</button>
   </div>
 </div>
 
@@ -428,8 +428,12 @@
       wrap.addEventListener('click', e => {
         const btn = e.target.closest('.quiz-opt');
         if(!btn || btn.classList.contains('locked')) return;
-        wrap.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+        const card=btn.closest('.quiz-card');
+        wrap.querySelectorAll('.quiz-opt').forEach(b => {b.classList.remove('selected');b.classList.add('locked');if(b.dataset.c==='true')b.classList.add('opt-correct');});
         btn.classList.add('selected');
+        if(btn.dataset.c==='true'){card.classList.add('correct');}else{btn.classList.add('opt-wrong');card.classList.add('wrong');}
+        card.classList.add('revealed');
+        {const rev=document.querySelectorAll('#exam-grid .quiz-card.revealed').length;const tot=document.querySelectorAll('#exam-grid .quiz-card').length;if(rev===tot)gradeExam();}
       });
     });
 
@@ -441,26 +445,28 @@
     const modStats = {1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0},4:{c:0,t:0},5:{c:0,t:0}};
 
     document.querySelectorAll('#exam-grid .quiz-card').forEach((card, i) => {
-      const sel = card.querySelector('.quiz-opt.selected');
       const mod = parseInt(card.dataset.mod);
-      card.querySelectorAll('.quiz-opt').forEach(o => {
-        o.classList.add('locked');
-        if(o.dataset.c === 'true') o.classList.add('opt-correct');
-      });
       total++;
       modStats[mod].t++;
-      if(sel){
-        if(sel.dataset.c === 'true'){
-          correct++; modStats[mod].c++;
-          card.classList.add('correct');
+      if(!card.classList.contains('revealed')){
+        const sel = card.querySelector('.quiz-opt.selected');
+        card.querySelectorAll('.quiz-opt').forEach(o => {
+          o.classList.add('locked');
+          if(o.dataset.c === 'true') o.classList.add('opt-correct');
+        });
+        if(sel){
+          if(sel.dataset.c === 'true'){
+            card.classList.add('correct');
+          } else {
+            sel.classList.add('opt-wrong');
+            card.classList.add('wrong');
+          }
         } else {
-          sel.classList.add('opt-wrong');
           card.classList.add('wrong');
         }
-      } else {
-        card.classList.add('wrong');
+        card.classList.add('revealed');
       }
-      card.classList.add('revealed');
+      if(card.classList.contains('correct')){ correct++; modStats[mod].c++; }
     });
 
     const pct = Math.round((correct/total)*100);
@@ -490,10 +496,10 @@
 
   document.getElementById('exam-count').addEventListener('change', () => {});
   document.getElementById('exam-new').addEventListener('click', buildExam);
-  document.getElementById('exam-grade').addEventListener('click', gradeExam);
   document.getElementById('exam-new-after').addEventListener('click', buildExam);
 
   buildExam();
+  window.addEventListener('pageshow',function(e){if(e.persisted)buildExam();});
 })();
 </script>
 </body>

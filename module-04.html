@@ -374,6 +374,7 @@
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html" class="active">04 · Speciation</a>
       <a href="module-05.html">05 · Protostomes</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
@@ -1741,10 +1742,9 @@
 <section class="quiz-section reveal" id="module-quiz">
   <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--gold),var(--coral));color:#080b1a;padding:0.3rem 1rem;">Module 04 Quiz</span></div>
   <div class="quiz-meta">
-    <p>10 randomly selected questions from a pool of 27 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <p>10 randomly selected questions from a pool of 27 · Select an answer for instant feedback</p>
     <div class="quiz-controls">
       <button class="quiz-btn secondary" id="q-new-qm4">↻ New Questions</button>
-      <button class="quiz-btn" id="q-grade-qm4">Grade Quiz</button>
     </div>
   </div>
   <div class="quiz-score-bar" id="q-score-qm4">
@@ -1806,35 +1806,29 @@
       wrap.addEventListener('click',e=>{
         const btn=e.target.closest('.quiz-opt');
         if(!btn||btn.classList.contains('locked'))return;
-        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        const card=btn.closest('.quiz-card');
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>{b.classList.remove('selected');b.classList.add('locked');if(b.dataset.c==='true')b.classList.add('opt-correct');});
         btn.classList.add('selected');
+        if(btn.dataset.c==='true'){card.classList.add('correct');}else{btn.classList.add('opt-wrong');card.classList.add('wrong');}
+        card.classList.add('revealed');
+        updateScore();
       });
     });
   }
 
-  function grade(){
-    let correct=0;
-    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
-      const sel=card.querySelector('.quiz-opt.selected');
-      card.querySelectorAll('.quiz-opt').forEach(o=>{
-        o.classList.add('locked');
-        if(o.dataset.c==='true')o.classList.add('opt-correct');
-      });
-      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
-      else card.classList.add('wrong');
-      card.classList.add('revealed');
-    });
+  function updateScore(){
+    const correct=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.correct').length;
+    const revealed=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.revealed').length;
     const scr=document.getElementById('q-score-'+QID);
     document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
-    const p=correct/N;
-    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 04.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 04 and try again.';
+    if(revealed<N){document.getElementById('q-smsg-'+QID).textContent=revealed+' of '+N+' answered';}
+    else{const p=correct/N;document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 04.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 04 and try again.';}
     scr.classList.add('visible');
-    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
   document.getElementById('q-new-'+QID).addEventListener('click',render);
-  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
   render();
+  window.addEventListener('pageshow',function(e){if(e.persisted)render();});
 })();
 </script>
 

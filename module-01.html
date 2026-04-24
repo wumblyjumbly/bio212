@@ -27,6 +27,7 @@
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
       <a href="module-05.html">05 · Protostomes</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
@@ -1435,49 +1436,124 @@
 
   <p><strong>Why do vertebrates have 4 clusters?</strong> Two rounds of whole-genome duplication (the "2R hypothesis") early in vertebrate evolution duplicated the single ancestral Hox cluster. Extra copies → <strong>subfunctionalization</strong> (dividing the original gene's roles) and <strong>neofunctionalization</strong> (evolving entirely new roles) → increased body plan complexity.</p>
 
-  <div class="figure reveal">
-    <div class="fig-label">Fig 1.5 · Hox in Tetrapods vs. Snakes</div>
-    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
-      <!-- Left: Tetrapod -->
-      <text x="180" y="22" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="var(--ink)">Tetrapod (e.g. mouse)</text>
-      <!-- Body outline -->
-      <rect x="30" y="50" width="300" height="60" rx="12" fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.2)" stroke-width="1.5"/>
-      <!-- Limb bud boxes -->
-      <rect x="80" y="38" width="60" height="34" rx="8" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.6)" stroke-width="1.5"/>
-      <text x="110" y="59" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Forelimb</text>
-      <rect x="220" y="38" width="60" height="34" rx="8" fill="rgba(100,255,218,0.18)" stroke="rgba(100,255,218,0.6)" stroke-width="1.5"/>
-      <text x="250" y="59" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Hindlimb</text>
-      <!-- Hox domains in tetrapod -->
-      <rect x="60" y="120" width="40" height="22" rx="4" fill="rgba(167,139,250,0.3)" stroke="rgba(167,139,250,0.6)" stroke-width="1"/>
-      <text x="80" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">HoxA</text>
-      <rect x="130" y="120" width="40" height="22" rx="4" fill="rgba(167,139,250,0.3)" stroke="rgba(167,139,250,0.6)" stroke-width="1"/>
-      <text x="150" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">HoxD</text>
-      <text x="180" y="165" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)">HoxA13/D13 specify digits</text>
-      <text x="180" y="180" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.6)">Expressed only in limb buds</text>
+  <div class="figure reveal" id="hox-tet-wrap">
+    <style>
+    #hox-tet-wrap{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;}
+    .hox-2col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.6rem;}
+    .hox-pbox{background:rgba(8,11,26,0.5);border:1px solid var(--line);border-radius:var(--radius-sm);padding:.8rem;}
+    .hox-ptag{font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.32);margin-bottom:.35rem;}
+    .hox-chip{font-family:var(--mono);font-size:.7rem;padding:.28rem .55rem;border-radius:var(--radius-sm);border-left:3px solid;margin-bottom:.3rem;}
+    .hox-chip.tc{border-color:#64ffda;background:rgba(100,255,218,.07);}
+    .hox-chip.tv{border-color:#a78bfa;background:rgba(167,139,250,.07);}
+    .hox-chip.tr{border-color:#ff6ec7;background:rgba(255,110,199,.07);}
+    .hox-chip.tg{border-color:#fbbf24;background:rgba(251,191,36,.07);}
+    @media(max-width:640px){.hox-2col{grid-template-columns:1fr;}}
+    </style>
 
-      <!-- Divider -->
-      <line x1="380" y1="30" x2="380" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <div style="font-family:var(--mono);font-size:.75rem;color:rgba(255,255,255,.3);margin-bottom:.6rem;">Fig 1.5 · HOXc6 &amp; HOXc8 — Limb Identity in Tetrapods vs. Snakes</div>
+    <div class="hox-2col">
 
-      <!-- Right: Snake -->
-      <text x="570" y="22" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" fill="var(--ink)">Snake</text>
-      <!-- Snake body (long) -->
-      <path d="M420,80 Q440,50 480,80 Q520,110 560,80 Q600,50 640,80 Q680,110 720,80" stroke="rgba(255,110,199,0.3)" stroke-width="22" fill="none" stroke-linecap="round"/>
-      <path d="M420,80 Q440,50 480,80 Q520,110 560,80 Q600,50 640,80 Q680,110 720,80" stroke="rgba(255,110,199,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <!-- HoxC expanded across whole body -->
-      <rect x="420" y="140" width="300" height="22" rx="4" fill="rgba(255,110,199,0.15)" stroke="rgba(255,110,199,0.5)" stroke-width="1"/>
-      <text x="570" y="155" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">HoxC genes · expressed along ENTIRE body axis</text>
-      <text x="570" y="185" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)">Limb-specific Hox expression suppressed</text>
-      <text x="570" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.6)">→ No limb bud formation</text>
-      <!-- X marks for limbs -->
-      <text x="480" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="18" fill="rgba(255,110,199,0.4)">✕</text>
-      <text x="660" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="18" fill="rgba(255,110,199,0.4)">✕</text>
-      <text x="480" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">no forelimb</text>
-      <text x="660" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">no hindlimb</text>
+      <!-- ══ Chick panel ══ -->
+      <div class="hox-pbox">
+        <div class="hox-ptag">Chick embryo · Hox boundaries = limb address</div>
+        <svg viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <defs>
+            <clipPath id="hx-body-c"><ellipse cx="215" cy="190" rx="88" ry="95"/></clipPath>
+          </defs>
+          <rect width="400" height="310" fill="rgba(8,11,26,0.55)" rx="8"/>
+          <!-- Head -->
+          <ellipse cx="215" cy="62" rx="44" ry="40" fill="rgba(50,100,255,0.22)" stroke="rgba(100,160,255,0.55)" stroke-width="1.8"/>
+          <!-- Body base fill -->
+          <ellipse cx="215" cy="190" rx="88" ry="95" fill="rgba(50,100,255,0.18)"/>
+          <!-- HOXc6 band (gold) clipped to body -->
+          <rect x="120" y="150" width="210" height="44" fill="rgba(251,191,36,0.45)" clip-path="url(#hx-body-c)"/>
+          <!-- HOXc8 band (rose) clipped to body -->
+          <rect x="120" y="194" width="210" height="60" fill="rgba(255,110,199,0.32)" clip-path="url(#hx-body-c)"/>
+          <!-- Body stroke on top of bands -->
+          <ellipse cx="215" cy="190" rx="88" ry="95" fill="none" stroke="rgba(100,160,255,0.55)" stroke-width="1.8"/>
+          <!-- Band labels -->
+          <text x="215" y="176" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#fbbf24" font-weight="700">Hoxc6</text>
+          <text x="215" y="222" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7" font-weight="700">Hoxc6 + Hoxc8</text>
+          <!-- Eye -->
+          <circle cx="197" cy="55" r="4" fill="rgba(50,100,255,0.7)"/>
+          <circle cx="197" cy="55" r="1.8" fill="rgba(8,11,26,0.9)"/>
+          <!-- Beak -->
+          <path d="M171,65 L157,69 L171,73" fill="rgba(251,191,36,0.45)" stroke="rgba(251,191,36,0.65)" stroke-width="1" stroke-linejoin="round"/>
+          <!-- Forelimb bud (teal) -->
+          <line x1="302" y1="172" x2="318" y2="172" stroke="rgba(100,255,218,0.55)" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <ellipse cx="337" cy="172" rx="22" ry="10" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="1.8"/>
+          <text x="337" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.65)">forelimb bud</text>
+          <!-- Left callout: Hoxc6 only → forelimb -->
+          <line x1="128" y1="168" x2="8" y2="145" stroke="rgba(251,191,36,0.5)" stroke-width="1.2"/>
+          <circle cx="128" cy="168" r="2.5" fill="#fbbf24" opacity="0.7"/>
+          <text x="7" y="140" font-family="JetBrains Mono,monospace" font-size="8" fill="#fbbf24">Hoxc6 only</text>
+          <text x="7" y="152" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(251,191,36,0.7)">→ forelimb</text>
+          <!-- Left callout: Hoxc6+c8 → ribs -->
+          <line x1="130" y1="218" x2="8" y2="244" stroke="rgba(255,110,199,0.5)" stroke-width="1.2"/>
+          <circle cx="130" cy="218" r="2.5" fill="#ff6ec7" opacity="0.7"/>
+          <text x="7" y="240" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">Hoxc6 + c8</text>
+          <text x="7" y="252" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.7)">→ ribs</text>
+          <!-- Panel label -->
+          <text x="200" y="300" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.35)">Chick embryo</text>
+        </svg>
+        <div class="hox-chip tc" style="margin-top:.5rem;"><strong>HOXc6 boundary</strong> — posterior limit of HOXc6 expression = forelimb position; cells at the Hoxc6/Hoxc8 transition read conflicting codes → limb bud induction</div>
+        <div class="hox-chip tr"><strong>HOXc6 + HOXc8 co-expression</strong> — thoracic region; uniform Hox code = no boundary here → ribs form instead</div>
+        <div class="hox-chip tg"><strong>Inside the limb</strong> — HoxA &amp; HoxD genes specify digit identity: HoxA13/D13 = fingertips; HoxA9/D9 = upper arm</div>
+      </div>
 
-      <!-- Summary text -->
-      <text x="380" y="248" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="11" fill="rgba(255,255,255,0.3)" font-style="italic">Same Hox genes, different regulatory sequences → dramatic morphological difference</text>
-    </svg>
-    <div class="fig-caption">Hox gene expression in tetrapods is restricted to limb buds, specifying digit identity. In snakes, regulatory evolution expanded HoxC expression along the full body axis and suppressed the limb-specific Hox program.</div>
+      <!-- ══ Snake panel ══ -->
+      <div class="hox-pbox">
+        <div class="hox-ptag">Snake embryo · no Hox boundary → no limbs</div>
+        <svg viewBox="0 0 320 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <rect width="320" height="310" fill="rgba(8,11,26,0.55)" rx="8"/>
+          <!-- Coiled body -->
+          <circle cx="155" cy="155" r="52" fill="rgba(50,100,255,0.25)" stroke="rgba(100,160,255,0.5)" stroke-width="1.8"/>
+          <circle cx="155" cy="155" r="35" fill="rgba(50,100,255,0.12)" stroke="rgba(100,160,255,0.2)" stroke-width="1"/>
+          <!-- Head within coil -->
+          <ellipse cx="168" cy="142" rx="12" ry="8" fill="rgba(80,130,255,0.4)" stroke="rgba(100,160,255,0.6)" stroke-width="1.2"/>
+          <!-- Ribs (18 at 20° intervals, inner r=54 outer r=82) -->
+          <g stroke="rgba(120,180,255,0.38)" stroke-width="1.2" stroke-linecap="round">
+            <line x1="209" y1="155" x2="237" y2="155"/>
+            <line x1="206" y1="173" x2="232" y2="183"/>
+            <line x1="196" y1="190" x2="218" y2="208"/>
+            <line x1="182" y1="202" x2="196" y2="226"/>
+            <line x1="164" y1="208" x2="169" y2="236"/>
+            <line x1="146" y1="208" x2="141" y2="236"/>
+            <line x1="128" y1="202" x2="114" y2="226"/>
+            <line x1="114" y1="190" x2="92" y2="208"/>
+            <line x1="104" y1="173" x2="78" y2="183"/>
+            <line x1="101" y1="155" x2="73" y2="155"/>
+            <line x1="104" y1="137" x2="78" y2="127"/>
+            <line x1="114" y1="120" x2="92" y2="102"/>
+            <line x1="128" y1="108" x2="114" y2="84"/>
+            <line x1="146" y1="102" x2="141" y2="74"/>
+            <line x1="164" y1="102" x2="169" y2="74"/>
+            <line x1="182" y1="108" x2="196" y2="84"/>
+            <line x1="196" y1="120" x2="218" y2="102"/>
+            <line x1="206" y1="137" x2="232" y2="127"/>
+          </g>
+          <!-- HOXc6 ring (yellow, inner) -->
+          <circle cx="155" cy="155" r="88" fill="none" stroke="#fbbf24" stroke-width="11" opacity="0.65"/>
+          <!-- HOXc8 ring (violet, outer) -->
+          <circle cx="155" cy="155" r="107" fill="none" stroke="#a78bfa" stroke-width="11" opacity="0.65"/>
+          <!-- Ring labels (upper-right) -->
+          <text x="232" y="72" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700">Hoxc8</text>
+          <text x="220" y="91" font-family="JetBrains Mono,monospace" font-size="9" fill="#fbbf24" font-weight="700">Hoxc6</text>
+          <!-- Annotation -->
+          <text x="155" y="272" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.45)">both always co-expressed</text>
+          <text x="155" y="284" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.65)">→ no forelimbs</text>
+          <!-- Panel label -->
+          <text x="155" y="300" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.35)">Snake embryo</text>
+        </svg>
+        <div class="hox-chip tc" style="margin-top:.5rem;"><strong>HOXc6 expansion</strong> — expression extends throughout the entire trunk; no posterior boundary = no forelimb positional address</div>
+        <div class="hox-chip tv"><strong>HOXc8 co-expressed everywhere</strong> — both genes overlap along the whole trunk; no distinct transition zone → no limb-bud signal anywhere</div>
+        <div class="hox-chip tr"><strong>Regulatory change</strong> — HOXc6/c8 coding sequences intact in snakes; enhancer mutations altered expression domain. Same gene, different when/where</div>
+        <div class="hox-chip tg"><strong>Evidence</strong> — Python embryos transiently form tiny hindlimb buds before suppression; adult pythons retain vestigial pelvic spurs</div>
+      </div>
+
+    </div><!-- /.hox-2col -->
+
+    <div class="fig-caption" style="margin-top:.8rem;">HOXc6 alone marks the forelimb zone in tetrapods — at the boundary where HOXc6 ends and HOXc8 begins, cells receive a conflicting Hox signal interpreted as "build a limb here." In snakes, regulatory mutations co-expanded both HOXc6 and HOXc8 throughout the entire trunk; with both genes expressed everywhere and no transition zone, no segment receives the limb-bud signal.</div>
   </div>
 
   <div class="callout callout-gold">
@@ -1513,10 +1589,9 @@
 <section class="quiz-section reveal" id="module-quiz">
   <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--violet),var(--teal));color:#080b1a;padding:0.3rem 1rem;">Module 01 Quiz</span></div>
   <div class="quiz-meta">
-    <p>10 randomly selected questions from a pool of 27 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <p>10 randomly selected questions from a pool of 27 · Select an answer for instant feedback</p>
     <div class="quiz-controls">
       <button class="quiz-btn secondary" id="q-new-qm1">↻ New Questions</button>
-      <button class="quiz-btn" id="q-grade-qm1">Grade Quiz</button>
     </div>
   </div>
   <div class="quiz-score-bar" id="q-score-qm1">
@@ -1578,35 +1653,29 @@
       wrap.addEventListener('click',e=>{
         const btn=e.target.closest('.quiz-opt');
         if(!btn||btn.classList.contains('locked'))return;
-        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        const card=btn.closest('.quiz-card');
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>{b.classList.remove('selected');b.classList.add('locked');if(b.dataset.c==='true')b.classList.add('opt-correct');});
         btn.classList.add('selected');
+        if(btn.dataset.c==='true'){card.classList.add('correct');}else{btn.classList.add('opt-wrong');card.classList.add('wrong');}
+        card.classList.add('revealed');
+        updateScore();
       });
     });
   }
 
-  function grade(){
-    let correct=0;
-    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
-      const sel=card.querySelector('.quiz-opt.selected');
-      card.querySelectorAll('.quiz-opt').forEach(o=>{
-        o.classList.add('locked');
-        if(o.dataset.c==='true')o.classList.add('opt-correct');
-      });
-      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
-      else card.classList.add('wrong');
-      card.classList.add('revealed');
-    });
+  function updateScore(){
+    const correct=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.correct').length;
+    const revealed=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.revealed').length;
     const scr=document.getElementById('q-score-'+QID);
     document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
-    const p=correct/N;
-    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 01.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 01 and try again.';
+    if(revealed<N){document.getElementById('q-smsg-'+QID).textContent=revealed+' of '+N+' answered';}
+    else{const p=correct/N;document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 01.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 01 and try again.';}
     scr.classList.add('visible');
-    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
   document.getElementById('q-new-'+QID).addEventListener('click',render);
-  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
   render();
+  window.addEventListener('pageshow',function(e){if(e.persisted)render();});
 })();
 </script>
 

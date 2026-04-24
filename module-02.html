@@ -26,6 +26,7 @@
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
       <a href="module-05.html">05 · Protostomes</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
   </div>
@@ -1126,74 +1127,300 @@
     <div class="fig-caption">Gastrulation — the blastula reorganises to form three distinct germ layers. The blastopore is the site of invagination; in deuterostomes (including vertebrates) it becomes the anus.</div>
   </div>
 
-  <!-- VERTEBRATE GASTRULATION FIGURE -->
-  <div class="figure reveal" style="margin-top:1.5rem;">
+  <!-- VERTEBRATE GASTRULATION FIGURE (interactive) -->
+  <div class="figure reveal" id="gb2b" style="margin-top:1.5rem;">
+    <style>
+    #gb2b{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;}
+    .gb2b-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem;}
+    .gb2b-btn{font-family:var(--mono);font-size:.7rem;padding:.28rem .7rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-sm);color:rgba(255,255,255,.4);cursor:pointer;transition:all .15s;}
+    .gb2b-btn.active{color:#64ffda;background:rgba(100,255,218,.1);border-color:rgba(100,255,218,.4);}
+    .gb2b-btn[data-gz="node"].active,.gb2b-btn[data-gz="notochord"].active{color:#ffd166;background:rgba(255,209,102,.1);border-color:rgba(255,209,102,.4);}
+    .gb2b-btn[data-gz="streak"].active{color:#ff6ec7;background:rgba(255,110,199,.1);border-color:rgba(255,110,199,.4);}
+    .gb2b-btn[data-gz="mesoderm"].active{color:#a78bfa;background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4);}
+    .gb2b-btn[data-gz="fatemap"].active{color:#b8f089;background:rgba(184,240,137,.1);border-color:rgba(184,240,137,.4);}
+    .gb2b-grid{display:grid;grid-template-columns:1fr 292px;gap:1rem;align-items:start;}
+    @media(max-width:720px){.gb2b-grid{grid-template-columns:1fr;}}
+    .gb2b-info{background:rgba(8,11,26,.6);border:1px solid var(--line);border-radius:var(--radius-sm);padding:.85rem;min-height:260px;}
+    .gb2b-title{font-family:var(--mono);font-size:.85rem;font-weight:700;margin-bottom:.55rem;}
+    .gb2b-body{font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.68;}
+    .gb2b-fact{font-family:var(--mono);font-size:.7rem;padding:.25rem .5rem;border-radius:var(--radius-sm);border-left:3px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);margin-top:.38rem;}
+    #gb2b-converge,#gb2b-mesospread,#gb2b-noto-arrow{transition:opacity .2s;}
+    </style>
+
     <div class="fig-label">Fig 2.2b · Vertebrate Gastrulation — Amniote Primitive Streak (Dorsal View)</div>
-    <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:320px;">
-      <!-- Epiblast disc (dorsal view — oval) -->
-      <ellipse cx="400" cy="150" rx="340" ry="120" fill="rgba(100,255,218,0.07)" stroke="rgba(100,255,218,0.35)" stroke-width="2"/>
-      <!-- Surface ectoderm label -->
-      <text x="400" y="42" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(100,255,218,0.55)">Surface ectoderm (epiblast) — dorsal view</text>
+    <div class="gb2b-btns">
+      <button class="gb2b-btn active" data-gz="overview">Overview</button>
+      <button class="gb2b-btn" data-gz="node">Hensen's Node</button>
+      <button class="gb2b-btn" data-gz="streak">Primitive Streak</button>
+      <button class="gb2b-btn" data-gz="mesoderm">Cell Ingression</button>
+      <button class="gb2b-btn" data-gz="notochord">Notochord</button>
+      <button class="gb2b-btn" data-gz="fatemap">Fate Map</button>
+    </div>
 
-      <!-- Primitive streak (midline, posterior to anterior) -->
-      <rect x="370" y="88" width="28" height="128" rx="10" fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="2.5"/>
-      <text x="384" y="156" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7" font-weight="600">Primitive</text>
-      <text x="384" y="169" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ff6ec7" font-weight="600">streak</text>
+    <div class="gb2b-grid">
+      <svg id="gb2b-svg" viewBox="0 0 660 490" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <defs>
+          <clipPath id="gb2b-disc-clip"><ellipse cx="330" cy="248" rx="212" ry="152"/></clipPath>
+          <marker id="gb2b-arr-tc"   markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="rgba(100,255,218,0.82)"/></marker>
+          <marker id="gb2b-arr-vio"  markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="rgba(167,139,250,0.82)"/></marker>
+          <marker id="gb2b-arr-gold" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="rgba(255,209,102,0.95)"/></marker>
+        </defs>
+        <rect width="660" height="490" fill="rgba(8,11,26,0.62)" rx="10"/>
 
-      <!-- Hensen node at anterior end of streak -->
-      <circle cx="384" cy="88" r="18" fill="rgba(255,209,102,0.35)" stroke="#ffd166" stroke-width="2.5"/>
-      <text x="384" y="83" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Node</text>
-      <text x="384" y="95" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.6)">(Hensen's)</text>
+        <!-- Orientation labels -->
+        <text x="330" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.28)">↑  ANTERIOR  (head direction)</text>
+        <text x="330" y="480" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.28)">↓  POSTERIOR  (tail direction)</text>
+        <text x="22" y="252" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.2)" transform="rotate(-90,22,252)">LEFT</text>
+        <text x="638" y="252" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.2)" transform="rotate(90,638,252)">RIGHT</text>
 
-      <!-- Ingressing cells arrows flowing left and right from streak -->
-      <defs><marker id="garr1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="rgba(167,139,250,0.75)"/></marker></defs>
-      <g stroke="rgba(167,139,250,0.65)" stroke-width="2" fill="none">
-        <path d="M368,110 Q330,110 290,108" marker-end="url(#garr1)"/>
-        <path d="M368,135 Q320,135 270,138" marker-end="url(#garr1)"/>
-        <path d="M368,160 Q315,162 265,168" marker-end="url(#garr1)"/>
-        <path d="M368,185 Q320,188 270,195" marker-end="url(#garr1)"/>
-        <path d="M400,110 Q440,110 480,108" marker-end="url(#garr1)"/>
-        <path d="M400,135 Q450,135 498,138" marker-end="url(#garr1)"/>
-        <path d="M400,160 Q455,162 505,168" marker-end="url(#garr1)"/>
-        <path d="M400,185 Q450,188 500,195" marker-end="url(#garr1)"/>
-      </g>
+        <!-- ══ FATE MAP OVERLAY (hidden by default, JS controls opacity) ══ -->
+        <g id="gb2b-fatemap" style="opacity:0;transition:opacity .25s;pointer-events:none;">
+          <ellipse cx="330" cy="132" rx="148" ry="70" fill="rgba(100,255,218,0.22)" clip-path="url(#gb2b-disc-clip)"/>
+          <rect x="152" y="175" width="118" height="168" rx="6" fill="rgba(167,139,250,0.2)" clip-path="url(#gb2b-disc-clip)"/>
+          <rect x="390" y="175" width="118" height="168" rx="6" fill="rgba(167,139,250,0.2)" clip-path="url(#gb2b-disc-clip)"/>
+          <rect x="82"  y="218" width="78"  height="128" rx="6" fill="rgba(255,110,199,0.2)" clip-path="url(#gb2b-disc-clip)"/>
+          <rect x="500" y="218" width="78"  height="128" rx="6" fill="rgba(255,110,199,0.2)" clip-path="url(#gb2b-disc-clip)"/>
+          <ellipse cx="330" cy="385" rx="158" ry="52" fill="rgba(160,160,195,0.18)" clip-path="url(#gb2b-disc-clip)"/>
+          <rect x="323" y="96" width="14" height="220" rx="5" fill="rgba(255,209,102,0.38)" clip-path="url(#gb2b-disc-clip)"/>
+          <!-- fate map labels -->
+          <text x="218" y="110" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">Head ectoderm</text>
+          <text x="218" y="122" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.62)">+ neural plate</text>
+          <text x="161" y="262" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">Paraxial</text>
+          <text x="161" y="273" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.68)">mesoderm</text>
+          <text x="499" y="262" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">Paraxial</text>
+          <text x="499" y="273" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.68)">mesoderm</text>
+          <text x="104" y="285" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff6ec7">Lateral</text>
+          <text x="104" y="295" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.65)">plate</text>
+          <text x="556" y="285" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff6ec7">Lateral</text>
+          <text x="556" y="295" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.65)">plate</text>
+          <text x="330" y="390" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(190,190,220,0.65)">Extraembryonic mesoderm</text>
+          <text x="348" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.68)">Notochord</text>
+          <text x="348" y="211" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.5)">/ axial</text>
+        </g>
 
-      <!-- Ingressing mesoderm / endoderm cells -->
-      <g fill="rgba(167,139,250,0.55)" stroke="#a78bfa" stroke-width="0.8">
-        <circle cx="280" cy="108" r="5"/><circle cx="255" cy="115" r="5"/>
-        <circle cx="260" cy="140" r="5"/><circle cx="235" cy="145" r="5"/>
-        <circle cx="265" cy="170" r="5"/><circle cx="238" cy="178" r="5"/>
-        <circle cx="270" cy="196" r="5"/><circle cx="248" cy="206" r="5"/>
-        <circle cx="490" cy="108" r="5"/><circle cx="516" cy="115" r="5"/>
-        <circle cx="510" cy="140" r="5"/><circle cx="535" cy="145" r="5"/>
-        <circle cx="508" cy="170" r="5"/><circle cx="534" cy="178" r="5"/>
-        <circle cx="505" cy="196" r="5"/><circle cx="528" cy="206" r="5"/>
-      </g>
+        <!-- ══ BASE ANATOMY (always visible) ══ -->
+        <!-- Area opaca — outer extraembryonic ring -->
+        <ellipse cx="330" cy="255" rx="278" ry="190" fill="rgba(48,68,128,0.1)" stroke="rgba(88,118,200,0.18)" stroke-width="1.5"/>
+        <!-- Area pellucida — inner embryo disc -->
+        <ellipse cx="330" cy="248" rx="212" ry="152" fill="rgba(58,78,180,0.13)" stroke="rgba(100,140,255,0.32)" stroke-width="1.5"/>
+        <!-- Hypoblast hint — transient lower layer -->
+        <ellipse cx="330" cy="252" rx="200" ry="142" fill="none" stroke="rgba(255,209,102,0.1)" stroke-width="1" stroke-dasharray="5,4"/>
 
-      <!-- LABELS -->
-      <line x1="402" y1="76" x2="448" y2="48" stroke="rgba(255,209,102,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
-      <text x="452" y="44" font-family="JetBrains Mono,monospace" font-size="10" fill="#ffd166" font-weight="600">Hensen's Node</text>
-      <text x="452" y="57" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,209,102,0.5)">organizer — secretes Chordin/Noggin</text>
+        <!-- ══ CONVERGENCE ARROWS: epiblast converging toward streak ══ -->
+        <g id="gb2b-converge" stroke="rgba(100,255,218,0.52)" stroke-width="1.8" fill="none">
+          <path d="M136,222 Q224,219 320,221" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M122,248 Q218,248 320,248" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M126,276 Q222,276 320,276" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M138,304 Q228,304 320,304" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M158,330 Q240,330 320,330" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M524,222 Q436,219 340,221" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M538,248 Q442,248 340,248" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M534,276 Q438,276 340,276" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M522,304 Q432,304 340,304" marker-end="url(#gb2b-arr-tc)"/>
+          <path d="M502,330 Q420,330 340,330" marker-end="url(#gb2b-arr-tc)"/>
+        </g>
 
-      <line x1="398" y1="215" x2="452" y2="240" stroke="rgba(255,110,199,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
-      <text x="456" y="236" font-family="JetBrains Mono,monospace" font-size="10" fill="#ff6ec7" font-weight="600">Primitive Streak</text>
-      <text x="456" y="249" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(255,110,199,0.45)">epiblast cells ingress here</text>
+        <!-- ══ MESODERM SPREAD ARROWS: cells spreading laterally after ingression ══ -->
+        <g id="gb2b-mesospread" stroke="rgba(167,139,250,0.6)" stroke-width="1.8" fill="none">
+          <path d="M320,230 Q248,240 178,255" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M320,260 Q242,268 172,280" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M320,290 Q244,294 175,305" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M320,320 Q246,322 183,330" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M340,230 Q412,240 482,255" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M340,260 Q418,268 488,280" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M340,290 Q416,294 485,305" marker-end="url(#gb2b-arr-vio)"/>
+          <path d="M340,320 Q414,322 477,330" marker-end="url(#gb2b-arr-vio)"/>
+        </g>
 
-      <line x1="238" y1="178" x2="90" y2="200" stroke="rgba(167,139,250,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
-      <text x="10" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="#a78bfa" font-weight="600">Ingressing</text>
-      <text x="10" y="210" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.55)">mesoderm &amp;</text>
-      <text x="10" y="223" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(167,139,250,0.45)">endoderm cells</text>
+        <!-- ══ NOTOCHORD FORMATION ARROW (anteriorly from node) ══ -->
+        <g id="gb2b-noto-arrow">
+          <path d="M330,181 Q330,148 330,118" stroke="rgba(255,209,102,0.78)" stroke-width="2.2" fill="none" marker-end="url(#gb2b-arr-gold)" stroke-dasharray="4,3"/>
+        </g>
 
-      <line x1="130" y1="110" x2="80" y2="70" stroke="rgba(100,255,218,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
-      <text x="10" y="66" font-family="JetBrains Mono,monospace" font-size="10" fill="#64ffda" font-weight="600">Surface ectoderm</text>
-      <text x="10" y="79" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.45)">(non-ingressing epiblast)</text>
+        <!-- ══ PRIMITIVE STREAK ══ -->
+        <g id="gb2b-streak">
+          <rect x="320" y="208" width="20" height="188" rx="8" fill="rgba(255,110,199,0.3)" stroke="#ff6ec7" stroke-width="2.2"/>
+          <!-- Zone division lines (anterior/mid/posterior thirds) -->
+          <line x1="318" y1="271" x2="342" y2="271" stroke="rgba(255,110,199,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="318" y1="334" x2="342" y2="334" stroke="rgba(255,110,199,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Zone labels (right side) -->
+          <text x="346" y="244" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.75)">ant. streak</text>
+          <text x="346" y="255" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.5)">→ paraxial</text>
+          <text x="346" y="307" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.6)">mid streak</text>
+          <text x="346" y="318" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.45)">→ lat. plate</text>
+          <text x="346" y="370" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.45)">post. streak</text>
+          <text x="346" y="381" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.35)">→ extraemb.</text>
+        </g>
 
-      <path d="M384,70 Q384,50 384,32" stroke="rgba(255,209,102,0.6)" stroke-width="2.5" stroke-dasharray="4,3"/>
-      <text x="390" y="28" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">to notochord</text>
+        <!-- ══ HENSEN'S NODE ══ -->
+        <g id="gb2b-node">
+          <!-- Outer glow/signaling ring -->
+          <circle cx="330" cy="208" r="34" fill="rgba(255,209,102,0.07)" stroke="rgba(255,209,102,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- Main node circle -->
+          <circle cx="330" cy="208" r="25" fill="rgba(255,209,102,0.28)" stroke="#ffd166" stroke-width="2.5"/>
+          <!-- Inner highlight -->
+          <circle cx="330" cy="208" r="14" fill="rgba(255,209,102,0.15)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+          <!-- BMP inhibitor secretion "rays" (dashed radial lines) -->
+          <g stroke="rgba(255,209,102,0.22)" stroke-width="1" stroke-dasharray="3,3">
+            <line x1="330" y1="178" x2="330" y2="162"/>
+            <line x1="353" y1="187" x2="366" y2="175"/>
+            <line x1="358" y1="210" x2="374" y2="210"/>
+            <line x1="353" y1="232" x2="366" y2="244"/>
+            <line x1="307" y1="187" x2="294" y2="175"/>
+            <line x1="302" y1="210" x2="286" y2="210"/>
+            <line x1="307" y1="232" x2="294" y2="244"/>
+          </g>
+        </g>
 
-      <text x="400" y="285" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.22)">Dorsal view · Anterior top · Equivalent to Spemann organizer in amphibians</text>
-    </svg>
-    <div class="fig-caption">Vertebrate (amniote) gastrulation viewed from the dorsal side. Epiblast cells migrate toward the primitive streak, ingress through it, and spread laterally as mesoderm and endoderm. Hensen's node (the vertebrate equivalent of the Spemann organizer) produces cells that form the notochord and secretes BMP inhibitors that pattern the dorsal axis.</div>
+        <!-- ══ NOTOCHORDAL PROCESS ══ -->
+        <g id="gb2b-notochord">
+          <rect x="325" y="112" width="10" height="96" rx="4" fill="rgba(255,209,102,0.42)" stroke="#ffd166" stroke-width="1.8"/>
+          <!-- Prechordal plate (very anterior, head mesoderm) -->
+          <ellipse cx="330" cy="104" rx="18" ry="11" fill="rgba(255,209,102,0.3)" stroke="rgba(255,209,102,0.65)" stroke-width="1.5"/>
+        </g>
+
+        <!-- ══ CROSS-SECTION INSET (lower right) ══ -->
+        <g id="gb2b-xsect" transform="translate(454,378)">
+          <rect width="186" height="96" rx="6" fill="rgba(8,11,26,0.9)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <text x="93" y="13" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,255,255,0.28)">Cross-section at streak level</text>
+          <!-- Epiblast/ectoderm -->
+          <rect x="8" y="18" width="170" height="18" rx="3" fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.2"/>
+          <text x="93" y="30" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#64ffda">Epiblast  →  Ectoderm</text>
+          <!-- Mesoderm -->
+          <rect x="8" y="38" width="170" height="17" rx="3" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="4,2"/>
+          <text x="93" y="50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#a78bfa">Mesoderm (spreading)</text>
+          <!-- Endoderm -->
+          <rect x="8" y="57" width="170" height="17" rx="3" fill="rgba(255,110,199,0.14)" stroke="#ff6ec7" stroke-width="1.2"/>
+          <text x="93" y="68" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#ff6ec7">Endoderm (displaces hypoblast)</text>
+          <!-- EMT arrow -->
+          <line x1="35" y1="36" x2="35" y2="57" stroke="rgba(255,255,255,0.58)" stroke-width="1.5"/>
+          <polygon points="32,55 35,62 38,55" fill="rgba(255,255,255,0.58)"/>
+          <text x="40" y="48" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,255,255,0.42)">EMT</text>
+          <!-- D/V labels -->
+          <text x="2" y="25" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,255,255,0.22)">D</text>
+          <text x="2" y="72" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,255,255,0.22)">V</text>
+          <!-- "3 layers" label -->
+          <text x="93" y="85" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6.5" fill="rgba(255,255,255,0.22)">Dorsal = top  ·  Ventral = bottom</text>
+        </g>
+        <!-- Connector from inset to streak -->
+        <line x1="453" y1="397" x2="340" y2="334" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <!-- ══ CALLOUT LABELS ══ -->
+        <!-- Hensen's node -->
+        <line x1="355" y1="196" x2="404" y2="164" stroke="rgba(255,209,102,0.48)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="407" y="160" font-family="JetBrains Mono,monospace" font-size="10" fill="#ffd166" font-weight="600">Hensen's Node</text>
+        <text x="407" y="173" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,209,102,0.52)">= Spemann organizer (amniote)</text>
+
+        <!-- Primitive streak (left callout) -->
+        <line x1="320" y1="302" x2="270" y2="302" stroke="rgba(255,110,199,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="205" y="297" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="#ff6ec7" font-weight="600">Primitive</text>
+        <text x="205" y="312" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="#ff6ec7" font-weight="600">Streak</text>
+        <text x="205" y="325" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.48)">(ingression site)</text>
+
+        <!-- Notochordal process -->
+        <line x1="325" y1="148" x2="276" y2="138" stroke="rgba(255,209,102,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="200" y="130" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">Notochordal</text>
+        <text x="200" y="143" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">process</text>
+
+        <!-- Surface ectoderm -->
+        <line x1="188" y1="158" x2="138" y2="118" stroke="rgba(100,255,218,0.42)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="10" y="112" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#64ffda" font-weight="600">Surface ectoderm</text>
+        <text x="10" y="125" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.48)">(non-ingressing epiblast)</text>
+
+        <!-- Mesoderm spread -->
+        <line x1="180" y1="280" x2="116" y2="294" stroke="rgba(167,139,250,0.45)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="10" y="288" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#a78bfa" font-weight="600">Mesoderm</text>
+        <text x="10" y="301" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.5)">spreading laterally</text>
+
+        <!-- Convergence note -->
+        <line x1="530" y1="222" x2="570" y2="202" stroke="rgba(100,255,218,0.38)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="574" y="198" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)">Cells converge</text>
+        <text x="574" y="210" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(100,255,218,0.42)">toward streak</text>
+
+      </svg>
+
+      <!-- INFO PANEL -->
+      <div id="gb2b-info" class="gb2b-info"></div>
+    </div>
+
+    <div class="fig-caption" style="margin-top:.8rem;">Vertebrate (amniote) gastrulation — dorsal view of the embryo disc, anterior at top. Epiblast cells converge toward the primitive streak, ingress through it via EMT, and spread as mesoderm and endoderm beneath the surface layer. Hensen's node (anterior tip of streak) is the amniote equivalent of the Spemann organizer. Click buttons to explore each structure.</div>
+
+    <script>
+    (function(){
+      var Z={
+        overview:{color:'#64ffda',title:"Amniote Gastrulation — What You're Looking At",
+          body:"You're looking straight <strong>down at the top (dorsal) surface</strong> of a chick or human embryo disc (~Day 14 in human). Anterior = top, posterior = bottom.<br><br>The flat disc is the <strong>epiblast</strong>. Gastrulation converts it into a 3-layered embryo by moving cells inward through the <strong>primitive streak</strong>. The three germ layers — ectoderm, mesoderm, endoderm — give rise to every tissue in the adult body.",
+          facts:[
+            {c:'#64ffda',t:'Ectoderm: cells that never ingress — stay on the surface → skin + entire nervous system'},
+            {c:'#a78bfa',t:'Mesoderm: ingress then spread laterally → muscle, bone, heart, kidney, vasculature'},
+            {c:'#ff6ec7',t:'Endoderm: ingress and displace the transient hypoblast → gut, liver, lungs, pancreas'},
+            {c:'rgba(255,255,255,0.45)',t:'Teal arrows = convergence toward streak. Violet arrows = mesoderm spreading under ectoderm'},
+          ]},
+        node:{color:'#ffd166',title:"Hensen's Node — The Organizer",
+          body:"At the <strong>anterior tip</strong> of the primitive streak. Cells ingressing here (not sideways) migrate anteriorly along the midline to form the <strong>notochord</strong> and <strong>prechordal plate</strong>.<br><br>The node also secretes <strong>BMP inhibitors</strong> — Chordin, Noggin, Follistatin — that diffuse into adjacent ectoderm and convert it from default skin fate to <strong>neural plate</strong> (future brain and spinal cord).",
+          facts:[
+            {c:'#ffd166',t:'Transplant a second node → second complete body axis (proven in chick graft experiments)'},
+            {c:'#ffd166',t:'Ablate the node → no notochord, no neural induction, severely disrupted body axis'},
+            {c:'#ffd166',t:'Equivalent to the dorsal lip of the blastopore in amphibians — same Chordin/Noggin signaling'},
+            {c:'#ffd166',t:'Nodal, FGF8, and Wnt3a gradients converge at the node to maintain its identity'},
+          ]},
+        streak:{color:'#ff6ec7',title:'Primitive Streak — The Ingression Zone',
+          body:"Forms by <strong>convergent extension</strong> of posterior epiblast cells moving to the midline, creating a thickened furrow. The streak elongates anteriorly toward Hensen's node.<br><br>Cells ingress via <strong>EMT</strong>: they lose E-cadherin, break through the basement membrane, and become migratory mesenchyme. Three zones by position (labelled in diagram):",
+          facts:[
+            {c:'#ff6ec7',t:'Anterior streak → paraxial mesoderm → somites → vertebrae, skeletal muscle, dermis'},
+            {c:'#ff6ec7',t:'Middle streak → lateral plate mesoderm → heart, body wall, limb connective tissue'},
+            {c:'#ff6ec7',t:'Posterior streak → extraembryonic mesoderm → yolk sac, amnion, allantois (not body tissues)'},
+            {c:'#ff6ec7',t:'After gastrulation, streak regresses caudally — failure of regression → sacrococcygeal teratoma'},
+          ]},
+        mesoderm:{color:'#a78bfa',title:'Cell Ingression — EMT & Spreading',
+          body:"After ingressing through the streak, cells spread in the space <strong>between the epiblast (above) and hypoblast (below)</strong>. See cross-section inset for the 3-layer view.<br><br><strong>Fate split:</strong> cells that ingress most vigorously and fully displace the hypoblast → <strong>definitive endoderm</strong>. Cells staying in the middle → <strong>mesoderm</strong>.<br><br>Mesoderm types by lateral distance from notochord: paraxial → somites; intermediate → kidneys + gonads; lateral plate → body wall + heart.",
+          facts:[
+            {c:'#a78bfa',t:'FGF8 (from streak) keeps ingressed cells mesenchymal — prevents re-epithelialization'},
+            {c:'#a78bfa',t:'PDGF-A receptor on mesoderm cells required for lateral migration away from the streak'},
+            {c:'#a78bfa',t:'Sox17 + Foxa2 expression marks definitive endoderm after ingression through the node'},
+            {c:'#a78bfa',t:'Cross-section inset (lower right of diagram) shows the resulting 3 layers at the streak level'},
+          ]},
+        notochord:{color:'#ffd166',title:'Notochordal Process & Notochord',
+          body:"Node cells that do not spread sideways migrate anteriorly along the <strong>midline</strong>, forming the <strong>notochordal process</strong>. This hollow tube closes into the solid <strong>notochord</strong> rod.<br><br>Two critical roles: <strong>(1) structural</strong> — stiffens the embryo (namesake of Chordata). <strong>(2) signaling</strong> — secretes Shh (Sonic Hedgehog) that induces the floor plate and patterns the neural tube dorsal-ventral axis, and BMP inhibitors that sustain neural induction.",
+          facts:[
+            {c:'#ffd166',t:'Remove notochord → neural plate fails to form — notochord is required for neural induction'},
+            {c:'#ffd166',t:'Shh from notochord → floor plate → ventral neural tube fates (motor neurons at the bottom)'},
+            {c:'#ffd166',t:'Prechordal plate (anterior tip) induces the forebrain and eyes — separate from notochord proper'},
+            {c:'#ffd166',t:'Adult remnant: nucleus pulposus — gelatinous center of each intervertebral disc'},
+          ]},
+        fatemap:{color:'#b8f089',title:'Prospective Fate Map',
+          body:"The color overlay shows where each epiblast region <strong>ends up</strong>, from lineage-tracing experiments (DiI dye injection, Cre/lox reporters). This is a prospective fate map — not what signals cells have received, but where they will go.",
+          facts:[
+            {c:'#64ffda',t:'Teal (anterior, never ingresses): head ectoderm + neural plate → brain and spinal cord'},
+            {c:'#a78bfa',t:'Violet (flanking anterior streak): paraxial mesoderm → somites → vertebrae, muscle, dermis'},
+            {c:'#ff6ec7',t:'Rose (outer flanks): lateral plate → heart, body wall, limb connective + skeletal tissue'},
+            {c:'rgba(190,190,220,0.9)',t:'Gray (posterior): extraembryonic → amnion, chorion, allantois — NOT part of the embryo body'},
+            {c:'#ffd166',t:'Gold (midline through node): notochord + prechordal plate (head mesoderm)'},
+          ]}
+      };
+      var btns=document.querySelectorAll('#gb2b .gb2b-btn');
+      var info=document.getElementById('gb2b-info');
+      var cvg=document.getElementById('gb2b-converge');
+      var msp=document.getElementById('gb2b-mesospread');
+      var nat=document.getElementById('gb2b-noto-arrow');
+      var ftm=document.getElementById('gb2b-fatemap');
+      function setZone(z){
+        btns.forEach(function(b){b.classList.toggle('active',b.dataset.gz===z);});
+        var op={c:1,m:1,n:1,f:0};
+        if(z==='node')     {op.c=0.12;op.m=0.12;op.n=1;}
+        else if(z==='streak')   {op.c=1;op.m=0.2;op.n=0.15;}
+        else if(z==='mesoderm') {op.c=0.2;op.m=1;op.n=0.15;}
+        else if(z==='notochord'){op.c=0.1;op.m=0.1;op.n=1;}
+        else if(z==='fatemap')  {op.c=0.05;op.m=0.05;op.n=0.05;op.f=1;}
+        cvg.style.opacity=op.c; msp.style.opacity=op.m; nat.style.opacity=op.n; ftm.style.opacity=op.f;
+        var d=Z[z];
+        var fh=d.facts.map(function(f){return '<div class="gb2b-fact" style="border-left-color:'+f.c+'">'+f.t+'</div>';}).join('');
+        info.innerHTML='<div class="gb2b-title" style="color:'+d.color+'">'+d.title+'</div><div class="gb2b-body">'+d.body+fh+'</div>';
+      }
+      btns.forEach(function(b){b.addEventListener('click',function(){setZone(this.dataset.gz);});});
+      setZone('overview');
+    })();
+    </script>
   </div>
 </section>
 
@@ -1461,105 +1688,315 @@
 
   <div class="figure reveal">
     <div class="fig-label">Fig 2.3 · Neurulation — 4 Stages</div>
-    <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:340px;">
+    <svg viewBox="0 0 920 510" xmlns="http://www.w3.org/2000/svg" style="width:100%;" font-family="'JetBrains Mono',monospace">
+      <defs>
+        <marker id="nt-arr-gold" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+          <path d="M1,1 L6,3.5 L1,6 Z" fill="#ffd166"/>
+        </marker>
+        <marker id="nt-arr-rose" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+          <path d="M1,1 L6,3.5 L1,6 Z" fill="#ff6ec7"/>
+        </marker>
+      </defs>
 
-      <!-- STAGE 1: Neural Plate Induction -->
-      <g transform="translate(0,0)">
-        <rect x="10" y="8" width="205" height="270" rx="8" fill="rgba(8,11,26,0.45)" stroke="var(--line)" stroke-width="1"/>
-        <text x="112" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.5)">1. Neural Plate</text>
-        <!-- Surface epidermis (thin teal) -->
-        <rect x="15" y="36" width="195" height="14" rx="3" fill="rgba(100,255,218,0.12)" stroke="rgba(100,255,218,0.35)" stroke-width="1"/>
-        <text x="112" y="47" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(100,255,218,0.45)">surface ectoderm</text>
-        <!-- Neural plate (thickened ectoderm) -->
-        <rect x="40" y="52" width="144" height="28" rx="4" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="1.8"/>
-        <text x="112" y="70" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#64ffda" font-weight="600">Neural plate</text>
-        <!-- Mesoderm layer -->
-        <rect x="15" y="140" width="195" height="22" rx="4" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.2"/>
-        <text x="112" y="155" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#a78bfa">Mesoderm</text>
+      <!-- LEGEND ROW -->
+      <g transform="translate(5,5)" font-size="8.5" fill="rgba(255,255,255,0.5)">
+        <rect x="0" y="2" width="11" height="11" rx="2" fill="rgba(100,255,218,0.35)" stroke="#64ffda" stroke-width="1"/>
+        <text x="15" y="11">Neural tissue</text>
+        <rect x="100" y="2" width="11" height="11" rx="2" fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="1"/>
+        <text x="115" y="11">Neural crest</text>
+        <rect x="210" y="2" width="11" height="11" rx="2" fill="rgba(255,209,102,0.35)" stroke="#ffd166" stroke-width="1"/>
+        <text x="225" y="11">Notochord</text>
+        <rect x="300" y="2" width="11" height="11" rx="2" fill="rgba(167,139,250,0.35)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="315" y="11">Mesoderm/somite</text>
+        <rect x="430" y="2" width="11" height="11" rx="2" fill="rgba(125,211,252,0.3)" stroke="#7dd3fc" stroke-width="1"/>
+        <text x="445" y="11">Surface ectoderm</text>
+        <rect x="560" y="2" width="11" height="11" rx="2" fill="rgba(249,168,212,0.25)" stroke="#f9a8d4" stroke-width="1"/>
+        <text x="575" y="11">Endoderm</text>
+      </g>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- PANEL 1: Neural Plate Induction  (Day ~18)             -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <g transform="translate(5,22)">
+        <rect x="0" y="0" width="215" height="484" rx="8" fill="rgba(8,11,26,0.52)" stroke="var(--line)" stroke-width="1"/>
+        <!-- badge + title -->
+        <circle cx="22" cy="20" r="12" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.5"/>
+        <text x="22" y="25" text-anchor="middle" font-size="12" fill="#64ffda" font-weight="700">1</text>
+        <text x="40" y="16" font-size="10" fill="rgba(255,255,255,0.85)" font-weight="600">Neural Plate</text>
+        <text x="40" y="30" font-size="8" fill="rgba(255,255,255,0.38)">Day ~18 · induction</text>
+
+        <!-- CROSS-SECTION ──────────────────────── -->
+        <!-- Surface ectoderm flanks (sky) -->
+        <rect x="8" y="48" width="50" height="13" rx="2" fill="rgba(125,211,252,0.2)" stroke="#7dd3fc" stroke-width="1.2"/>
+        <rect x="157" y="48" width="50" height="13" rx="2" fill="rgba(125,211,252,0.2)" stroke="#7dd3fc" stroke-width="1.2"/>
+        <!-- Neural plate (thicker, columnar – teal) -->
+        <rect x="58" y="40" width="99" height="26" rx="4" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="2"/>
+        <!-- columnar cell lines -->
+        <line x1="75"  y1="41" x2="75"  y2="65" stroke="rgba(100,255,218,0.22)" stroke-width="0.7"/>
+        <line x1="92"  y1="41" x2="92"  y2="65" stroke="rgba(100,255,218,0.22)" stroke-width="0.7"/>
+        <line x1="107" y1="41" x2="107" y2="65" stroke="rgba(100,255,218,0.22)" stroke-width="0.7"/>
+        <line x1="122" y1="41" x2="122" y2="65" stroke="rgba(100,255,218,0.22)" stroke-width="0.7"/>
+        <line x1="139" y1="41" x2="139" y2="65" stroke="rgba(100,255,218,0.22)" stroke-width="0.7"/>
+        <!-- NC progenitors at medial plate edges (rose) -->
+        <circle cx="61"  cy="53" r="8" fill="rgba(255,110,199,0.45)" stroke="#ff6ec7" stroke-width="1.8"/>
+        <circle cx="154" cy="53" r="8" fill="rgba(255,110,199,0.45)" stroke="#ff6ec7" stroke-width="1.8"/>
         <!-- Notochord (gold ellipse) -->
-        <ellipse cx="112" cy="105" rx="46" ry="16" fill="rgba(255,209,102,0.25)" stroke="#ffd166" stroke-width="2"/>
-        <text x="112" y="109" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#ffd166">Notochord</text>
-        <!-- Shh signal arrows upward from notochord -->
-        <g stroke="rgba(255,209,102,0.65)" stroke-width="1.8" fill="#ffd166">
-          <line x1="95" y1="89" x2="95" y2="82"/><polygon points="95,78 91,86 99,86"/>
-          <line x1="112" y1="89" x2="112" y2="82"/><polygon points="112,78 108,86 116,86"/>
-          <line x1="129" y1="89" x2="129" y2="82"/><polygon points="129,78 125,86 133,86"/>
-        </g>
-        <text x="112" y="127" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,209,102,0.7)">Shh / BMP inhib.</text>
-        <!-- endoderm hint -->
-        <rect x="15" y="172" width="195" height="14" rx="3" fill="rgba(255,110,199,0.1)" stroke="rgba(255,110,199,0.25)" stroke-width="1"/>
-        <text x="112" y="183" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">endoderm</text>
+        <ellipse cx="107" cy="100" rx="28" ry="14" fill="rgba(255,209,102,0.28)" stroke="#ffd166" stroke-width="2"/>
+        <text x="107" y="104" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Notochord</text>
+        <!-- induction arrows (gold dashed, upward) -->
+        <line x1="90"  y1="86" x2="90"  y2="70" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="2,2" marker-end="url(#nt-arr-gold)"/>
+        <line x1="107" y1="86" x2="107" y2="70" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="2,2" marker-end="url(#nt-arr-gold)"/>
+        <line x1="124" y1="86" x2="124" y2="70" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="2,2" marker-end="url(#nt-arr-gold)"/>
+        <!-- Paraxial mesoderm (violet) -->
+        <rect x="8"   y="76" width="48" height="30" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.4"/>
+        <rect x="159" y="76" width="48" height="30" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.4"/>
+        <!-- Lateral plate mesoderm (thinner, paler) -->
+        <rect x="8"   y="108" width="48" height="16" rx="2" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.38)" stroke-width="1"/>
+        <rect x="159" y="108" width="48" height="16" rx="2" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.38)" stroke-width="1"/>
+        <!-- Endoderm (pink bar) -->
+        <rect x="8" y="126" width="199" height="13" rx="3" fill="rgba(249,168,212,0.14)" stroke="#f9a8d4" stroke-width="1.2"/>
+
+        <!-- ANNOTATIONS ──────────────────────────── -->
+        <line x1="8" y1="218" x2="207" y2="218" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+        <rect x="10" y="226" width="8" height="8" rx="1" fill="rgba(100,255,218,0.38)" stroke="#64ffda" stroke-width="1"/>
+        <text x="22" y="234" font-size="9.5" fill="#64ffda" font-weight="600">Neural plate</text>
+        <text x="10" y="248" font-size="8.5" fill="rgba(255,255,255,0.42)">Thickened dorsal ectoderm.</text>
+        <text x="10" y="260" font-size="8.5" fill="rgba(255,255,255,0.42)">Columnar cells — wider than</text>
+        <text x="10" y="272" font-size="8.5" fill="rgba(255,255,255,0.42)">tall (pseudostratified). BMP</text>
+        <text x="10" y="284" font-size="8.5" fill="rgba(255,255,255,0.42)">inhibited by Noggin/Chordin.</text>
+
+        <rect x="10" y="296" width="8" height="8" rx="1" fill="rgba(255,110,199,0.38)" stroke="#ff6ec7" stroke-width="1"/>
+        <text x="22" y="304" font-size="9.5" fill="#ff6ec7" font-weight="600">NC progenitors</text>
+        <text x="10" y="318" font-size="8.5" fill="rgba(255,255,255,0.42)">Form at neural plate border.</text>
+        <text x="10" y="330" font-size="8.5" fill="rgba(255,255,255,0.42)">BMP gradient + Wnt signal</text>
+        <text x="10" y="342" font-size="8.5" fill="rgba(255,255,255,0.42)">specifies NC identity.</text>
+
+        <rect x="10" y="354" width="8" height="8" rx="1" fill="rgba(255,209,102,0.38)" stroke="#ffd166" stroke-width="1"/>
+        <text x="22" y="362" font-size="9.5" fill="#ffd166" font-weight="600">Notochord signals</text>
+        <text x="10" y="376" font-size="8.5" fill="rgba(255,255,255,0.42)">Secretes Noggin, Chordin,</text>
+        <text x="10" y="388" font-size="8.5" fill="rgba(255,255,255,0.42)">Follistatin → inhibit BMP4</text>
+        <text x="10" y="400" font-size="8.5" fill="rgba(255,255,255,0.42)">dorsally → neural fate.</text>
+
+        <rect x="10" y="412" width="8" height="8" rx="1" fill="rgba(167,139,250,0.38)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="22" y="420" font-size="9.5" fill="#a78bfa" font-weight="600">Paraxial mesoderm</text>
+        <text x="10" y="434" font-size="8.5" fill="rgba(255,255,255,0.42)">Will segment into somites.</text>
+        <text x="10" y="446" font-size="8.5" fill="rgba(255,255,255,0.42)">Lateral plate further out.</text>
       </g>
 
-      <!-- STAGE 2: Neural Folds Elevate -->
-      <g transform="translate(225,0)">
-        <rect x="10" y="8" width="205" height="270" rx="8" fill="rgba(8,11,26,0.45)" stroke="var(--line)" stroke-width="1"/>
-        <text x="112" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.5)">2. Folds Elevate</text>
-        <!-- V-shape fold cross-section -->
-        <path d="M40,80 Q85,45 112,42 Q139,45 184,80" stroke="#64ffda" stroke-width="2.8" fill="rgba(100,255,218,0.1)"/>
-        <!-- Epidermis spreading laterally -->
-        <line x1="15" y1="85" x2="40" y2="80" stroke="rgba(100,255,218,0.4)" stroke-width="2"/>
-        <line x1="184" y1="80" x2="209" y2="85" stroke="rgba(100,255,218,0.4)" stroke-width="2"/>
-        <!-- Neural crest cells (rose) at fold tips -->
-        <circle cx="40" cy="80" r="8" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1.8"/>
-        <circle cx="184" cy="80" r="8" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1.8"/>
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- PANEL 2: Neural Folds Elevate  (Day ~20-21)            -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <g transform="translate(237,22)">
+        <rect x="0" y="0" width="215" height="484" rx="8" fill="rgba(8,11,26,0.52)" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="22" cy="20" r="12" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.5"/>
+        <text x="22" y="25" text-anchor="middle" font-size="12" fill="#64ffda" font-weight="700">2</text>
+        <text x="40" y="16" font-size="10" fill="rgba(255,255,255,0.85)" font-weight="600">Folds Elevate</text>
+        <text x="40" y="30" font-size="8" fill="rgba(255,255,255,0.38)">Day ~20-21 · elevation</text>
+
+        <!-- CROSS-SECTION ──────────────────────── -->
+        <!-- Lateral epidermis strips (sky), flat at fold bases -->
+        <rect x="8"   y="140" width="42" height="12" rx="2" fill="rgba(125,211,252,0.2)" stroke="#7dd3fc" stroke-width="1.2"/>
+        <rect x="165" y="140" width="42" height="12" rx="2" fill="rgba(125,211,252,0.2)" stroke="#7dd3fc" stroke-width="1.2"/>
+        <!-- LEFT neural fold: wedge of neural epithelium rising up -->
+        <path d="M8,140 L8,124 L60,45 L74,45 L74,53 L28,128 L28,140 Z"
+              fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.8"/>
+        <!-- column lines in left fold -->
+        <line x1="34" y1="128" x2="66" y2="52" stroke="rgba(100,255,218,0.2)" stroke-width="0.7"/>
+        <line x1="45" y1="120" x2="70" y2="52" stroke="rgba(100,255,218,0.2)" stroke-width="0.7"/>
+        <!-- RIGHT neural fold: mirror -->
+        <path d="M207,140 L207,124 L155,45 L141,45 L141,53 L187,128 L187,140 Z"
+              fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.8"/>
+        <line x1="181" y1="128" x2="149" y2="52" stroke="rgba(100,255,218,0.2)" stroke-width="0.7"/>
+        <line x1="170" y1="120" x2="145" y2="52" stroke="rgba(100,255,218,0.2)" stroke-width="0.7"/>
+        <!-- NC cells at fold tips (rose) -->
+        <circle cx="67"  cy="49" r="9" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1.8"/>
+        <circle cx="148" cy="49" r="9" fill="rgba(255,110,199,0.5)" stroke="#ff6ec7" stroke-width="1.8"/>
+        <!-- Neural groove label + dashed midline -->
+        <text x="107" y="74" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.5)" font-style="italic">neural</text>
+        <text x="107" y="85" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.5)" font-style="italic">groove</text>
+        <line x1="107" y1="90" x2="107" y2="140" stroke="rgba(100,255,218,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- Notochord (gold) -->
+        <ellipse cx="107" cy="163" rx="26" ry="12" fill="rgba(255,209,102,0.28)" stroke="#ffd166" stroke-width="1.8"/>
+        <text x="107" y="167" text-anchor="middle" font-size="8" fill="#ffd166" font-weight="600">Notochord</text>
+        <!-- Paraxial mesoderm + somite hint -->
+        <rect x="8"   y="152" width="47" height="28" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.4"/>
+        <rect x="160" y="152" width="47" height="28" rx="3" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.4"/>
+        <!-- segmentation lines (somite clock hint) -->
+        <line x1="8"   y1="166" x2="55"  y2="166" stroke="rgba(167,139,250,0.42)" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="160" y1="166" x2="207" y2="166" stroke="rgba(167,139,250,0.42)" stroke-width="1" stroke-dasharray="3,2"/>
+        <!-- Endoderm -->
+        <rect x="8" y="183" width="199" height="12" rx="3" fill="rgba(249,168,212,0.14)" stroke="#f9a8d4" stroke-width="1.2"/>
+
+        <!-- ANNOTATIONS ──────────────────────────── -->
+        <line x1="8" y1="218" x2="207" y2="218" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+        <rect x="10" y="226" width="8" height="8" rx="1" fill="rgba(100,255,218,0.38)" stroke="#64ffda" stroke-width="1"/>
+        <text x="22" y="234" font-size="9.5" fill="#64ffda" font-weight="600">Neural folds</text>
+        <text x="10" y="248" font-size="8.5" fill="rgba(255,255,255,0.42)">Lateral plate edges hinge</text>
+        <text x="10" y="260" font-size="8.5" fill="rgba(255,255,255,0.42)">upward (medial hinge point).</text>
+        <text x="10" y="272" font-size="8.5" fill="rgba(255,255,255,0.42)">Neural groove = open lumen</text>
+        <text x="10" y="284" font-size="8.5" fill="rgba(255,255,255,0.42)">between rising folds.</text>
+
+        <rect x="10" y="296" width="8" height="8" rx="1" fill="rgba(255,110,199,0.38)" stroke="#ff6ec7" stroke-width="1"/>
+        <text x="22" y="304" font-size="9.5" fill="#ff6ec7" font-weight="600">NC at fold tips</text>
+        <text x="10" y="318" font-size="8.5" fill="rgba(255,255,255,0.42)">NC at neural/epidermal</text>
+        <text x="10" y="330" font-size="8.5" fill="rgba(255,255,255,0.42)">interface. BMP4 gradient</text>
+        <text x="10" y="342" font-size="8.5" fill="rgba(255,255,255,0.42)">+ Wnt specifies fate.</text>
+        <text x="10" y="354" font-size="8.5" fill="rgba(255,255,255,0.42)">Delaminate at tube fusion.</text>
+
+        <rect x="10" y="366" width="8" height="8" rx="1" fill="rgba(167,139,250,0.38)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="22" y="374" font-size="9.5" fill="#a78bfa" font-weight="600">Somites forming</text>
+        <text x="10" y="388" font-size="8.5" fill="rgba(255,255,255,0.42)">Paraxial mesoderm pinches</text>
+        <text x="10" y="400" font-size="8.5" fill="rgba(255,255,255,0.42)">into somite blocks via</text>
+        <text x="10" y="412" font-size="8.5" fill="rgba(255,255,255,0.42)">Notch-segmentation clock.</text>
+      </g>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- PANEL 3: Tube Closes  (Day ~22-24)                     -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <g transform="translate(469,22)">
+        <rect x="0" y="0" width="215" height="484" rx="8" fill="rgba(8,11,26,0.52)" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="22" cy="20" r="12" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="1.5"/>
+        <text x="22" y="25" text-anchor="middle" font-size="12" fill="#64ffda" font-weight="700">3</text>
+        <text x="40" y="16" font-size="10" fill="rgba(255,255,255,0.85)" font-weight="600">Tube Closes</text>
+        <text x="40" y="30" font-size="8" fill="rgba(255,255,255,0.38)">Day ~22-24 · fusion</text>
+
+        <!-- CROSS-SECTION ──────────────────────── -->
+        <!-- Epidermis strips joined over tube (sky) -->
+        <rect x="8"   y="70" width="56" height="13" rx="2" fill="rgba(125,211,252,0.18)" stroke="#7dd3fc" stroke-width="1"/>
+        <rect x="151" y="70" width="56" height="13" rx="2" fill="rgba(125,211,252,0.18)" stroke="#7dd3fc" stroke-width="1"/>
+        <!-- Arc of epidermis closing over the tube -->
+        <path d="M64,76 Q75,72 107,72 Q138,72 151,76"
+              stroke="#7dd3fc" stroke-width="1.8" fill="none"/>
+        <!-- Neural tube outer wall (teal circle) -->
+        <circle cx="107" cy="110" r="34" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2.2"/>
+        <!-- Neural lumen (dark) -->
+        <circle cx="107" cy="110" r="17" fill="rgba(6,9,22,0.88)" stroke="rgba(100,255,218,0.28)" stroke-width="1.2"/>
+        <!-- Roof plate: dorsal midline thickening -->
+        <rect x="103" y="76" width="8" height="10" rx="2" fill="rgba(100,255,218,0.5)" stroke="#64ffda" stroke-width="1"/>
+        <text x="107" y="73" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.6)">roof</text>
+        <!-- Floor plate: ventral (gold, Shh source) -->
+        <rect x="103" y="134" width="8" height="10" rx="2" fill="rgba(255,209,102,0.55)" stroke="#ffd166" stroke-width="1"/>
+        <text x="107" y="155" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.65)">floor</text>
+        <!-- Shh downward signal from floor plate -->
+        <line x1="107" y1="146" x2="107" y2="153" stroke="#ffd166" stroke-width="1.2" stroke-dasharray="2,2" marker-end="url(#nt-arr-gold)"/>
+        <!-- NC cells just delaminated at dorsolateral tube -->
+        <circle cx="82"  cy="86" r="8" fill="rgba(255,110,199,0.48)" stroke="#ff6ec7" stroke-width="1.8"/>
+        <circle cx="132" cy="86" r="8" fill="rgba(255,110,199,0.48)" stroke="#ff6ec7" stroke-width="1.8"/>
+        <!-- Migration trails -->
+        <path d="M79,94 Q56,120 40,144" stroke="rgba(255,110,199,0.4)" stroke-width="1.8" fill="none" stroke-dasharray="3,3" marker-end="url(#nt-arr-rose)"/>
+        <path d="M135,94 Q159,120 175,144" stroke="rgba(255,110,199,0.4)" stroke-width="1.8" fill="none" stroke-dasharray="3,3" marker-end="url(#nt-arr-rose)"/>
+        <!-- NC cells further along -->
+        <circle cx="38"  cy="148" r="7" fill="rgba(255,110,199,0.38)" stroke="#ff6ec7" stroke-width="1.5"/>
+        <circle cx="177" cy="148" r="7" fill="rgba(255,110,199,0.38)" stroke="#ff6ec7" stroke-width="1.5"/>
+        <!-- Somites flanking tube (violet blocks) -->
+        <rect x="8"   y="110" width="50" height="40" rx="4" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.8"/>
+        <rect x="157" y="110" width="50" height="40" rx="4" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.8"/>
+        <!-- Somite internal compartment hints (sclerotome/myotome lines) -->
+        <line x1="8"   y1="124" x2="58"  y2="124" stroke="rgba(167,139,250,0.32)" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <line x1="8"   y1="136" x2="58"  y2="136" stroke="rgba(167,139,250,0.32)" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <line x1="157" y1="124" x2="207" y2="124" stroke="rgba(167,139,250,0.32)" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <line x1="157" y1="136" x2="207" y2="136" stroke="rgba(167,139,250,0.32)" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <text x="33"  y="132" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.65)">somite</text>
+        <text x="182" y="132" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.65)">somite</text>
+        <!-- Notochord below tube -->
+        <ellipse cx="107" cy="162" rx="24" ry="11" fill="rgba(255,209,102,0.28)" stroke="#ffd166" stroke-width="1.8"/>
+        <text x="107" y="166" text-anchor="middle" font-size="7.5" fill="#ffd166" font-weight="600">Notochord</text>
+        <!-- Endoderm -->
+        <rect x="8" y="177" width="199" height="12" rx="3" fill="rgba(249,168,212,0.14)" stroke="#f9a8d4" stroke-width="1.2"/>
+
+        <!-- ANNOTATIONS ──────────────────────────── -->
+        <line x1="8" y1="218" x2="207" y2="218" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+        <rect x="10" y="226" width="8" height="8" rx="1" fill="rgba(100,255,218,0.38)" stroke="#64ffda" stroke-width="1"/>
+        <text x="22" y="234" font-size="9.5" fill="#64ffda" font-weight="600">Neural tube closed</text>
+        <text x="10" y="248" font-size="8.5" fill="rgba(255,255,255,0.42)">Fold tips fuse at dorsal</text>
+        <text x="10" y="260" font-size="8.5" fill="rgba(255,255,255,0.42)">midline. Roof plate (dorsal)</text>
+        <text x="10" y="272" font-size="8.5" fill="rgba(255,255,255,0.42)">+ floor plate (Shh, ventral)</text>
+        <text x="10" y="284" font-size="8.5" fill="rgba(255,255,255,0.42)">set D-V patterning axis.</text>
+
+        <rect x="10" y="296" width="8" height="8" rx="1" fill="rgba(255,110,199,0.38)" stroke="#ff6ec7" stroke-width="1"/>
+        <text x="22" y="304" font-size="9.5" fill="#ff6ec7" font-weight="600">NC delamination</text>
+        <text x="10" y="318" font-size="8.5" fill="rgba(255,255,255,0.42)">EMT: lose E-cadherin →</text>
+        <text x="10" y="330" font-size="8.5" fill="rgba(255,255,255,0.42)">gain N-cadherin. Migrate</text>
+        <text x="10" y="342" font-size="8.5" fill="rgba(255,255,255,0.42)">on fibronectin/laminin ECM.</text>
+
+        <rect x="10" y="354" width="8" height="8" rx="1" fill="rgba(167,139,250,0.38)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="22" y="362" font-size="9.5" fill="#a78bfa" font-weight="600">Somites</text>
+        <text x="10" y="376" font-size="8.5" fill="rgba(255,255,255,0.42)">Sclerotome (ventromedial)</text>
+        <text x="10" y="388" font-size="8.5" fill="rgba(255,255,255,0.42)">→ vertebrae. Myotome →</text>
+        <text x="10" y="400" font-size="8.5" fill="rgba(255,255,255,0.42)">skeletal muscle. Dermotome</text>
+        <text x="10" y="412" font-size="8.5" fill="rgba(255,255,255,0.42)">→ dermis of back.</text>
+      </g>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- PANEL 4: Differentiated Fates                          -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <g transform="translate(701,22)">
+        <rect x="0" y="0" width="215" height="484" rx="8" fill="rgba(8,11,26,0.52)" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="22" cy="20" r="12" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="22" y="25" text-anchor="middle" font-size="12" fill="#a78bfa" font-weight="700">4</text>
+        <text x="40" y="16" font-size="10" fill="rgba(255,255,255,0.85)" font-weight="600">Fates</text>
+        <text x="40" y="30" font-size="8" fill="rgba(255,255,255,0.38)">What each tissue becomes</text>
+
+        <!-- COMPACT CROSS-SECTION ──────────────────── -->
+        <!-- Neural tube -->
+        <circle cx="107" cy="72" r="24" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2"/>
+        <circle cx="107" cy="72" r="11" fill="rgba(6,9,22,0.88)" stroke="rgba(100,255,218,0.25)" stroke-width="1"/>
+        <!-- Alar / Basal dividing line -->
+        <line x1="83" y1="72" x2="131" y2="72" stroke="rgba(100,255,218,0.32)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="107" y="68" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.55)">alar</text>
+        <text x="107" y="80" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.55)">basal</text>
+        <!-- NC dots flanking -->
+        <circle cx="84"  cy="52" r="6" fill="rgba(255,110,199,0.45)" stroke="#ff6ec7" stroke-width="1.5"/>
+        <circle cx="130" cy="52" r="6" fill="rgba(255,110,199,0.45)" stroke="#ff6ec7" stroke-width="1.5"/>
+        <!-- Somite blocks -->
+        <rect x="8"   y="76" width="36" height="24" rx="3" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.4"/>
+        <rect x="171" y="76" width="36" height="24" rx="3" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.4"/>
         <!-- Notochord -->
-        <ellipse cx="112" cy="128" rx="44" ry="15" fill="rgba(255,209,102,0.22)" stroke="#ffd166" stroke-width="1.8"/>
-        <text x="112" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#ffd166">Notochord</text>
-        <!-- NC label -->
-        <text x="112" y="168" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.75)" font-weight="600">Neural crest cells</text>
-        <text x="112" y="183" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.5)">forming at fold tips</text>
-        <!-- Mesoderm -->
-        <rect x="15" y="155" width="195" height="18" rx="4" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1"/>
-        <text x="112" y="167" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.0)">Mesoderm</text>
-      </g>
+        <ellipse cx="107" cy="104" rx="18" ry="8" fill="rgba(255,209,102,0.28)" stroke="#ffd166" stroke-width="1.5"/>
 
-      <!-- STAGE 3: Tube Closes -->
-      <g transform="translate(450,0)">
-        <rect x="10" y="8" width="205" height="270" rx="8" fill="rgba(8,11,26,0.45)" stroke="var(--line)" stroke-width="1"/>
-        <text x="112" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.5)">3. Tube Closes</text>
-        <!-- Neural tube (closed circle) cross-section -->
-        <circle cx="112" cy="78" r="30" fill="rgba(100,255,218,0.15)" stroke="#64ffda" stroke-width="2.5"/>
-        <circle cx="112" cy="78" r="16" fill="rgba(8,11,26,0.7)" stroke="rgba(100,255,218,0.35)" stroke-width="1.2"/>
-        <text x="112" y="75" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.55)">neural</text>
-        <text x="112" y="87" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.55)">canal</text>
-        <!-- Epidermis closed over top -->
-        <path d="M20,108 L82,108 M142,108 L204,108" stroke="rgba(100,255,218,0.35)" stroke-width="2" fill="none"/>
-        <path d="M82,108 Q95,106 112,106 Q128,106 142,108" stroke="rgba(100,255,218,0.35)" stroke-width="2" fill="none"/>
-        <!-- Neural crest migrating outward -->
-        <circle cx="60" cy="112" r="7" fill="rgba(255,110,199,0.55)" stroke="#ff6ec7" stroke-width="1.5"/>
-        <circle cx="164" cy="112" r="7" fill="rgba(255,110,199,0.55)" stroke="#ff6ec7" stroke-width="1.5"/>
-        <path d="M60,119 Q50,138 40,156" stroke="rgba(255,110,199,0.45)" stroke-width="2" fill="none"/>
-        <path d="M164,119 Q174,138 184,156" stroke="rgba(255,110,199,0.45)" stroke-width="2" fill="none"/>
-        <!-- Notochord below -->
-        <ellipse cx="112" cy="136" rx="40" ry="14" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.6"/>
-        <text x="112" y="140" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#ffd166">Notochord</text>
-        <!-- NC migrating label -->
-        <text x="112" y="176" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(255,110,199,0.7)" font-weight="600">Neural crest migrates</text>
-        <text x="112" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.5)">outward to diverse targets</text>
-      </g>
+        <!-- FATE LIST ────────────────────────────────── -->
+        <line x1="8" y1="122" x2="207" y2="122" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
 
-      <!-- STAGE 4: Fates -->
-      <g transform="translate(675,0)">
-        <rect x="10" y="8" width="215" height="270" rx="8" fill="rgba(8,11,26,0.45)" stroke="var(--line)" stroke-width="1"/>
-        <text x="117" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,255,255,0.5)">4. Fates</text>
-        <!-- Neural tube fate -->
-        <circle cx="117" cy="62" r="24" fill="rgba(100,255,218,0.14)" stroke="#64ffda" stroke-width="2.2"/>
-        <text x="117" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64ffda" font-weight="600">Neural Tube</text>
-        <text x="117" y="70" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(100,255,218,0.6)">→ CNS</text>
-        <text x="117" y="97" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.5)">brain &amp; spinal cord</text>
-        <!-- Divider -->
-        <line x1="20" y1="110" x2="214" y2="110" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <!-- Neural crest fates -->
-        <text x="117" y="126" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#ff6ec7" font-weight="600">Neural Crest →</text>
-        <text x="117" y="143" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.65)">PNS neurons &amp; glia</text>
-        <text x="117" y="159" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.65)">melanocytes (pigment)</text>
-        <text x="117" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.65)">craniofacial cartilage</text>
-        <text x="117" y="191" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.65)">adrenal medulla</text>
-        <text x="117" y="207" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="rgba(255,110,199,0.65)">Schwann cells</text>
+        <!-- Neural Tube fates -->
+        <text x="10" y="139" font-size="10" fill="#64ffda" font-weight="700">Neural Tube → CNS</text>
+        <text x="14" y="154" font-size="8.5" fill="rgba(100,255,218,0.52)">▸ Alar plate → sensory</text>
+        <text x="18" y="166" font-size="8.5" fill="rgba(100,255,218,0.52)">interneurons (dorsal horn)</text>
+        <text x="14" y="178" font-size="8.5" fill="rgba(100,255,218,0.52)">▸ Basal plate → motor neurons</text>
+        <text x="14" y="190" font-size="8.5" fill="rgba(100,255,218,0.52)">▸ Anterior → brain vesicles</text>
+        <text x="18" y="202" font-size="8.5" fill="rgba(100,255,218,0.52)">(forebrain / mid / hindbrain)</text>
+
+        <line x1="8" y1="210" x2="207" y2="210" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+        <!-- Neural Crest fates -->
+        <text x="10" y="226" font-size="10" fill="#ff6ec7" font-weight="700">Neural Crest → PNS + more</text>
+        <text x="14" y="241" font-size="8.5" fill="rgba(255,110,199,0.52)">▸ PNS neurons + glia (DRG)</text>
+        <text x="14" y="253" font-size="8.5" fill="rgba(255,110,199,0.52)">▸ Schwann cells (myelin)</text>
+        <text x="14" y="265" font-size="8.5" fill="rgba(255,110,199,0.52)">▸ Melanocytes (skin pigment)</text>
+        <text x="14" y="277" font-size="8.5" fill="rgba(255,110,199,0.52)">▸ Craniofacial bone+cartilage</text>
+        <text x="14" y="289" font-size="8.5" fill="rgba(255,110,199,0.52)">▸ Adrenal medulla (chromaffin)</text>
+
+        <line x1="8" y1="297" x2="207" y2="297" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+        <!-- Somite fates -->
+        <text x="10" y="313" font-size="10" fill="#a78bfa" font-weight="700">Somites → body structure</text>
+        <text x="14" y="328" font-size="8.5" fill="rgba(167,139,250,0.52)">▸ Sclerotome → vertebrae + ribs</text>
+        <text x="14" y="340" font-size="8.5" fill="rgba(167,139,250,0.52)">▸ Myotome → skeletal muscle</text>
+        <text x="14" y="352" font-size="8.5" fill="rgba(167,139,250,0.52)">▸ Dermomyotome → dermis</text>
+
+        <line x1="8" y1="360" x2="207" y2="360" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+        <!-- Notochord fate -->
+        <text x="10" y="376" font-size="10" fill="#ffd166" font-weight="700">Notochord → disc remnant</text>
+        <text x="14" y="391" font-size="8.5" fill="rgba(255,209,102,0.52)">▸ Nucleus pulposus of each</text>
+        <text x="18" y="403" font-size="8.5" fill="rgba(255,209,102,0.52)">intervertebral disc</text>
+        <text x="14" y="415" font-size="8.5" fill="rgba(255,209,102,0.52)">▸ Induces floor plate +</text>
+        <text x="18" y="427" font-size="8.5" fill="rgba(255,209,102,0.52)">ventral neural tube via Shh</text>
       </g>
     </svg>
-    <div class="fig-caption">Neurulation — chordamesoderm induces neural plate formation; folds elevate and fuse to form the neural tube; neural crest cells emigrate to diverse destinations</div>
+    <div class="fig-caption">Neurulation — chordamesoderm (notochord) inhibits BMP4 to induce the neural plate; lateral edges hinge upward as neural folds; dorsal fusion forms the closed neural tube; neural crest cells undergo EMT and migrate to diverse targets (PNS, pigment, craniofacial mesenchyme, adrenal medulla)</div>
   </div>
 
   <div class="warn">
@@ -1686,188 +2123,568 @@
   <h3>Somite Formation</h3>
   <p>Somites are segmented blocks of paraxial mesoderm that bud off sequentially along both sides of the notochord, forming in an anterior-to-posterior wave. They are the structural basis of the vertebral column's segmentation.</p>
 
-  <div class="figure reveal">
+  <!-- INTERACTIVE SOMITE FIGURE -->
+  <div class="figure reveal" id="s24" style="margin-top:1rem;">
+    <style>
+      #s24{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem;}
+      .s24-btns{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:.8rem;}
+      .s24-btn{font-family:var(--mono);font-size:.68rem;padding:.28rem .65rem;border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(8,11,26,0.5);color:rgba(255,255,255,0.5);cursor:pointer;transition:all .15s;}
+      .s24-btn:hover{border-color:rgba(167,139,250,0.55);color:rgba(255,255,255,0.85);}
+      .s24-btn.active{border-color:#a78bfa;background:rgba(167,139,250,0.12);color:#a78bfa;}
+      .s24-grid{display:grid;grid-template-columns:1fr 270px;gap:.9rem;align-items:start;}
+      @media(max-width:700px){.s24-grid{grid-template-columns:1fr;}}
+      .s24-info{background:rgba(8,11,26,0.5);border:1px solid var(--line);border-radius:var(--radius-sm);padding:.85rem;min-height:260px;font-size:.79rem;line-height:1.5;}
+      .s24-info h4{margin:0 0 .45rem;font-size:.84rem;}
+      .s24-info ul{margin:.25rem 0;padding-left:1rem;}
+      .s24-info li{margin-bottom:.22rem;color:rgba(255,255,255,0.58);}
+      .s24-info p{color:rgba(255,255,255,0.48);font-size:.77rem;margin:.3rem 0 0;}
+      .s24-note{margin-top:.45rem;padding:.4rem .55rem;background:rgba(167,139,250,0.07);border-left:2px solid #a78bfa;font-size:.74rem;color:rgba(255,255,255,0.42);}
+    </style>
     <div class="fig-label">Fig 2.4 · Somite Formation &amp; Differentiation</div>
-    <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
-      <!-- Paraxial mesoderm strips -->
-      <rect x="30" y="50" width="700" height="36" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
-      <rect x="30" y="134" width="700" height="36" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
-      <!-- Notochord center -->
-      <rect x="30" y="92" width="700" height="18" rx="5" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>
-      <text x="380" y="105" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Notochord</text>
-      <!-- Somite blocks (formed) -->
-      <g fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.5">
-        <rect x="35"  y="52" width="55" height="32" rx="5"/>
-        <rect x="98"  y="52" width="55" height="32" rx="5"/>
-        <rect x="161" y="52" width="55" height="32" rx="5"/>
-        <rect x="224" y="52" width="55" height="32" rx="5"/>
-        <rect x="35"  y="136" width="55" height="32" rx="5"/>
-        <rect x="98"  y="136" width="55" height="32" rx="5"/>
-        <rect x="161" y="136" width="55" height="32" rx="5"/>
-        <rect x="224" y="136" width="55" height="32" rx="5"/>
-      </g>
-      <!-- Somite number labels -->
-      <text x="62"  y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">S1</text>
-      <text x="125" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">S2</text>
-      <text x="188" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">S3</text>
-      <text x="251" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">S4</text>
-      <!-- Forming somite (budding off) -->
-      <rect x="287" y="50" width="55" height="36" rx="5" fill="rgba(167,139,250,0.05)" stroke="rgba(167,139,250,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
-      <text x="314" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.5)">forming</text>
-      <!-- Undifferentiated paraxial mesoderm -->
-      <rect x="350" y="50" width="375" height="36" rx="5" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.15)" stroke-width="1" stroke-dasharray="3,3"/>
-      <text x="537" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(167,139,250,0.35)">← undifferentiated paraxial mesoderm</text>
-      <!-- Differentiation legend -->
-      <rect x="30" y="185" width="16" height="12" rx="3" fill="rgba(255,209,102,0.35)" stroke="#ffd166" stroke-width="1"/>
-      <text x="52" y="196" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">Sclerotome → vertebrae, ribs</text>
-      <rect x="240" y="185" width="16" height="12" rx="3" fill="rgba(100,255,218,0.35)" stroke="#64ffda" stroke-width="1"/>
-      <text x="262" y="196" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">Myotome → skeletal muscle</text>
-      <rect x="450" y="185" width="16" height="12" rx="3" fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="1"/>
-      <text x="472" y="196" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">Dermatome → back dermis</text>
-    </svg>
-    <div class="fig-caption">Somites bud off sequentially from paraxial mesoderm — always anterior to posterior — forming in bilateral pairs flanking the notochord</div>
-  </div>
+    <div class="s24-btns">
+      <button class="s24-btn active" data-sm="formation">Formation</button>
+      <button class="s24-btn" data-sm="structure">Somite Structure</button>
+      <button class="s24-btn" data-sm="signals">Signals</button>
+      <button class="s24-btn" data-sm="clock">Seg. Clock</button>
+      <button class="s24-btn" data-sm="fates">Fates</button>
+    </div>
+    <div class="s24-grid">
 
-  <!-- SOMITE SIGNALING FIGURE -->
-  <div class="figure reveal" style="margin-top:1.5rem;">
-    <div class="fig-label">Fig 2.4b · Signals That Specify Somite Compartments</div>
-    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" style="max-height:300px;">
-      <defs>
-        <clipPath id="somite-clip">
-          <rect x="230" y="50" width="130" height="180"/>
-        </clipPath>
-      </defs>
+      <svg id="s24-svg" viewBox="0 0 620 410" xmlns="http://www.w3.org/2000/svg" style="width:100%;" font-family="'JetBrains Mono',monospace">
+        <defs>
+          <marker id="s24-av" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M1,1 L6,3.5 L1,6 Z" fill="#a78bfa"/></marker>
+          <marker id="s24-ag" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M1,1 L6,3.5 L1,6 Z" fill="#ffd166"/></marker>
+          <marker id="s24-at" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M1,1 L6,3.5 L1,6 Z" fill="#64ffda"/></marker>
+          <marker id="s24-ar" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M1,1 L6,3.5 L1,6 Z" fill="#ff6ec7"/></marker>
+          <linearGradient id="s24-fgf" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%" stop-color="rgba(255,110,199,0.7)"/>
+            <stop offset="65%" stop-color="rgba(255,110,199,0.12)"/>
+            <stop offset="100%" stop-color="rgba(255,110,199,0)"/>
+          </linearGradient>
+          <linearGradient id="s24-ra" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(100,255,218,0.7)"/>
+            <stop offset="65%" stop-color="rgba(100,255,218,0.12)"/>
+            <stop offset="100%" stop-color="rgba(100,255,218,0)"/>
+          </linearGradient>
+        </defs>
 
-      <!-- ── LEFT CONTEXT: Neural tube ── -->
-      <!-- Neural tube (dorsal structure — source of Wnt) -->
-      <rect x="90" y="62" width="120" height="156" rx="14" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.4)" stroke-width="1.5"/>
-      <text x="150" y="115" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.7)">Neural</text>
-      <text x="150" y="127" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(100,255,218,0.7)">Tube</text>
-      <!-- Wnt arrows from neural tube rightward toward somite -->
-      <g fill="rgba(167,139,250,0.7)" stroke="rgba(167,139,250,0.7)" stroke-width="1.3">
-        <line x1="212" y1="102" x2="232" y2="102"/><polygon points="232,102 222,97 222,107"/>
-        <line x1="212" y1="130" x2="232" y2="130"/><polygon points="232,130 222,125 222,135"/>
-        <line x1="212" y1="158" x2="232" y2="158"/><polygon points="232,158 222,153 222,163"/>
-      </g>
-      <text x="150" y="195" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">Wnt →</text>
-      <text x="150" y="207" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.45)">dermomyotome fate</text>
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- GROUP 1: FORMATION  (dorsal view, A→P)             -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <g id="s24-formation">
+          <!-- Axis labels -->
+          <text x="10" y="15" font-size="8.5" fill="rgba(255,255,255,0.32)">← ANTERIOR</text>
+          <text x="610" y="15" text-anchor="end" font-size="8.5" fill="rgba(255,255,255,0.32)">POSTERIOR →</text>
 
-      <!-- ── NOTOCHORD below somite ── -->
-      <rect x="193" y="242" width="374" height="20" rx="7" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.5"/>
-      <text x="380" y="256" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Notochord</text>
-      <!-- Shh arrows from notochord upward to sclerotome zone of each somite -->
-      <g fill="rgba(255,209,102,0.7)" stroke="rgba(255,209,102,0.7)" stroke-width="1.3">
-        <!-- toward somite cross-section -->
-        <line x1="295" y1="242" x2="295" y2="222"/><polygon points="295,218 290,228 300,228"/>
-        <line x1="380" y1="242" x2="380" y2="222"/><polygon points="380,218 375,228 385,228"/>
-        <line x1="465" y1="242" x2="465" y2="222"/><polygon points="465,218 460,228 470,228"/>
-      </g>
-      <text x="140" y="258" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">Shh ↑</text>
-      <text x="140" y="269" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,209,102,0.45)">sclerotome fate</text>
+          <!-- Neural tube (dorsal midline, teal) -->
+          <rect x="10" y="92" width="530" height="22" rx="5" fill="rgba(100,255,218,0.13)" stroke="#64ffda" stroke-width="1.5"/>
+          <text x="270" y="106" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.55)">Neural Tube (dorsal midline)</text>
+          <!-- Notochord (deep, just below NT in this schematic) -->
+          <rect x="10" y="116" width="530" height="12" rx="4" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.3"/>
+          <text x="270" y="126" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.6)">Notochord</text>
 
-      <!-- ── SOMITE CROSS-SECTION (center) ── -->
-      <!-- One detailed somite cross-section showing all 3 compartments -->
-      <text x="295" y="42" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.4)">Somite cross-section</text>
+          <!-- ── TOP ROW: Left paraxial mesoderm ── -->
+          <!-- PSM background (dashed, extends from S0 rightward) -->
+          <rect x="322" y="26" width="218" height="60" rx="5"
+                fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="5,3"/>
+          <text x="432" y="53" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.35)">Presomitic Mesoderm</text>
+          <text x="432" y="65" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.25)">(oscillating Notch/FGF)</text>
 
-      <!-- Dermatome (top-outer layer — Wnt high) -->
-      <rect x="232" y="52" width="126" height="32" rx="6" fill="rgba(255,110,199,0.28)" stroke="#ff6ec7" stroke-width="1.4"/>
-      <text x="295" y="72" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">Dermatome</text>
-      <text x="295" y="83" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,110,199,0.5)">dorsolateral · Wnt high</text>
+          <!-- Formed somites S1–S5 (top row, each 52px wide, 4px gap) -->
+          <!-- S1 — most differentiated: gold bottom + teal top -->
+          <rect x="10" y="34"  width="52" height="52" rx="0" fill="rgba(255,209,102,0.3)" stroke="none"/>
+          <rect x="10" y="26"  width="52" height="34" rx="0" fill="rgba(100,255,218,0.22)" stroke="none"/>
+          <rect x="10" y="26"  width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="36" y="54"  text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S1</text>
 
-      <!-- Myotome (middle layer) -->
-      <rect x="232" y="85" width="126" height="40" rx="0" fill="rgba(100,255,218,0.25)" stroke="#64ffda" stroke-width="1.4"/>
-      <text x="295" y="109" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">Myotome</text>
-      <text x="295" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(100,255,218,0.5)">intermediate · Wnt + Shh</text>
+          <!-- S2 -->
+          <rect x="66" y="42"  width="52" height="44" rx="0" fill="rgba(255,209,102,0.25)" stroke="none"/>
+          <rect x="66" y="26"  width="52" height="42" rx="0" fill="rgba(100,255,218,0.18)" stroke="none"/>
+          <rect x="66" y="26"  width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="92" y="54"  text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S2</text>
 
-      <!-- Sclerotome (bottom — Shh high) -->
-      <rect x="232" y="126" width="126" height="90" rx="0" fill="rgba(255,209,102,0.25)" stroke="#ffd166" stroke-width="1.4"/>
-      <text x="295" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">Sclerotome</text>
-      <text x="295" y="187" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.5)">ventromedial · Shh high</text>
-      <text x="295" y="199" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.35)">migrates to notochord</text>
-      <!-- Bottom of somite outline (open to notochord) -->
-      <rect x="232" y="52" width="126" height="164" rx="6" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.8"/>
+          <!-- S3 -->
+          <rect x="122" y="50" width="52" height="36" rx="0" fill="rgba(255,209,102,0.18)" stroke="none"/>
+          <rect x="122" y="26" width="52" height="50" rx="0" fill="rgba(100,255,218,0.14)" stroke="none"/>
+          <rect x="122" y="26" width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="148" y="54" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S3</text>
 
-      <!-- ── RIGHT CONTEXT: Lateral plate mesoderm ── -->
-      <rect x="540" y="84" width="120" height="112" rx="14" fill="rgba(255,110,199,0.07)" stroke="rgba(255,110,199,0.3)" stroke-width="1.5"/>
-      <text x="600" y="137" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.6)">Lateral plate</text>
-      <text x="600" y="149" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.6)">mesoderm</text>
-      <!-- BMP arrows leftward from lateral plate -->
-      <g fill="rgba(255,110,199,0.6)" stroke="rgba(255,110,199,0.6)" stroke-width="1.3">
-        <line x1="538" y1="110" x2="358" y2="110"/><polygon points="358,110 368,105 368,115"/>
-        <line x1="538" y1="150" x2="358" y2="150"/><polygon points="358,150 368,145 368,155"/>
-        <line x1="538" y1="190" x2="358" y2="190"/><polygon points="358,190 368,185 368,195"/>
-      </g>
-      <text x="600" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">← BMP4</text>
-      <text x="600" y="222" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.4)">promotes lateral fate</text>
+          <!-- S4 (freshly epithelialized, uniform) -->
+          <rect x="178" y="26" width="52" height="60" rx="5" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="204" y="60" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S4</text>
 
-      <!-- Right-side fate labels -->
-      <text x="418" y="73" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ff6ec7">→ Back dermis</text>
-      <text x="418" y="112" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#64ffda">→ Skeletal muscle</text>
-      <text x="418" y="175" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#ffd166">→ Vertebrae &amp; ribs</text>
-    </svg>
-    <div class="fig-caption">Somite compartments are specified by competing signals: Shh from the notochord drives sclerotome (ventromedial) fate; Wnt from the neural tube drives dermomyotome (dorsolateral) fate; BMP from the lateral plate marks the boundary of the somite. The interplay of these gradients defines all three structural derivatives.</div>
-  </div>
+          <!-- S5 (freshly epithelialized, uniform) -->
+          <rect x="234" y="26" width="52" height="60" rx="5" fill="rgba(167,139,250,0.17)" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="260" y="60" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S5</text>
 
-  <!-- SEGMENTATION CLOCK FIGURE -->
-  <div class="figure reveal" style="margin-top:1.5rem;">
-    <div class="fig-label">Fig 2.4c · The Segmentation Clock &amp; FGF/RA Wavefront</div>
-    <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" style="max-height:240px;">
-      <defs>
-        <linearGradient id="fgf-grad" x1="1" y1="0" x2="0" y2="0">
-          <stop offset="0%" stop-color="rgba(255,110,199,0.7)"/>
-          <stop offset="55%" stop-color="rgba(255,110,199,0.2)"/>
-          <stop offset="100%" stop-color="rgba(255,110,199,0.0)"/>
-        </linearGradient>
-        <linearGradient id="ra-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="rgba(100,255,218,0.7)"/>
-          <stop offset="55%" stop-color="rgba(100,255,218,0.2)"/>
-          <stop offset="100%" stop-color="rgba(100,255,218,0.0)"/>
-        </linearGradient>
-      </defs>
+          <!-- S0 — currently forming (dashed border, pinching off) -->
+          <rect x="290" y="26" width="30" height="60" rx="4"
+                fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="305" y="52" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)">S0</text>
+          <text x="305" y="64" text-anchor="middle" font-size="7" fill="rgba(167,139,250,0.45)">forming</text>
+          <!-- Pinch arrows -->
+          <line x1="290" y1="56" x2="283" y2="56" stroke="#a78bfa" stroke-width="1.3" marker-end="url(#s24-av)"/>
 
-      <!-- Axis label: ANTERIOR left, POSTERIOR right -->
-      <text x="30"  y="18" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.4)">← ANTERIOR</text>
-      <text x="720" y="18" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.4)">POSTERIOR →</text>
+          <!-- ── BOTTOM ROW: Right paraxial mesoderm (bilateral mirror) ── -->
+          <!-- PSM background -->
+          <rect x="322" y="132" width="218" height="60" rx="5"
+                fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="5,3"/>
 
-      <!-- RA gradient bar (high anterior) -->
-      <rect x="30" y="28" width="700" height="14" rx="4" fill="url(#ra-grad)"/>
-      <text x="20" y="40" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="8" fill="#64ffda">RA ▲</text>
+          <!-- Bottom S1 -->
+          <rect x="10" y="140"  width="52" height="44" rx="0" fill="rgba(255,209,102,0.3)" stroke="none"/>
+          <rect x="10" y="132"  width="52" height="34" rx="0" fill="rgba(100,255,218,0.22)" stroke="none"/>
+          <rect x="10" y="132"  width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="36" y="166"  text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S1</text>
+          <!-- Bottom S2 -->
+          <rect x="66" y="148"  width="52" height="44" rx="0" fill="rgba(255,209,102,0.25)" stroke="none"/>
+          <rect x="66" y="132"  width="52" height="42" rx="0" fill="rgba(100,255,218,0.18)" stroke="none"/>
+          <rect x="66" y="132"  width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="92" y="166"  text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S2</text>
+          <!-- Bottom S3 -->
+          <rect x="122" y="156" width="52" height="36" rx="0" fill="rgba(255,209,102,0.18)" stroke="none"/>
+          <rect x="122" y="132" width="52" height="50" rx="0" fill="rgba(100,255,218,0.14)" stroke="none"/>
+          <rect x="122" y="132" width="52" height="60" rx="5" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="148" y="166" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S3</text>
+          <!-- Bottom S4 -->
+          <rect x="178" y="132" width="52" height="60" rx="5" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="204" y="166" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S4</text>
+          <!-- Bottom S5 -->
+          <rect x="234" y="132" width="52" height="60" rx="5" fill="rgba(167,139,250,0.17)" stroke="#a78bfa" stroke-width="1.8"/>
+          <text x="260" y="166" text-anchor="middle" font-size="9" fill="#a78bfa" font-weight="700">S5</text>
+          <!-- Bottom S0 forming -->
+          <rect x="290" y="132" width="30" height="60" rx="4"
+                fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="305" y="160" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)">S0</text>
+          <line x1="290" y1="162" x2="283" y2="162" stroke="#a78bfa" stroke-width="1.3" marker-end="url(#s24-av)"/>
 
-      <!-- FGF/Wnt gradient bar (high posterior) -->
-      <rect x="30" y="46" width="700" height="14" rx="4" fill="url(#fgf-grad)"/>
-      <text x="20" y="58" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="8" fill="#ff6ec7">FGF ▲</text>
+          <!-- Tailbud -->
+          <ellipse cx="570" cy="107" rx="30" ry="68"
+                   fill="rgba(255,110,199,0.16)" stroke="#ff6ec7" stroke-width="1.6"/>
+          <text x="570" y="100" text-anchor="middle" font-size="8" fill="#ff6ec7">Tail-</text>
+          <text x="570" y="112" text-anchor="middle" font-size="8" fill="#ff6ec7">bud</text>
+          <text x="570" y="125" text-anchor="middle" font-size="7" fill="rgba(255,110,199,0.5)">FGF src</text>
 
-      <!-- Determination front line -->
-      <line x1="380" y1="24" x2="380" y2="195" stroke="rgba(255,209,102,0.8)" stroke-width="2" stroke-dasharray="7,4"/>
-      <text x="380" y="207" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#ffd166">Determination front</text>
-      <text x="380" y="217" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,209,102,0.45)">(FGF = RA threshold)</text>
+          <!-- A→P direction arrow -->
+          <line x1="36" y1="218" x2="530" y2="218" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" marker-end="url(#s24-av)"/>
+          <text x="283" y="233" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)">Somitogenesis direction: Anterior → Posterior</text>
 
-      <!-- Already-formed somites (anterior, left of front) -->
-      <g fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="1.3">
-        <rect x="34"  y="80" width="62" height="90" rx="6"/>
-        <rect x="102" y="80" width="62" height="90" rx="6"/>
-        <rect x="170" y="80" width="62" height="90" rx="6"/>
-        <rect x="238" y="80" width="62" height="90" rx="6"/>
-        <rect x="306" y="80" width="62" height="90" rx="6"/>
-      </g>
-      <text x="196" y="130" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">Formed somites</text>
-      <text x="196" y="142" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(167,139,250,0.45)">(S1 → S5)</text>
+          <!-- Stage annotation labels below rows -->
+          <text x="80"  y="248" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.65)">differentiating</text>
+          <text x="204" y="248" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)">epithelialized</text>
+          <text x="305" y="248" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.45)">forming</text>
+          <text x="432" y="248" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.32)">PSM (mesenchyme)</text>
+          <line x1="10" y1="254" x2="618" y2="254" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
 
-      <!-- Presomitic mesoderm (right of determination front — oscillating clock) -->
-      <rect x="384" y="80" width="346" height="90" rx="6" fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.25)" stroke-width="1.2"/>
-      <text x="558" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,110,199,0.65)">Presomitic mesoderm (PSM)</text>
-      <text x="558" y="133" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,110,199,0.4)">Notch/Wnt/FGF oscillations</text>
-      <!-- Oscillation wave representation -->
-      <path d="M390,155 Q410,140 430,155 Q450,170 470,155 Q490,140 510,155 Q530,170 550,155 Q570,140 590,155 Q610,170 630,155 Q650,140 670,155 Q690,170 720,155"
-            stroke="rgba(255,110,199,0.5)" stroke-width="2" fill="none"/>
-      <text x="558" y="180" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(255,110,199,0.35)">~ segmentation clock oscillation wave ~</text>
+          <!-- Legend -->
+          <g transform="translate(10,265)" font-size="8.5">
+            <rect x="0" y="0" width="10" height="10" rx="2" fill="rgba(100,255,218,0.35)" stroke="#64ffda" stroke-width="1"/>
+            <text x="14" y="9" fill="rgba(255,255,255,0.45)">Dermomyotome forming (teal, dorsal)</text>
+            <rect x="270" y="0" width="10" height="10" rx="2" fill="rgba(255,209,102,0.4)" stroke="#ffd166" stroke-width="1"/>
+            <text x="284" y="9" fill="rgba(255,255,255,0.45)">Sclerotome forming (gold, ventral)</text>
+          </g>
+          <g transform="translate(10,283)" font-size="8.5">
+            <rect x="0" y="0" width="10" height="10" rx="2" fill="rgba(167,139,250,0.35)" stroke="#a78bfa" stroke-width="1"/>
+            <text x="14" y="9" fill="rgba(255,255,255,0.45)">New somite (not yet differentiated)</text>
+            <rect x="270" y="0" width="10" height="10" rx="2" fill="rgba(255,110,199,0.25)" stroke="#ff6ec7" stroke-width="1"/>
+            <text x="284" y="9" fill="rgba(255,255,255,0.45)">Tailbud (FGF source → PSM maintenance)</text>
+          </g>
 
-      <!-- Tailbud (source of FGF, rightmost) -->
-      <ellipse cx="730" cy="125" rx="22" ry="42" fill="rgba(255,110,199,0.2)" stroke="rgba(255,110,199,0.5)" stroke-width="1.5"/>
-      <text x="730" y="122" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">Tail-</text>
-      <text x="730" y="133" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff6ec7">bud</text>
-    </svg>
-    <div class="fig-caption">The segmentation clock (Notch/Wnt/FGF oscillations in the PSM) interacts with the FGF/RA counter-gradients to set the determination front. Each time the clock "ticks" at the determination front, a new somite boundary is cut — anterior to posterior. Clock period = segment size.</div>
+          <!-- Bilateral label -->
+          <text x="610" y="57" text-anchor="end" font-size="7.5" fill="rgba(167,139,250,0.5)">Left PSM</text>
+          <text x="610" y="163" text-anchor="end" font-size="7.5" fill="rgba(167,139,250,0.5)">Right PSM</text>
+          <text x="610" y="107" text-anchor="end" font-size="7.5" fill="rgba(100,255,218,0.5)">NT + NC</text>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- GROUP 2: SOMITE STRUCTURE (transverse section)      -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <g id="s24-structure" style="opacity:0">
+          <text x="310" y="18" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.38)">Transverse cross-section — one somite (left shown)</text>
+
+          <!-- Neural tube center -->
+          <circle cx="310" cy="140" r="46" fill="rgba(100,255,218,0.12)" stroke="#64ffda" stroke-width="2"/>
+          <circle cx="310" cy="140" r="21" fill="rgba(6,9,22,0.88)" stroke="rgba(100,255,218,0.28)" stroke-width="1.2"/>
+          <text x="310" y="136" text-anchor="middle" font-size="9" fill="rgba(100,255,218,0.7)" font-weight="600">Neural</text>
+          <text x="310" y="149" text-anchor="middle" font-size="9" fill="rgba(100,255,218,0.7)" font-weight="600">Tube</text>
+          <text x="310" y="100" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.55)">Wnt source (dorsal NT)</text>
+
+          <!-- Notochord below -->
+          <ellipse cx="310" cy="200" rx="26" ry="13" fill="rgba(255,209,102,0.3)" stroke="#ffd166" stroke-width="2"/>
+          <text x="310" y="204" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Notochord</text>
+          <text x="310" y="224" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.55)">Shh source (ventral)</text>
+
+          <!-- LEFT SOMITE -->
+          <text x="148" y="80" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.38)">Somite (left)</text>
+          <!-- Dermatome (dorsal outer) -->
+          <rect x="78" y="90" width="140" height="32" rx="5" fill="rgba(255,110,199,0.28)" stroke="#ff6ec7" stroke-width="1.6"/>
+          <text x="148" y="108" text-anchor="middle" font-size="8.5" fill="#ff6ec7" font-weight="600">Dermatome</text>
+          <text x="148" y="119" text-anchor="middle" font-size="7" fill="rgba(255,110,199,0.5)">dorsolateral · Wnt-high</text>
+          <!-- Myotome -->
+          <rect x="78" y="122" width="140" height="42" rx="0" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="1.6"/>
+          <text x="148" y="145" text-anchor="middle" font-size="8.5" fill="#64ffda" font-weight="600">Myotome</text>
+          <text x="148" y="156" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.5)">Wnt + low Shh · Myf5/MyoD</text>
+          <!-- Sclerotome -->
+          <rect x="78" y="164" width="140" height="62" rx="0" fill="rgba(255,209,102,0.24)" stroke="#ffd166" stroke-width="1.6"/>
+          <text x="148" y="188" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Sclerotome</text>
+          <text x="148" y="200" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.5)">ventromedial · Shh-high · Pax1</text>
+          <text x="148" y="212" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.38)">migrates toward notochord</text>
+          <!-- Somite border -->
+          <rect x="78" y="90" width="140" height="136" rx="5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+          <!-- RIGHT SOMITE (mirror) -->
+          <text x="474" y="80" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.38)">Somite (right)</text>
+          <rect x="402" y="90" width="140" height="32" rx="5" fill="rgba(255,110,199,0.28)" stroke="#ff6ec7" stroke-width="1.6"/>
+          <text x="472" y="108" text-anchor="middle" font-size="8.5" fill="#ff6ec7" font-weight="600">Dermatome</text>
+          <rect x="402" y="122" width="140" height="42" rx="0" fill="rgba(100,255,218,0.2)" stroke="#64ffda" stroke-width="1.6"/>
+          <text x="472" y="148" text-anchor="middle" font-size="8.5" fill="#64ffda" font-weight="600">Myotome</text>
+          <rect x="402" y="164" width="140" height="62" rx="0" fill="rgba(255,209,102,0.24)" stroke="#ffd166" stroke-width="1.6"/>
+          <text x="472" y="195" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Sclerotome</text>
+          <rect x="402" y="90" width="140" height="136" rx="5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+          <!-- Signal arrows Wnt → dermomyotome -->
+          <line x1="264" y1="118" x2="222" y2="108" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#s24-av)"/>
+          <line x1="356" y1="118" x2="398" y2="108" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#s24-av)"/>
+          <text x="68" y="106" text-anchor="end" font-size="8" fill="#a78bfa">Wnt</text>
+          <text x="553" y="106" font-size="8" fill="#a78bfa">Wnt</text>
+
+          <!-- Shh → sclerotome -->
+          <line x1="292" y1="188" x2="222" y2="210" stroke="#ffd166" stroke-width="1.8" marker-end="url(#s24-ag)"/>
+          <line x1="328" y1="188" x2="398" y2="210" stroke="#ffd166" stroke-width="1.8" marker-end="url(#s24-ag)"/>
+          <text x="68" y="218" text-anchor="end" font-size="8" fill="#ffd166">Shh</text>
+          <text x="553" y="218" font-size="8" fill="#ffd166">Shh</text>
+
+          <!-- BMP from lateral -->
+          <text x="16" y="173" font-size="8" fill="#ff6ec7" text-anchor="middle">BMP4</text>
+          <line x1="22" y1="178" x2="78" y2="178" stroke="#ff6ec7" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s24-ar)"/>
+          <text x="604" y="173" font-size="8" fill="#ff6ec7" text-anchor="middle">BMP4</text>
+          <line x1="598" y1="178" x2="542" y2="178" stroke="#ff6ec7" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s24-ar)"/>
+          <text x="16" y="185" font-size="7" fill="rgba(255,110,199,0.4)" text-anchor="middle">lat. plate</text>
+          <text x="604" y="185" font-size="7" fill="rgba(255,110,199,0.4)" text-anchor="middle">lat. plate</text>
+
+          <!-- Legend -->
+          <g transform="translate(10,270)" font-size="8.5">
+            <rect x="0" y="0" width="10" height="10" rx="2" fill="rgba(255,110,199,0.35)" stroke="#ff6ec7" stroke-width="1"/>
+            <text x="14" y="9" fill="rgba(255,255,255,0.45)">Dermatome → back dermis</text>
+            <rect x="195" y="0" width="10" height="10" rx="2" fill="rgba(100,255,218,0.3)" stroke="#64ffda" stroke-width="1"/>
+            <text x="209" y="9" fill="rgba(255,255,255,0.45)">Myotome → skeletal muscle</text>
+            <rect x="400" y="0" width="10" height="10" rx="2" fill="rgba(255,209,102,0.3)" stroke="#ffd166" stroke-width="1"/>
+            <text x="414" y="9" fill="rgba(255,255,255,0.45)">Sclerotome → vertebrae/ribs</text>
+          </g>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- GROUP 3: SIGNALS                                    -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <g id="s24-signals" style="opacity:0">
+          <text x="310" y="18" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.38)">Signal gradients along the D-V axis of the somite</text>
+
+          <!-- Somite compartments -->
+          <rect x="200" y="32" width="220" height="72" rx="5" fill="rgba(255,110,199,0.24)" stroke="#ff6ec7" stroke-width="1.6"/>
+          <text x="310" y="60" text-anchor="middle" font-size="9.5" fill="#ff6ec7" font-weight="700">Dermomyotome</text>
+          <text x="310" y="74" text-anchor="middle" font-size="8" fill="rgba(255,110,199,0.6)">Dorsolateral zone · Wnt-high · BMP-exposed</text>
+          <text x="310" y="87" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.45)">TFs: Pax3, Pax7, Dermo1</text>
+          <text x="310" y="98" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.38)">→ back dermis + all skeletal muscle</text>
+
+          <rect x="200" y="108" width="220" height="60" rx="0" fill="rgba(100,255,218,0.18)" stroke="#64ffda" stroke-width="1.6"/>
+          <text x="310" y="132" text-anchor="middle" font-size="9.5" fill="#64ffda" font-weight="700">Myotome</text>
+          <text x="310" y="147" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.6)">Mediolateral · Wnt + low Shh</text>
+          <text x="310" y="160" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.42)">TFs: Myf5, MyoD · forms first</text>
+
+          <rect x="200" y="172" width="220" height="90" rx="0" fill="rgba(255,209,102,0.2)" stroke="#ffd166" stroke-width="1.6"/>
+          <text x="310" y="200" text-anchor="middle" font-size="9.5" fill="#ffd166" font-weight="700">Sclerotome</text>
+          <text x="310" y="215" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.6)">Ventromedial · Shh-high · Wnt-low</text>
+          <text x="310" y="228" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.45)">TF: Pax1 / Pax9</text>
+          <text x="310" y="242" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.38)">Undergoes EMT, migrates ventromedially</text>
+          <!-- Outer somite border -->
+          <rect x="200" y="32" width="220" height="230" rx="5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.2"/>
+
+          <!-- Signal source boxes on left -->
+          <rect x="14" y="32" width="160" height="52" rx="6" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.2"/>
+          <text x="94" y="52" text-anchor="middle" font-size="8.5" fill="#a78bfa" font-weight="600">Neural Tube (dorsal)</text>
+          <text x="94" y="65" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.55)">Wnt1 / Wnt3a →</text>
+          <text x="94" y="77" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.42)">dermomyotome fate</text>
+          <line x1="174" y1="56" x2="198" y2="62" stroke="#a78bfa" stroke-width="1.6" marker-end="url(#s24-av)"/>
+
+          <rect x="14" y="108" width="160" height="52" rx="6" fill="rgba(255,110,199,0.08)" stroke="#ff6ec7" stroke-width="1.2"/>
+          <text x="94" y="128" text-anchor="middle" font-size="8.5" fill="#ff6ec7" font-weight="600">Lateral Plate Mesoderm</text>
+          <text x="94" y="142" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.55)">BMP4 (lateral) →</text>
+          <text x="94" y="154" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.42)">lateral somite fate</text>
+          <line x1="174" y1="134" x2="198" y2="138" stroke="#ff6ec7" stroke-width="1.6" marker-end="url(#s24-ar)"/>
+
+          <rect x="14" y="192" width="160" height="52" rx="6" fill="rgba(255,209,102,0.1)" stroke="#ffd166" stroke-width="1.2"/>
+          <text x="94" y="212" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Notochord (ventral)</text>
+          <text x="94" y="225" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.55)">Shh ↑ →</text>
+          <text x="94" y="237" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.42)">sclerotome fate · Pax1</text>
+          <line x1="174" y1="214" x2="198" y2="220" stroke="#ffd166" stroke-width="1.6" marker-end="url(#s24-ag)"/>
+
+          <!-- Key logic summary at bottom -->
+          <rect x="14" y="280" width="592" height="110" rx="7" fill="rgba(8,11,26,0.55)" stroke="var(--line)" stroke-width="1"/>
+          <text x="26" y="298" font-size="9" fill="rgba(255,255,255,0.68)" font-weight="600">Opposing gradient logic</text>
+          <text x="26" y="314" font-size="8" fill="rgba(255,255,255,0.42)">▸ High Shh + low Wnt   →  Pax1 ON  →  Sclerotome  →  vertebrae, ribs</text>
+          <text x="26" y="328" font-size="8" fill="rgba(255,255,255,0.42)">▸ High Wnt + low Shh   →  Pax3/7 ON  →  Dermomyotome  →  muscle + dermis</text>
+          <text x="26" y="342" font-size="8" fill="rgba(255,255,255,0.42)">▸ BMP4 from lateral plate inhibits medial somite fate, reinforces lateral boundary</text>
+          <text x="26" y="358" font-size="8" fill="rgba(255,255,255,0.42)">▸ Noggin (from NT/notochord) antagonizes BMP4 medially → protects myotome specification</text>
+          <text x="26" y="374" font-size="8" fill="rgba(255,255,255,0.42)">▸ These signals act combinatorially — no single signal alone determines compartment fate</text>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- GROUP 4: SEGMENTATION CLOCK                         -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <g id="s24-clock" style="opacity:0">
+          <text x="16"  y="16" font-size="8.5" fill="rgba(255,255,255,0.32)">← ANTERIOR</text>
+          <text x="604" y="16" text-anchor="end" font-size="8.5" fill="rgba(255,255,255,0.32)">POSTERIOR →</text>
+
+          <!-- Gradient bars -->
+          <rect x="16" y="24" width="580" height="15" rx="4" fill="url(#s24-ra)"/>
+          <text x="10" y="36" text-anchor="end" font-size="8" fill="#64ffda">RA ▲</text>
+          <text x="44" y="35" font-size="7.5" fill="rgba(100,255,218,0.55)">high</text>
+          <text x="566" y="35" text-anchor="end" font-size="7.5" fill="rgba(100,255,218,0.28)">low</text>
+
+          <rect x="16" y="43" width="580" height="15" rx="4" fill="url(#s24-fgf)"/>
+          <text x="10" y="55" text-anchor="end" font-size="8" fill="#ff6ec7">FGF ▲</text>
+          <text x="566" y="55" text-anchor="end" font-size="7.5" fill="rgba(255,110,199,0.55)">high</text>
+          <text x="44" y="55" font-size="7.5" fill="rgba(255,110,199,0.28)">low</text>
+
+          <!-- Determination front -->
+          <line x1="330" y1="20" x2="330" y2="200" stroke="#ffd166" stroke-width="2.2" stroke-dasharray="8,4"/>
+          <text x="330" y="212" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Determination Front</text>
+          <text x="330" y="225" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.48)">(FGF = RA threshold)</text>
+
+          <!-- Formed somites (left of front) -->
+          <g fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.4">
+            <rect x="18"  y="70" width="56" height="92" rx="5"/>
+            <rect x="80"  y="70" width="56" height="92" rx="5"/>
+            <rect x="142" y="70" width="56" height="92" rx="5"/>
+            <rect x="204" y="70" width="56" height="92" rx="5"/>
+            <rect x="266" y="70" width="56" height="92" rx="5"/>
+          </g>
+          <!-- Differentiation tinting on old somites -->
+          <rect x="18"  y="116" width="56" height="46" rx="0" fill="rgba(255,209,102,0.15)" stroke="none"/>
+          <rect x="80"  y="116" width="56" height="46" rx="0" fill="rgba(255,209,102,0.12)" stroke="none"/>
+          <text x="172" y="118" text-anchor="middle" font-size="8.5" fill="#a78bfa">Formed somites</text>
+          <text x="172" y="131" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.45)">S1 → S5</text>
+
+          <!-- Forming somite (at front) -->
+          <rect x="266" y="70" width="56" height="92" rx="5" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="5,3"/>
+          <text x="294" y="115" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.65)">S0</text>
+          <text x="294" y="128" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.45)">forming</text>
+
+          <!-- PSM (right of front) -->
+          <rect x="334" y="70" width="240" height="92" rx="5"
+                fill="rgba(255,110,199,0.06)" stroke="rgba(255,110,199,0.28)" stroke-width="1.2"/>
+          <text x="454" y="108" text-anchor="middle" font-size="9" fill="rgba(255,110,199,0.65)">Presomitic Mesoderm (PSM)</text>
+          <text x="454" y="122" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.38)">Notch/Wnt/FGF oscillating</text>
+          <!-- Oscillation wave -->
+          <path d="M340,148 Q356,134 372,148 Q388,162 404,148 Q420,134 436,148 Q452,162 468,148 Q484,134 500,148 Q516,162 532,148 Q548,134 564,148 Q572,156 574,158"
+                stroke="rgba(255,110,199,0.55)" stroke-width="2" fill="none"/>
+          <text x="454" y="175" text-anchor="middle" font-size="7" fill="rgba(255,110,199,0.3)">~clock oscillation~</text>
+
+          <!-- Tailbud -->
+          <ellipse cx="596" cy="116" rx="18" ry="46" fill="rgba(255,110,199,0.18)" stroke="#ff6ec7" stroke-width="1.5"/>
+          <text x="596" y="112" text-anchor="middle" font-size="7.5" fill="#ff6ec7">Tail</text>
+          <text x="596" y="124" text-anchor="middle" font-size="7.5" fill="#ff6ec7">bud</text>
+
+          <!-- Explainer boxes -->
+          <rect x="14" y="240" width="284" height="148" rx="7" fill="rgba(8,11,26,0.55)" stroke="var(--line)" stroke-width="1"/>
+          <text x="26" y="258" font-size="9" fill="rgba(255,110,199,0.8)" font-weight="600">Segmentation Clock</text>
+          <text x="26" y="274" font-size="8" fill="rgba(255,255,255,0.42)">▸ Notch/Wnt/FGF oscillate in sync in PSM</text>
+          <text x="26" y="288" font-size="8" fill="rgba(255,255,255,0.42)">▸ ~90 min/cycle (mouse) · 6 h (human)</text>
+          <text x="26" y="302" font-size="8" fill="rgba(255,255,255,0.42)">▸ Each "tick" at det. front = 1 new boundary</text>
+          <text x="26" y="316" font-size="8" fill="rgba(255,255,255,0.42)">▸ Clock period → segment size</text>
+          <text x="26" y="330" font-size="8" fill="rgba(255,255,255,0.42)">▸ Lunatic fringe periodically represses Notch</text>
+          <text x="26" y="344" font-size="8" fill="rgba(255,255,255,0.42)">▸ Snakes have 200–400+ pairs vs ~65 in mouse</text>
+          <text x="26" y="358" font-size="8" fill="rgba(255,255,255,0.42)">  (altered clock speed + wavefront dynamics)</text>
+          <text x="26" y="376" font-size="8" fill="rgba(255,209,102,0.42)">▸ Disruption (e.g. lunatic fringe mutant) → fused</text>
+          <text x="26" y="388" font-size="8" fill="rgba(255,209,102,0.42)">  vertebrae (congenital scoliosis model)</text>
+
+          <rect x="306" y="240" width="298" height="148" rx="7" fill="rgba(8,11,26,0.55)" stroke="var(--line)" stroke-width="1"/>
+          <text x="318" y="258" font-size="9" fill="rgba(100,255,218,0.7)" font-weight="600">FGF / RA Wavefront</text>
+          <text x="318" y="274" font-size="8" fill="rgba(255,255,255,0.42)">▸ FGF8 mRNA: high tailbud → decays anteriorly</text>
+          <text x="318" y="288" font-size="8" fill="rgba(255,255,255,0.42)">  → keeps PSM cells immature</text>
+          <text x="318" y="302" font-size="8" fill="rgba(255,255,255,0.42)">▸ Retinoic acid (RA): high anteriorly (from</text>
+          <text x="318" y="316" font-size="8" fill="rgba(255,255,255,0.42)">  somites) → matures cells for boundary cut</text>
+          <text x="318" y="330" font-size="8" fill="rgba(255,255,255,0.42)">▸ Det. Front = where FGF = RA threshold</text>
+          <text x="318" y="344" font-size="8" fill="rgba(255,255,255,0.42)">▸ Front moves posteriorly as embryo elongates</text>
+          <text x="318" y="358" font-size="8" fill="rgba(255,255,255,0.42)">▸ Clock wave arrives → boundary committed</text>
+          <text x="318" y="374" font-size="8" fill="rgba(255,255,255,0.42)">  only when RA threshold is also met</text>
+          <text x="318" y="388" font-size="8" fill="rgba(255,255,255,0.42)">▸ Result: equally-spaced segments, A→P</text>
+        </g>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- GROUP 5: FATES                                      -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <g id="s24-fates" style="opacity:0">
+          <text x="310" y="18" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.38)">Somite fate map — three compartments, distinct adult derivatives</text>
+
+          <!-- Somite source -->
+          <rect x="220" y="28" width="180" height="44" rx="8" fill="rgba(167,139,250,0.22)" stroke="#a78bfa" stroke-width="2"/>
+          <text x="310" y="48" text-anchor="middle" font-size="12" fill="#a78bfa" font-weight="700">Somite</text>
+          <text x="310" y="63" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.55)">epithelial block of paraxial mesoderm</text>
+
+          <!-- Branch lines -->
+          <line x1="258" y1="72" x2="116" y2="115" stroke="rgba(255,209,102,0.45)" stroke-width="1.8"/>
+          <line x1="310" y1="72" x2="310" y2="115" stroke="rgba(100,255,218,0.45)" stroke-width="1.8"/>
+          <line x1="362" y1="72" x2="496" y2="115" stroke="rgba(255,110,199,0.45)" stroke-width="1.8"/>
+
+          <!-- SCLEROTOME box -->
+          <rect x="22" y="115" width="188" height="55" rx="6" fill="rgba(255,209,102,0.18)" stroke="#ffd166" stroke-width="1.8"/>
+          <text x="116" y="138" text-anchor="middle" font-size="10.5" fill="#ffd166" font-weight="700">Sclerotome</text>
+          <text x="116" y="153" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.55)">ventromedial · Pax1/Pax9</text>
+          <text x="116" y="163" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.4)">Shh-dependent</text>
+
+          <!-- MYOTOME box -->
+          <rect x="216" y="115" width="188" height="55" rx="6" fill="rgba(100,255,218,0.16)" stroke="#64ffda" stroke-width="1.8"/>
+          <text x="310" y="138" text-anchor="middle" font-size="10.5" fill="#64ffda" font-weight="700">Myotome</text>
+          <text x="310" y="153" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.55)">mediolateral · Myf5/MyoD</text>
+          <text x="310" y="163" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.4)">Wnt + low Shh</text>
+
+          <!-- DERMATOME box -->
+          <rect x="410" y="115" width="188" height="55" rx="6" fill="rgba(255,110,199,0.16)" stroke="#ff6ec7" stroke-width="1.8"/>
+          <text x="504" y="138" text-anchor="middle" font-size="10.5" fill="#ff6ec7" font-weight="700">Dermatome</text>
+          <text x="504" y="153" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.55)">dorsolateral · Pax3/Dermo1</text>
+          <text x="504" y="163" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.4)">Wnt-high</text>
+
+          <!-- Sub-fate lines -->
+          <line x1="82"  y1="170" x2="56"  y2="208" stroke="rgba(255,209,102,0.32)" stroke-width="1.2"/>
+          <line x1="148" y1="170" x2="172" y2="208" stroke="rgba(255,209,102,0.32)" stroke-width="1.2"/>
+          <rect x="14"  y="208" width="92" height="40" rx="4" fill="rgba(255,209,102,0.1)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+          <text x="60"  y="223" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.7)" font-weight="600">Vertebrae</text>
+          <text x="60"  y="237" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.42)">+ Ribs</text>
+          <rect x="114" y="208" width="92" height="40" rx="4" fill="rgba(255,209,102,0.1)" stroke="rgba(255,209,102,0.38)" stroke-width="1"/>
+          <text x="160" y="223" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.7)" font-weight="600">Nucleus</text>
+          <text x="160" y="237" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.42)">pulposus</text>
+
+          <line x1="276" y1="170" x2="252" y2="208" stroke="rgba(100,255,218,0.32)" stroke-width="1.2"/>
+          <line x1="344" y1="170" x2="370" y2="208" stroke="rgba(100,255,218,0.32)" stroke-width="1.2"/>
+          <rect x="208" y="208" width="92" height="40" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.38)" stroke-width="1"/>
+          <text x="254" y="223" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.7)" font-weight="600">Epaxial</text>
+          <text x="254" y="237" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.42)">back muscle</text>
+          <rect x="308" y="208" width="92" height="40" rx="4" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.38)" stroke-width="1"/>
+          <text x="354" y="223" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.7)" font-weight="600">Hypaxial</text>
+          <text x="354" y="237" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.42)">limb muscle</text>
+
+          <line x1="470" y1="170" x2="446" y2="208" stroke="rgba(255,110,199,0.32)" stroke-width="1.2"/>
+          <line x1="538" y1="170" x2="562" y2="208" stroke="rgba(255,110,199,0.32)" stroke-width="1.2"/>
+          <rect x="402" y="208" width="92" height="40" rx="4" fill="rgba(255,110,199,0.08)" stroke="rgba(255,110,199,0.38)" stroke-width="1"/>
+          <text x="448" y="223" text-anchor="middle" font-size="8" fill="rgba(255,110,199,0.7)" font-weight="600">Dermis</text>
+          <text x="448" y="237" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.42)">of back/neck</text>
+          <rect x="502" y="208" width="106" height="40" rx="4" fill="rgba(255,110,199,0.08)" stroke="rgba(255,110,199,0.38)" stroke-width="1"/>
+          <text x="555" y="223" text-anchor="middle" font-size="8" fill="rgba(255,110,199,0.7)" font-weight="600">Endothelia</text>
+          <text x="555" y="237" text-anchor="middle" font-size="7.5" fill="rgba(255,110,199,0.42)">minor contrib.</text>
+
+          <!-- Detail panels -->
+          <rect x="14"  y="265" width="184" height="132" rx="6" fill="rgba(8,11,26,0.5)" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>
+          <text x="106" y="282" text-anchor="middle" font-size="8.5" fill="#ffd166" font-weight="600">Sclerotome detail</text>
+          <text x="22"  y="297" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Pax1 marks sclerotome cells</text>
+          <text x="22"  y="311" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Migrate perinotochordally (EMT)</text>
+          <text x="22"  y="325" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Condense → cartilage (Sox9 ON)</text>
+          <text x="22"  y="339" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Ossify → vertebral body + arch</text>
+          <text x="22"  y="353" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ RESEGMENTATION: caudal + cranial</text>
+          <text x="22"  y="365" font-size="7.5" fill="rgba(255,255,255,0.4)">  halves of adj. somites → 1 vertebra</text>
+          <text x="22"  y="380" font-size="7.5" fill="rgba(255,209,102,0.45)">  → spinal nerves can exit each level</text>
+
+          <rect x="216" y="265" width="188" height="132" rx="6" fill="rgba(8,11,26,0.5)" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>
+          <text x="310" y="282" text-anchor="middle" font-size="8.5" fill="#64ffda" font-weight="600">Myotome detail</text>
+          <text x="224" y="297" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Myf5 + MyoD: master regulators</text>
+          <text x="224" y="311" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Epaxial: deep back (erector spinae)</text>
+          <text x="224" y="325" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Hypaxial: migrates into limb bud</text>
+          <text x="224" y="339" font-size="7.5" fill="rgba(255,255,255,0.4)">  → ALL limb skeletal muscle</text>
+          <text x="224" y="353" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Also: diaphragm, tongue, body wall</text>
+          <text x="224" y="367" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Guided by scatter factor (HGF)</text>
+          <text x="224" y="381" font-size="7.5" fill="rgba(100,255,218,0.45)">  and Lbx1 for long-range migration</text>
+
+          <rect x="412" y="265" width="194" height="132" rx="6" fill="rgba(8,11,26,0.5)" stroke="rgba(255,110,199,0.3)" stroke-width="1"/>
+          <text x="509" y="282" text-anchor="middle" font-size="8.5" fill="#ff6ec7" font-weight="600">Dermatome detail</text>
+          <text x="420" y="297" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Pax3 / Dermo1 (Twist2)</text>
+          <text x="420" y="311" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Spreads under ectoderm dorsally</text>
+          <text x="420" y="325" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Dermis of back, neck, scalp</text>
+          <text x="420" y="339" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ NOT facial dermis! (= neural crest)</text>
+          <text x="420" y="353" font-size="7.5" fill="rgba(255,255,255,0.4)">▸ Segmental origin → anatomical</text>
+          <text x="420" y="367" font-size="7.5" fill="rgba(255,255,255,0.4)">  dermatomes in clinical neurology</text>
+          <text x="420" y="381" font-size="7.5" fill="rgba(255,110,199,0.45)">  (C4, T4, L2, S1, etc.)</text>
+        </g>
+
+      </svg>
+
+      <div id="s24-info" class="s24-info"></div>
+    </div>
+    <div class="fig-caption" id="s24-caption" style="margin-top:.6rem;"></div>
+
+    <script>
+    (function(){
+      var M = {
+        formation:{
+          title:'Somite Formation',color:'#a78bfa',
+          cap:'Somites bud off bilaterally from presomitic mesoderm in strict anterior-to-posterior order. Each pair forms when a segmentation clock "tick" coincides with the FGF/RA determination front.',
+          html:'<h4 style="color:#a78bfa">How Somites Form</h4><ul>'
+            +'<li><strong>PSM</strong> (presomitic mesoderm) flanks the neural tube bilaterally as an unsegmented mesenchyme strip.</li>'
+            +'<li>Anteriorly, cells <strong>epithelialize</strong>: form E-cadherin junctions, polarize, acquire an apical–basal axis.</li>'
+            +'<li>A <strong>boundary</strong> forms at the anterior PSM edge, pinching off a discrete <em>somite</em> block.</li>'
+            +'<li>Process repeats <strong>A→P</strong> at regular intervals (~90 min in mouse, ~6 h in human). ~35 pairs total in humans.</li>'
+            +'<li>Oldest somites (S1–S3) have already begun <strong>compartmentalization</strong> — gold = sclerotome forming ventrally; teal = dermomyotome dorsally.</li>'
+            +'<li>Younger somites (S4–S5) remain <strong>uniform epithelial spheres</strong> — not yet patterned.</li>'
+            +'</ul><div class="s24-note">S-number: S1 = oldest/most anterior. S0 = currently pinching off. PSM = not yet a somite.</div>'
+        },
+        structure:{
+          title:'Somite Structure',color:'#64ffda',
+          cap:'Each somite polarizes into three compartments under opposing Wnt (dorsal) and Shh (ventral) gradients, with BMP4 from the lateral plate reinforcing the boundary.',
+          html:'<h4 style="color:#64ffda">Three Compartments</h4><ul>'
+            +'<li><strong style="color:#ff6ec7">Dermatome</strong> — outermost (dorsolateral). Wnt-high. Pax3/Dermo1 TFs. → dermis of back.</li>'
+            +'<li><strong style="color:#64ffda">Myotome</strong> — mediolateral band. Wnt + moderate Shh. Myf5/MyoD TFs. → all skeletal muscle (epaxial + hypaxial).</li>'
+            +'<li><strong style="color:#ffd166">Sclerotome</strong> — ventromedial bulk. Shh-high. Pax1/Pax9 TFs. Undergoes EMT, migrates to notochord → vertebrae, ribs.</li>'
+            +'</ul><p>Dermatome + myotome together first form the <em>dermomyotome</em>. The sclerotome delaminates early. Later the dermomyotome layer separates into distinct dermis-forming and muscle-forming cells.</p>'
+        },
+        signals:{
+          title:'Patterning Signals',color:'#ffd166',
+          cap:'Opposing Shh (ventral) and Wnt (dorsal) morphogen gradients define somite compartment identity along the D-V axis. BMP4 from the lateral plate reinforces lateral fates.',
+          html:'<h4 style="color:#ffd166">Signal Sources</h4><ul>'
+            +'<li><strong style="color:#ffd166">Shh</strong> (Sonic Hedgehog) — from notochord + floor plate. Activates Pax1/Pax9 → sclerotome.</li>'
+            +'<li><strong style="color:#a78bfa">Wnt1/Wnt3a</strong> — from dorsal neural tube. Activates Pax3/7 + β-catenin → dermomyotome.</li>'
+            +'<li><strong style="color:#ff6ec7">BMP4</strong> — from lateral plate mesoderm (and surface ectoderm). Marks somite/LPM boundary; promotes lateral cell fates.</li>'
+            +'<li><strong>Noggin</strong> (from NT + notochord) — antagonizes BMP4 medially, protects myotome specification from BMP-mediated repression.</li>'
+            +'</ul><p>Key logic: Shh vs. Wnt opposing thresholds create sharp compartment boundaries. No single signal alone determines fate — combinatorial inputs are read.</p>'
+        },
+        clock:{
+          title:'Segmentation Clock',color:'#ff6ec7',
+          cap:'A molecular oscillator (Notch/Wnt/FGF) in the PSM interacts with FGF/RA counter-gradients to produce the "determination front." Each clock tick at the front creates one new somite boundary.',
+          html:'<h4 style="color:#ff6ec7">Clock + Wavefront</h4><ul>'
+            +'<li><strong>Clock</strong>: Notch, Wnt, and FGF signaling oscillate in phase (~90 min/cycle in mouse). Lunatic fringe periodically inhibits Notch to create sharp waves.</li>'
+            +'<li><strong>FGF8 gradient</strong>: high in tailbud/PSM → decays anteriorly. Maintains PSM in immature state.</li>'
+            +'<li><strong>RA gradient</strong>: high anteriorly (from somites). Antagonizes FGF, matures cells.</li>'
+            +'<li><strong>Det. Front</strong>: where FGF = RA. Clock wave arriving here commits boundary.</li>'
+            +'<li>Clock period = segment size. Snakes have 200–400+ pairs vs ~65 in mouse — altered clock/wavefront dynamics.</li>'
+            +'</ul><div class="s24-note">Disrupting the clock (e.g. <em>Lfng</em> mutant) → fused vertebrae → congenital scoliosis model in mice.</div>'
+        },
+        fates:{
+          title:'Somite Fates',color:'#a78bfa',
+          cap:'The three somite compartments give rise to entirely distinct adult structures: sclerotome → axial skeleton; myotome → all voluntary muscle; dermatome → dorsal dermis.',
+          html:'<h4 style="color:#a78bfa">Derivatives</h4><ul>'
+            +'<li><strong style="color:#ffd166">Sclerotome</strong>: vertebral body, pedicles, laminae, transverse processes, ribs, sternum. <em>Resegments</em> — caudal + cranial halves of adjacent somites fuse to make one vertebra (allows spinal nerves to exit between each level).</li>'
+            +'<li><strong style="color:#64ffda">Epaxial myotome</strong>: intrinsic back muscles (erector spinae, multifidus).</li>'
+            +'<li><strong style="color:#64ffda">Hypaxial myotome</strong>: migrates to form ALL limb muscles, abdominal wall, diaphragm, tongue.</li>'
+            +'<li><strong style="color:#ff6ec7">Dermatome</strong>: dermis of back, neck, and scalp only. Facial dermis = neural crest!</li>'
+            +'</ul><div class="s24-note">Nucleus pulposus (soft center of intervertebral disc) = notochord remnant, NOT sclerotome.</div>'
+        }
+      };
+      var btns = document.querySelectorAll('.s24-btn');
+      var grps = {
+        formation: document.getElementById('s24-formation'),
+        structure:  document.getElementById('s24-structure'),
+        signals:    document.getElementById('s24-signals'),
+        clock:      document.getElementById('s24-clock'),
+        fates:      document.getElementById('s24-fates')
+      };
+      function set(m){
+        btns.forEach(function(b){ b.classList.toggle('active', b.dataset.sm === m); });
+        Object.keys(grps).forEach(function(k){ grps[k].style.opacity = k === m ? '1' : '0'; });
+        var d = M[m];
+        document.getElementById('s24-info').innerHTML = d.html;
+        document.getElementById('s24-caption').textContent = d.cap;
+      }
+      btns.forEach(function(b){ b.addEventListener('click', function(){ set(this.dataset.sm); }); });
+      set('formation');
+    })();
+    </script>
   </div>
 
   <div class="grid g3 reveal">
@@ -1963,10 +2780,9 @@
 <section class="quiz-section reveal" id="module-quiz">
   <div class="divider"><span class="level-badge" style="background:linear-gradient(135deg,var(--rose),var(--gold));color:#080b1a;padding:0.3rem 1rem;">Module 02 Quiz</span></div>
   <div class="quiz-meta">
-    <p>10 randomly selected questions from a pool of 26 · Select one answer per question · Click <strong>Grade Quiz</strong> when done</p>
+    <p>10 randomly selected questions from a pool of 26 · Select an answer for instant feedback</p>
     <div class="quiz-controls">
       <button class="quiz-btn secondary" id="q-new-qm2">↻ New Questions</button>
-      <button class="quiz-btn" id="q-grade-qm2">Grade Quiz</button>
     </div>
   </div>
   <div class="quiz-score-bar" id="q-score-qm2">
@@ -2027,35 +2843,29 @@
       wrap.addEventListener('click',e=>{
         const btn=e.target.closest('.quiz-opt');
         if(!btn||btn.classList.contains('locked'))return;
-        wrap.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('selected'));
+        const card=btn.closest('.quiz-card');
+        wrap.querySelectorAll('.quiz-opt').forEach(b=>{b.classList.remove('selected');b.classList.add('locked');if(b.dataset.c==='true')b.classList.add('opt-correct');});
         btn.classList.add('selected');
+        if(btn.dataset.c==='true'){card.classList.add('correct');}else{btn.classList.add('opt-wrong');card.classList.add('wrong');}
+        card.classList.add('revealed');
+        updateScore();
       });
     });
   }
 
-  function grade(){
-    let correct=0;
-    document.querySelectorAll('#q-grid-'+QID+' .quiz-card').forEach(card=>{
-      const sel=card.querySelector('.quiz-opt.selected');
-      card.querySelectorAll('.quiz-opt').forEach(o=>{
-        o.classList.add('locked');
-        if(o.dataset.c==='true')o.classList.add('opt-correct');
-      });
-      if(sel){if(sel.dataset.c==='true'){correct++;card.classList.add('correct');}else{sel.classList.add('opt-wrong');card.classList.add('wrong');}}
-      else card.classList.add('wrong');
-      card.classList.add('revealed');
-    });
+  function updateScore(){
+    const correct=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.correct').length;
+    const revealed=document.querySelectorAll('#q-grid-'+QID+' .quiz-card.revealed').length;
     const scr=document.getElementById('q-score-'+QID);
     document.getElementById('q-snum-'+QID).textContent=correct+'/'+N;
-    const p=correct/N;
-    document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 02.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 02 and try again.';
+    if(revealed<N){document.getElementById('q-smsg-'+QID).textContent=revealed+' of '+N+' answered';}
+    else{const p=correct/N;document.getElementById('q-smsg-'+QID).textContent=p>=0.9?'Excellent! You\'ve mastered Module 02.':p>=0.7?'Good work — review the highlighted questions.':p>=0.5?'Keep studying — focus on missed questions.':'Review Module 02 and try again.';}
     scr.classList.add('visible');
-    scr.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
   document.getElementById('q-new-'+QID).addEventListener('click',render);
-  document.getElementById('q-grade-'+QID).addEventListener('click',grade);
   render();
+  window.addEventListener('pageshow',function(e){if(e.persisted)render();});
 })();
 </script>
 

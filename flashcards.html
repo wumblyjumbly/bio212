@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards · BIO 212 Living Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── Flashcard page ── */
+.fc-page { max-width: 860px; margin: 0 auto; padding: 0 1.2rem 4rem; }
+
+.fc-hero { text-align: center; padding: 5.5rem 0 1.8rem; }
+.fc-hero h1 { font-size: clamp(2rem,5vw,3rem); margin-bottom: .4rem; }
+.fc-hero p  { color: var(--ink-soft); font-size: var(--text-sm); max-width: 500px; margin: 0 auto; }
+
+/* ── Filter pills ── */
+.fc-filters   { display: flex; gap: .4rem; flex-wrap: wrap; margin: 1.4rem 0 .5rem; }
+.fc-cat-filters { display: flex; gap: .3rem; flex-wrap: wrap; margin-bottom: 1rem; min-height: 28px; }
+.fc-pill {
+  font-family: var(--mono); font-size: .68rem; padding: .28rem .7rem;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: rgba(8,11,26,0.5); color: rgba(255,255,255,0.5);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.fc-pill:hover { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.85); }
+.fc-pill.active { color: var(--bg); font-weight: 600; }
+.fc-pill[data-mod='all'].active  { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.85); color: var(--bg); }
+.fc-pill[data-mod='1'].active    { border-color: var(--teal);   background: var(--teal);   }
+.fc-pill[data-mod='2'].active    { border-color: var(--violet); background: var(--violet); }
+.fc-pill[data-mod='3'].active    { border-color: var(--gold);   background: var(--gold);   }
+.fc-pill[data-mod='4'].active    { border-color: var(--rose);   background: var(--rose);   }
+.fc-pill[data-mod='5'].active    { border-color: var(--sky);    background: var(--sky);    }
+.fc-cat-pill {
+  font-family: var(--mono); font-size: .62rem; padding: .18rem .5rem;
+  border: 1px solid var(--line); border-radius: 3px;
+  background: rgba(8,11,26,0.4); color: rgba(255,255,255,0.4);
+  cursor: pointer; transition: all .12s;
+}
+.fc-cat-pill:hover  { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.25); }
+.fc-cat-pill.active { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.08); }
+
+/* ── Progress ── */
+.fc-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: .8rem; flex-wrap: wrap; }
+.fc-counter { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); }
+.fc-bar-wrap { flex: 1; height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; min-width: 100px; }
+.fc-bar { height: 100%; border-radius: 3px; background: rgba(100,255,218,0.55); transition: width .3s; }
+.fc-stat-known    { font-family: var(--mono); font-size: .7rem; color: #64ffda; }
+.fc-stat-learning { font-family: var(--mono); font-size: .7rem; color: #ffd166; }
+
+/* ── Card ── */
+.fc-arena { position: relative; }
+.fc-wrap  { perspective: 1400px; cursor: pointer; user-select: none; }
+.fc-card  {
+  position: relative; width: 100%; min-height: 300px;
+  transform-style: preserve-3d; transition: transform .45s cubic-bezier(.4,0,.2,1);
+  border-radius: var(--radius);
+}
+.fc-card.flipped { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute; inset: 0; min-height: 300px;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: var(--radius); border: 1px solid var(--line);
+  display: flex; flex-direction: column; padding: 2rem 2.2rem;
+  background: rgba(8,11,26,0.7); backdrop-filter: blur(8px);
+}
+.fc-back-face { transform: rotateY(180deg); background: rgba(10,14,32,0.85); }
+.fc-badge {
+  font-family: var(--mono); font-size: .62rem; font-weight: 600;
+  padding: .2rem .55rem; border-radius: 3px; display: inline-block;
+  margin-bottom: .6rem; align-self: flex-start;
+}
+.fc-cat-tag {
+  font-family: var(--mono); font-size: .6rem; color: rgba(255,255,255,0.35);
+  margin-bottom: 1.2rem;
+}
+.fc-front-text {
+  font-family: var(--serif); font-size: clamp(1.2rem,3vw,1.7rem);
+  font-weight: 500; line-height: 1.35; flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; color: rgba(255,255,255,0.92);
+}
+.fc-back-text {
+  font-size: .88rem; line-height: 1.65; flex: 1; color: rgba(255,255,255,0.82);
+  overflow-y: auto; max-height: 320px;
+}
+.fc-back-text ul { margin: .3rem 0; padding-left: 1.1rem; }
+.fc-back-text li { margin-bottom: .2rem; color: rgba(255,255,255,0.72); }
+.fc-back-text strong { color: rgba(255,255,255,0.95); }
+.fc-hint {
+  margin-top: 1rem; font-family: var(--mono); font-size: .62rem;
+  color: rgba(255,255,255,0.2); text-align: center; align-self: center;
+}
+/* card glow by module */
+.fc-face.m1 { box-shadow: 0 0 0 1px rgba(100,255,218,0.12), 0 8px 40px rgba(100,255,218,0.04); }
+.fc-face.m2 { box-shadow: 0 0 0 1px rgba(167,139,250,0.12), 0 8px 40px rgba(167,139,250,0.04); }
+.fc-face.m3 { box-shadow: 0 0 0 1px rgba(255,209,102,0.12), 0 8px 40px rgba(255,209,102,0.04); }
+.fc-face.m4 { box-shadow: 0 0 0 1px rgba(255,110,199,0.12), 0 8px 40px rgba(255,110,199,0.04); }
+.fc-face.m5 { box-shadow: 0 0 0 1px rgba(125,211,252,0.12), 0 8px 40px rgba(125,211,252,0.04); }
+/* badge colors */
+.badge-m1 { background: rgba(100,255,218,0.15); color: #64ffda; }
+.badge-m2 { background: rgba(167,139,250,0.15); color: #a78bfa; }
+.badge-m3 { background: rgba(255,209,102,0.15); color: #ffd166; }
+.badge-m4 { background: rgba(255,110,199,0.15); color: #ff6ec7; }
+.badge-m5 { background: rgba(125,211,252,0.15); color: #7dd3fc; }
+
+/* ── Nav buttons ── */
+.fc-nav { display: flex; align-items: center; justify-content: center; gap: .6rem; margin-top: 1rem; }
+.fc-nav-btn {
+  font-family: var(--mono); font-size: .75rem; padding: .45rem 1rem;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: rgba(8,11,26,0.5); color: rgba(255,255,255,0.55);
+  cursor: pointer; transition: all .15s;
+}
+.fc-nav-btn:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.9); }
+.fc-nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+.fc-btn-know  { border-color: rgba(100,255,218,0.4); color: #64ffda; }
+.fc-btn-know:hover  { background: rgba(100,255,218,0.1); border-color: #64ffda; }
+.fc-btn-learn { border-color: rgba(255,209,102,0.4); color: #ffd166; }
+.fc-btn-learn:hover { background: rgba(255,209,102,0.1); border-color: #ffd166; }
+.fc-btn-skip  { border-color: rgba(255,255,255,0.15); }
+
+/* ── Utility bar ── */
+.fc-util { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; }
+.fc-util-btn {
+  font-family: var(--mono); font-size: .65rem; padding: .28rem .65rem;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: transparent; color: rgba(255,255,255,0.4);
+  cursor: pointer; transition: all .15s;
+}
+.fc-util-btn:hover { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.3); }
+.fc-kbd { font-family: var(--mono); font-size: .6rem; color: rgba(255,255,255,0.22); margin-left: auto; }
+.fc-kbd kbd {
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 3px;
+  padding: .1rem .3rem; font-size: .58rem; color: rgba(255,255,255,0.32);
+}
+
+/* ── Empty state ── */
+.fc-empty {
+  min-height: 300px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border: 1px dashed var(--line); border-radius: var(--radius);
+  color: var(--ink-dim); font-size: .88rem; gap: .5rem;
+}
+
+/* ── Done state ── */
+.fc-done {
+  min-height: 300px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  border: 1px solid rgba(100,255,218,0.2); border-radius: var(--radius);
+  background: rgba(100,255,218,0.04); gap: .6rem; padding: 2rem;
+}
+.fc-done-score { font-family: var(--mono); font-size: 2.5rem; color: #64ffda; font-weight: 700; }
+.fc-done-label { color: var(--ink-soft); font-size: .88rem; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar" style="display:none"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- NAV -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+      <a href="module-05.html">05 · Protostomes</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
+    </div>
+  </div>
+</nav>
+
+<div class="fc-page">
+  <div class="fc-hero">
+    <div class="module-eyebrow" style="margin-bottom:.5rem;">All 5 Modules</div>
+    <h1>Flash<em>cards</em></h1>
+    <p>194 cards tied directly to each module's sections — terminology, mechanisms, and learning objectives.</p>
+  </div>
+
+  <!-- Module filters -->
+  <div class="fc-filters">
+    <button class="fc-pill active" data-mod="all">All Modules</button>
+    <button class="fc-pill" data-mod="1">M1 · Development</button>
+    <button class="fc-pill" data-mod="2">M2 · Embryology</button>
+    <button class="fc-pill" data-mod="3">M3 · Evolution</button>
+    <button class="fc-pill" data-mod="4">M4 · Phylogenetics</button>
+    <button class="fc-pill" data-mod="5">M5 · Diversity</button>
+  </div>
+  <!-- Category sub-filters -->
+  <div class="fc-cat-filters" id="fcCatFilters"></div>
+
+  <!-- Progress row -->
+  <div class="fc-meta">
+    <span class="fc-counter" id="fcCounter">Card 1 / 220</span>
+    <div class="fc-bar-wrap"><div class="fc-bar" id="fcBar" style="width:0%"></div></div>
+    <span class="fc-stat-known"  id="fcKnown">✓ 0</span>
+    <span class="fc-stat-learning" id="fcLearn">↺ 0</span>
+  </div>
+
+  <!-- Card area -->
+  <div class="fc-arena" id="fcArena">
+    <div class="fc-wrap" id="fcWrap" onclick="FC.flip()">
+      <div class="fc-card" id="fcCard">
+        <div class="fc-face m1" id="fcFront">
+          <span class="fc-badge badge-m1" id="fcBadgeF">M1</span>
+          <span class="fc-cat-tag" id="fcCatF">Category</span>
+          <div class="fc-front-text" id="fcFrontText">Term</div>
+          <span class="fc-hint">click to reveal · space</span>
+        </div>
+        <div class="fc-face fc-back-face m1" id="fcBack">
+          <span class="fc-badge badge-m1" id="fcBadgeB">M1</span>
+          <span class="fc-cat-tag" id="fcCatB">Category</span>
+          <div class="fc-back-text" id="fcBackText"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="fc-nav" id="fcNav">
+    <button class="fc-nav-btn" id="fcPrev" onclick="FC.prev()">← Prev</button>
+    <button class="fc-nav-btn fc-btn-know"  onclick="FC.know()" title="K">✓ Know it</button>
+    <button class="fc-nav-btn fc-btn-learn" onclick="FC.learn()" title="L">↺ Still learning</button>
+    <button class="fc-nav-btn fc-btn-skip"  onclick="FC.next()" title="→">Skip →</button>
+    <button class="fc-nav-btn" id="fcNext" onclick="FC.next()">Next →</button>
+  </div>
+
+  <!-- Utility bar -->
+  <div class="fc-util">
+    <button class="fc-util-btn" onclick="FC.shuffle()">⇄ Shuffle</button>
+    <button class="fc-util-btn" onclick="FC.reset()">↺ Reset all</button>
+    <button class="fc-util-btn" onclick="FC.reviewLearning()">↺ Review "Still learning"</button>
+    <span class="fc-kbd">
+      <kbd>Space</kbd> flip &nbsp;
+      <kbd>←</kbd><kbd>→</kbd> navigate &nbsp;
+      <kbd>K</kbd> know &nbsp;
+      <kbd>L</kbd> still learning
+    </span>
+  </div>
+</div><!-- /fc-page -->
+
+<script src="shared.js"></script>
+<script>
+/* ─────────────────────────────────────────────
+   FLASHCARD DATA  (~260 cards)
+   Categories match module sections exactly.
+   f = front (term/question)
+   b = back  (answer — HTML allowed)
+   m = module 1-5
+   c = category string
+───────────────────────────────────────────── */
+var ALL_CARDS = [
+
+/* ══════════════════════════════════════════════
+   MODULE 1 · PRINCIPLES OF DEVELOPMENT
+   Tied to: LO Tier 1–3  |  Sections: 5 Processes,
+   Body Axes, Central Dogma, Bicoid, Regulatory
+   Cascade, Hox Genes
+═══════════════════════════════════════════════ */
+
+/* ── Central Dogma ── */
+{m:1,c:'Central Dogma',
+ f:'What is transcription?',
+ b:'Synthesis of an <strong>RNA molecule from a DNA template</strong>, catalysed by RNA polymerase. Occurs in the nucleus. The DNA is "read" and an mRNA copy is produced, which travels to the cytoplasm for translation.'},
+
+{m:1,c:'Central Dogma',
+ f:'What is translation?',
+ b:'Synthesis of a <strong>polypeptide from an mRNA template</strong> by ribosomes in the cytoplasm. Each <strong>codon</strong> (3 nucleotides) specifies one amino acid via tRNA anticodons. Final step converting genetic information into protein.'},
+
+{m:1,c:'Central Dogma',
+ f:'Define: gene expression',
+ b:'The entire process by which information in a gene produces a functional product — RNA or protein. Includes transcription, RNA processing, and translation. A gene is "expressed" when it is being actively transcribed (and, if protein-coding, translated).'},
+
+{m:1,c:'Central Dogma',
+ f:'Define: transcription factor (TF)',
+ b:'A protein that binds specific <strong>DNA regulatory sequences</strong> (promoters, enhancers) and activates or represses transcription of target genes. TFs are the primary mechanism cells use to control which genes are expressed. Examples: Bicoid, MyoD, Ngn2.'},
+
+{m:1,c:'Central Dogma',
+ f:'Define: regulatory cascade',
+ b:'A series of sequential gene-regulatory events in which the protein product of one gene acts as a TF controlling the next set of genes — which in turn control further downstream genes. Each tier <strong>narrows and refines</strong> positional/temporal information. Example: bicoid → gap genes → pair-rule → segment polarity → Hox.'},
+
+{m:1,c:'Central Dogma',
+ f:'What determines a cell\'s identity?',
+ b:'Which <strong>subset of genes is active</strong>, controlled by transcription factors. All cells in an organism share the same genome — <strong>differential gene expression</strong> produces ~200 distinct human cell types from identical DNA.'},
+
+{m:1,c:'Central Dogma',
+ f:'Central dogma — direction of information flow',
+ b:'<strong>DNA → RNA → Protein</strong>. DNA is transcribed into mRNA (nucleus); mRNA is translated into protein (cytoplasm). Information flows in one direction — proteins cannot rewrite DNA. RNA viruses use reverse transcriptase to violate this in a limited way.'},
+
+/* ── 5 Developmental Processes ── */
+{m:1,c:'5 Developmental Processes',
+ f:'List the 5 essential developmental processes (in order of a useful mnemonic)',
+ b:'"<strong>Proliferate · Signal · Differentiate · Move · Die</strong>"<br>1. Cell Proliferation<br>2. Cell–Cell Interactions (induction/signalling)<br>3. Cell Differentiation<br>4. Cell Movement & Expansion (morphogenesis)<br>5. Programmed Cell Death (apoptosis)'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Cell proliferation — definition and significance',
+ b:'Mitotic divisions that increase cell number — from a single zygote to ~37 trillion adult cells. Must be tightly controlled: too little stunts growth; <strong>uncontrolled proliferation produces tumours</strong>. Early cleavage: cells divide every 12–24 h with no increase in total mass.'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Cell differentiation — definition and mechanism',
+ b:'Cells with identical DNA acquire distinct morphology, gene expression, and function via <strong>transcription factors</strong> that activate tissue-specific gene programs while silencing others. Example: <strong>MyoD</strong> converts fibroblasts → muscle cells; <strong>Ngn2</strong> converts fibroblasts → neurons.'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Cell–cell interactions (induction) — mechanism and example',
+ b:'An <strong>inducer</strong> cell releases paracrine signals (morphogens, contact signals) that alter gene expression in a <strong>responder</strong> cell, changing its fate. Example: the notochord induces overlying ectoderm to become neural plate via FGF and Wnt signals (<em>primary induction</em>).'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Cell movement & morphogenesis — examples',
+ b:'Cells migrate individually or as sheets; tissues fold and elongate through cytoskeletal forces and adhesion changes. Example: <strong>neural crest cells</strong> undergo epithelial-to-mesenchymal transition (EMT) and migrate throughout the embryo → craniofacial bones, peripheral nerves, melanocytes.'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Programmed cell death (apoptosis) — mechanism and examples',
+ b:'Genetically programmed, ordered self-destruction via <strong>caspase cascade</strong>. Cells shrink, fragment, and are phagocytosed without inflammation. Sculpts structures by removing tissue. Examples: <ul><li>Interdigital webbing → apoptosis separates fingers</li><li>Tadpole tail resorbed during metamorphosis</li></ul>'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'What is EMT (epithelial-to-mesenchymal transition)?',
+ b:'A process in which epithelial cells <strong>lose cell–cell adhesion</strong> (downregulate E-cadherin), gain motility, and become individual migratory mesenchymal cells. Driven by Snail/Twist TFs. Critical in neural crest migration, gastrulation, and (pathologically) cancer metastasis.'},
+
+{m:1,c:'5 Developmental Processes',
+ f:'Which developmental process disruption causes cancer?',
+ b:'Loss of control of <strong>cell proliferation</strong> (uncontrolled cell division) combined with failure of <strong>apoptosis</strong> (evading programmed death). Cancer cells also exploit <strong>EMT</strong> (migration process) for metastasis, mimicking developmental cell movement programs.'},
+
+/* ── Body Axes ── */
+{m:1,c:'Body Axes',
+ f:'The three major embryonic body axes — names and meaning',
+ b:'<ul><li><strong>Anterior–Posterior (A-P)</strong>: head to tail</li><li><strong>Dorsal–Ventral (D-V)</strong>: back to belly</li><li><strong>Left–Right (L-R)</strong>: left to right side</li></ul>All three established before organogenesis. Morphogen gradients encode positional identity along each axis.'},
+
+{m:1,c:'Body Axes',
+ f:'What establishes the A-P axis in Drosophila?',
+ b:'Two opposing morphogen gradients:<ul><li><strong>Bicoid</strong>: high anterior, fades posteriorly → specifies head/thorax</li><li><strong>Nanos</strong>: high posterior → represses <em>hunchback</em> translation posteriorly → specifies abdomen</li></ul>Counter-gradients give each nucleus a unique positional identity.'},
+
+{m:1,c:'Body Axes',
+ f:'What establishes the D-V axis in vertebrates?',
+ b:'<strong>BMP4 gradient</strong>: high ventral → promotes ventral/lateral fates (skin, gut). <strong>BMP inhibitors</strong> (Chordin, Noggin, Follistatin) secreted dorsally by the Spemann organizer create a BMP-free zone. High BMP inhibitor = dorsal (neural tube, paraxial mesoderm); high BMP = ventral (skin, gut).'},
+
+{m:1,c:'Body Axes',
+ f:'What establishes the L-R axis?',
+ b:'Motile cilia at the embryonic <strong>node</strong> generate a leftward fluid current. Asymmetric flow activates <strong>Nodal signalling on the left side only</strong>, which activates TF <strong>Pitx2</strong> exclusively on the left → directs organ laterality. Disruption → <strong>situs inversus</strong> (mirror-image organs).'},
+
+{m:1,c:'Body Axes',
+ f:'What is a morphogen gradient?',
+ b:'A signalling molecule whose <strong>concentration decreases with distance</strong> from its source, providing positional information to cells. Cells interpret concentration thresholds to adopt specific identities. Examples: Bicoid (A-P head/thorax), BMP4 (D-V ventral), Shh (neural tube D-V patterning).'},
+
+{m:1,c:'Body Axes',
+ f:'BMP inhibitors — names, source, function',
+ b:'<strong>Chordin, Noggin, Follistatin</strong> — secreted by the Spemann organizer (frog) / Hensen\'s node (chick/human) / notochord. Diffuse dorsally, bind and block BMP4. Create a BMP-free zone → dorsal tissue can adopt neural and muscle identity instead of ventral (skin/gut) fate.'},
+
+{m:1,c:'Body Axes',
+ f:'Situs inversus — cause and meaning',
+ b:'Mirror-image reversal of visceral organ placement (heart on right, liver on left, etc.). Caused by disruption of <strong>L-R axis establishment</strong> — typically defective nodal cilia that fail to generate leftward fluid flow, so Nodal signalling is bilateral or absent rather than left-only.'},
+
+/* ── Differential Gene Expression ── */
+{m:1,c:'Differential Gene Expression',
+ f:'Define: differential gene expression',
+ b:'Different sets of genes are active in different cell types — even though all cells share the same genome. The specific combination of TFs in a cell determines which genes are transcribed. This is the <strong>fundamental engine</strong> of cell differentiation and development.'},
+
+{m:1,c:'Differential Gene Expression',
+ f:'Two mechanisms that produce differential gene expression during development',
+ b:'<ul><li><strong>Cytoplasmic determinants</strong>: maternal mRNAs/proteins asymmetrically distributed in egg; daughter cells inherit different amounts → different gene programs</li><li><strong>Inductive signalling</strong>: cells receive external paracrine signals → activate specific TFs → change gene expression</li></ul>'},
+
+{m:1,c:'Differential Gene Expression',
+ f:'Cytoplasmic determinant — definition and example',
+ b:'Maternal mRNA or protein <strong>asymmetrically localized</strong> in the egg cytoplasm. When the zygote divides, daughter cells inherit different amounts → launched into different developmental programs. Example: <strong>bicoid mRNA</strong> anchored at anterior pole — only anterior cells get high Bicoid protein.'},
+
+{m:1,c:'Differential Gene Expression',
+ f:'How does cell differentiation change gene expression without changing DNA?',
+ b:'Transcription factors bind enhancers and promoters, activating cell-specific genes while <strong>epigenetically silencing</strong> others (chromatin compaction, methylation). Once a TF network is established and self-reinforcing, the cell\'s identity is stable despite having all genes present in DNA.'},
+
+{m:1,c:'Differential Gene Expression',
+ f:'Why do MyoD and Ngn2 matter for understanding development?',
+ b:'They demonstrate that a <strong>single master TF</strong> can reprogram cell identity. MyoD expression in fibroblasts → muscle cells; Ngn2 expression → neurons. Same DNA, radically different identities. Proves that differential TF activity, not DNA differences, drives cell fate.'},
+
+/* ── Bicoid & Morphogens ── */
+{m:1,c:'Bicoid & Morphogens',
+ f:'Where is bicoid mRNA synthesized and how is it localized?',
+ b:'Synthesised by <strong>nurse cells</strong> (15 helper cells surrounding the oocyte) during oogenesis. mRNA deposited at the <strong>anterior pole</strong> anchored to cytoskeletal proteins (Staufen protein complex). After fertilisation, mRNA is translated in place.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'How does the Bicoid protein gradient form?',
+ b:'Bicoid mRNA fixed anteriorly → protein synthesised at anterior → protein <strong>diffuses posteriorly</strong> while being degraded → exponential gradient: highest at anterior pole, fading to near-zero posteriorly. Gradient is self-generated by translation + diffusion + degradation.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'What type of protein is Bicoid and what gene does it activate?',
+ b:'A <strong>homeodomain-containing transcription factor</strong>. At high concentration (anterior) activates the gap gene <strong>hunchback</strong> → specifies head and thorax identity. Also represses posterior-specific genes like <em>caudal</em>. Bicoid concentration = address code.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'bicoid knockout phenotype (why this matters)',
+ b:'Anterior of embryo <strong>develops posterior identity</strong> — mirror-image abdomen replaces head/thorax. No head or thorax forms. Proves Bicoid is <strong>necessary</strong> for anterior identity. Demonstrates that morphogen gradients, not cell-cell contact, encode positional information.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'Ectopic Bicoid injection result (what it proves)',
+ b:'Injecting bicoid mRNA into the posterior pole produces a <strong>second head at that end</strong> (bicephalic larva). Proves Bicoid is <strong>sufficient</strong> to specify anterior identity — concentration alone determines fate, without any cell lineage requirement.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'What are gap genes? Examples and function.',
+ b:'First tier of the zygotic segmentation cascade. Expressed in <strong>broad, overlapping domains</strong> dividing embryo into large regions (head, thorax, abdomen). Mutations eliminate 2–3 adjacent segments ("gap"). Examples: <strong>hunchback</strong> (anterior, activated by Bicoid), <strong>Krüppel</strong> (mid-thorax), <strong>knirps</strong> (abdominal), <strong>giant</strong>.'},
+
+{m:1,c:'Bicoid & Morphogens',
+ f:'How do gap genes interact with each other?',
+ b:'Through <strong>mutual repression</strong>: each gap gene represses its neighbours at boundaries, sharpening domain edges. High Krüppel represses knirps; high hunchback represses Krüppel. This cross-repression converts the smooth Bicoid gradient into sharp, discrete gene expression domains.'},
+
+/* ── Regulatory Cascade ── */
+{m:1,c:'Regulatory Cascade',
+ f:'The 5 tiers of the Drosophila A-P regulatory cascade — in order',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Maternal factors</strong>: Bicoid (anterior), Nanos (posterior)</li><li><strong>Gap genes</strong>: broad domains (hb, Kr, kni, gt)</li><li><strong>Pair-rule genes</strong>: 7 stripes (even-skipped, fushi tarazu)</li><li><strong>Segment polarity genes</strong>: engrailed + wingless mark A/P within each segment</li><li><strong>Hox genes</strong>: segment identity codes</li></ol>'},
+
+{m:1,c:'Regulatory Cascade',
+ f:'Maternal factors — what they do and examples',
+ b:'Bicoid mRNA anchored at anterior → protein diffuses posteriorly setting A-P coarse gradient. Nanos mRNA at posterior → represses hunchback translation posteriorly → enables abdominal identity. Dorsal/Toll pathway → nuclear Dorsal ventral = activator, dorsal = repressor. Coarse polarity only.'},
+
+{m:1,c:'Regulatory Cascade',
+ f:'Pair-rule genes — pattern and example',
+ b:'Expressed in <strong>7 alternating stripes</strong>, each ~2 cells wide. Even-skipped (eve) and fushi tarazu (ftz) are primary pair-rule genes. Each of eve\'s 7 stripes has its own enhancer that reads a unique combination of gap gene concentrations — a combinatorial code.'},
+
+{m:1,c:'Regulatory Cascade',
+ f:'Segment polarity genes — function and mutual maintenance',
+ b:'<strong>engrailed (en)</strong>: marks posterior compartment of each segment. <strong>wingless (wg)</strong>: marks anterior. Form a signalling loop: en → Hedgehog secreted → maintains wg; wg signal → maintains en. Mutual maintenance <strong>locks in A-P polarity</strong> within each of the ~14 parasegments.'},
+
+{m:1,c:'Regulatory Cascade',
+ f:'Why is the Drosophila cascade described as "hierarchical but combinatorial"?',
+ b:'<strong>Hierarchical</strong>: each tier depends on the output of the tier above (maternal → gap → pair-rule → segment polarity → Hox). <strong>Combinatorial</strong>: each gene reads a unique combination of inputs, not a single signal. A cell\'s position is encoded by the concentration ratios of multiple TFs simultaneously.'},
+
+{m:1,c:'Regulatory Cascade',
+ f:'Effector genes — what are they and examples',
+ b:'Final output of the cascade. Activated in specific segments by Hox codes; encode structural proteins and signals that actually build structures. Examples: <strong>Distalless</strong> (leg/antenna outgrowth in T1–T3); <strong>vestigial</strong> (wing disc growth in T2); <strong>eyeless</strong> (eye disc in head). Misexpression → ectopic structures.'},
+
+/* ── Hox Genes ── */
+{m:1,c:'Hox Genes',
+ f:'What are Hox genes and what do they do?',
+ b:'Homeodomain-containing TFs organised in chromosomal clusters that specify <strong>segment identity</strong> along the A-P axis. After the regulatory cascade divides the embryo into segments, Hox genes assign each segment its specific identity. They are <strong>master identity switches</strong>, not structural genes.'},
+
+{m:1,c:'Hox Genes',
+ f:'Spatial collinearity — definition and significance',
+ b:'The order of Hox genes on the chromosome <strong>mirrors the order of their expression domains</strong> along the A-P axis. Genes at the 3′ end expressed anteriorly; genes at the 5′ end expressed posteriorly. Conserved from flies to humans over 600+ million years.'},
+
+{m:1,c:'Hox Genes',
+ f:'Posterior prevalence rule',
+ b:'When multiple Hox proteins are present in the same cell, the <strong>most posterior Hox protein dominates</strong> and determines segment identity. More posterior Hox genes are functionally dominant over more anterior ones — this gives posterior genes priority in specification.'},
+
+{m:1,c:'Hox Genes',
+ f:'Antennapedia mutation — what it shows',
+ b:'Gain-of-function mutation: leg-forming Hox gene expressed in the head segment → <strong>legs grow where antennae should be</strong>. Wrong Hox gene in wrong segment = wrong body part. Proves Hox genes are master segment identity switches, not structural genes (same DNA, different TF = different organ).'},
+
+{m:1,c:'Hox Genes',
+ f:'Hox clusters: Drosophila vs. mammals — number and cause of difference',
+ b:'Drosophila: <strong>1 cluster</strong> (HOM-C, 8 genes). Mammals: <strong>4 clusters</strong> (HoxA–HoxD, ~39 total genes). Caused by <strong>two rounds of whole-genome duplication (2R hypothesis)</strong> early in vertebrate evolution. Extra copies enabled subfunctionalization and neofunctionalization.'},
+
+{m:1,c:'Hox Genes',
+ f:'2R Hypothesis (Ohno)',
+ b:'Two rounds of <strong>whole-genome duplication</strong> early in vertebrate evolution converted the single ancestral Hox cluster into 4 clusters. Extra copies were free to diverge: <ul><li><strong>Subfunctionalization</strong>: divided original gene\'s roles between paralogs</li><li><strong>Neofunctionalization</strong>: one copy evolved an entirely new function</li></ul>Enabled vertebrate body plan complexity.'},
+
+{m:1,c:'Hox Genes',
+ f:'HOXc6 and HOXc8 — role in tetrapod forelimb position',
+ b:'The boundary where <strong>HOXc6 expression ends</strong> and <strong>HOXc8 expression begins</strong> marks forelimb position. Cells at this Hox-code transition receive conflicting signals → limb bud induction. In the thorax, both genes co-express → uniform code → ribs form instead.'},
+
+{m:1,c:'Hox Genes',
+ f:'How did snakes lose forelimbs? (Hox mechanism)',
+ b:'<strong>HOXc6 expression extends throughout the entire trunk</strong> with no posterior limit. Without a HOXc6/HOXc8 boundary, no forelimb-bud induction signal is generated. The change is <strong>regulatory</strong> (enhancer mutations) — Hox protein coding sequences are essentially unchanged from tetrapods.'},
+
+{m:1,c:'Hox Genes',
+ f:'Evidence that snake limb loss is regulatory, not coding',
+ b:'<ul><li>Python embryos transiently form tiny hindlimb buds before suppression</li><li>Adult pythons retain vestigial pelvic spurs</li><li>Mouse Hox protein can partially rescue Drosophila Hox mutant (and vice versa)</li></ul>The homeodomain is conserved; what changed is <em>when and where</em> the gene is expressed.'},
+
+{m:1,c:'Hox Genes',
+ f:'What is a homeodomain?',
+ b:'A ~60 amino acid DNA-binding domain encoded by the homeobox sequence. Folds into a <strong>helix-turn-helix</strong> structure that contacts the major groove of DNA. Found in all Hox proteins and many other TFs (Bicoid, Pax, Engrailed). Extremely conserved — recognises similar target sequences across all animals.'},
+
+{m:1,c:'Hox Genes',
+ f:'Conservation of Hox function — what does it tell us?',
+ b:'Mouse Hox genes can rescue Drosophila Hox mutants and vice versa, despite 600+ million years of evolution. This proves the <strong>homeodomain protein-binding specificity</strong> is conserved. Evolution changed <em>regulatory sequences</em> (when/where expressed) while the protein itself stayed constant — regulatory evolution drives body plan diversity.'},
+
+/* ══════════════════════════════════════════════
+   MODULE 2 · ANIMAL DEVELOPMENT
+   Categories: Four Major Stages | Gamete Structure |
+   Fertilization | Cleavage & Blastula |
+   Gastrulation & Germ Layers | Neurulation |
+   Somite Formation
+═══════════════════════════════════════════════ */
+
+/* ── Four Major Stages ── */
+{m:2,c:'Four Major Stages',
+ f:'The four major stages of early development — in order',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Fertilization</strong>: sperm + egg fuse; diploid zygote formed</li><li><strong>Cleavage</strong>: rapid mitotic divisions, no growth; blastula formed</li><li><strong>Gastrulation</strong>: cell migrations establish 3 germ layers + body axis</li><li><strong>Organogenesis</strong>: germ layers differentiate into organs and systems</li></ol>'},
+
+{m:2,c:'Four Major Stages',
+ f:'What outcome of fertilization triggers all subsequent development?',
+ b:'Sperm-egg fusion triggers the <strong>cortical reaction</strong> and nuclear fusion producing a diploid zygote. Key outcomes: (1) restores diploid genome; (2) triggers cortical reaction blocking polyspermy; (3) activates the egg\'s metabolism; (4) determines which sperm\'s centriole organises the first mitotic spindle.'},
+
+{m:2,c:'Four Major Stages',
+ f:'Predict the outcome of a cleavage-stage disruption',
+ b:'In species with <strong>determinate cleavage</strong> (protostomes): killing one blastomere produces embryos missing specific structures — cell fate is fixed early. In species with <strong>indeterminate cleavage</strong> (deuterostomes like humans): isolated blastomeres can form complete embryos → basis for identical twins.'},
+
+{m:2,c:'Four Major Stages',
+ f:'Predict the outcome of a gastrulation disruption',
+ b:'Disrupting gastrulation prevents <strong>germ layer establishment</strong>. No mesoderm → no muscles, skeleton, heart, blood, kidneys. No endoderm → no gut, liver, lungs. No ectoderm → no nervous system, skin. Also disrupts primary body axis. Gastrulation defects = most catastrophic developmental abnormalities.'},
+
+{m:2,c:'Four Major Stages',
+ f:'What is organogenesis?',
+ b:'Stage following gastrulation in which the three germ layers <strong>differentiate into specific tissues and organs</strong>. Driven by inductive signals between germ layers. Examples: notochord induces neural tube (neurulation); mesoderm segments into somites; endoderm forms gut tube. All major organ systems established.'},
+
+/* ── Gamete Structure ── */
+{m:2,c:'Gamete Structure',
+ f:'Sperm — identify the 4 structural regions and their functions',
+ b:'<ul><li><strong>Head</strong>: nucleus (23 chromosomes, condensed with protamines) + acrosome (hydrolytic enzymes)</li><li><strong>Midpiece</strong>: mitochondria arranged in helix — powers flagellum</li><li><strong>Flagellum</strong>: 9+2 axoneme; beats 10–20×/s propelling sperm at ~3 mm/min</li></ul>'},
+
+{m:2,c:'Gamete Structure',
+ f:'Acrosome — structure, contents, function',
+ b:'Cap-like vesicle at the sperm head tip. Packed with <strong>hydrolytic enzymes</strong> (acrosin, hyaluronidase). During the <strong>acrosomal reaction</strong>, the acrosome fuses with the sperm membrane, releasing enzymes that digest through the zona pellucida, allowing sperm entry.'},
+
+{m:2,c:'Gamete Structure',
+ f:'Egg — layers from outermost to innermost',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Corona radiata</strong>: follicle cells (dispersed after fertilisation)</li><li><strong>Zona pellucida</strong>: glycoprotein coat; ZP3 = species-specific sperm receptor</li><li><strong>Plasma membrane</strong>: fast block site (Na+ depolarisation)</li><li><strong>Cytoplasm</strong>: cytoplasmic determinants, maternal mRNAs</li></ol>'},
+
+{m:2,c:'Gamete Structure',
+ f:'Zona pellucida — structure and role in fertilisation',
+ b:'Thick (~13 µm) acellular <strong>glycoprotein coat</strong> surrounding the egg. <strong>ZP3</strong> is the primary sperm receptor — species-specific binding triggers the acrosomal reaction. <strong>ZP2</strong> binds acrosome-reacted sperm. After fertilisation, zona hardens (slow block) preventing additional sperm entry.'},
+
+{m:2,c:'Gamete Structure',
+ f:'What are cytoplasmic determinants and where are they in the egg?',
+ b:'Maternal mRNAs and proteins <strong>asymmetrically distributed</strong> in the egg cytoplasm. Animal pole: nucleus, less yolk, will form ectoderm. Vegetal pole: more yolk, will form endoderm/mesoderm. Gradients establish developmental polarity before the first cleavage. Example: bicoid mRNA anchored at anterior pole.'},
+
+{m:2,c:'Gamete Structure',
+ f:'Why do mammalian eggs have very little yolk?',
+ b:'Mammalian eggs are <strong>isolecithal</strong> (even, minimal yolk) because nutrients are supplied by the placenta during development rather than stored in the egg. In contrast, amphibian and avian eggs are heavily yolked (<em>telolecithal</em>) because the embryo must self-provision until hatching.'},
+
+{m:2,c:'Gamete Structure',
+ f:'What are polar bodies and what do they indicate?',
+ b:'Small non-functional cells expelled during meiosis I and II when the oocyte divides asymmetrically, retaining most cytoplasm. The polar body presses against the zona pellucida at the <strong>animal pole</strong>, marking the egg\'s polarity axis. Second polar body expelled at meiosis II after fertilisation.'},
+
+/* ── Fertilization ── */
+{m:2,c:'Fertilization',
+ f:'Bindin and its receptor — role in fertilisation',
+ b:'<strong>Bindin</strong>: protein on the sperm surface that binds a species-specific receptor on the egg (ZP3 in mammals; bindin receptor on sea urchin egg). This recognition event is highly species-specific, preventing cross-species fertilisation. Binding triggers the acrosomal reaction.'},
+
+{m:2,c:'Fertilization',
+ f:'Acrosomal reaction — sequence of events',
+ b:'<ol style="padding-left:1.1rem"><li>Bindin binds egg receptor (ZP3)</li><li>Acrosome membrane fuses with sperm plasma membrane</li><li>Acrosomal enzymes (acrosin, hyaluronidase) released</li><li>Enzymes digest path through zona pellucida</li><li>Sperm and egg plasma membranes fuse</li></ol>'},
+
+{m:2,c:'Fertilization',
+ f:'Cortical reaction — sequence and function',
+ b:'After sperm-egg membrane fusion: cortical granules fuse with egg plasma membrane → release contents into perivitelline space → <strong>harden zona pellucida</strong> (slow block to polyspermy) + inactivate sperm receptors. Takes ~20 minutes; permanent barrier preventing further fertilisation.'},
+
+{m:2,c:'Fertilization',
+ f:'Fast block to polyspermy — mechanism and timing',
+ b:'Within <strong>seconds</strong> of sperm-egg fusion: Na+ influx → depolarisation of egg plasma membrane → electrical potential rises from ~−70 mV to +20 mV. This charge change immediately prevents further sperm fusion. Fast but temporary (~1 minute); slow block (cortical reaction) provides permanent barrier.'},
+
+{m:2,c:'Fertilization',
+ f:'Slow block to polyspermy — mechanism',
+ b:'<strong>Cortical granule exocytosis</strong>: cortical granules fuse with membrane → release proteases and mucopolysaccharides into perivitelline space → harden zona pellucida into fertilisation membrane + cleave ZP3 (sperm receptor). Permanent block to additional sperm. Takes ~20 minutes to complete.'},
+
+{m:2,c:'Fertilization',
+ f:'Why is preventing polyspermy critical?',
+ b:'Fertilisation by more than one sperm → <strong>polyspermy</strong>. Result: extra sets of chromosomes → abnormal mitotic spindles → cell division failure → embryo death. Two-block system (fast electrical, slow cortical) ensures exactly one sperm contributes genetic material.'},
+
+/* ── Cleavage & Blastula ── */
+{m:2,c:'Cleavage & Blastula',
+ f:'What distinguishes cleavage from ordinary mitosis?',
+ b:'Cleavage is <strong>rapid mitotic division with no cell growth</strong>. Cells (blastomeres) divide without increasing in size — total embryo mass remains constant while cell number increases. S-phase is very short; G1 and G2 are nearly absent. Cells become progressively smaller (high nuclear:cytoplasm ratio).'},
+
+{m:2,c:'Cleavage & Blastula',
+ f:'Blastula — structure and significance',
+ b:'A hollow sphere of cells (blastomeres) surrounding a fluid-filled cavity, the <strong>blastocoel</strong>. Animal pole: small cells, little yolk → will form ectoderm. Vegetal pole: large yolk-rich cells → will form endoderm + mesoderm. Blastocoel will be invaded by archenteron during gastrulation.'},
+
+{m:2,c:'Cleavage & Blastula',
+ f:'Determinate vs. indeterminate cleavage',
+ b:'<ul><li><strong>Determinate (mosaic)</strong>: cell fate fixed early; damage to one blastomere = missing structures. Found in protostomes (e.g., nematodes, molluscs)</li><li><strong>Indeterminate (regulative)</strong>: isolated blastomeres can form complete embryos; cells regulate fate based on signals. Found in deuterostomes (e.g., sea urchins, humans → identical twins)</li></ul>'},
+
+{m:2,c:'Cleavage & Blastula',
+ f:'How do cytoplasmic determinants produce differential cell fate during cleavage?',
+ b:'Maternal mRNAs/proteins are asymmetrically distributed in the egg. During cleavage, daughter cells inherit <strong>different amounts</strong> of these determinants → different TFs activated → different gene expression programs launched. Fate is determined by the determinants inherited, not cell position alone.'},
+
+/* ── Gastrulation & Germ Layers ── */
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'What is gastrulation?',
+ b:'Coordinated cell migrations and infoldings that <strong>establish the three primary germ layers</strong> (ectoderm, mesoderm, endoderm) and the primary body axis. Creates the archenteron (future gut), blastopore, and bilateral symmetry. Gastrulation = "the embryo becoming an embryo."'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'The three primary germ layers — which becomes what?',
+ b:'<ul><li><strong>Ectoderm</strong>: nervous system, skin (epidermis), hair, nails, eye lens, inner ear, tooth enamel</li><li><strong>Mesoderm</strong>: muscle, bone/cartilage, blood, heart, kidney, gonads, connective tissue</li><li><strong>Endoderm</strong>: gut epithelium, liver, pancreas, lungs, thyroid, digestive glands</li></ul>'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'Sea urchin gastrulation — 4 key steps',
+ b:'<ol style="padding-left:1.1rem"><li><strong>PMC ingression</strong>: primary mesenchyme cells undergo EMT → enter blastocoel → form larval skeleton (CaCO₃ spicules)</li><li><strong>Invagination</strong>: vegetal plate folds inward → archenteron (future gut) + blastopore</li><li><strong>Elongation</strong>: secondary mesenchyme filopodia pull archenteron forward; convergent extension</li><li><strong>Completion</strong>: archenteron contacts animal pole; mouth forms (stomodeum)</li></ol>'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'Blastopore — what is it and what does it become in protostomes vs. deuterostomes?',
+ b:'The opening created by the invagination of the vegetal plate during gastrulation. <ul><li><strong>Protostomes</strong>: blastopore → <strong>mouth</strong> (proto = first, stome = mouth)</li><li><strong>Deuterostomes</strong>: blastopore → <strong>anus</strong> (deuter = second, stome = mouth forms later at the animal pole)</li></ul>'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'What is convergent extension?',
+ b:'Cell rearrangement during gastrulation: cells <strong>intercalate laterally</strong> (wedge between neighbours), narrowing the tissue while lengthening it — without adding new cells. Drives archenteron elongation in sea urchins and body axis elongation in vertebrates. Mediated by Wnt/planar cell polarity pathway.'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'Chordamesoderm — what is it and what does it induce?',
+ b:'Organiser tissue that extends along the embryonic midline. Secretes morphogenetic signals (Shh, FGF, Wnt, BMP inhibitors). Induces overlying ectoderm to form neural plate (<strong>primary induction</strong>). Differentiates into <strong>notochord</strong>, which then induces somites and neural tube patterning.'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'What does the notochord become in the adult?',
+ b:'The notochord is largely replaced during development but persists as the <strong>nucleus pulposus</strong> — the soft, gelatinous center of each intervertebral disc. It is NOT sclerotome-derived. Evidence: notochord remnants retain characteristic glycoprotein markers in adult disc tissue.'},
+
+{m:2,c:'Gastrulation & Germ Layers',
+ f:'What is the Spemann organizer / Hensen\'s node?',
+ b:'A small group of cells (dorsal lip of blastopore in amphibians, Hensen\'s node in amniotes) that functions as the <strong>organizer of the vertebrate embryo</strong>. Secretes BMP inhibitors (Chordin, Noggin), Wnt antagonists, and induces the overlying ectoderm to form the nervous system. Transplantation produces a second complete embryo.'},
+
+/* ── Neurulation ── */
+{m:2,c:'Neurulation',
+ f:'What is neurulation?',
+ b:'The process by which the <strong>neural tube</strong> forms from ectoderm, giving rise to the brain and spinal cord. Induced by notochord signals. Begins day ~18 in humans.'},
+
+{m:2,c:'Neurulation',
+ f:'Neurulation — 5 steps in order',
+ b:'<ol style="padding-left:1.1rem"><li>Neural plate forms from ectoderm (notochord induction)</li><li>Neural plate edges fold upward → neural folds</li><li>Neural folds elevate and converge at dorsal midline → neural groove</li><li>Neural groove closes → neural tube (encloses central canal)</li><li>Neural tube separates from overlying ectoderm; epidermis closes over it</li></ol>'},
+
+{m:2,c:'Neurulation',
+ f:'Neural tube fates — what does it become?',
+ b:'The neural tube gives rise to the entire <strong>central nervous system</strong>: <ul><li>Anterior expansion → <strong>brain</strong> (forebrain, midbrain, hindbrain)</li><li>Posterior tube → <strong>spinal cord</strong></li><li>Roof plate (dorsal): dorsal interneurons</li><li>Floor plate (ventral): motor neuron induction via Shh from notochord</li></ul>'},
+
+{m:2,c:'Neurulation',
+ f:'Neural crest — origin, migration, and fates',
+ b:'Cells at the junction of neural tube and ectoderm. Undergo EMT → migrate throughout embryo. Fates:<ul><li>Peripheral nervous system (all sensory + autonomic neurons)</li><li>Melanocytes (skin pigment)</li><li>Craniofacial bones + cartilage</li><li>Tooth dentin</li><li>Adrenal medulla (chromaffin cells)</li><li>Cardiac tissue</li></ul>Called the "4th germ layer."'},
+
+{m:2,c:'Neurulation',
+ f:'Why is neural crest called the "4th germ layer"?',
+ b:'Neural crest has <strong>ectodermal origin</strong> (neural plate border) but produces mesoderm-like fates — bone, cartilage, connective tissue of the face. This is unique to vertebrates; other animals\' skeletal elements are entirely mesoderm-derived. The craniofacial skeleton is largely neural crest, not mesoderm.'},
+
+{m:2,c:'Neurulation',
+ f:'How does Shh from the notochord pattern the neural tube?',
+ b:'Notochord + floor plate secrete <strong>Sonic Hedgehog (Shh)</strong> → diffuses into ventral neural tube creating a gradient. High Shh ventrally: activates motor neuron progenitor fate. Intermediate Shh: interneurons. Low/absent Shh dorsally: sensory relay neurons. D-V neural tube identity = Shh concentration readout.'},
+
+{m:2,c:'Neurulation',
+ f:'Neural tube defects — cause and examples',
+ b:'Failure of the neural tube to close completely. Anterior defect: <strong>anencephaly</strong> (no brain; lethal). Posterior defect: <strong>spina bifida</strong> (exposed spinal cord; varying severity). Risk factor: folate deficiency during early pregnancy (days 21–28). Folate supplementation reduces risk ~70%.'},
+
+/* ── Somite Formation ── */
+{m:2,c:'Somite Formation',
+ f:'What are somites and what germ layer do they derive from?',
+ b:'Segmentally arranged blocks of <strong>paraxial mesoderm</strong> flanking the neural tube and notochord. Form rhythmically in rostral-to-caudal sequence throughout development. Each somite will compartmentalise into sclerotome, myotome, and dermatome.'},
+
+{m:2,c:'Somite Formation',
+ f:'Three compartments of a somite and their fates',
+ b:'<ul><li><strong>Sclerotome</strong> (ventromedial): EMT → migrates to notochord → vertebrae, ribs, sternum</li><li><strong>Myotome</strong> (mediolateral): → ALL skeletal muscle (epaxial + hypaxial)</li><li><strong>Dermatome</strong> (dorsolateral): → dermis of back, neck, scalp only (NOT face — that\'s neural crest)</li></ul>'},
+
+{m:2,c:'Somite Formation',
+ f:'What signals drive sclerotome specification?',
+ b:'<strong>Sonic Hedgehog (Shh)</strong> from the notochord + floor plate acts on ventromedial somite cells, activating TFs <strong>Pax1 and Pax9</strong> → sclerotome fate. Cells undergo EMT and migrate to surround the notochord, forming the vertebral body.'},
+
+{m:2,c:'Somite Formation',
+ f:'What signals drive dermomyotome specification?',
+ b:'<strong>Wnt1/Wnt3a</strong> from the dorsal neural tube activates <strong>Pax3, Pax7</strong> and β-catenin in the dorsolateral somite → dermomyotome. <strong>Noggin</strong> from the neural tube + notochord antagonises BMP4 medially, protecting the myotome. High Shh = sclerotome; high Wnt = dermomyotome.'},
+
+{m:2,c:'Somite Formation',
+ f:'Resegmentation of sclerotome — what is it and why?',
+ b:'Each vertebra forms from the <strong>caudal half of one somite + cranial half of the next</strong>. This offset allows spinal nerve roots to exit between vertebrae at their proper segmental level. If sclerotome did not resegment, muscles (from whole somites) and vertebrae would be out of register.'},
+
+{m:2,c:'Somite Formation',
+ f:'What structures form from the myotome?',
+ b:'<ul><li><strong>Epaxial myotome</strong>: intrinsic back muscles (erector spinae, multifidus)</li><li><strong>Hypaxial myotome</strong>: migrates to form ALL limb muscles, abdominal wall muscles, diaphragm, and tongue</li></ul>All skeletal muscle in the body is myotome-derived. Muscle does NOT arise from neural crest.'},
+
+{m:2,c:'Somite Formation',
+ f:'What becomes the nucleus pulposus? (Common exam trick)',
+ b:'The <strong>notochord</strong> — not the sclerotome. The nucleus pulposus is the soft gelatinous center of the intervertebral disc, which is the remnant of the notochord. The surrounding annulus fibrosus is sclerotome-derived.'},
+
+{m:2,c:'Somite Formation',
+ f:'Somite segmentation clock — what controls it?',
+ b:'A molecular oscillator driven by <strong>Notch/Wnt/FGF signalling</strong> that periodically activates genes at the presomitic mesoderm (PSM) anterior. The oscillation period = one somite formation interval (~90 min in humans, ~6 h in humans). A <strong>determination front</strong> (FGF/Wnt gradient from tailbud) sets where each oscillation "freezes" into a somite boundary.'},
+
+/* ══════════════════════════════════════════════
+   MODULE 3 · EVOLUTIONARY PROCESSES
+   Categories: Core Vocabulary | Four Evolutionary Processes |
+   Natural Selection Types | Hardy-Weinberg
+═══════════════════════════════════════════════ */
+
+/* ── Core Vocabulary ── */
+{m:3,c:'Core Vocabulary',
+ f:'Define: biological evolution',
+ b:'A <strong>change in the heritable characteristics of a population over successive generations</strong> — measured as a change in allele frequencies. Key: individuals do not evolve; populations do. Requires heritable variation and differential reproduction.'},
+
+{m:3,c:'Core Vocabulary',
+ f:'Define: population (evolutionary sense)',
+ b:'A group of individuals of the <strong>same species</strong> living in the same area at the same time, capable of interbreeding and sharing a common <strong>gene pool</strong>. The gene pool (all alleles present in the population) is what evolves over generations.'},
+
+{m:3,c:'Core Vocabulary',
+ f:'Define: allele and allele frequency',
+ b:'<strong>Allele</strong>: one of two or more alternative versions of a gene, arising by mutation. <strong>Allele frequency</strong>: the proportion of a particular allele among all copies of that gene in a population. Evolution = change in allele frequency over time.'},
+
+{m:3,c:'Core Vocabulary',
+ f:'Why do individuals not evolve?',
+ b:'An individual organism\'s <strong>DNA is fixed at conception</strong> and cannot change (somatic mutations excepted). Evolution requires changes that are <em>heritable</em> — passed to offspring. Only allele frequencies across generations can shift. Natural selection acts on individuals, but evolution is a population-level phenomenon.'},
+
+{m:3,c:'Core Vocabulary',
+ f:'Define: mutation (evolutionary role)',
+ b:'A heritable change in the nucleotide sequence of DNA. The <strong>ultimate source of all new alleles</strong> — the raw material of evolution. Can be beneficial, neutral, or deleterious. Without mutation, no new variation would arise, and all other evolutionary processes would eventually exhaust existing diversity.'},
+
+{m:3,c:'Core Vocabulary',
+ f:'The four primary evolutionary processes — list them',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Natural selection</strong>: differential survival/reproduction based on heritable traits</li><li><strong>Genetic drift</strong>: random changes in allele frequency due to chance</li><li><strong>Gene flow</strong>: movement of alleles between populations via migration</li><li><strong>Mutation</strong>: creation of new alleles via DNA sequence changes</li></ol>'},
+
+/* ── Four Evolutionary Processes ── */
+{m:3,c:'Four Evolutionary Processes',
+ f:'Natural selection — mechanism, effect on genetic diversity',
+ b:'<strong>Mechanism</strong>: individuals with heritable traits that improve survival/reproduction pass those traits on at higher rates → advantageous allele frequencies increase over generations. <strong>Effect on diversity</strong>: variable — can increase (balancing selection), decrease (directional), or maintain (stabilising) depending on selection type.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Genetic drift — mechanism, when it\'s strongest, effect on diversity',
+ b:'<strong>Mechanism</strong>: random sampling of gametes during reproduction — chance determines which alleles are passed on. <strong>Strongest in</strong>: small populations (small sample = more sampling error). <strong>Effect on diversity</strong>: always <em>decreases</em> — alleles are randomly fixed or lost, regardless of fitness.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Founder effect — definition and example',
+ b:'A type of genetic drift: a new population is founded by a small number of individuals who carry a <strong>non-representative subset</strong> of the source population\'s alleles. Example: Amish population — high frequency of Ellis–van Creveld syndrome (dwarfism) traced to a single founding couple.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Bottleneck effect — definition and example',
+ b:'A type of genetic drift: a population crashes to a very small size (disaster, disease) → drastically reduces allele diversity → survivors\' alleles determine future diversity by chance, not fitness. Example: Northern elephant seal — hunted to ~20 individuals; now millions but very low genetic diversity.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Gene flow — mechanism, effect on divergence',
+ b:'<strong>Mechanism</strong>: individuals migrate between populations, carrying their alleles; mate with residents introducing new alleles. <strong>Effect on diversity</strong>: increases diversity in recipient; homogenises allele frequencies between populations. <strong>Prevents divergence</strong> — opposes the genetic isolation needed for speciation.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Mutation — what type of evolution does it drive?',
+ b:'Mutation is the <strong>only process that creates new alleles</strong> — all other processes (selection, drift, gene flow) act on existing variation. Always <strong>increases genetic diversity</strong>. Most mutations are neutral or deleterious; rare beneficial mutations are the raw material for adaptive evolution.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Compare the four evolutionary processes: which always increases vs. always decreases diversity?',
+ b:'<ul><li><strong>Always increases diversity</strong>: Mutation</li><li><strong>Always decreases diversity</strong>: Genetic drift</li><li><strong>Increases in recipient, decreases divergence</strong>: Gene flow</li><li><strong>Variable — depends on type</strong>: Natural selection</li></ul>'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Can natural selection work on non-heritable traits?',
+ b:'<strong>No.</strong> Natural selection requires heritability. If a trait advantage is acquired (not genetic), it cannot be passed on → no change in allele frequency → no evolution. Example: a body-builder\'s muscle mass is not heritable (no DNA change) → cannot be selected for in the Darwinian sense.'},
+
+{m:3,c:'Four Evolutionary Processes',
+ f:'Give an example of natural selection in action (modern, documented)',
+ b:'<ul><li><strong>Antibiotic resistance in bacteria</strong>: rare pre-existing resistant mutants survive antibiotic treatment and reproduce → frequency of resistance allele skyrockets</li><li><strong>Peppered moth (Biston betularia)</strong>: industrial soot darkened trees → dark morphs survived better → increased in frequency</li></ul>'},
+
+/* ── Natural Selection Types ── */
+{m:3,c:'Natural Selection Types',
+ f:'Directional selection — definition, effect, example',
+ b:'Favours <strong>one extreme phenotype</strong>, shifting the population mean in one direction. Allele frequency at one extreme increases. Example: antibiotic resistance (resistance allele increases); Darwin\'s finches during drought (largest-beaked birds crack tough seeds → beak size shifts up).'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Stabilising selection — definition, effect, example',
+ b:'Favours <strong>intermediate phenotype</strong>; reduces variation by eliminating extremes. Population mean stays same but variance decreases. Example: human birth weight — too small (respiratory issues) and too large (birth complications) are selected against; intermediate birth weight optimal.'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Balancing selection — definition, mechanisms, effect',
+ b:'Maintains <strong>multiple alleles</strong> in a population; increases or maintains diversity. Mechanisms: <ul><li><strong>Heterozygote advantage</strong>: Aa > AA and aa</li><li><strong>Frequency-dependent selection</strong>: rare alleles favoured</li><li><strong>Temporal/spatial variation</strong>: different environments favour different alleles</li></ul>'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Sickle cell anaemia — which selection type and why?',
+ b:'<strong>Balancing selection (heterozygote advantage)</strong>:<ul><li><strong>HbS/HbS homozygous</strong>: sickle cell disease — severe anaemia</li><li><strong>HbA/HbA homozygous</strong>: normal but susceptible to malaria</li><li><strong>HbA/HbS heterozygous</strong>: protected from malaria, no disease → highest fitness in malaria regions</li></ul>Both alleles maintained in population by this advantage.'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Disruptive selection — definition, effect, example',
+ b:'Favours <strong>both extreme phenotypes</strong>; eliminates intermediate. Bimodal distribution emerges. Example: Darwin\'s finches (large beaks crack tough seeds; small beaks eat tiny seeds; intermediate size disadvantaged with either food type). Can lead to divergence and speciation if populations split.'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Draw the bell curve outcome for each selection type',
+ b:'<ul><li><strong>Directional</strong>: curve shifts left or right — one tail favoured, mean shifts</li><li><strong>Stabilising</strong>: curve narrows — tails eliminated, mean stays same</li><li><strong>Balancing</strong>: curve maintained or broadened — multiple alleles persist</li><li><strong>Disruptive</strong>: curve splits into two peaks — both tails favoured, centre reduced</li></ul>'},
+
+{m:3,c:'Natural Selection Types',
+ f:'Which selection type is most common in stable environments?',
+ b:'<strong>Stabilising selection</strong> is most common in stable environments because existing phenotypes are already well-adapted and extremes are at a disadvantage. It maintains the status quo. Directional selection predominates when the environment changes; disruptive when resources are polarised.'},
+
+/* ── Hardy-Weinberg ── */
+{m:3,c:'Hardy-Weinberg',
+ f:'Hardy-Weinberg equilibrium — what does it describe?',
+ b:'Describes allele and genotype frequencies in a <strong>population that is NOT evolving</strong>. Predicts that allele frequencies remain constant across generations when certain conditions are met. Used as a <strong>null hypothesis</strong> — deviation from H-W indicates an evolutionary process is acting.'},
+
+{m:3,c:'Hardy-Weinberg',
+ f:'5 conditions required for Hardy-Weinberg equilibrium',
+ b:'<ol style="padding-left:1.1rem"><li>No mutation</li><li>No gene flow (closed population)</li><li>Random mating (panmixia)</li><li>Large population size (no genetic drift)</li><li>No natural selection (all genotypes equally fit)</li></ol>Violation of any = evolution is occurring.'},
+
+{m:3,c:'Hardy-Weinberg',
+ f:'Hardy-Weinberg equations for allele and genotype frequencies',
+ b:'Let p = frequency of allele A, q = frequency of allele a.<br><strong>p + q = 1</strong> (allele frequencies sum to 1)<br><strong>p² + 2pq + q² = 1</strong> (genotype frequencies: AA + Aa + aa = 1)<br>p² = AA homozygous; 2pq = Aa heterozygous; q² = aa homozygous'},
+
+{m:3,c:'Hardy-Weinberg',
+ f:'How do you detect evolution using Hardy-Weinberg?',
+ b:'Calculate expected genotype frequencies from observed allele frequencies using p² + 2pq + q². Compare to observed genotype frequencies. If observed ≠ expected → a violation of H-W assumptions → evolution is occurring. Identify which condition is violated (small population? selection? non-random mating?).'},
+
+{m:3,c:'Hardy-Weinberg',
+ f:'H-W problem: if q² = 0.09, what are p, q, and 2pq?',
+ b:'q² = 0.09 → q = 0.3 → p = 1 − 0.3 = 0.7<br>p² = 0.49 (AA frequency)<br>2pq = 2 × 0.7 × 0.3 = <strong>0.42</strong> (Aa frequency)<br>Check: 0.49 + 0.42 + 0.09 = 1.00 ✓'},
+
+/* ══════════════════════════════════════════════
+   MODULE 4 · SPECIATION & PHYLOGENETICS
+   Categories: Species Concepts | Phylogenetic Trees |
+   Homology & Homoplasy | Fossil Record | History of Life
+═══════════════════════════════════════════════ */
+
+/* ── Species Concepts ── */
+{m:4,c:'Species Concepts',
+ f:'List the three species concepts',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Biological Species Concept (BSC)</strong> — Mayr 1942</li><li><strong>Morphological Species Concept (MSC)</strong> — oldest concept</li><li><strong>Phylogenetic Species Concept (PSC)</strong> — phylogenetically rigorous</li></ol>'},
+
+{m:4,c:'Species Concepts',
+ f:'Biological Species Concept — definition, strengths, weaknesses',
+ b:'<strong>Definition</strong>: a species is a group that can interbreed and produce viable, fertile offspring, reproductively isolated from other groups. <strong>Strengths</strong>: focuses on reproductive isolation (key to speciation). <strong>Weaknesses</strong>: cannot apply to asexual/parthenogenetic organisms; cannot test with extinct or geographically isolated populations.'},
+
+{m:4,c:'Species Concepts',
+ f:'Morphological Species Concept — definition, strengths, weaknesses',
+ b:'<strong>Definition</strong>: a species is defined by physical characteristics (morphology) — organisms that look similar enough belong to the same species. <strong>Strengths</strong>: applicable to fossil record; practical for field ID; works for extinct species. <strong>Weaknesses</strong>: "similar enough" is arbitrary; misses sibling species; doesn\'t reflect reproductive compatibility.'},
+
+{m:4,c:'Species Concepts',
+ f:'Phylogenetic Species Concept — definition, strengths, weaknesses',
+ b:'<strong>Definition</strong>: a species is the smallest group sharing a unique common ancestor, identifiable by one or more derived character states (synapomorphies). <strong>Strengths</strong>: works for all organisms (sexual, asexual, extinct); based on evolutionary relationships. <strong>Weaknesses</strong>: tends to "split" — dramatically increases species count; complicates conservation listings.'},
+
+{m:4,c:'Species Concepts',
+ f:'Which species concept applies to fossils? Which cannot?',
+ b:'<strong>Morphological Species Concept</strong>: applicable to fossils (based on observable morphology). <strong>Phylogenetic Species Concept</strong>: potentially applicable (if molecular data preserved). <strong>Biological Species Concept</strong>: cannot be applied to extinct organisms — reproductive isolation cannot be tested.'},
+
+{m:4,c:'Species Concepts',
+ f:'Which processes cause divergence between populations?',
+ b:'<ul><li><strong>Genetic drift</strong>: random allele frequency changes in isolated populations</li><li><strong>Natural selection</strong>: different environments select different traits</li><li><strong>Mutation</strong>: populations accumulate different mutations independently</li></ul>Divergence requires <em>isolation</em> — gene flow must be interrupted.'},
+
+{m:4,c:'Species Concepts',
+ f:'What prevents speciation despite geographic separation?',
+ b:'<strong>Gene flow</strong> between populations homogenises allele frequencies. Even occasional migration (a few individuals per generation) can prevent divergence. Speciation requires gene flow to be sufficiently reduced or interrupted so populations diverge past the point where interbreeding is possible.'},
+
+/* ── Phylogenetic Trees ── */
+{m:4,c:'Phylogenetic Trees',
+ f:'Anatomy of a phylogenetic tree — identify: tips, nodes, branches, root',
+ b:'<ul><li><strong>Tips</strong> (terminal branches): current species/populations being compared</li><li><strong>Nodes</strong> (branch points): where lineages diverged from a common ancestor</li><li><strong>Branches</strong>: connect nodes and tips; represent evolutionary time/relationships</li><li><strong>Root</strong>: base of tree; most recent common ancestor of all taxa shown</li></ul>'},
+
+{m:4,c:'Phylogenetic Trees',
+ f:'Monophyletic group — definition and example',
+ b:'Includes a <strong>common ancestor and ALL its descendants</strong>. The "natural," correct grouping reflecting true evolutionary relationships. Example: Mammalia (all descendants of the mammalian common ancestor). Used in cladistics — only monophyletic (clade) groups are valid taxa.'},
+
+{m:4,c:'Phylogenetic Trees',
+ f:'Paraphyletic group — definition and example',
+ b:'Includes a common ancestor and <strong>SOME but not all</strong> descendants. Missing some modern lineages. Example: traditional "Reptiles" (Reptilia) — excludes birds, even though birds descended from dinosaurs (part of Reptilia). Paraphyletic groups are considered invalid in modern taxonomy.'},
+
+{m:4,c:'Phylogenetic Trees',
+ f:'Polyphyletic group — definition and example',
+ b:'Includes organisms from <strong>different lineages without their common ancestor</strong>. An artificial grouping. Example: "cold-blooded animals" (lumping reptiles + fish + insects) — these organisms do not share an exclusive common ancestor relative to birds or mammals. Polyphyletic groups = biologically invalid.'},
+
+{m:4,c:'Phylogenetic Trees',
+ f:'Character, ancestral trait, and derived trait — definitions',
+ b:'<ul><li><strong>Character</strong>: any variable trait (morphological, behavioral, molecular)</li><li><strong>Ancestral trait (plesiomorphy)</strong>: present in the most recent common ancestor of the group</li><li><strong>Derived trait (apomorphy)</strong>: evolved after divergence from the common ancestor — "new" relative to ancestor</li><li><strong>Synapomorphy</strong>: shared derived trait — indicates close common ancestry</li></ul>'},
+
+{m:4,c:'Phylogenetic Trees',
+ f:'What is a synapomorphy? Why does it matter for phylogenetics?',
+ b:'A <strong>shared derived trait</strong> — a character state that evolved in a common ancestor and is inherited by all descendants. Synapomorphies define monophyletic groups. Only synapomorphies (not ancestral shared traits) indicate close evolutionary relationship. Ancestral shared traits reflect common ancestry from further back, not recent divergence.'},
+
+/* ── Homology & Homoplasy ── */
+{m:4,c:'Homology & Homoplasy',
+ f:'Homology — definition and example',
+ b:'Similarity due to <strong>inheritance from a common ancestor</strong> — same structure, modified for different uses in different lineages. Example: forelimb bones of humans, whales, bats, and dogs (same bones: humerus, radius, ulna, carpals) despite different uses (hand, flipper, wing, paw). Reflects true evolutionary relationship.'},
+
+{m:4,c:'Homology & Homoplasy',
+ f:'Homoplasy (convergent evolution) — definition and examples',
+ b:'Similarity due to <strong>independent evolution of the same trait</strong> in separate lineages, NOT shared ancestry. Examples: <ul><li>Camera eyes in vertebrates vs. cephalopods (octopus) — different embryological origin, same function</li><li>Wings in birds, bats, insects, and pterosaurs — all evolved flight independently</li><li>Streamlined body in dolphins vs. sharks</li></ul>'},
+
+{m:4,c:'Homology & Homoplasy',
+ f:'Why does homoplasy confuse phylogenetics?',
+ b:'If two unrelated species share a trait due to convergence, naively treating it as a synapomorphy (shared derived trait) will <strong>incorrectly group them</strong> as close relatives. Molecular data helps resolve homoplasy — independent evolution of identical DNA sequences is astronomically unlikely, making molecular similarity a better indicator of true relationship.'},
+
+{m:4,c:'Homology & Homoplasy',
+ f:'Three striking examples of convergent evolution',
+ b:'<ul><li><strong>Camera eyes</strong>: vertebrates and cephalopods (octopus) — independently evolved similar structure, different embryological origin</li><li><strong>Streamlined body</strong>: dolphins (mammals) vs. sharks (fish)</li><li><strong>Wings</strong>: birds, bats, insects, pterosaurs — all fly, all independently evolved</li></ul>Same selective pressure → similar solution via different genetic paths.'},
+
+/* ── Fossil Record ── */
+{m:4,c:'Fossil Record',
+ f:'How do fossils form? (4 steps)',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Death + rapid burial</strong> in sediment (anaerobic → slows decay)</li><li><strong>Sediment compaction</strong> → sedimentary rock over millions of years</li><li><strong>Permineralization</strong>: groundwater minerals infiltrate pores, replacing organic material atom-by-atom</li><li><strong>Erosion + discovery</strong>: geological processes expose fossil at surface</li></ol>'},
+
+{m:4,c:'Fossil Record',
+ f:'Four biases in the fossil record',
+ b:'<ul><li><strong>Hard-parts bias</strong>: bones/shells preserve; soft tissue rarely does</li><li><strong>Marine bias</strong>: aquatic organisms buried more consistently (~80% of known fossils marine)</li><li><strong>Abundance bias</strong>: common organisms more likely fossilised than rare ones</li><li><strong>Temporal bias</strong>: older rocks rarer (erosion, metamorphism destroy them); recent fossils over-represented</li></ul>'},
+
+{m:4,c:'Fossil Record',
+ f:'Permineralization — mechanism',
+ b:'The primary fossil formation mechanism. <strong>Groundwater carrying dissolved minerals infiltrates pores</strong> in buried hard tissue (bone, shell, wood). Minerals precipitate in situ, replacing or infilling organic material → rock-like structure preserving shape but not original chemistry. Common minerals: silica, calcite, iron pyrite.'},
+
+{m:4,c:'Fossil Record',
+ f:'Why is the Cambrian Explosion partly a preservation artifact?',
+ b:'Before the Cambrian (~542 Mya), organisms were soft-bodied → rarely preserved. The appearance of <strong>mineralized hard parts</strong> (shells, exoskeletons) in the Cambrian dramatically increased fossilisation potential. The "explosion" partly reflects better preservation, not just true rapid diversification — though genuine diversification also occurred.'},
+
+/* ── History of Life ── */
+{m:4,c:'History of Life',
+ f:'Key timeline: Earth formation → first life → first eukaryotes → first animals',
+ b:'<ul><li><strong>4.5 Bya</strong>: Earth forms</li><li><strong>3.7–3.8 Bya</strong>: first evidence of life (anaerobic prokaryotes)</li><li><strong>2.4 Bya</strong>: Great Oxygenation Event (cyanobacteria)</li><li><strong>1.2 Bya</strong>: first eukaryotes</li><li><strong>600–540 Mya</strong>: first multicellular animals → Cambrian explosion</li></ul>'},
+
+{m:4,c:'History of Life',
+ f:'Cambrian Explosion — when, what happened, significance',
+ b:'~<strong>542 Mya</strong>. Rapid appearance of most major animal phyla (body plans) in fossil record within ~20 million years. Associated with: evolution of predation, hard mineralized skeletons, eyes. Best documented in Burgess Shale (Canada) and Chengjiang (China). Most modern animal body plans established here.'},
+
+{m:4,c:'History of Life',
+ f:'Permian-Triassic extinction (~252 Mya)',
+ b:'Largest mass extinction in Earth\'s history: ~<strong>96% of marine species</strong>, ~70% of terrestrial species lost. Causes: Siberian Traps volcanism → global warming + ocean acidification + anoxia. Recovery ~10 million years. Cleared way for dinosaur dominance in Triassic.'},
+
+{m:4,c:'History of Life',
+ f:'K-Pg (K-T) extinction — timing, cause, outcome',
+ b:'~<strong>66 Mya</strong>. Chicxulub bolide impact (Yucatan) + Deccan Traps volcanism → impact winter → photosynthesis failure → food web collapse. Non-avian dinosaurs extinct. Evidence: global iridium layer (rare on Earth, common in asteroids). Mammals and birds survived, diversified.'},
+
+{m:4,c:'History of Life',
+ f:'Great Oxygenation Event — when, cause, consequence',
+ b:'~<strong>2.4 Bya</strong>. Cyanobacteria evolved oxygenic photosynthesis → O₂ accumulated in atmosphere. Evidence: banded iron formations (BIFs). First mass extinction of anaerobic organisms (O₂ was toxic to them). Eventually enabled aerobic respiration → far greater energy efficiency → complex eukaryotic life possible.'},
+
+{m:4,c:'History of Life',
+ f:'First tetrapods — when and key transitional fossil',
+ b:'~<strong>375 Mya</strong> (Late Devonian). <strong>Tiktaalik roseae</strong>: key transitional fossil — a lobe-finned fish with fins containing wrist joints, ribs, and a mobile neck. Intermediate between fish and tetrapods. Tetrapods evolved from lobe-finned fish (Sarcopterygii) ancestors, colonising terrestrial environments.'},
+
+/* ══════════════════════════════════════════════
+   MODULE 5 · PROTOSTOMES
+   Categories: Animal Body Plans | Protostome Lineages |
+   Platyhelminthes | Annelida | Mollusca | Nematoda | Arthropoda
+═══════════════════════════════════════════════ */
+
+/* ── Animal Body Plans ── */
+{m:5,c:'Animal Body Plans',
+ f:'What distinguishes animals from other kingdoms?',
+ b:'<ul><li><strong>Multicellular</strong>; cells lack cell walls (unlike plants/fungi)</li><li><strong>Heterotrophic</strong>: consume organic matter (unlike plants)</li><li>Possess specialized tissues organised into organ systems</li><li>Capable of movement at some life stage</li><li>Reproduce sexually (most commonly)</li></ul>'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Define: body plan',
+ b:'The set of morphological and developmental features shared by members of a phylum — the overall organisation including tissue arrangement, organ systems, and symmetry. Body plans are largely established during gastrulation and are <strong>phylogenetically conserved</strong> within phyla.'},
+
+{m:5,c:'Animal Body Plans',
+ f:'The four primary aspects of an animal\'s body plan',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Number of germ layers</strong>: diploblastic vs. triploblastic</li><li><strong>Body symmetry</strong>: asymmetric, radial, or bilateral</li><li><strong>Body cavity (coelom)</strong>: acoelomate, pseudocoelomate, or eucoelomate</li><li><strong>Early development patterns</strong>: protostome vs. deuterostome</li></ol>'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Diploblastic vs. triploblastic',
+ b:'<ul><li><strong>Diploblastic</strong>: 2 germ layers (ectoderm + endoderm). No true mesoderm → no muscles or coelom. Example: Cnidaria (jellyfish, corals)</li><li><strong>Triploblastic</strong>: 3 germ layers (ecto + meso + endo). Mesoderm enables complex organs, muscles, coelom. All bilaterians (flatworms → humans)</li></ul>'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Radial vs. bilateral symmetry — and what each predicts about lifestyle',
+ b:'<ul><li><strong>Radial</strong>: multiple planes of symmetry around central axis; associated with sessile or slow-moving organisms + simple nerve net. Example: Cnidaria (sea anemones)</li><li><strong>Bilateral</strong>: one plane; distinct A-P axis → <strong>cephalization</strong>; associated with active directed movement + complex nervous system. Most animals.</li></ul>'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Three types of body cavity — with examples',
+ b:'<ul><li><strong>Acoelomate</strong>: no cavity; mesoderm fills solid between gut and body wall. Example: Platyhelminthes (flatworms)</li><li><strong>Pseudocoelomate</strong>: false coelom; not fully lined by mesoderm. Example: Nematoda (roundworms)</li><li><strong>Eucoelomate</strong>: true coelom fully lined by mesodermal peritoneum. Example: Annelida, Mollusca, Arthropoda, Chordata</li></ul>'},
+
+{m:5,c:'Animal Body Plans',
+ f:'True coelom — why is it significant?',
+ b:'A body cavity <strong>fully lined by mesodermal peritoneum</strong> enables: compartmentalised organ systems (organs suspended by mesenteries), hydrostatic skeleton function, space for organ growth, reproductive tract space, and coelom-as-circulatory-fluid in some taxa. Eucoelomates generally achieve greater body complexity.'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Cephalization — definition and significance',
+ b:'Concentration of <strong>sensory organs and nervous tissue at the anterior end</strong>, forming a distinct head. Uniquely associated with bilateral symmetry. Allows rapid processing of environmental information at the leading end during directional movement. Enables complex prey detection and escape behaviors.'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Segmentation — definition and advantage',
+ b:'A modular body plan with <strong>repeating units (segments)</strong> that can be independently specialised. Advantage: each segment can be modified for different functions (<strong>tagmatization</strong> in arthropods = head, thorax, abdomen). Examples: Annelida (metameres), Arthropoda (tagmata), Vertebrates (somites → vertebrae).'},
+
+{m:5,c:'Animal Body Plans',
+ f:'Protostome vs. deuterostome — 3 key developmental differences',
+ b:'<table style="font-size:.82rem;width:100%;border-collapse:collapse"><tr><th style="text-align:left;padding:.2rem .4rem">Feature</th><th>Protostome</th><th>Deuterostome</th></tr><tr><td>Cleavage</td><td>Spiral + determinate</td><td>Radial + indeterminate</td></tr><tr><td>Blastopore</td><td>→ mouth</td><td>→ anus</td></tr><tr><td>Coelom</td><td>Schizocoely</td><td>Enterocoely</td></tr></table>'},
+
+/* ── Protostome Lineages ── */
+{m:5,c:'Protostome Lineages',
+ f:'Two major lineages within Protostomia — names and distinguishing features',
+ b:'<ul><li><strong>Lophotrochozoa</strong>: have lophophore (spiralled feeding tentacles) or trochophore larva. Key phyla: Platyhelminthes, Annelida, Mollusca</li><li><strong>Ecdysozoa</strong>: defined by <strong>ecdysis</strong> — periodic moulting of cuticle/exoskeleton to grow. Key phyla: Nematoda, Arthropoda</li></ul>'},
+
+{m:5,c:'Protostome Lineages',
+ f:'What is ecdysis and which taxa perform it?',
+ b:'<strong>Ecdysis (moulting)</strong>: periodic shedding and replacement of the exoskeleton/cuticle to allow growth. Triggered by the hormone ecdysone. Organisms are highly vulnerable during moulting. Performed by all <strong>Ecdysozoa</strong>: Nematoda (roundworms) and Arthropoda (insects, crustaceans, arachnids, myriapods).'},
+
+{m:5,c:'Protostome Lineages',
+ f:'What is a trochophore larva and which phyla have it?',
+ b:'A <strong>free-swimming ciliated larva</strong> with a band of cilia (prototroch) around the equator used for locomotion and feeding. Found in Lophotrochozoa: Annelida and Mollusca. The trochophore connects these phyla phylogenetically despite their very different adult body plans.'},
+
+/* ── Platyhelminthes ── */
+{m:5,c:'Platyhelminthes',
+ f:'Platyhelminthes body plan — 5 key features',
+ b:'<ul><li><strong>Acoelomate</strong>: mesoderm fills solid between gut and body wall</li><li><strong>Bilateral symmetry</strong> + cephalization</li><li><strong>Triploblastic</strong></li><li>Gastrovascular cavity: one opening (mouth = anus); branched to distribute nutrients</li><li>Ladder-type nervous system: anterior ganglia + 2 ventral nerve cords + commissures</li></ul>'},
+
+{m:5,c:'Platyhelminthes',
+ f:'Why do flatworms have no circulatory or respiratory system?',
+ b:'Their bodies are <strong>extremely flat and thin</strong> — every cell is close to the body surface for gas exchange by simple diffusion. The branched gastrovascular cavity distributes nutrients directly to all cells. Diffusion distance is so short that a circulatory system is unnecessary.'},
+
+{m:5,c:'Platyhelminthes',
+ f:'Flame cells (protonephridia) — what are they and what do they do?',
+ b:'Specialised excretory cells with cilia that beat like flickering flames — driving fluid through a network of tubules. Function: <strong>osmoregulation only</strong> (not true kidneys). Remove excess water and some waste, but cannot concentrate urine. Found in flatworms and some other acoelomates.'},
+
+{m:5,c:'Platyhelminthes',
+ f:'Examples of Platyhelminthes — free-living vs. parasitic',
+ b:'<ul><li><strong>Free-living</strong>: Planaria (predator; capable of regeneration; photoreceptive eyespots)</li><li><strong>Parasitic</strong>: tapeworms (Cestoda — in vertebrate guts; no gut of their own, absorb host nutrients); flukes (Trematoda — blood flukes Schistosoma affect 200M+ people)</li></ul>'},
+
+{m:5,c:'Platyhelminthes',
+ f:'Platyhelminthes nervous system type',
+ b:'<strong>Ladder-type (orthogonal) nervous system</strong>: two anterior ganglia (rudimentary brain) + two ventral nerve cords running the body length + cross-commissures connecting them. More centralised than the nerve net of Cnidaria → allows directed movement and simple behaviors.'},
+
+/* ── Annelida ── */
+{m:5,c:'Annelida',
+ f:'Annelida body plan — 5 defining features',
+ b:'<ul><li><strong>Eucoelomate</strong>: true coelom with peritoneum; septa divide it per segment</li><li><strong>Segmentation</strong>: repeating metameres with their own coelom, muscles, nephridia</li><li><strong>Closed circulatory system</strong>: blood stays in vessels</li><li><strong>Setae</strong>: bristle-like structures for traction</li><li><strong>Nephridia</strong>: paired true excretory organs per segment</li></ul>'},
+
+{m:5,c:'Annelida',
+ f:'Why is the annelid coelom significant?',
+ b:'True coelom (peritoneum-lined) serves as a <strong>hydrostatic skeleton</strong>: fluid-filled compartments in each segment that muscles act against, enabling peristaltic locomotion. Septa separate segments → local pressure changes enable precise movement. Also provides space for reproductive and excretory organs.'},
+
+{m:5,c:'Annelida',
+ f:'Annelid circulatory system — open or closed? Describe it.',
+ b:'<strong>Closed system</strong>: blood stays inside vessels (unlike arthropods\' open hemocoel). Dorsal vessel contracts peristaltically → pumps blood anteriorly. Ventral vessel distributes blood posteriorly. Five pairs of <strong>aortic arches</strong> (pseudo-hearts, segments 7–11) connect dorsal to ventral.'},
+
+{m:5,c:'Annelida',
+ f:'Nephridia vs. flame cells — which phylum has which?',
+ b:'<ul><li><strong>Flame cells (protonephridia)</strong>: Platyhelminthes — osmoregulation only, cannot concentrate waste</li><li><strong>Nephridia (metanephridia)</strong>: Annelida — true excretory organs; one pair per segment; filter coelomic fluid; can concentrate waste; analogous to vertebrate kidneys</li></ul>'},
+
+{m:5,c:'Annelida',
+ f:'Three major classes of Annelida — examples',
+ b:'<ul><li><strong>Polychaeta</strong>: marine worms; many setae per segment (bristle worms, tube worms); trochophore larva</li><li><strong>Oligochaeta</strong>: few setae; earthworms — soil engineers, decomposers</li><li><strong>Hirudinea</strong>: leeches — ectoparasites or predators; no setae; lack true coelom (filled with botryoidal tissue)</li></ul>'},
+
+/* ── Mollusca ── */
+{m:5,c:'Mollusca',
+ f:'Mollusca — four defining features (the "molluscan body plan")',
+ b:'<ul><li><strong>Muscular foot</strong>: locomotion (varies by class)</li><li><strong>Mantle</strong>: tissue that secretes shell and encloses body in mantle cavity</li><li><strong>Radula</strong>: ribbon-like chitinous feeding structure with teeth (most molluscs; absent in bivalves)</li><li><strong>Visceral mass</strong>: contains digestive, reproductive, excretory organs</li></ul>Circulatory system: open (hemocoel) except cephalopods (closed).'},
+
+{m:5,c:'Mollusca',
+ f:'Four key lineages (classes) in Mollusca — list them',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Gastropoda</strong>: snails, slugs — single shell (or shell-less), muscular foot</li><li><strong>Chitons</strong> (Polyplacophora): 8 overlapping shell plates, broad foot, rocky shores</li><li><strong>Bivalvia</strong>: clams, mussels, oysters — two-part hinged shell, filter feeders, no radula</li><li><strong>Cephalopoda</strong>: squid, octopus, nautilus — highly intelligent, jet propulsion</li></ol>'},
+
+{m:5,c:'Mollusca',
+ f:'Gastropoda — features and examples',
+ b:'Body: muscular foot + elongated visceral mass + shell (or shell-less slugs). <strong>Locomotion</strong>: muscular foot secretes mucus; waves along foot. <strong>Feeding</strong>: radula scrapes algae, detritus. Many hermaphroditic. Examples: garden snails, sea slugs, cone snails, abalone. Often torsion (visceral mass rotates 180°) during development.'},
+
+{m:5,c:'Mollusca',
+ f:'Bivalvia — features, feeding, examples',
+ b:'Body enclosed in two-part hinged shell. <strong>No radula</strong> — instead filter feed: gills draw water through mantle cavity, filter particles. Foot for burrowing (clams) or absent (oysters). Examples: clams, mussels, oysters, scallops. Ecological role: water filtration, food source, fouling organisms.'},
+
+{m:5,c:'Mollusca',
+ f:'Cephalopoda — what makes them unique among molluscs?',
+ b:'Most sophisticated invertebrate nervous system — <strong>large brain, camera-type eyes</strong> (convergent with vertebrates). Foot modified into 8–10 arms/tentacles with suckers. <strong>Jet propulsion</strong> (mantle contracts). Active predators (beak, no radula). Some colour change via chromatophores. Short lifespan; semelparous.'},
+
+{m:5,c:'Mollusca',
+ f:'Open vs. closed circulatory systems — which molluscs have which?',
+ b:'<ul><li><strong>Open</strong>: most molluscs (gastropods, bivalves, chitons) — heart pumps hemolymph into hemocoel; returns via open sinuses. Blood not confined to vessels.</li><li><strong>Closed</strong>: Cephalopods (squid, octopus) — blood in vessels; supports their high metabolic activity and active predatory lifestyle.</li></ul>'},
+
+/* ── Nematoda ── */
+{m:5,c:'Nematoda',
+ f:'Nematoda body plan — 5 key features',
+ b:'<ul><li><strong>Pseudocoelomate</strong>: body cavity not lined by mesoderm</li><li><strong>Unsegmented</strong> cylindrical body with tapered ends</li><li><strong>Cuticle</strong>: tough outer layer shed by ecdysis (defining Ecdysozoa feature)</li><li><strong>Hydrostatic skeleton</strong>: pseudocoelom provides turgor for shape</li><li><strong>Muscular pharynx</strong>: pumps food</li></ul>'},
+
+{m:5,c:'Nematoda',
+ f:'C. elegans — why is it a model organism?',
+ b:'~1 mm transparent nematode. Advantages: <ul><li>Complete <strong>cell lineage known</strong> (every cell division mapped from egg to adult)</li><li>Entire <strong>connectome mapped</strong> (302 neurons, 7,000 synapses)</li><li>Short generation time; large brood; easy to maintain</li><li>Nobel Prizes for apoptosis research (C. elegans mutations discovered key caspase pathway)</li></ul>'},
+
+{m:5,c:'Nematoda',
+ f:'Why are nematodes classified as pseudocoelomates?',
+ b:'They have a body cavity (pseudocoelom) but it is <strong>not fully lined by mesoderm</strong>. Muscles are only on the body wall (dorsal side). The pseudocoelom acts as a hydrostatic skeleton and allows some fluid-based transport, but lacks the mesodermal peritoneum that defines a true coelom.'},
+
+{m:5,c:'Nematoda',
+ f:'Nematode parasites — examples and impact',
+ b:'<ul><li><strong>Hookworms</strong>: ~500 million infections; blood feeding → anaemia</li><li><strong>Pinworms</strong>: most common parasitic infection in developed countries</li><li><strong>Ascaris lumbricoides</strong>: gut parasite of mammals; up to 35 cm long; ~800M affected</li><li><strong>Filarial worms</strong>: cause lymphatic filariasis (elephantiasis)</li></ul>Most parasitic animal group by number of infections.'},
+
+/* ── Arthropoda ── */
+{m:5,c:'Arthropoda',
+ f:'Arthropoda — 5 defining features',
+ b:'<ul><li><strong>Jointed appendages</strong>: paired, segmentally arranged, modified for many functions</li><li><strong>Exoskeleton</strong>: chitinous cuticle for support, protection, muscle attachment</li><li><strong>Ecdysis</strong>: periodic moulting for growth</li><li><strong>Segmentation with tagmatization</strong>: specialised body regions</li><li><strong>Open circulatory system</strong>: hemocoel (except cephalopods)</li></ul>'},
+
+{m:5,c:'Arthropoda',
+ f:'Four key lineages (subphyla/classes) in Arthropoda',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Crustacea</strong>: crabs, lobsters, shrimp, copepods — mostly aquatic, 2 pairs antennae</li><li><strong>Myriapoda</strong>: centipedes, millipedes — many leg-bearing segments, 1 pair antennae</li><li><strong>Chelicerata</strong>: spiders, scorpions, mites, horseshoe crabs — chelicerae, no antennae</li><li><strong>Insecta</strong>: head + thorax + abdomen; 3 leg pairs; ~1M described species</li></ol>'},
+
+{m:5,c:'Arthropoda',
+ f:'Crustacea — distinguishing features',
+ b:'<ul><li><strong>Two pairs of antennae</strong> (all other arthropods have ≤1 pair)</li><li><strong>Biramous appendages</strong>: two branches per limb (exopodite + endopodite)</li><li><strong>Heavily calcified exoskeleton</strong></li><li>Mostly <strong>aquatic</strong> (marine + freshwater)</li><li>Often planktonic nauplius larva</li><li>Examples: crabs, lobsters, shrimp, barnacles, copepods (most abundant multicellular animals by biomass)</li></ul>'},
+
+{m:5,c:'Arthropoda',
+ f:'Chelicerata — distinguishing features and 3 examples',
+ b:'<ul><li><strong>No antennae</strong></li><li>First pair of appendages = <strong>chelicerae</strong> (fangs/pincers)</li><li>Second pair = <strong>pedipalps</strong> (sensory/reproductive)</li><li><strong>4 pairs of walking legs</strong> (8 legs)</li><li>Body: cephalothorax + opisthosoma</li></ul>Examples: spiders (silk + venom), scorpions (stinger), mites/ticks (disease vectors), horseshoe crabs (archaic lineage).'},
+
+{m:5,c:'Arthropoda',
+ f:'Insecta — body plan (tagmata, legs, wings)',
+ b:'<ul><li><strong>Three tagmata</strong>: head (eyes, antennae, mouthparts), thorax (3 segments), abdomen</li><li><strong>3 pairs of legs</strong> (all on thorax = Hexapoda)</li><li><strong>1 pair of antennae</strong></li><li>Wings: usually 2 pairs (modified in flies = 1 pair; beetles = hardened elytra over wings)</li><li>Tracheal respiratory system (spiracles)</li></ul>'},
+
+{m:5,c:'Arthropoda',
+ f:'Centipede vs. millipede — how to tell apart',
+ b:'<ul><li><strong>Centipede (Chilopoda)</strong>: 1 leg pair per segment; carnivorous (venomous forcipules = modified front legs); fast; flattened body; predators of arthropods/small vertebrates</li><li><strong>Millipede (Diplopoda)</strong>: 2 leg pairs per segment; detritivores (leaf litter); slow; cylindrical; no venom; defence = chemical secretions or rolling into ball</li></ul>Both: terrestrial Myriapoda.'},
+
+{m:5,c:'Arthropoda',
+ f:'Hemimetabolous vs. holometabolous metamorphosis',
+ b:'<ul><li><strong>Hemimetabolous</strong> (incomplete): egg → nymph (looks like adult, no wings) → multiple moults → adult. Nymph and adult share ecology. Examples: grasshoppers, cockroaches, dragonflies, true bugs</li><li><strong>Holometabolous</strong> (complete): egg → larva → pupa → adult. Larva totally different from adult (different niche). Examples: beetles, butterflies, flies, bees, ants</li></ul>'},
+
+{m:5,c:'Arthropoda',
+ f:'Arthropod tracheal system — structure and function',
+ b:'Network of <strong>air-filled tubes (tracheae)</strong> that branch throughout the body, delivering O₂ directly to cells — bypassing circulatory system for gas exchange. Gas enters through <strong>spiracles</strong> (valved pores on abdomen/thorax). Highly efficient but limits maximum body size (cannot ventilate large distances).'},
+
+{m:5,c:'Arthropoda',
+ f:'Compare arthropod phyla: body regions, leg pairs, antennae',
+ b:'<table style="font-size:.78rem;width:100%;border-collapse:collapse"><tr><th style="text-align:left;padding:.15rem .3rem">Group</th><th>Body regions</th><th>Leg pairs</th><th>Antennae</th></tr><tr><td>Insecta</td><td>3 (H+T+A)</td><td>3</td><td>1 pair</td></tr><tr><td>Arachnida</td><td>2 (ceph+opisth)</td><td>4</td><td>None</td></tr><tr><td>Crustacea</td><td>2–3</td><td>Variable</td><td>2 pairs</td></tr><tr><td>Myriapoda</td><td>2 (H+trunk)</td><td>Many</td><td>1 pair</td></tr></table>'},
+
+{m:5,c:'Arthropoda',
+ f:'Exoskeleton — advantages and the key disadvantage',
+ b:'<strong>Advantages</strong>: protection from predators; waterproofing (prevents desiccation on land); structural support; muscle attachment surface; enabled arthropod terrestrial colonization. <strong>Key disadvantage</strong>: limits growth — must moult (ecdysis) to grow larger; extremely vulnerable during moulting; limits maximum body size.'},
+
+{m:5,c:'Arthropoda',
+ f:'Why are copepods ecologically critical?',
+ b:'Copepods (tiny crustaceans) are the <strong>most abundant multicellular animals on Earth by biomass</strong>, exceeding all fish combined. Primary consumers of phytoplankton → transfer energy up the food web to fish, whales, seabirds. Loss of copepods would collapse virtually all marine food webs.'}
+
+
+
+]; /* END ALL_CARDS */
+
+/* ─────────────────────────────────────────────
+   FLASHCARD ENGINE
+───────────────────────────────────────────── */
+var FC = (function(){
+  var deck      = [];   // current filtered + shuffled deck indices into ALL_CARDS
+  var pos       = 0;    // current position in deck
+  var known     = {};   // index → true
+  var learning  = {};   // index → true
+  var isFlipped = false;
+  var curMod    = 'all';
+  var curCat    = 'all';
+
+  /* color maps */
+  var MOD_LABELS = {1:'M1 · Development',2:'M2 · Embryology',3:'M3 · Evolution',4:'M4 · Phylogenetics',5:'M5 · Diversity'};
+  var MOD_CLS    = {1:'m1',2:'m2',3:'m3',4:'m4',5:'m5'};
+  var BADGE_CLS  = {1:'badge-m1',2:'badge-m2',3:'badge-m3',4:'badge-m4',5:'badge-m5'};
+
+  function buildDeck(){
+    deck = [];
+    ALL_CARDS.forEach(function(c,i){
+      var modOk = curMod === 'all' || String(c.m) === String(curMod);
+      var catOk = curCat === 'all' || c.c === curCat;
+      if(modOk && catOk) deck.push(i);
+    });
+    pos = 0;
+    isFlipped = false;
+  }
+
+  function buildCatFilters(){
+    var el = document.getElementById('fcCatFilters');
+    el.innerHTML = '';
+    var cats = {};
+    ALL_CARDS.forEach(function(c){
+      var modOk = curMod === 'all' || String(c.m) === String(curMod);
+      if(modOk) cats[c.c] = true;
+    });
+    var allBtn = document.createElement('button');
+    allBtn.className = 'fc-cat-pill' + (curCat==='all'?' active':'');
+    allBtn.textContent = 'All categories';
+    allBtn.onclick = function(){ curCat='all'; buildCatFilters(); buildDeck(); render(); };
+    el.appendChild(allBtn);
+    Object.keys(cats).sort().forEach(function(cat){
+      var btn = document.createElement('button');
+      btn.className = 'fc-cat-pill' + (curCat===cat?' active':'');
+      btn.textContent = cat;
+      btn.onclick = function(){ curCat=cat; buildCatFilters(); buildDeck(); render(); };
+      el.appendChild(btn);
+    });
+  }
+
+  function render(){
+    if(!deck.length){
+      document.getElementById('fcArena').innerHTML = '<div class="fc-empty"><span style="font-size:2rem">🔍</span><span>No cards match this filter.</span></div>';
+      document.getElementById('fcNav').style.display='none';
+      document.getElementById('fcCounter').textContent='0 / 0';
+      document.getElementById('fcBar').style.width='0%';
+      return;
+    }
+    // check if deck exhausted (all known/learning)
+    var remaining = deck.filter(function(i){ return !known[i]; });
+    if(pos >= deck.length) pos = 0;
+
+    document.getElementById('fcNav').style.display='';
+    document.getElementById('fcArena').innerHTML = '';
+
+    /* rebuild wrap */
+    var wrap = document.createElement('div');
+    wrap.className = 'fc-wrap';
+    wrap.id = 'fcWrap';
+    wrap.onclick = function(){ FC.flip(); };
+
+    var card = document.createElement('div');
+    card.className = 'fc-card' + (isFlipped?' flipped':'');
+    card.id = 'fcCard';
+
+    var ci = deck[pos];
+    var c  = ALL_CARDS[ci];
+    var mc = MOD_CLS[c.m];
+    var bc = BADGE_CLS[c.m];
+
+    /* FRONT */
+    var front = document.createElement('div');
+    front.className = 'fc-face ' + mc;
+    front.innerHTML =
+      '<span class="fc-badge '+bc+'">'+MOD_LABELS[c.m]+'</span>' +
+      '<span class="fc-cat-tag">'+c.c+'</span>' +
+      '<div class="fc-front-text">'+c.f+'</div>' +
+      '<span class="fc-hint">click to reveal &nbsp;·&nbsp; <kbd>Space</kbd></span>';
+
+    /* BACK */
+    var back = document.createElement('div');
+    back.className = 'fc-face fc-back-face ' + mc;
+    back.innerHTML =
+      '<span class="fc-badge '+bc+'">'+MOD_LABELS[c.m]+'</span>' +
+      '<span class="fc-cat-tag">'+c.c+'</span>' +
+      '<div class="fc-back-text">'+c.b+'</div>';
+
+    card.appendChild(front);
+    card.appendChild(back);
+    wrap.appendChild(card);
+    document.getElementById('fcArena').appendChild(wrap);
+
+    /* meta */
+    var total = deck.length;
+    var knownCount = Object.keys(known).filter(function(k){ return deck.indexOf(parseInt(k))>-1; }).length;
+    var learnCount = Object.keys(learning).filter(function(k){ return deck.indexOf(parseInt(k))>-1; }).length;
+    document.getElementById('fcCounter').textContent = 'Card '+(pos+1)+' / '+total;
+    document.getElementById('fcBar').style.width = Math.round(((pos+1)/total)*100)+'%';
+    document.getElementById('fcKnown').textContent = '✓ '+knownCount;
+    document.getElementById('fcLearn').textContent = '↺ '+learnCount;
+  }
+
+  function flip(){
+    var card = document.getElementById('fcCard');
+    if(!card) return;
+    isFlipped = !isFlipped;
+    card.classList.toggle('flipped', isFlipped);
+  }
+
+  function next(){
+    isFlipped = false;
+    pos = (pos+1) % deck.length;
+    render();
+  }
+
+  function prev(){
+    isFlipped = false;
+    pos = (pos - 1 + deck.length) % deck.length;
+    render();
+  }
+
+  function know(){
+    if(!deck.length) return;
+    var ci = deck[pos];
+    known[ci] = true;
+    delete learning[ci];
+    next();
+  }
+
+  function learn(){
+    if(!deck.length) return;
+    var ci = deck[pos];
+    learning[ci] = true;
+    delete known[ci];
+    next();
+  }
+
+  function shuffle(){
+    /* Fisher-Yates */
+    for(var i=deck.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=deck[i]; deck[i]=deck[j]; deck[j]=t;
+    }
+    pos=0; isFlipped=false; render();
+  }
+
+  function reset(){
+    known={}; learning={};
+    buildDeck(); render();
+  }
+
+  function reviewLearning(){
+    var learningDeck = deck.filter(function(i){ return learning[i]; });
+    if(!learningDeck.length){ alert('No cards marked "Still learning" in this filter.'); return; }
+    deck = learningDeck;
+    pos=0; isFlipped=false; render();
+  }
+
+  function init(){
+    /* module filter pills */
+    document.querySelectorAll('.fc-pill[data-mod]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.fc-pill[data-mod]').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        curMod = btn.dataset.mod;
+        curCat = 'all';
+        buildCatFilters();
+        buildDeck();
+        render();
+      });
+    });
+
+    /* keyboard shortcuts */
+    document.addEventListener('keydown', function(e){
+      if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+      if(e.code==='Space'){ e.preventDefault(); FC.flip(); }
+      if(e.code==='ArrowRight'){ FC.next(); }
+      if(e.code==='ArrowLeft'){ FC.prev(); }
+      if(e.code==='KeyK'){ FC.know(); }
+      if(e.code==='KeyL'){ FC.learn(); }
+    });
+
+    buildCatFilters();
+    buildDeck();
+    shuffle();
+    render();
+  }
+
+  return { flip:flip, next:next, prev:prev, know:know, learn:learn, shuffle:shuffle, reset:reset, reviewLearning:reviewLearning, init:init };
+})();
+
+/* Boot */
+(function(){
+  /* simple star field (shared.js may override) */
+  var s=document.getElementById('stars');
+  if(s){ for(var i=0;i<120;i++){var d=document.createElement('div');d.style.cssText='position:absolute;background:#fff;border-radius:50%;width:'+Math.random()*2+'px;height:'+Math.random()*2+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;opacity:'+(Math.random()*.5+.1);s.appendChild(d);}}
+})();
+
+FC.init();
+</script>
+</body>
+</html>
