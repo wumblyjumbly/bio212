@@ -162,6 +162,7 @@
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
       <a href="module-05.html" class="active">05 · Protostomes</a>
+      <a href="module-06.html" style="color:var(--coral);font-weight:600;">06 · Deuterostomes</a>
       <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
@@ -385,14 +386,22 @@
   <script>
   (function(){
     var DATA=[
-      {name:'Platyhelminthes', clade:'Lopho', hint:'Flat body · acoelomate · trochophore larva'},
-      {name:'Annelida',        clade:'Lopho', hint:'True metamerism · closed circulation · trochophore'},
-      {name:'Mollusca',        clade:'Lopho', hint:'Mantle + foot + radula · trochophore→veliger'},
-      {name:'Rotifera',        clade:'Lopho', hint:'Ciliated corona · related to trochophore'},
-      {name:'Nematoda',        clade:'Ecdyso', hint:'Pseudocoelom · unsegmented · moults 4×'},
-      {name:'Arthropoda',      clade:'Ecdyso', hint:'Jointed legs · chitin exoskeleton · ecdysis'},
-      {name:'Tardigrada',      clade:'Ecdyso', hint:'"Water bears" · lobopod walking legs · cuticle moulting'},
-      {name:'Onychophora',     clade:'Ecdyso', hint:'Velvet worms · lobopods · ecdysis'},
+      {name:'Platyhelminthes', clade:'Lopho',  hint:'Flat body · acoelomate · trochophore larva',
+       species:['<em>Dugesia</em> (planaria)','<em>Taenia solium</em> (tapeworm)','<em>Schistosoma</em> (blood fluke)','<em>Fasciola hepatica</em> (liver fluke)']},
+      {name:'Annelida',        clade:'Lopho',  hint:'True metamerism · closed circulation · trochophore',
+       species:['<em>Lumbricus terrestris</em> (earthworm)','<em>Hirudo medicinalis</em> (leech)','<em>Nereis</em> (ragworm)','<em>Tubifex</em> (sludge worm)']},
+      {name:'Mollusca',        clade:'Lopho',  hint:'Mantle + foot + radula · trochophore→veliger',
+       species:['<em>Helix aspersa</em> (garden snail)','<em>Mytilus edulis</em> (mussel)','<em>Octopus vulgaris</em>','<em>Loligo</em> (squid)','<em>Cryptochiton stelleri</em> (gumboot chiton)']},
+      {name:'Rotifera',        clade:'Lopho',  hint:'Ciliated corona · related to trochophore',
+       species:['<em>Brachionus calyciflorus</em>','<em>Philodina</em> sp.','<em>Rotaria</em> sp.']},
+      {name:'Nematoda',        clade:'Ecdyso', hint:'Pseudocoelom · unsegmented · moults 4×',
+       species:['<em>Caenorhabditis elegans</em> (model org.)','<em>Ascaris lumbricoides</em> (giant roundworm)','<em>Necator americanus</em> (hookworm)','<em>Enterobius</em> (pinworm)']},
+      {name:'Arthropoda',      clade:'Ecdyso', hint:'Jointed legs · chitin exoskeleton · ecdysis',
+       species:['<em>Drosophila melanogaster</em> (fruit fly)','<em>Apis mellifera</em> (honeybee)','<em>Homarus americanus</em> (lobster)','<em>Limulus polyphemus</em> (horseshoe crab)','<em>Araneus</em> (orb weaver)']},
+      {name:'Tardigrada',      clade:'Ecdyso', hint:'"Water bears" · lobopod walking legs · cuticle moulting',
+       species:['<em>Hypsibius exemplaris</em>','<em>Ramazzottius oberhaeuseri</em>','<em>Milnesium tardigradum</em>']},
+      {name:'Onychophora',     clade:'Ecdyso', hint:'Velvet worms · lobopods · ecdysis',
+       species:['<em>Peripatus</em> sp.','<em>Euperipatoides rowelli</em>','<em>Peripatopsis</em> sp.']},
     ];
     var revealed=0, cont=document.getElementById('clade-clf'), scoreEl=document.getElementById('clf-score');
     function upd(){
@@ -402,12 +411,19 @@
     function build(){
       revealed=0; scoreEl.style.color='var(--fg-2)';
       cont.innerHTML=DATA.map(function(p,i){
+        var spHtml = p.species.map(function(s){
+          return '<div style="font-size:.69rem;color:var(--ink-soft);line-height:1.5;padding:.05rem 0;">'+s+'</div>';
+        }).join('');
         return '<div class="clf-card" data-i="'+i+'" style="cursor:pointer;border-radius:var(--radius-sm);border:1px solid var(--line);padding:1rem .9rem;text-align:center;transition:all .25s;background:var(--glass);user-select:none;">'
           +'<div style="font-family:var(--mono);font-size:.83rem;font-weight:600;color:var(--fg);line-height:1.3;">'+p.name+'</div>'
           +'<div class="clf-tap" style="font-family:var(--mono);font-size:.67rem;color:var(--ink-dim);margin-top:.45rem;">tap to reveal</div>'
           +'<div class="clf-back" style="display:none;margin-top:.55rem;">'
           +'<div class="clf-clade-lbl" style="font-family:var(--mono);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;"></div>'
-          +'<div style="font-size:.75rem;color:var(--ink-soft);line-height:1.45;">'+p.hint+'</div>'
+          +'<div style="font-size:.75rem;color:var(--ink-soft);line-height:1.45;margin-bottom:.45rem;">'+p.hint+'</div>'
+          +'<div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:.4rem;text-align:left;">'
+          +'<div style="font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,0.28);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.2rem;">Examples</div>'
+          +spHtml
+          +'</div>'
           +'</div>'
           +'</div>';
       }).join('');
@@ -438,6 +454,161 @@
        LEVEL 2
   ══════════════════════════════════════════ -->
   <div class="level-badge l2 reveal">⬡ Level 2 · Understand &amp; Describe</div>
+
+  <!-- ═══════════════════════════════════════════════════
+       MOLLUSCA — FOUR LINEAGES (standalone, no JS/CSS deps)
+  ═══════════════════════════════════════════════════ -->
+  <section id="mollusca-lineages" style="margin:2.5rem 0;padding:2rem;background:#0d1128;border:1px solid rgba(255,255,255,0.08);border-top:4px solid #ffd166;border-radius:16px;">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:#ffd166;text-transform:uppercase;margin:0 0 0.3rem;">Phylum Mollusca · Identify &amp; Distinguish</p>
+    <h2 style="margin:0 0 0.4rem;font-size:1.6rem;">Mollusca — Four Major Lineages</h2>
+    <p style="color:rgba(255,255,255,0.55);margin:0 0 1.5rem;max-width:700px;font-size:0.9rem;line-height:1.7;">All share mantle + foot + visceral mass. Distinguish by shell, radula, cephalization, and circulatory system.</p>
+
+    <!-- Four lineage cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem;">
+
+      <div style="background:#111830;border:1px solid rgba(100,255,218,0.25);border-left:4px solid #64ffda;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#64ffda;text-transform:uppercase;margin:0 0 0.4rem;">Class</p>
+        <h3 style="margin:0 0 0.7rem;color:#64ffda;">Gastropoda</h3>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin:0 0 0.2rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">Examples</p>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Snails, slugs, nudibranchs, abalone</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Shell:</strong> Single coiled (absent in slugs)</li>
+          <li><strong style="color:#fff;">Radula:</strong> <span style="color:#64ffda;">Present</span></li>
+          <li><strong style="color:#fff;">Head:</strong> Well-developed; eye stalks</li>
+          <li><strong style="color:#fff;">Torsion:</strong> <span style="color:#64ffda;">Yes</span> — visceral mass rotates 180° during larval development, bringing anus above head</li>
+          <li><strong style="color:#fff;">Circulation:</strong> Open</li>
+          <li><strong style="color:#fff;">Habitat:</strong> Marine, freshwater, terrestrial</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(167,139,250,0.25);border-left:4px solid #a78bfa;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#a78bfa;text-transform:uppercase;margin:0 0 0.4rem;">Class</p>
+        <h3 style="margin:0 0 0.7rem;color:#a78bfa;">Chitons <span style="font-size:0.65em;font-weight:400;">(Polyplacophora)</span></h3>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin:0 0 0.2rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">Examples</p>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Chitons (<em>Tonicella</em>, <em>Cryptochiton</em>)</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Shell:</strong> <span style="color:#a78bfa;">8 overlapping dorsal plates</span> — only multi-part shell in Mollusca</li>
+          <li><strong style="color:#fff;">Radula:</strong> <span style="color:#64ffda;">Present</span></li>
+          <li><strong style="color:#fff;">Head:</strong> <span style="color:#ff6ec7;">None</span> — no eyes, no tentacles</li>
+          <li><strong style="color:#fff;">Torsion:</strong> No</li>
+          <li><strong style="color:#fff;">Foot:</strong> Broad adhesive — clings to rock</li>
+          <li><strong style="color:#fff;">Habitat:</strong> Marine only; rocky intertidal</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(255,209,102,0.25);border-left:4px solid #ffd166;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#ffd166;text-transform:uppercase;margin:0 0 0.4rem;">Class</p>
+        <h3 style="margin:0 0 0.7rem;color:#ffd166;">Bivalvia</h3>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin:0 0 0.2rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">Examples</p>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Clams, mussels, oysters, scallops</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Shell:</strong> Two hinged valves (left + right)</li>
+          <li><strong style="color:#fff;">Radula:</strong> <span style="color:#ff6ec7;">ABSENT</span> — only major class without one</li>
+          <li><strong style="color:#fff;">Head:</strong> <span style="color:#ff6ec7;">None</span></li>
+          <li><strong style="color:#fff;">Torsion:</strong> No</li>
+          <li><strong style="color:#fff;">Feeding:</strong> Suspension/filter feeders — ctenidia trap particles</li>
+          <li><strong style="color:#fff;">Circulation:</strong> Open</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(255,110,199,0.25);border-left:4px solid #ff6ec7;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#ff6ec7;text-transform:uppercase;margin:0 0 0.4rem;">Class</p>
+        <h3 style="margin:0 0 0.7rem;color:#ff6ec7;">Cephalopoda</h3>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin:0 0 0.2rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">Examples</p>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Octopus, squid, cuttlefish, nautilus</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Shell:</strong> Reduced/internal or absent; <em>Nautilus</em> = external coiled</li>
+          <li><strong style="color:#fff;">Radula:</strong> <span style="color:#64ffda;">Present</span></li>
+          <li><strong style="color:#fff;">Head:</strong> <span style="color:#64ffda;">Extreme</span> — large brain, camera eyes, complex behaviour</li>
+          <li><strong style="color:#fff;">Foot:</strong> Modified into arms/tentacles; jet propulsion via siphon</li>
+          <li><strong style="color:#fff;">Circulation:</strong> <span style="color:#64ffda;">Closed</span> — unique among molluscs</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="background:#1a0a0f;border:1px solid rgba(255,110,199,0.3);border-left:4px solid #ff6ec7;border-radius:8px;padding:1rem 1.2rem;">
+      <strong style="color:#ff6ec7;">Exam traps:</strong>
+      <span style="color:rgba(255,255,255,0.75);font-size:0.88rem;"> Bivalves = only class with <strong>no radula</strong> and <strong>no head</strong>. Cephalopods = only class with <strong>closed</strong> circulation. Chitons = only class with <strong>8 shell plates</strong>. Gastropods = only class with <strong>torsion</strong>.</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       ARTHROPODA — FOUR LINEAGES (standalone, no JS/CSS deps)
+  ═══════════════════════════════════════════════════ -->
+  <section id="arthropoda-lineages" style="margin:2.5rem 0;padding:2rem;background:#0d1128;border:1px solid rgba(255,255,255,0.08);border-top:4px solid #ff6ec7;border-radius:16px;">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:#ff6ec7;text-transform:uppercase;margin:0 0 0.3rem;">Phylum Arthropoda · Identify &amp; Distinguish</p>
+    <h2 style="margin:0 0 0.4rem;font-size:1.6rem;">Arthropoda — Four Major Lineages</h2>
+    <p style="color:rgba(255,255,255,0.55);margin:0 0 1.5rem;max-width:700px;font-size:0.9rem;line-height:1.7;">All share jointed appendages, chitinous exoskeleton, ecdysis, and open haemocoel. Distinguish by antennae count, first appendage, tagmata, and leg count.</p>
+
+    <!-- Four lineage cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem;">
+
+      <div style="background:#111830;border:1px solid rgba(100,255,218,0.25);border-left:4px solid #64ffda;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#64ffda;text-transform:uppercase;margin:0 0 0.4rem;">Group</p>
+        <h3 style="margin:0 0 0.7rem;color:#64ffda;">Crustacea</h3>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Crabs, lobsters, shrimp, barnacles, copepods</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Antennae:</strong> <span style="color:#64ffda;">2 pairs</span> — unique among arthropods</li>
+          <li><strong style="color:#fff;">First appendage:</strong> Chelipeds (claws)</li>
+          <li><strong style="color:#fff;">Tagmata:</strong> Cephalothorax + abdomen</li>
+          <li><strong style="color:#fff;">Legs:</strong> 5+ pairs (decapods = 10 legs)</li>
+          <li><strong style="color:#fff;">Appendage:</strong> Biramous (2-branched)</li>
+          <li><strong style="color:#fff;">Habitat:</strong> Primarily aquatic</li>
+          <li><strong style="color:#fff;">Gas exchange:</strong> Gills</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(167,139,250,0.25);border-left:4px solid #a78bfa;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#a78bfa;text-transform:uppercase;margin:0 0 0.4rem;">Group</p>
+        <h3 style="margin:0 0 0.7rem;color:#a78bfa;">Myriapoda</h3>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Centipedes, millipedes</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Antennae:</strong> 1 pair</li>
+          <li><strong style="color:#fff;">First appendage:</strong> Forcipules (centipedes — venomous)</li>
+          <li><strong style="color:#fff;">Tagmata:</strong> Head + elongated trunk</li>
+          <li><strong style="color:#fff;">Legs:</strong> Many — 1 pr./segment (centipedes) or 2 pr./segment (millipedes)</li>
+          <li><strong style="color:#fff;">Habitat:</strong> Terrestrial only</li>
+          <li><strong style="color:#fff;">Gas exchange:</strong> Tracheae</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(255,209,102,0.25);border-left:4px solid #ffd166;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#ffd166;text-transform:uppercase;margin:0 0 0.4rem;">Group</p>
+        <h3 style="margin:0 0 0.7rem;color:#ffd166;">Chelicerata <span style="font-size:0.65em;font-weight:400;">(Arachnids)</span></h3>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Spiders, scorpions, ticks, mites, horseshoe crabs</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Antennae:</strong> <span style="color:#ff6ec7;">NONE</span> — unique among major groups</li>
+          <li><strong style="color:#fff;">First appendage:</strong> <span style="color:#ffd166;">Chelicerae</span> (fangs/pincers — not legs)</li>
+          <li><strong style="color:#fff;">Tagmata:</strong> Prosoma + opisthosoma</li>
+          <li><strong style="color:#fff;">Legs:</strong> <span style="color:#ffd166;">4 pairs</span> (8 legs)</li>
+          <li><strong style="color:#fff;">No mandibles</strong></li>
+          <li><strong style="color:#fff;">Gas exchange:</strong> Book lungs / tracheae</li>
+        </ul>
+      </div>
+
+      <div style="background:#111830;border:1px solid rgba(255,110,199,0.25);border-left:4px solid #ff6ec7;border-radius:10px;padding:1.2rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#ff6ec7;text-transform:uppercase;margin:0 0 0.4rem;">Group</p>
+        <h3 style="margin:0 0 0.7rem;color:#ff6ec7;">Insecta</h3>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin:0 0 0.9rem;">Beetles, butterflies, bees, flies, grasshoppers, ants</p>
+        <ul style="margin:0;padding:0 0 0 1.1rem;font-size:0.84rem;color:rgba(255,255,255,0.72);line-height:1.8;">
+          <li><strong style="color:#fff;">Antennae:</strong> 1 pair</li>
+          <li><strong style="color:#fff;">First appendage:</strong> Mandibles</li>
+          <li><strong style="color:#fff;">Tagmata:</strong> <span style="color:#ff6ec7;">3</span> — head + thorax + abdomen</li>
+          <li><strong style="color:#fff;">Legs:</strong> <span style="color:#ff6ec7;">3 pairs</span> (6 legs) — from thorax only</li>
+          <li><strong style="color:#fff;">Wings:</strong> <span style="color:#64ffda;">Yes</span> — unique among all arthropods</li>
+          <li><strong style="color:#fff;">Gas exchange:</strong> Tracheal system</li>
+          <li><strong style="color:#fff;">Excretion:</strong> Malpighian tubules</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="background:#1a0a0f;border:1px solid rgba(255,110,199,0.3);border-left:4px solid #ff6ec7;border-radius:8px;padding:1rem 1.2rem;">
+      <strong style="color:#ff6ec7;">Exam traps:</strong>
+      <span style="color:rgba(255,255,255,0.75);font-size:0.88rem;"> Chelicerates = no antennae + 8 legs + chelicerae. Crustaceans = only group with <strong>2 pairs antennae</strong>. Insects = only arthropods with <strong>wings</strong>, always <strong>6 legs</strong>. Centipedes = 1 leg pr./segment (predatory); millipedes = 2 leg pr./segment (detritivore).</span>
+    </div>
+  </section>
 
   <!-- Animal Phylogeny SVG -->
   <section class="reveal">
@@ -1468,6 +1639,103 @@
   </section>
 
 
+  <section style="margin-top:1.5rem;display:none!important;">
+    <div class="section-label" style="color:var(--gold);">Identify &amp; Distinguish</div>
+    <h2 style="margin-top:0;">Mollusca — Four Major Classes</h2>
+    <p style="color:var(--ink-soft);max-width:760px;margin-bottom:1.5rem;">All share mantle + foot + visceral mass. Distinguish by shell type, presence of radula, degree of cephalization, and circulatory system.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-wide" style="min-width:680px;">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="color:var(--teal);">Gastropoda</th>
+            <th style="color:var(--violet);">Chitons (Polyplacophora)</th>
+            <th style="color:var(--gold);">Bivalvia</th>
+            <th style="color:var(--rose);">Cephalopoda</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">Shell</td>
+            <td>Single coiled shell (absent in slugs/nudibranchs)</td>
+            <td><span class="yes">8 overlapping dorsal plates</span> — only multi-part shell in Mollusca</td>
+            <td>Two hinged valves (left + right); hinge ligament at top</td>
+            <td>Reduced/internal (squid pen, cuttlebone) or absent; <em>Nautilus</em> = external coiled</td>
+          </tr>
+          <tr>
+            <td class="row-head">Radula</td>
+            <td><span class="yes">Present</span></td>
+            <td><span class="yes">Present</span></td>
+            <td><span class="no">ABSENT</span> — unique loss among major classes; replaced by filter-feeding ctenidia</td>
+            <td><span class="yes">Present</span> (most species)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Head / Cephalization</td>
+            <td>Well-developed head; eye stalks; distinct anterior end</td>
+            <td><span class="no">None</span> — no distinct head, no eyes, no tentacles</td>
+            <td><span class="no">None</span> — no head; most sedentary or sessile</td>
+            <td><span class="yes">Extreme</span> — large brain, camera eyes, advanced learning and memory</td>
+          </tr>
+          <tr>
+            <td class="row-head">Torsion</td>
+            <td><span class="yes">Yes</span> — 180° twisting of visceral mass relative to head/foot during larval development; brings anus over head</td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+          </tr>
+          <tr>
+            <td class="row-head">Foot / Movement</td>
+            <td>Broad muscular creeping foot</td>
+            <td>Broad adhesive foot — clings to rock surfaces</td>
+            <td>Small burrowing foot; scallops swim by clapping valves</td>
+            <td>Foot modified into arms/tentacles with suckers; jet propulsion via muscular siphon</td>
+          </tr>
+          <tr>
+            <td class="row-head">Circulation</td>
+            <td>Open</td>
+            <td>Open</td>
+            <td>Open</td>
+            <td><span class="yes">Closed</span> — unique among molluscs; supports high metabolic demand of active predation</td>
+          </tr>
+          <tr>
+            <td class="row-head">Feeding mode</td>
+            <td>Radula scrapes algae or captures prey (herbivore / predator / parasite)</td>
+            <td>Radula scrapes encrusting algae and microorganisms from rock</td>
+            <td>Suspension / filter feeders — enlarged ctenidia trap particles from water current</td>
+            <td>Active predators — arms/tentacles seize prey; beak + radula dismember</td>
+          </tr>
+          <tr>
+            <td class="row-head">Environment</td>
+            <td>Marine, freshwater, <span class="yes">terrestrial</span> (lung-breathing land snails/slugs)</td>
+            <td>Marine only; intertidal and subtidal rocky shores</td>
+            <td>Marine + freshwater; many sessile (mussels, oysters)</td>
+            <td>Marine only</td>
+          </tr>
+          <tr>
+            <td class="row-head">Exam ID</td>
+            <td style="color:var(--teal);font-weight:600;">Torsion · coiled shell · radula · distinct head</td>
+            <td style="color:var(--violet);font-weight:600;">8 shell plates · girdle · no head · marine only</td>
+            <td style="color:var(--gold);font-weight:600;">Two valves · NO radula · filter feeder · no head</td>
+            <td style="color:var(--rose);font-weight:600;">Tentacles · siphon · closed circulation · camera eyes · complex brain</td>
+          </tr>
+          <tr>
+            <td class="row-head">Examples</td>
+            <td>Snails, slugs, nudibranchs, abalone, limpets</td>
+            <td>Chitons (<em>Tonicella</em>, <em>Cryptochiton stelleri</em>)</td>
+            <td>Clams, mussels, oysters, scallops, geoducks</td>
+            <td>Octopus, squid, cuttlefish, nautilus</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn" style="margin-top:1.5rem;">
+      <strong>Exam traps:</strong> Bivalves = only class with <em>no radula</em> and <em>no head</em>. Cephalopods = only class with <em>closed</em> circulatory system. Chitons = only class with <em>8 shell plates</em>. Gastropods = only class with <em>torsion</em>.
+    </div>
+  </section>
+
+
   <!-- ══════ ECDYSOZOA ══════ -->
   <section class="reveal" style="margin-top:2.5rem;">
     <div class="section-label">Ecdysozoa</div>
@@ -2059,6 +2327,110 @@
     buildGroup(HEMI,'hemi-display','hemi-btns',false);
   })();
   </script>
+
+  <section style="margin-top:1.5rem;display:none!important;">
+    <div class="section-label" style="color:var(--rose);">Identify &amp; Distinguish</div>
+    <h2 style="margin-top:0;">Arthropoda — Four Major Groups</h2>
+    <p style="color:var(--ink-soft);max-width:760px;margin-bottom:1.5rem;">All share jointed appendages, chitinous exoskeleton, ecdysis, and an open circulatory system (haemocoel). Distinguish by antennae count, first appendage type, tagmata, and leg number.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-wide" style="min-width:750px;">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="color:var(--teal);">Crustacea</th>
+            <th style="color:var(--violet);">Myriapoda</th>
+            <th style="color:var(--gold);">Chelicerata<br><span style="font-size:.72em;font-weight:400;">(Arachnids + horseshoe crabs)</span></th>
+            <th style="color:var(--rose);">Insecta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">Antennae</td>
+            <td><span class="yes">2 pairs</span> — unique among arthropods</td>
+            <td>1 pair</td>
+            <td><span class="no">NONE</span> — unique among major groups</td>
+            <td>1 pair</td>
+          </tr>
+          <tr>
+            <td class="row-head">First appendage</td>
+            <td>Chelipeds (claws/pincers) or maxillipeds</td>
+            <td>Forcipules in centipedes (venomous modified legs for prey capture)</td>
+            <td><span class="yes">Chelicerae</span> — fangs or pincers; not legs; used for feeding/defence</td>
+            <td>Mandibles (chewing)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Tagmata (body regions)</td>
+            <td>Cephalothorax (head + thorax under carapace) + abdomen</td>
+            <td>Head + elongated trunk (many uniform leg-bearing segments)</td>
+            <td>Prosoma (cephalothorax) + opisthosoma (abdomen)</td>
+            <td><span class="yes">3 tagmata</span>: head + thorax + abdomen</td>
+          </tr>
+          <tr>
+            <td class="row-head">Walking legs</td>
+            <td>5+ pairs (decapods: 5 pairs = 10 legs)</td>
+            <td>Many pairs — 1 pr./segment (centipedes) or 2 pr./diplosegment (millipedes)</td>
+            <td><span class="yes">4 pairs</span> (8 legs total)</td>
+            <td><span class="yes">3 pairs</span> (6 legs) — all from thorax</td>
+          </tr>
+          <tr>
+            <td class="row-head">Wings</td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+            <td><span class="no">No</span></td>
+            <td><span class="yes">Yes</span> — unique to insects among all arthropods (and all invertebrates)</td>
+          </tr>
+          <tr>
+            <td class="row-head">Appendage type</td>
+            <td>Biramous (2-branched: exopodite + endopodite)</td>
+            <td>Uniramous</td>
+            <td>Uniramous</td>
+            <td>Uniramous</td>
+          </tr>
+          <tr>
+            <td class="row-head">Gas exchange</td>
+            <td>Gills</td>
+            <td>Tracheae (air tubes; spiracles on trunk)</td>
+            <td>Book lungs and/or tracheae</td>
+            <td>Tracheal system — delivers O₂ directly to tissues</td>
+          </tr>
+          <tr>
+            <td class="row-head">Excretion</td>
+            <td>Green glands (antennal glands)</td>
+            <td>Malpighian tubules</td>
+            <td>Malpighian tubules / coxal glands</td>
+            <td>Malpighian tubules — key to water conservation on land</td>
+          </tr>
+          <tr>
+            <td class="row-head">Environment</td>
+            <td>Primarily aquatic (marine + freshwater); few terrestrial</td>
+            <td>Terrestrial only</td>
+            <td>Mostly terrestrial or parasitic; horseshoe crabs (<em>Limulus</em>) marine</td>
+            <td>Primarily terrestrial + aerial; some aquatic larvae</td>
+          </tr>
+          <tr>
+            <td class="row-head">Key distinguishing feature</td>
+            <td style="color:var(--teal);">2 pairs antennae; biramous appendages; calcified exoskeleton; nauplius larva</td>
+            <td style="color:var(--violet);">Many leg-bearing segments; 1 pr. antennae; no wings; terrestrial; centipede (1 pr./seg, predatory) vs millipede (2 pr./seg, detritivore)</td>
+            <td style="color:var(--gold);">No antennae; chelicerae instead of mandibles; 4 pairs walking legs; 2 body regions</td>
+            <td style="color:var(--rose);">3 tagmata; 3 leg pairs (6 legs); wings; tracheal system; Malpighian tubules</td>
+          </tr>
+          <tr>
+            <td class="row-head">Examples</td>
+            <td>Crabs, lobsters, shrimp, barnacles, copepods, wood lice</td>
+            <td>Centipedes (<em>Scolopendra</em>), millipedes (<em>Narceus</em>)</td>
+            <td>Spiders, scorpions, ticks, mites, horseshoe crabs</td>
+            <td>Beetles, butterflies, bees, flies, grasshoppers, ants</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn" style="margin-top:1.5rem;">
+      <strong>Exam traps:</strong> Chelicerates have <em>no antennae</em> and chelicerae not mandibles — 8 legs + no antennae = chelicerate. Crustaceans are the only arthropods with <em>2 pairs of antennae</em>. Insects always have exactly <em>3 pairs of legs</em> (6 total) and are the only arthropods with <em>wings</em>. Centipedes = 1 leg pair/segment (predatory, venomous forcipules); millipedes = 2 leg pairs/segment (detritivores, defensive coiling).
+    </div>
+  </section>
+
 
   <!-- ══════════════════════════════════════════
        LEVEL 3

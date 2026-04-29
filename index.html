@@ -68,6 +68,60 @@
 .module-card.m02::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(167,139,250,0.04),transparent); border-radius:inherit; pointer-events:none; }
 .module-card.m03::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,209,102,0.04),transparent); border-radius:inherit; pointer-events:none; }
 .module-card.m04::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,110,199,0.04),transparent); border-radius:inherit; pointer-events:none; }
+
+/* Study tool strip — sits below module grid */
+.exam-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin: 0 0 3.5rem;
+}
+.tool-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem 1.8rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.tool-card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.3); box-shadow: 0 20px 50px -15px rgba(103,76,230,0.25); }
+.tool-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-dim); }
+.tool-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; color: var(--ink); line-height: 1.2; }
+.tool-title em { font-style: italic; }
+.tool-desc { font-size: 0.85rem; color: var(--ink-soft); font-weight: 300; line-height: 1.65; margin: 0; flex-grow: 1; }
+.tool-pills { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.tool-cta { margin-top: 0.9rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* Exam 2 — module + topics side-by-side */
+.exam2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.8rem;
+  margin: 4rem 0 1.8rem;
+  align-items: start;
+}
+.topics-card {
+  background: rgba(255,138,138,0.04);
+  border: 1px solid rgba(255,138,138,0.18);
+  border-radius: var(--radius);
+  padding: 2rem 2rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.topics-card h4 { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--coral); margin: 0; }
+.topics-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+.topics-list li { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55; padding-left: 1.2rem; position: relative; }
+.topics-list li::before { content: '›'; position: absolute; left: 0; color: var(--coral); opacity: 0.7; font-weight: 600; }
+.topics-list li strong { color: var(--ink); font-weight: 500; }
+@media (max-width: 768px) {
+  .exam-tools { grid-template-columns: 1fr; }
+  .exam2-grid  { grid-template-columns: 1fr; }
+}
+
 /* hide content until auth */
 html.pw-locked body > *:not(#pwGate):not(script) { visibility: hidden !important; }
 </style>
@@ -183,7 +237,7 @@ html.pw-locked body > *:not(#pwGate):not(script) { visibility: hidden !important
     <h1>The Architecture<br><em>of Being Alive</em></h1>
     <p class="index-sub">A visual field guide to Development, Evolution, and the deep history of life — crafted for one purpose: genuine understanding that carries you through every exam.</p>
     <div class="hero-meta">
-      <span>5 Modules</span><span class="dot">●</span>
+      <span>6 Modules</span><span class="dot">●</span>
       <span>60+ Diagrams</span><span class="dot">●</span>
       <span>Interactive Simulations</span><span class="dot">●</span>
       <span>Tiered Learning Goals</span>
@@ -194,9 +248,14 @@ html.pw-locked body > *:not(#pwGate):not(script) { visibility: hidden !important
 
 <!-- ══════ MODULE CARDS ══════ -->
 <main class="container">
-  <div class="divider reveal">Choose your module</div>
 
-  <div class="index-modules">
+  <!-- ── EXAM 1 ── -->
+  <div class="divider reveal">
+    <span style="background:linear-gradient(90deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;letter-spacing:.06em;">Exam 1</span>
+    <span style="font-size:.8em;font-weight:400;color:var(--ink-dim);margin-left:.6rem;">Modules 01–05 · Development, Evolution &amp; Protostomes</span>
+  </div>
+
+  <div class="index-modules" style="margin-bottom:1.8rem;">
 
     <a href="module-01.html" class="module-card m01 reveal reveal-item delay-1">
       <div class="mc-num">Module 01</div>
@@ -248,8 +307,8 @@ html.pw-locked body > *:not(#pwGate):not(script) { visibility: hidden !important
       <div class="mc-arrow">Start Module 04</div>
     </a>
 
-    <a href="module-05.html" class="module-card reveal reveal-item delay-5" style="border-color:rgba(100,255,218,0.2);background:linear-gradient(135deg,rgba(100,255,218,0.03),rgba(167,139,250,0.03));">
-      <div class="mc-num" style="color:var(--teal);">Module 05</div>
+    <a href="module-05.html" class="module-card reveal reveal-item delay-5" style="border-color:rgba(125,211,252,0.25);background:linear-gradient(135deg,rgba(125,211,252,0.04),rgba(167,139,250,0.03));">
+      <div class="mc-num" style="color:var(--sky);">Module 05</div>
       <div class="mc-title">Animal Diversity: <em>Protostomes</em></div>
       <p class="mc-desc">Animal characteristics, body plans, and protostome phylogeny — Lophotrochozoa (Platyhelminthes, Annelida, Mollusca) and Ecdysozoa (Nematoda, Arthropoda) with full phylum comparisons.</p>
       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
@@ -261,17 +320,66 @@ html.pw-locked body > *:not(#pwGate):not(script) { visibility: hidden !important
       <div class="mc-arrow">Start Module 05</div>
     </a>
 
-    <a href="exam.html" class="module-card reveal reveal-item delay-5" style="border-color:rgba(255,209,102,0.4);background:linear-gradient(135deg,rgba(255,209,102,0.06),rgba(255,138,138,0.04));">
-      <div class="mc-num" style="color:var(--gold);">Final Exam</div>
-      <div class="mc-title">Cumulative <em>Practice Exam</em></div>
-      <p class="mc-desc">106 exam-quality questions across all four modules. Filter by module, choose your question count, get instant feedback with full explanations. Randomized every time.</p>
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
-        <span class="pill" style="border-color:rgba(255,209,102,0.4);color:var(--gold);">106 Questions</span>
-        <span class="pill teal">All Modules</span>
-        <span class="pill" style="border-color:rgba(255,138,138,0.4);color:var(--coral);">Randomized</span>
+  </div>
+
+  <!-- Exam 1 study tools -->
+  <div class="exam-tools reveal">
+    <a href="flashcards.html" class="tool-card" style="border-color:rgba(167,139,250,0.25);">
+      <div class="tool-tag">Study Tool</div>
+      <div class="tool-title">Interactive <em>Flashcards</em></div>
+      <p class="tool-desc">218 cards spanning all six modules — terminology, mechanisms, and learning objectives. Filter by module or category, flip to reveal, track what you know.</p>
+      <div class="tool-pills">
+        <span class="pill violet">218 Cards</span>
+        <span class="pill teal">All 6 Modules</span>
+        <span class="pill">Flip &amp; Filter</span>
       </div>
-      <div class="mc-arrow" style="color:var(--gold);">Take the Exam →</div>
+      <div class="tool-cta" style="color:var(--violet);">Open Flashcards →</div>
     </a>
+    <a href="exam.html" class="tool-card" style="border-color:rgba(255,209,102,0.25);">
+      <div class="tool-tag">Practice Exam 1</div>
+      <div class="tool-title">Exam 1 <em>Practice</em></div>
+      <p class="tool-desc">106 exam-quality MCQs covering Modules 01–05. Filter by module, set your question count, get instant feedback with full explanations. Randomized every time.</p>
+      <div class="tool-pills">
+        <span class="pill" style="border-color:rgba(255,209,102,0.4);color:var(--gold);">106 Questions</span>
+        <span class="pill" style="border-color:rgba(255,138,138,0.4);color:var(--coral);">Randomized</span>
+        <span class="pill">Instant Feedback</span>
+      </div>
+      <div class="tool-cta" style="color:var(--gold);">Take Practice Exam →</div>
+    </a>
+  </div>
+
+  <!-- ── EXAM 2 ── -->
+  <div class="divider reveal" style="margin-top:1rem;">
+    <span style="background:linear-gradient(90deg,var(--coral),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;letter-spacing:.06em;">Exam 2</span>
+    <span style="font-size:.8em;font-weight:400;color:var(--ink-dim);margin-left:.6rem;">Module 06 · Deuterostomes &amp; Vertebrate Evolution</span>
+  </div>
+
+  <div class="exam2-grid reveal">
+
+    <a href="module-06.html" class="module-card reveal reveal-item delay-1" style="border-color:rgba(255,138,138,0.35);background:linear-gradient(135deg,rgba(255,138,138,0.06),rgba(255,209,102,0.03));margin:0;">
+      <div class="mc-num" style="color:var(--coral);">Module 06</div>
+      <div class="mc-title">Animal Diversity: <em>Deuterostomes</em></div>
+      <p class="mc-desc">Echinoderm body plan, chordate synapomorphies, vertebrate phylogeny, extra-embryonic membranes, evolution of jaws and limbs — from sea stars to primates.</p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;">
+        <span class="pill" style="border-color:rgba(255,138,138,0.4);color:var(--coral);">Chordata</span>
+        <span class="pill teal">Echinodermata</span>
+        <span class="pill gold">Vertebrate Evolution</span>
+        <span class="pill">Amniotic Egg</span>
+      </div>
+      <div class="mc-arrow" style="color:var(--coral);">Start Module 06</div>
+    </a>
+
+    <div class="topics-card reveal reveal-item delay-2">
+      <h4>What's covered in M06</h4>
+      <ul class="topics-list">
+        <li><strong>Deuterostome synapomorphies</strong> — radial cleavage, enterocoely, blastopore → anus</li>
+        <li><strong>Echinodermata</strong> — water vascular system, pentaradial symmetry, CaCO₃ endoskeleton; 5 classes</li>
+        <li><strong>Chordate synapomorphies</strong> — notochord, dorsal hollow nerve cord, pharyngeal slits, post-anal tail; 3 subphyla</li>
+        <li><strong>Vertebrate innovations timeline</strong> — cranium → jaws → bony endoskeleton → lungs → limbs → amniotic egg → endothermy</li>
+        <li><strong>7 vertebrate lineages</strong> — hagfishes, sharks, ray-finned fish, lobe-fins, amphibians, mammals (3 types), reptiles + birds</li>
+        <li><strong>Convergent evolution</strong> — flight (3×), viviparity (100×), endothermy (2×), limb loss</li>
+      </ul>
+    </div>
 
   </div>
 

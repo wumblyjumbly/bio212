@@ -1,0 +1,2529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 06 · Animal Diversity: Deuterostomes · BIO 212</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── Coral accent helpers ── */
+.c-coral::before { background: var(--coral) !important; }
+.accent-coral { color: var(--coral); }
+.pill.coral { background: rgba(255,138,138,0.12); color: var(--coral); border: 1px solid rgba(255,138,138,0.3); }
+
+/* ── Char cards (reuse from m05) ── */
+.char-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin:1.5rem 0; }
+.char-card { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm); padding:1.4rem; position:relative; overflow:hidden; }
+.char-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
+.char-card.c-teal::before  { background:var(--teal); }
+.char-card.c-violet::before{ background:var(--violet); }
+.char-card.c-gold::before  { background:var(--gold); }
+.char-card.c-rose::before  { background:var(--rose); }
+.char-card.c-lime::before  { background:var(--lime); }
+.char-card.c-coral::before { background:var(--coral); }
+.char-card.c-sky::before   { background:var(--sky); }
+.char-icon { font-size:1.6rem; margin-bottom:0.5rem; display:block; }
+.char-title { font-family:var(--mono); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:0.4rem; }
+.char-card p { font-size:0.88rem; color:var(--ink-soft); line-height:1.65; margin:0; }
+
+/* ── BP grid ── */
+.bp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; margin:1.5rem 0; }
+.bp-card { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm); padding:1.6rem; transition:all 0.3s; }
+.bp-card:hover { transform:translateY(-3px); border-color:rgba(255,138,138,0.3); }
+.bp-num { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--coral); margin-bottom:0.4rem; }
+.bp-card h4 { margin:0 0 0.7rem; color:var(--ink); }
+.bp-card p { font-size:0.88rem; color:var(--ink-soft); line-height:1.65; margin:0 0 0.5rem; }
+
+/* ── Phylum profile cards ── */
+.phylum-card { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius); padding:1.8rem 2rem; margin:1.5rem 0; position:relative; overflow:hidden; }
+.phylum-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.phylum-card.coral::before  { background:linear-gradient(90deg,var(--coral),var(--gold)); }
+.phylum-card.teal::before   { background:linear-gradient(90deg,var(--teal),var(--sky)); }
+.phylum-card.violet::before { background:linear-gradient(90deg,var(--violet),var(--rose)); }
+.phylum-card.gold::before   { background:linear-gradient(90deg,var(--gold),var(--lime)); }
+.phylum-card.sky::before    { background:linear-gradient(90deg,var(--sky),var(--teal)); }
+.phylum-name { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:0.3rem; }
+.phylum-card h3 { margin:0 0 0.2rem; }
+.phylum-examples { font-style:italic; color:var(--ink-dim); font-size:0.85rem; margin-bottom:1rem; }
+.feat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.6rem; margin:0.8rem 0; }
+.feat-item { font-size:0.84rem; color:var(--ink-soft); line-height:1.5; padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.feat-label { font-family:var(--mono); font-size:0.65rem; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:0.15rem; }
+
+/* ── Comparison table ── */
+.compare-wide { width:100%; border-collapse:collapse; font-size:0.84rem; margin:1.5rem 0; }
+.compare-wide th { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-dim); text-align:left; padding:0.7rem 0.9rem; border-bottom:1px solid var(--line); background:rgba(255,255,255,0.02); }
+.compare-wide td { padding:0.65rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:top; line-height:1.5; }
+.compare-wide tr:last-child td { border-bottom:none; }
+.compare-wide tr:hover td { background:rgba(255,255,255,0.02); }
+.row-head { font-weight:600; color:var(--ink); white-space:nowrap; }
+.yes { color:var(--teal); }
+.no  { color:var(--rose); }
+
+/* ── Innovation timeline ── */
+.innov-track { display:flex; flex-direction:column; gap:0; margin:2rem 0; position:relative; }
+.innov-track::before { content:''; position:absolute; left:2.2rem; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--coral),var(--violet),var(--teal)); }
+.innov-step { display:flex; gap:1.2rem; align-items:flex-start; padding:0.6rem 0 1.4rem; position:relative; }
+.innov-node { width:2.8rem; height:2.8rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; z-index:1; border:2px solid; }
+.innov-body { flex:1; background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm); padding:1rem 1.2rem; }
+.innov-era { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.3rem; }
+.innov-body h4 { margin:0 0 0.4rem; }
+.innov-body p { font-size:0.86rem; color:var(--ink-soft); line-height:1.6; margin:0; }
+.innov-adv { margin-top:0.5rem; font-size:0.82rem; color:var(--teal); }
+.innov-adv strong { color:var(--ink-soft); }
+
+/* ── Echinoderm class tabs ── */
+.class-tabs { margin:1.5rem 0; }
+
+/* ── Echinoderm panel layout (visual + info side by side) ── */
+.echi-panel {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 1.5rem 0;
+}
+@media (max-width: 660px) {
+  .echi-panel { grid-template-columns: 1fr; }
+  .echi-visual { display: flex; justify-content: center; }
+}
+.echi-visual svg { display: block; }
+.echi-info { padding-top: 0.5rem; }
+
+/* ── Flip card for chordate subphyla ── */
+.flipcard-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin:1.5rem 0; }
+.flipcard { height:300px; perspective:900px; cursor:pointer; }
+.flipcard-inner { position:relative; width:100%; height:100%; transition:transform 0.6s; transform-style:preserve-3d; }
+.flipcard.flipped .flipcard-inner { transform:rotateY(180deg); }
+.flipcard-front, .flipcard-back { position:absolute; inset:0; backface-visibility:hidden; border-radius:var(--radius-sm); border:1px solid var(--line); padding:1.5rem; display:flex; flex-direction:column; justify-content:center; }
+.flipcard-front { background:var(--glass); }
+.flipcard-back { background:var(--bg-2); transform:rotateY(180deg); }
+.fc-label { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:0.4rem; }
+.fc-title { font-size:1.15rem; font-weight:700; color:var(--ink); margin:0 0 0.4rem; }
+.fc-sub { font-style:italic; font-size:0.82rem; color:var(--ink-dim); }
+.fc-hint { font-family:var(--mono); font-size:0.62rem; color:var(--ink-dim); margin-top:auto; }
+.fc-back-list { list-style:none; margin:0; padding:0; }
+.fc-back-list li { font-size:0.83rem; color:var(--ink-soft); line-height:1.7; padding-left:1rem; position:relative; }
+.fc-back-list li::before { content:'›'; position:absolute; left:0; color:var(--coral); }
+
+/* ── Phylo SVG wrapper ── */
+.phylo-wrap { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem; margin:1.5rem 0; overflow-x:auto; }
+
+/* ── Innovation quiz ── */
+.innov-quiz { margin:2rem 0; }
+.iq-prompt { font-size:0.95rem; color:var(--ink-soft); margin-bottom:1rem; }
+.iq-items { display:flex; flex-direction:column; gap:0.5rem; }
+.iq-item { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm); padding:0.8rem 1.2rem; cursor:grab; font-size:0.88rem; color:var(--ink-soft); transition:background 0.2s; user-select:none; }
+.iq-item:active { cursor:grabbing; }
+.iq-item.dragging { opacity:0.4; }
+.iq-item.over { border-color:var(--coral); background:rgba(255,138,138,0.08); }
+.iq-btn { margin-top:1rem; }
+.iq-feedback { margin-top:0.8rem; font-size:0.88rem; }
+.iq-feedback.correct { color:var(--teal); }
+.iq-feedback.wrong { color:var(--rose); }
+
+/* ── Selective pressure activity ── */
+.sp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; margin:1.5rem 0; }
+.sp-card { background:var(--glass); border:1px solid var(--line); border-radius:var(--radius-sm); padding:1.4rem; }
+.sp-card h4 { margin:0 0 0.5rem; color:var(--ink); font-size:0.95rem; }
+.sp-label { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--coral); margin-bottom:0.3rem; }
+.sp-card p { font-size:0.84rem; color:var(--ink-soft); line-height:1.6; margin:0; }
+.sp-adv { margin-top:0.6rem; font-size:0.82rem; color:var(--sky); }
+
+/* ── WVS diagram labels ── */
+.wvs-diagram { max-width:500px; margin:1.5rem auto; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+<div id="stars" style="position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;"></div>
+
+<!-- ══════ NAV ══════ -->
+<nav class="module-nav">
+  <div style="max-width:1280px;margin:0 auto;padding:0.6rem 2rem;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+    <a href="index.html" class="home-link">The Living Codex</a>
+    <span style="color:var(--ink-dim);opacity:0.5;">›</span>
+    <div class="nav-links">
+      <a href="module-01.html">01 · Development</a>
+      <a href="module-02.html">02 · Animal Dev</a>
+      <a href="module-03.html">03 · Evolution</a>
+      <a href="module-04.html">04 · Speciation</a>
+      <a href="module-05.html">05 · Protostomes</a>
+      <a href="module-06.html" class="active" style="color:var(--coral);font-weight:600;">06 · Deuterostomes</a>
+      <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
+      <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<header class="page-hero">
+  <div class="module-eyebrow">Module 06</div>
+  <h1>Animal Diversity: <em>Deuterostomes</em></h1>
+  <p class="page-desc">From the radially symmetric echinoderms of the deep sea to the vertebrates that conquered land, sky, and ocean — a comprehensive journey through deuterostome phylogeny, key evolutionary innovations, and the selective pressures that shaped the most species-rich animals on Earth.</p>
+  <div class="hero-tags">
+    <span class="pill coral">Echinodermata</span>
+    <span class="pill teal">Chordata</span>
+    <span class="pill violet">Vertebrates</span>
+    <span class="pill gold">Innovations</span>
+    <span class="pill">Amniota</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ══════ LEARNING GOALS ══════ -->
+  <section class="reveal">
+    <div class="divider">Learning Objectives</div>
+    <div class="learning-goals">
+      <div class="lg-header">
+        <span class="lg-header-title">Module 06 · Animal Diversity: Deuterostomes</span>
+        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-dim);margin-left:auto;">Click a tier to expand</span>
+      </div>
+
+      <div class="lg-tier tier-1">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">1</div>
+          <div><div class="lg-tier-label">Level 1 · Know</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Master these first</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>Identify the three phyla that make up the deuterostomes: Echinodermata, Hemichordata, and Chordata.</li>
+          <li>List the synapomorphies (shared derived characters) of Echinodermata.</li>
+          <li>Identify the five classes of Echinoderms and their distinguishing features.</li>
+          <li>List the four synapomorphies that define Phylum Chordata.</li>
+          <li>Identify the three subphyla of Chordata and their distinguishing features: Cephalochordata, Urochordata, and Vertebrata.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="lg-tier tier-2">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">2</div>
+          <div><div class="lg-tier-label">Level 2 · Understand</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Mechanisms and distinctions</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>Explain the key evolutionary innovations that arose during vertebrate evolution: cranium &amp; vertebrae, jaws, bony endoskeleton, lungs, tetrapod limbs, amniotic egg, endothermy, fur, and feathers.</li>
+          <li>Distinguish between the major vertebrate lineages: jawless fishes, cartilaginous fishes, ray-finned fishes, lobe-finned fishes, amphibians, reptiles (including birds), and mammals.</li>
+          <li>Explain the selective advantages conferred by each major vertebrate innovation.</li>
+          <li>Compare the three subphyla of chordates in terms of which of the four chordate synapomorphies are retained in adults.</li>
+          <li>Describe the three major lineages of mammals (monotremes, marsupials, eutherians) and how they differ in reproduction.</li>
+        </ul></div></div>
+      </div>
+
+      <div class="lg-tier tier-3">
+        <div class="lg-tier-header">
+          <div class="lg-tier-badge">3</div>
+          <div><div class="lg-tier-label">Level 3 · Apply &amp; Analyse</div><div style="font-size:var(--text-sm);color:var(--ink-soft);margin-top:0.2rem;">Class discussions will focus here</div></div>
+          <div class="lg-tier-toggle">+</div>
+        </div>
+        <div class="lg-tier-body"><div class="lg-tier-content"><ul>
+          <li>Trace the evolutionary transitions from basal deuterostomes to amniotes using a phylogenetic tree, mapping key innovations onto appropriate nodes.</li>
+          <li>Analyze the selective pressures (environmental and biotic) that drove each major vertebrate innovation. For each structure, ask: what problem in the environment does it solve, and what does it allow the organism to do that its ancestors could not?</li>
+          <li>Order the following innovations in the sequence they evolved: bone tissue, bony endoskeleton, limbs, lungs, amniotic egg. Justify the ordering with evidence from phylogeny and the fossil record.</li>
+          <li>Evaluate convergent evolution in vertebrates — identify two or more cases where the same innovation (e.g., flight, viviparity, loss of limbs) evolved independently in separate lineages.</li>
+        </ul></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 1
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l1 reveal">⬡ Level 1 · Remember &amp; Identify</div>
+
+  <!-- What are Deuterostomes? -->
+  <section class="reveal">
+    <div class="section-label">Deuterostome Overview</div>
+    <h2>What is a Deuterostome?</h2>
+    <div class="callout callout-teal reveal">
+      <div class="callout-label">◈ Key Distinction</div>
+      <p><strong>Deuterostomes</strong> ("second mouth") are defined by their embryonic development: the blastopore becomes the <em>anus</em>, and the mouth forms secondarily at the opposite end. This contrasts with protostomes, where the blastopore becomes the mouth. Deuterostome cleavage is also radial and indeterminate (cells remain totipotent longer).</p>
+    </div>
+    <p style="color:var(--ink-soft);margin-top:1rem;max-width:700px;">Deuterostomes comprise three phyla. Together they include all vertebrates — including humans — as well as sea stars, sea urchins, acorn worms, and lancelets.</p>
+
+    <div class="char-grid">
+      <div class="char-card c-coral reveal reveal-item delay-1">
+        <span class="char-icon">⭐</span>
+        <div class="char-title">Echinodermata</div>
+        <p>~7,000 species. Pentaradial symmetry in adults; bilateral larvae. Unique water vascular system. CaCO₃ endoskeleton. Marine only. Sea stars, urchins, sea cucumbers.</p>
+      </div>
+      <div class="char-card c-gold reveal reveal-item delay-2">
+        <span class="char-icon">🪱</span>
+        <div class="char-title">Hemichordata</div>
+        <p>~130 species. Marine worm-like animals (acorn worms). Possess pharyngeal slits homologous to those in chordates. Important as an outgroup for understanding chordate origins.</p>
+      </div>
+      <div class="char-card c-teal reveal reveal-item delay-3">
+        <span class="char-icon">🐟</span>
+        <div class="char-title">Chordata</div>
+        <p>~60,000+ species. Defined by four synapomorphies: pharyngeal slits, dorsal hollow nerve cord, notochord, muscular post-anal tail. Includes lancelets, tunicates, and all vertebrates.</p>
+      </div>
+    </div>
+
+    <!-- Interactive Protostome vs Deuterostome Embryology -->
+    <div id="embryo-compare" style="background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;margin-top:1.5rem;">
+      <div style="font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:1rem;">◈ Interactive · Protostome vs Deuterostome Embryology — hover or click a panel to highlight</div>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+
+        <!-- PROTOSTOME panel -->
+        <div id="panel-proto" style="flex:1;min-width:240px;border-radius:var(--radius-sm);border:2px solid rgba(255,209,102,0.25);padding:1rem;cursor:pointer;transition:all 0.25s;" onmouseenter="embryoHL('proto')" onmouseleave="embryoHL(null)" onclick="embryoHL('proto')">
+          <div style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;text-align:center;">Protostome</div>
+          <svg viewBox="0 0 260 200" width="100%" style="display:block;">
+            <defs>
+              <radialGradient id="pGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd166" stop-opacity="0.18"/><stop offset="100%" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+            </defs>
+            <!-- spiral cleavage cells (tilted cluster) -->
+            <g id="proto-cells">
+              <ellipse cx="70" cy="55" rx="38" ry="38" fill="url(#pGlow)" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>
+              <!-- 4-cell tier, spiral offset -->
+              <circle cx="55" cy="42" r="13" fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.55)" stroke-width="1.5"/>
+              <circle cx="82" cy="38" r="13" fill="rgba(255,209,102,0.10)" stroke="rgba(255,209,102,0.5)" stroke-width="1.5"/>
+              <circle cx="48" cy="67" r="13" fill="rgba(255,209,102,0.10)" stroke="rgba(255,209,102,0.5)" stroke-width="1.5"/>
+              <circle cx="76" cy="68" r="11" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.45)" stroke-width="1.5"/>
+              <!-- spiral offset indicator -->
+              <circle cx="66" cy="52" r="5" fill="none" stroke="rgba(255,209,102,0.7)" stroke-width="1" stroke-dasharray="3 2"/>
+              <text x="70" y="100" text-anchor="middle" font-size="9" fill="rgba(255,209,102,0.75)" font-family="JetBrains Mono,monospace">spiral cleavage</text>
+            </g>
+            <!-- arrow down -->
+            <line x1="70" y1="108" x2="70" y2="128" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <polygon points="65,128 75,128 70,136" fill="rgba(255,255,255,0.3)"/>
+            <!-- blastopore / gastrula -->
+            <ellipse cx="70" cy="160" rx="30" ry="22" fill="rgba(255,209,102,0.07)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+            <!-- blastopore opening at bottom of ellipse -->
+            <path d="M58,178 Q70,188 82,178" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="70" y="198" text-anchor="middle" font-size="9" fill="rgba(255,209,102,0.9)" font-family="JetBrains Mono,monospace" font-weight="600">MOUTH</text>
+            <text x="70" y="148" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.35)" font-family="JetBrains Mono,monospace">blastopore →</text>
+            <!-- deterministic label -->
+            <text x="130" y="30" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.5)" font-family="JetBrains Mono,monospace">deterministic / mosaic</text>
+
+            <!-- ADULT side: simple bilateral worm -->
+            <g transform="translate(160,40)">
+              <ellipse cx="35" cy="80" rx="20" ry="60" fill="rgba(255,209,102,0.06)" stroke="rgba(255,209,102,0.35)" stroke-width="1.5"/>
+              <!-- mouth at top -->
+              <circle cx="35" cy="22" r="5" fill="rgba(255,209,102,0.4)" stroke="var(--gold)" stroke-width="1.5"/>
+              <text x="35" y="14" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.9)" font-family="JetBrains Mono,monospace">mouth</text>
+              <!-- anus at bottom -->
+              <circle cx="35" cy="138" r="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+              <text x="35" y="152" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">anus</text>
+              <text x="35" y="165" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)" font-family="JetBrains Mono,monospace">adult</text>
+            </g>
+            <text x="145" y="110" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.25)">→</text>
+          </svg>
+        </div>
+
+        <!-- DEUTEROSTOME panel -->
+        <div id="panel-deut" style="flex:1;min-width:240px;border-radius:var(--radius-sm);border:2px solid rgba(100,255,218,0.25);padding:1rem;cursor:pointer;transition:all 0.25s;" onmouseenter="embryoHL('deut')" onmouseleave="embryoHL(null)" onclick="embryoHL('deut')">
+          <div style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.8rem;text-align:center;">Deuterostome</div>
+          <svg viewBox="0 0 260 200" width="100%" style="display:block;">
+            <defs>
+              <radialGradient id="dGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64ffda" stop-opacity="0.15"/><stop offset="100%" stop-color="#64ffda" stop-opacity="0"/></radialGradient>
+            </defs>
+            <!-- radial cleavage cells (aligned) -->
+            <g id="deut-cells">
+              <ellipse cx="70" cy="55" rx="38" ry="38" fill="url(#dGlow)" stroke="rgba(100,255,218,0.25)" stroke-width="1"/>
+              <!-- 4 cells in neat 2×2 grid (radial) -->
+              <circle cx="53" cy="40" r="13" fill="rgba(100,255,218,0.10)" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <circle cx="82" cy="40" r="13" fill="rgba(100,255,218,0.10)" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <circle cx="53" cy="69" r="13" fill="rgba(100,255,218,0.10)" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <circle cx="82" cy="69" r="13" fill="rgba(100,255,218,0.10)" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+              <!-- aligned indicator crosshairs -->
+              <line x1="53" y1="40" x2="82" y2="40" stroke="rgba(100,255,218,0.35)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <line x1="53" y1="69" x2="82" y2="69" stroke="rgba(100,255,218,0.35)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <line x1="53" y1="40" x2="53" y2="69" stroke="rgba(100,255,218,0.35)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <line x1="82" y1="40" x2="82" y2="69" stroke="rgba(100,255,218,0.35)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <text x="70" y="100" text-anchor="middle" font-size="9" fill="rgba(100,255,218,0.75)" font-family="JetBrains Mono,monospace">radial cleavage</text>
+            </g>
+            <!-- arrow down -->
+            <line x1="70" y1="108" x2="70" y2="128" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <polygon points="65,128 75,128 70,136" fill="rgba(255,255,255,0.3)"/>
+            <!-- gastrula with blastopore becoming ANUS -->
+            <ellipse cx="70" cy="160" rx="30" ry="22" fill="rgba(100,255,218,0.06)" stroke="rgba(100,255,218,0.4)" stroke-width="1.5"/>
+            <path d="M58,178 Q70,188 82,178" fill="none" stroke="var(--coral)" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="70" y="198" text-anchor="middle" font-size="9" fill="rgba(255,138,138,0.9)" font-family="JetBrains Mono,monospace" font-weight="600">ANUS</text>
+            <text x="70" y="148" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.35)" font-family="JetBrains Mono,monospace">blastopore →</text>
+            <text x="130" y="30" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.5)" font-family="JetBrains Mono,monospace">indeterminate / regulative</text>
+
+            <!-- ADULT side: sea star body -->
+            <g transform="translate(155,30)">
+              <!-- 5-arm star -->
+              <path d="M40,80 L34,60 Q34,42 40,34 Q46,42 46,60 Z
+                        L52,65 Q65,57 72,62 Q68,72 56,75 Z
+                        L50,82 Q58,96 53,104 Q44,100 40,89 Z
+                        L30,82 Q22,96 27,104 Q18,100 20,89 Z
+                        L28,65 Q15,57 8,62 Q12,72 24,75 Z"
+                fill="rgba(100,255,218,0.12)" stroke="rgba(100,255,218,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+              <!-- mouth at center bottom of star -->
+              <circle cx="40" cy="80" r="5" fill="rgba(100,255,218,0.4)" stroke="var(--teal)" stroke-width="1.5"/>
+              <text x="40" y="122" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.9)" font-family="JetBrains Mono,monospace">mouth</text>
+              <!-- anus small dot top -->
+              <circle cx="40" cy="32" r="3" fill="rgba(255,138,138,0.3)" stroke="rgba(255,138,138,0.5)" stroke-width="1"/>
+              <text x="40" y="27" text-anchor="middle" font-size="7.5" fill="rgba(255,138,138,0.7)" font-family="JetBrains Mono,monospace">anus</text>
+              <text x="40" y="136" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)" font-family="JetBrains Mono,monospace">adult</text>
+            </g>
+            <text x="145" y="110" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.25)">→</text>
+          </svg>
+        </div>
+      </div>
+      <p style="font-size:0.82rem;color:var(--ink-dim);margin-top:0.8rem;text-align:center;font-family:var(--mono);">Click a panel to highlight it · Protostome blastopore → <span style="color:var(--gold);">mouth</span> · Deuterostome blastopore → <span style="color:var(--coral);">anus</span> (mouth forms secondarily)</p>
+    </div>
+
+    <script>
+    function embryoHL(side) {
+      var proto = document.getElementById('panel-proto');
+      var deut  = document.getElementById('panel-deut');
+      if (!proto || !deut) return;
+      proto.style.borderColor = (side === 'proto') ? 'var(--gold)' : 'rgba(255,209,102,0.2)';
+      proto.style.background  = (side === 'proto') ? 'rgba(255,209,102,0.07)' : '';
+      deut.style.borderColor  = (side === 'deut')  ? 'var(--teal)' : 'rgba(100,255,218,0.2)';
+      deut.style.background   = (side === 'deut')  ? 'rgba(100,255,218,0.06)' : '';
+    }
+    </script>
+  </section>
+
+  <!-- Echinoderm Synapomorphies -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Phylum Echinodermata</div>
+    <h2>Echinoderm Synapomorphies</h2>
+    <p style="color:var(--ink-soft);max-width:680px;">Echinoderms ("spiny skin") share five key derived characters found in no other phylum. All are marine — no freshwater or terrestrial species exist.</p>
+
+    <div class="bp-grid">
+      <div class="bp-card reveal reveal-item delay-1">
+        <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+          <svg viewBox="0 0 240 80" width="100%" style="display:block;" aria-label="Bilateral larva to 5-pointed star adult">
+            <!-- larva oval -->
+            <ellipse cx="52" cy="40" rx="38" ry="22" fill="rgba(255,138,138,0.1)" stroke="rgba(255,138,138,0.5)" stroke-width="1.5"/>
+            <text x="52" y="44" text-anchor="middle" font-size="9" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">larva</text>
+            <!-- bilateral axis line -->
+            <line x1="14" y1="40" x2="90" y2="40" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+            <!-- arrow -->
+            <line x1="100" y1="40" x2="130" y2="40" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+            <polygon points="128,36 136,40 128,44" fill="rgba(255,255,255,0.35)"/>
+            <text x="115" y="35" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">meta-</text>
+            <text x="115" y="55" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">morphosis</text>
+            <!-- 5-pointed star (adult) -->
+            <path d="M188,20 L191,32 L204,32 L194,40 L197,52 L188,45 L179,52 L182,40 L172,32 L185,32 Z"
+              fill="rgba(255,138,138,0.18)" stroke="var(--coral)" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="188" y="68" text-anchor="middle" font-size="9" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">adult</text>
+          </svg>
+        </div>
+        <div class="bp-num">Synapomorphy 01</div>
+        <h4>Pentaradial Symmetry</h4>
+        <p>Adults have 5-part radial symmetry. This is <em>derived</em> — echinoderm larvae are bilaterally symmetric, indicating that pentaradial symmetry evolved from a bilateral ancestor. The 5-part symmetry is often modified (e.g., sea urchins have 5 rows of tube feet).</p>
+      </div>
+      <div class="bp-card reveal reveal-item delay-2">
+        <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+          <svg viewBox="0 0 240 80" width="100%" style="display:block;" aria-label="Water vascular system schematic">
+            <!-- madreporite dot -->
+            <circle cx="20" cy="40" r="7" fill="rgba(255,209,102,0.25)" stroke="var(--gold)" stroke-width="1.5"/>
+            <text x="20" y="62" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.8)" font-family="JetBrains Mono,monospace">madrepor.</text>
+            <!-- stone canal line down -->
+            <line x1="20" y1="33" x2="20" y2="16" stroke="rgba(125,211,252,0.6)" stroke-width="1.5"/>
+            <text x="20" y="13" text-anchor="middle" font-size="6.5" fill="rgba(125,211,252,0.7)" font-family="JetBrains Mono,monospace">stone canal</text>
+            <!-- ring canal oval -->
+            <ellipse cx="90" cy="40" rx="35" ry="16" fill="none" stroke="rgba(100,255,218,0.65)" stroke-width="2" stroke-dasharray="5 3"/>
+            <!-- connect madreporite to ring canal -->
+            <line x1="27" y1="40" x2="55" y2="40" stroke="rgba(125,211,252,0.5)" stroke-width="1.5"/>
+            <text x="90" y="44" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.8)" font-family="JetBrains Mono,monospace">ring canal</text>
+            <!-- 3 radial canals downward -->
+            <line x1="70" y1="56" x2="65" y2="72" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+            <line x1="90" y1="56" x2="90" y2="72" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+            <line x1="110" y1="56" x2="115" y2="72" stroke="rgba(100,255,218,0.5)" stroke-width="1.5"/>
+            <!-- tube feet circles -->
+            <circle cx="65" cy="75" r="4" fill="rgba(100,255,218,0.4)" stroke="var(--teal)" stroke-width="1"/>
+            <circle cx="90" cy="75" r="4" fill="rgba(100,255,218,0.4)" stroke="var(--teal)" stroke-width="1"/>
+            <circle cx="115" cy="75" r="4" fill="rgba(100,255,218,0.4)" stroke="var(--teal)" stroke-width="1"/>
+            <text x="165" y="44" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.65)" font-family="JetBrains Mono,monospace">radial canals</text>
+            <text x="165" y="75" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.65)" font-family="JetBrains Mono,monospace">→ tube feet</text>
+          </svg>
+        </div>
+        <div class="bp-num">Synapomorphy 02</div>
+        <h4>Water Vascular System (WVS)</h4>
+        <p>A unique hydraulic system of fluid-filled canals. Opens to the outside via the <strong>madreporite</strong> (sieve plate). Operates tube feet for locomotion, feeding, gas exchange, and sensory functions. Driven by hydrostatic pressure.</p>
+      </div>
+      <div class="bp-card reveal reveal-item delay-3">
+        <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+          <svg viewBox="0 0 240 80" width="100%" style="display:block;" aria-label="CaCO3 endoskeleton cross-section">
+            <!-- epidermis layer -->
+            <rect x="10" y="8" width="220" height="16" rx="3" fill="rgba(167,139,250,0.15)" stroke="rgba(167,139,250,0.45)" stroke-width="1"/>
+            <text x="120" y="20" text-anchor="middle" font-size="8.5" fill="rgba(167,139,250,0.9)" font-family="JetBrains Mono,monospace">epidermis</text>
+            <!-- dermis layer -->
+            <rect x="10" y="30" width="220" height="26" rx="3" fill="rgba(255,138,138,0.08)" stroke="rgba(255,138,138,0.35)" stroke-width="1"/>
+            <text x="30" y="46" text-anchor="start" font-size="8.5" fill="rgba(255,138,138,0.75)" font-family="JetBrains Mono,monospace">dermis</text>
+            <!-- hexagonal ossicles inside dermis -->
+            <polygon points="100,33 110,33 115,41 110,49 100,49 95,41" fill="rgba(255,209,102,0.25)" stroke="var(--gold)" stroke-width="1.5"/>
+            <text x="105" y="44" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.9)" font-family="JetBrains Mono,monospace">ossicle</text>
+            <polygon points="130,34 139,34 143,41 139,48 130,48 126,41" fill="rgba(255,209,102,0.18)" stroke="rgba(255,209,102,0.55)" stroke-width="1"/>
+            <polygon points="160,34 169,34 173,41 169,48 160,48 156,41" fill="rgba(255,209,102,0.18)" stroke="rgba(255,209,102,0.55)" stroke-width="1"/>
+            <text x="120" y="60" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.7)" font-family="JetBrains Mono,monospace">CaCO₃ ossicles embedded in dermis</text>
+            <!-- muscle layer -->
+            <rect x="10" y="62" width="220" height="14" rx="3" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.3)" stroke-width="1"/>
+            <text x="120" y="73" text-anchor="middle" font-size="8.5" fill="rgba(100,255,218,0.7)" font-family="JetBrains Mono,monospace">muscle</text>
+          </svg>
+        </div>
+        <div class="bp-num">Synapomorphy 03</div>
+        <h4>CaCO₃ Endoskeleton</h4>
+        <p>An internal skeleton of calcium carbonate ossicles ("small bones") embedded in the dermis — hence "spiny skin." The skeleton can be rigid (urchins) or flexible (sea stars). In sea cucumbers, ossicles are reduced to microscopic spicules.</p>
+      </div>
+      <div class="bp-card reveal reveal-item delay-4">
+        <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+          <svg viewBox="0 0 240 80" width="100%" style="display:block;" aria-label="Enterocoely vs schizocoely">
+            <!-- ENTEROCOELY -->
+            <!-- gut tube -->
+            <rect x="10" y="28" width="80" height="24" rx="8" fill="rgba(100,255,218,0.08)" stroke="rgba(100,255,218,0.4)" stroke-width="1.5"/>
+            <text x="50" y="44" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.7)" font-family="JetBrains Mono,monospace">gut (endoderm)</text>
+            <!-- outpocketing bubble -->
+            <ellipse cx="93" cy="40" rx="13" ry="11" fill="rgba(100,255,218,0.18)" stroke="var(--teal)" stroke-width="1.5"/>
+            <text x="93" y="43" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.9)" font-family="JetBrains Mono,monospace">coelom</text>
+            <!-- connect line -->
+            <line x1="90" y1="40" x2="80" y2="40" stroke="rgba(100,255,218,0.5)" stroke-width="1"/>
+            <text x="50" y="17" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.6)" font-family="JetBrains Mono,monospace">enterocoely</text>
+            <text x="50" y="70" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.5)" font-family="JetBrains Mono,monospace">(deuterostomes)</text>
+
+            <!-- divider -->
+            <line x1="120" y1="5" x2="120" y2="75" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="3 3"/>
+
+            <!-- SCHIZOCOELY -->
+            <rect x="128" y="28" width="60" height="24" rx="6" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>
+            <text x="158" y="44" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.7)" font-family="JetBrains Mono,monospace">mesoderm</text>
+            <!-- split label -->
+            <line x1="188" y1="34" x2="200" y2="28" stroke="rgba(167,139,250,0.5)" stroke-width="1"/>
+            <line x1="188" y1="46" x2="200" y2="52" stroke="rgba(167,139,250,0.5)" stroke-width="1"/>
+            <ellipse cx="208" cy="27" rx="8" ry="6" fill="rgba(167,139,250,0.2)" stroke="var(--violet)" stroke-width="1"/>
+            <ellipse cx="208" cy="53" rx="8" ry="6" fill="rgba(167,139,250,0.2)" stroke="var(--violet)" stroke-width="1"/>
+            <text x="165" y="17" text-anchor="middle" font-size="8" fill="rgba(167,139,250,0.6)" font-family="JetBrains Mono,monospace">schizocoely</text>
+            <text x="165" y="70" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.5)" font-family="JetBrains Mono,monospace">(protostomes)</text>
+          </svg>
+        </div>
+        <div class="bp-num">Synapomorphy 04</div>
+        <h4>Coelom from Enterocoely</h4>
+        <p>The coelom (body cavity) forms by outpocketing of the gut endoderm — called <strong>enterocoely</strong>. This is the deuterostome pattern, contrasting with the schizocoely of most protostomes.</p>
+      </div>
+      <div class="bp-card reveal reveal-item delay-5">
+        <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+          <svg viewBox="0 0 240 80" width="100%" style="display:block;" aria-label="Bilateral larva metamorphoses into 5-arm adult">
+            <!-- bilateral larva -->
+            <ellipse cx="45" cy="40" rx="32" ry="20" fill="rgba(125,211,252,0.1)" stroke="rgba(125,211,252,0.5)" stroke-width="1.5"/>
+            <!-- bilateral axis markers -->
+            <line x1="13" y1="40" x2="77" y2="40" stroke="rgba(255,209,102,0.5)" stroke-width="1" stroke-dasharray="4 2"/>
+            <line x1="45" y1="20" x2="45" y2="60" stroke="rgba(255,209,102,0.35)" stroke-width="1" stroke-dasharray="4 2"/>
+            <text x="45" y="68" text-anchor="middle" font-size="8.5" fill="rgba(125,211,252,0.8)" font-family="JetBrains Mono,monospace">bilateral larva</text>
+            <text x="45" y="11" text-anchor="middle" font-size="7.5" fill="rgba(255,209,102,0.65)" font-family="JetBrains Mono,monospace">bilateral axes</text>
+            <!-- metamorphosis arrow -->
+            <line x1="85" y1="40" x2="112" y2="40" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <polygon points="110,36 118,40 110,44" fill="rgba(255,255,255,0.4)"/>
+            <text x="99" y="33" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">meta-</text>
+            <text x="99" y="52" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">morphosis</text>
+            <!-- 5-arm star adult -->
+            <path d="M175,52 L169,37 Q169,20 175,12 Q181,20 181,37 Z
+                     L182,43 Q197,36 204,40 Q200,50 187,49 Z
+                     L179,52 Q185,67 179,74 Q171,70 171,58 Z
+                     L171,52 Q156,58 150,53 Q154,44 167,45 Z
+                     L168,43 Q155,28 160,22 Q168,24 172,36 Z"
+              fill="rgba(255,138,138,0.15)" stroke="var(--coral)" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="177" y="80" text-anchor="middle" font-size="8.5" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">radial adult</text>
+          </svg>
+        </div>
+        <div class="bp-num">Synapomorphy 05</div>
+        <h4>Bilateral Larva</h4>
+        <p>All echinoderms have <strong>bilateral, free-swimming larvae</strong> that metamorphose into radially symmetric adults. The larva is used as evidence that echinoderms evolved from a bilateral ancestor and as a dispersal stage.</p>
+      </div>
+    </div>
+
+    <!-- Interactive WVS Diagram -->
+    <div class="callout callout-teal reveal" style="margin-top:1.5rem;">
+      <div class="callout-label">⬡ How the Water Vascular System Works</div>
+      <div class="wvs-diagram">
+        <svg viewBox="0 0 500 280" style="width:100%;font-family:var(--sans);">
+          <!-- Sea star arm cross-section schematic -->
+          <defs>
+            <radialGradient id="wvsGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff8a8a" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#ff8a8a" stop-opacity="0.05"/>
+            </radialGradient>
+          </defs>
+          <!-- Body outline -->
+          <ellipse cx="250" cy="140" rx="200" ry="100" fill="url(#wvsGrad)" stroke="rgba(255,138,138,0.4)" stroke-width="1.5"/>
+          <!-- Ring canal -->
+          <ellipse cx="250" cy="140" rx="70" ry="40" fill="none" stroke="rgba(125,211,252,0.7)" stroke-width="2.5" stroke-dasharray="6 3"/>
+          <text x="250" y="136" text-anchor="middle" fill="rgba(125,211,252,0.9)" font-size="10" font-family="JetBrains Mono,monospace">ring canal</text>
+          <!-- Radial canals -->
+          <line x1="250" y1="100" x2="250" y2="45" stroke="rgba(125,211,252,0.6)" stroke-width="2"/>
+          <line x1="250" y1="180" x2="250" y2="235" stroke="rgba(125,211,252,0.6)" stroke-width="2"/>
+          <line x1="180" y1="140" x2="65" y2="140" stroke="rgba(125,211,252,0.6)" stroke-width="2"/>
+          <line x1="320" y1="140" x2="435" y2="140" stroke="rgba(125,211,252,0.6)" stroke-width="2"/>
+          <line x1="197" y1="107" x2="110" y2="65" stroke="rgba(125,211,252,0.6)" stroke-width="2"/>
+          <!-- Tube feet circles -->
+          <circle cx="250" cy="45" r="6" fill="rgba(100,255,218,0.5)" stroke="var(--teal)" stroke-width="1"/>
+          <circle cx="250" cy="235" r="6" fill="rgba(100,255,218,0.5)" stroke="var(--teal)" stroke-width="1"/>
+          <circle cx="65" cy="140" r="6" fill="rgba(100,255,218,0.5)" stroke="var(--teal)" stroke-width="1"/>
+          <circle cx="435" cy="140" r="6" fill="rgba(100,255,218,0.5)" stroke="var(--teal)" stroke-width="1"/>
+          <circle cx="110" cy="65" r="6" fill="rgba(100,255,218,0.5)" stroke="var(--teal)" stroke-width="1"/>
+          <!-- Madreporite -->
+          <circle cx="285" cy="120" r="10" fill="rgba(255,209,102,0.3)" stroke="var(--gold)" stroke-width="1.5"/>
+          <text x="302" y="115" fill="rgba(255,209,102,0.9)" font-size="9" font-family="JetBrains Mono,monospace">madreporite</text>
+          <!-- Labels -->
+          <text x="254" y="38" fill="rgba(100,255,218,0.8)" font-size="9" font-family="JetBrains Mono,monospace">tube feet</text>
+          <text x="165" y="135" fill="rgba(125,211,252,0.7)" font-size="9" text-anchor="middle" font-family="JetBrains Mono,monospace">radial</text>
+          <text x="165" y="146" fill="rgba(125,211,252,0.7)" font-size="9" text-anchor="middle" font-family="JetBrains Mono,monospace">canal</text>
+        </svg>
+      </div>
+      <p style="font-size:0.84rem;color:var(--ink-soft);margin:0;text-align:center;">Sea water enters the madreporite → flows through ring canal → radial canals → tube feet. Contraction of ampullae creates suction. Each tube foot = locomotion + gas exchange + sensory.</p>
+    </div>
+  </section>
+
+  <!-- 5 Echinoderm Classes -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Echinoderm Diversity</div>
+    <h2>The Five Classes of Echinoderms</h2>
+    <p style="color:var(--ink-soft);max-width:680px;">All five classes share the echinoderm synapomorphies above but differ markedly in body form and ecology. Use the tabs below to explore each class.</p>
+
+    <div class="class-tabs tabs">
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn active" data-tab="crin" role="tab">Crinoidea</button>
+        <button class="tab-btn" data-tab="aste" role="tab">Asteroidea</button>
+        <button class="tab-btn" data-tab="ophi" role="tab">Ophiuroidea</button>
+        <button class="tab-btn" data-tab="echi" role="tab">Echinoidea</button>
+        <button class="tab-btn" data-tab="holo" role="tab">Holothuroidea</button>
+      </div>
+
+      <!-- ── CRINOIDEA ── -->
+      <div class="tab-panel active" data-tab="crin">
+        <div class="echi-panel">
+          <div class="echi-visual">
+            <svg viewBox="0 0 260 300" style="width:100%;max-width:260px;">
+              <defs>
+                <radialGradient id="crinGlow" cx="50%" cy="80%" r="50%">
+                  <stop offset="0%" stop-color="#ff8a8a" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#ff8a8a" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="130" cy="260" rx="100" ry="18" fill="url(#crinGlow)"/>
+              <!-- Stalk -->
+              <rect x="124" y="170" width="12" height="80" rx="5" fill="rgba(255,138,138,0.35)" stroke="rgba(255,138,138,0.6)" stroke-width="1"/>
+              <!-- Stalk segments -->
+              <line x1="124" y1="195" x2="136" y2="195" stroke="rgba(255,138,138,0.4)" stroke-width="1.5"/>
+              <line x1="124" y1="215" x2="136" y2="215" stroke="rgba(255,138,138,0.4)" stroke-width="1.5"/>
+              <line x1="124" y1="235" x2="136" y2="235" stroke="rgba(255,138,138,0.4)" stroke-width="1.5"/>
+              <!-- Holdfast -->
+              <ellipse cx="130" cy="248" rx="18" ry="6" fill="rgba(255,138,138,0.2)" stroke="rgba(255,138,138,0.5)" stroke-width="1"/>
+              <!-- Central disc -->
+              <circle cx="130" cy="168" r="18" fill="rgba(255,138,138,0.2)" stroke="var(--coral)" stroke-width="1.5"/>
+              <!-- 5 feathery arms -->
+              <g id="crinArms">
+                <!-- arm 1: up -->
+                <path d="M130,155 Q128,130 120,110 Q115,95 108,78" fill="none" stroke="rgba(255,138,138,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- pinnules on arm 1 -->
+                <line x1="126" y1="148" x2="116" y2="143" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="124" y1="138" x2="113" y2="131" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="122" y1="128" x2="111" y2="119" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="119" y1="117" x2="109" y2="107" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="115" y1="106" x2="106" y2="95" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="126" y1="148" x2="136" y2="145" stroke="rgba(255,138,138,0.4)" stroke-width="1"/>
+                <line x1="124" y1="138" x2="135" y2="133" stroke="rgba(255,138,138,0.4)" stroke-width="1"/>
+                <line x1="122" y1="128" x2="133" y2="121" stroke="rgba(255,138,138,0.4)" stroke-width="1"/>
+                <!-- arm 2: upper-right -->
+                <path d="M142,160 Q158,140 168,120 Q178,102 182,82" fill="none" stroke="rgba(255,138,138,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="149" y1="151" x2="158" y2="143" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="156" y1="141" x2="165" y2="131" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="163" y1="130" x2="172" y2="118" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="170" y1="118" x2="177" y2="105" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <!-- arm 3: right -->
+                <path d="M146,172 Q168,168 185,160 Q202,152 216,140" fill="none" stroke="rgba(255,138,138,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="157" y1="170" x2="160" y2="159" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="170" y1="166" x2="173" y2="155" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="183" y1="162" x2="186" y2="150" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <!-- arm 4: lower-left -->
+                <path d="M118,175 Q100,180 82,178 Q65,176 48,168" fill="none" stroke="rgba(255,138,138,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="107" y1="177" x2="104" y2="166" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="94" y1="178" x2="91" y2="167" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="80" y1="177" x2="77" y2="166" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <!-- arm 5: upper-left -->
+                <path d="M120,158 Q104,143 90,126 Q78,112 66,94" fill="none" stroke="rgba(255,138,138,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="113" y1="151" x2="104" y2="145" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="106" y1="142" x2="97" y2="134" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+                <line x1="99" y1="131" x2="89" y2="122" stroke="rgba(255,138,138,0.5)" stroke-width="1.2"/>
+              </g>
+              <!-- Mouth label -->
+              <circle cx="130" cy="162" r="4" fill="var(--gold)" opacity="0.8"/>
+              <!-- Labels -->
+              <text x="210" y="168" font-size="9" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">arms</text>
+              <text x="140" y="215" font-size="9" fill="rgba(255,209,102,0.8)" font-family="JetBrains Mono,monospace">stalk</text>
+              <text x="140" y="252" font-size="9" fill="rgba(255,138,138,0.6)" font-family="JetBrains Mono,monospace">holdfast</text>
+              <text x="90" y="157" font-size="9" fill="rgba(255,209,102,0.9)" font-family="JetBrains Mono,monospace">mouth ↑</text>
+              <text x="50" y="290" font-size="10" fill="rgba(255,255,255,0.35)" font-family="JetBrains Mono,monospace" text-anchor="middle">oral surface faces UP</text>
+            </svg>
+          </div>
+          <div class="echi-info">
+            <div class="phylum-name" style="color:var(--coral);">Class Crinoidea</div>
+            <h3 style="margin:0 0 0.2rem;">Feather Stars &amp; Sea Lilies</h3>
+            <p class="phylum-examples">Antedon, Comanthina, Metacrinus</p>
+            <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.65;margin-bottom:1rem;">The most ancient echinoderm class. Sea lilies are <strong>sessile</strong> — attached via a stalk to the seafloor. Feather stars (comatulids) can detach, crawl, or swim. The mouth faces <em>upward</em>, surrounded by feathery arms with pinnules that suspension-feed on particles. ~600 living species, but ~6,000 extinct — once dominant in shallow Paleozoic seas.</p>
+            <div class="feat-grid">
+              <div class="feat-item"><span class="feat-label">Orientation</span>Oral surface UP — unique among echinoderms</div>
+              <div class="feat-item"><span class="feat-label">Feeding</span>Suspension; ciliated tube feet trap particles</div>
+              <div class="feat-item"><span class="feat-label">WVS</span>Tube feet for feeding, not locomotion</div>
+              <div class="feat-item"><span class="feat-label">Key fact</span>No madreporite; WVS via dermal pores</div>
+              <div class="feat-item"><span class="feat-label">Arms</span>Branched, feathery; multiples of 5</div>
+              <div class="feat-item"><span class="feat-label">Species</span>~600 living; ~6,000 fossil</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ASTEROIDEA ── -->
+      <div class="tab-panel" data-tab="aste">
+        <div class="echi-panel">
+          <div class="echi-visual">
+            <svg viewBox="0 0 260 260" style="width:100%;max-width:260px;">
+              <defs>
+                <radialGradient id="asteGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#64ffda" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#64ffda" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <!-- Glow -->
+              <circle cx="130" cy="130" r="110" fill="url(#asteGlow)"/>
+              <!-- 5 arms — sea star shape, arms blend into disc -->
+              <path d="M130,130
+                L115,90 Q110,55 130,40 Q150,55 145,90 Z
+                L165,110 Q195,100 205,118 Q195,138 165,133 Z
+                L155,155 Q170,185 155,198 Q135,192 130,165 Z
+                L105,155 Q90,185 105,198 Q85,192 75,165 Z
+                L95,110 Q65,100 55,118 Q65,138 95,133 Z"
+                fill="rgba(100,255,218,0.15)" stroke="var(--teal)" stroke-width="1.5" stroke-linejoin="round"/>
+              <!-- Tube feet rows on each arm (dots) -->
+              <g fill="rgba(100,255,218,0.5)" stroke="none">
+                <!-- arm 1 (top) -->
+                <circle cx="127" cy="82" r="2.5"/><circle cx="130" cy="70" r="2.5"/><circle cx="133" cy="58" r="2.5"/>
+                <circle cx="123" cy="82" r="2"/><circle cx="137" cy="82" r="2"/>
+                <!-- arm 2 (upper right) -->
+                <circle cx="163" cy="118" r="2.5"/><circle cx="174" cy="113" r="2.5"/><circle cx="184" cy="108" r="2.5"/>
+                <!-- arm 3 (lower right) -->
+                <circle cx="153" cy="163" r="2.5"/><circle cx="162" cy="174" r="2.5"/>
+                <!-- arm 4 (lower left) -->
+                <circle cx="107" cy="163" r="2.5"/><circle cx="98" cy="174" r="2.5"/>
+                <!-- arm 5 (upper left) -->
+                <circle cx="97" cy="118" r="2.5"/><circle cx="86" cy="113" r="2.5"/>
+              </g>
+              <!-- Madreporite -->
+              <circle cx="145" cy="115" r="7" fill="rgba(255,209,102,0.35)" stroke="var(--gold)" stroke-width="1.5"/>
+              <text x="157" y="111" font-size="9" fill="rgba(255,209,102,0.9)" font-family="JetBrains Mono,monospace">madreporite</text>
+              <!-- Mouth (central) -->
+              <circle cx="130" cy="130" r="5" fill="rgba(255,138,138,0.6)" stroke="var(--coral)" stroke-width="1"/>
+              <text x="115" y="148" font-size="9" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">mouth</text>
+              <!-- Ambulacral groove arrow -->
+              <path d="M130,130 L130,82" stroke="rgba(100,255,218,0.3)" stroke-width="6" stroke-linecap="round"/>
+              <text x="135" y="107" font-size="8" fill="rgba(100,255,218,0.6)" font-family="JetBrains Mono,monospace">groove</text>
+              <!-- Arms NOT distinct from disc label -->
+              <text x="130" y="248" font-size="9" fill="rgba(255,255,255,0.35)" text-anchor="middle" font-family="JetBrains Mono,monospace">arms merge into central disc</text>
+            </svg>
+          </div>
+          <div class="echi-info">
+            <div class="phylum-name" style="color:var(--teal);">Class Asteroidea</div>
+            <h3 style="margin:0 0 0.2rem;">Sea Stars</h3>
+            <p class="phylum-examples">Asterias, Pisaster ochraceus, Linckia, Acanthaster (crown-of-thorns)</p>
+            <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.65;margin-bottom:1rem;">Most have 5 arms that <strong>blend into the disc</strong> (not sharply distinct). Rows of tube feet run along the oral (ventral) ambulacral groove. Feed by everting the <strong>cardiac stomach</strong> through the mouth into bivalve prey, digesting externally. Famous for regeneration and as <strong>keystone predators</strong> — <em>Pisaster</em> removal causes mussel beds to outcompete all other species in rocky intertidal zones.</p>
+            <div class="feat-grid">
+              <div class="feat-item"><span class="feat-label">Key feature</span>Arms NOT sharply distinct from disc</div>
+              <div class="feat-item"><span class="feat-label">Feeding</span>Evert cardiac stomach into bivalve prey</div>
+              <div class="feat-item"><span class="feat-label">Madreporite</span>Visible dot on aboral (top) surface</div>
+              <div class="feat-item"><span class="feat-label">Tube feet</span>Open ambulacral groove; locomotion + suction</div>
+              <div class="feat-item"><span class="feat-label">Ecology</span>Keystone predator (Pisaster → mussel control)</div>
+              <div class="feat-item"><span class="feat-label">Species</span>~2,000; some can regenerate from 1 arm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── OPHIUROIDEA ── -->
+      <div class="tab-panel" data-tab="ophi">
+        <div class="echi-panel">
+          <div class="echi-visual">
+            <svg viewBox="0 0 260 260" style="width:100%;max-width:260px;">
+              <defs>
+                <radialGradient id="ophiGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="130" cy="130" r="110" fill="url(#ophiGlow)"/>
+              <!-- Small distinct central disc -->
+              <circle cx="130" cy="130" r="22" fill="rgba(167,139,250,0.2)" stroke="var(--violet)" stroke-width="2"/>
+              <!-- 5 slender, segmented arms SHARPLY distinct from disc -->
+              <!-- arm 1: up, sinuous -->
+              <path d="M130,108 Q132,85 128,68 Q124,52 126,32" fill="none" stroke="var(--violet)" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- arm segments -->
+              <line x1="129" y1="100" x2="131" y2="100" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="128" y1="88" x2="130" y2="88" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="127" y1="76" x2="129" y2="76" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <!-- arm 2: upper-right -->
+              <path d="M148,118 Q166,103 178,88 Q190,72 200,55" fill="none" stroke="var(--violet)" stroke-width="3.5" stroke-linecap="round"/>
+              <line x1="156" y1="112" x2="157" y2="110" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="165" y1="104" x2="167" y2="101" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="175" y1="94" x2="178" y2="91" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <!-- arm 3: lower-right -->
+              <path d="M148,142 Q164,157 174,174 Q184,190 188,208" fill="none" stroke="var(--violet)" stroke-width="3.5" stroke-linecap="round"/>
+              <line x1="155" y1="148" x2="157" y2="151" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="164" y1="160" x2="166" y2="163" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="172" y1="172" x2="174" y2="176" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <!-- arm 4: lower-left -->
+              <path d="M112,142 Q96,157 86,174 Q76,190 72,208" fill="none" stroke="var(--violet)" stroke-width="3.5" stroke-linecap="round"/>
+              <line x1="105" y1="148" x2="103" y2="151" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="96" y1="160" x2="94" y2="163" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <!-- arm 5: upper-left -->
+              <path d="M112,118 Q94,103 82,88 Q70,72 60,55" fill="none" stroke="var(--violet)" stroke-width="3.5" stroke-linecap="round"/>
+              <line x1="104" y1="112" x2="102" y2="110" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <line x1="95" y1="104" x2="93" y2="101" stroke="rgba(167,139,250,0.4)" stroke-width="4"/>
+              <!-- Disc label -->
+              <text x="97" y="128" font-size="9" fill="rgba(167,139,250,0.8)" font-family="JetBrains Mono,monospace" text-anchor="end">disc</text>
+              <!-- Gap annotation -->
+              <line x1="130" y1="108" x2="152" y2="95" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3 2"/>
+              <text x="154" y="93" font-size="9" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono,monospace">sharp junction</text>
+              <!-- locomotion arrow -->
+              <path d="M75,155 Q60,165 62,180" stroke="rgba(167,139,250,0.5)" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+              <text x="25" y="190" font-size="9" fill="rgba(167,139,250,0.7)" font-family="JetBrains Mono,monospace">undulation</text>
+              <text x="130" y="248" font-size="9" fill="rgba(255,255,255,0.35)" text-anchor="middle" font-family="JetBrains Mono,monospace">arms sharply distinct from disc</text>
+            </svg>
+          </div>
+          <div class="echi-info">
+            <div class="phylum-name" style="color:var(--violet);">Class Ophiuroidea</div>
+            <h3 style="margin:0 0 0.2rem;">Brittle Stars &amp; Basket Stars</h3>
+            <p class="phylum-examples">Ophiothrix, Gorgonocephalus (basket star), Amphiura</p>
+            <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.65;margin-bottom:1rem;">Key distinction from sea stars: arms are <strong>sharply demarcated from the central disc</strong> — long, slender, and flexible. "Brittle" = arms snap off easily as autotomy (escape response). Move by lateral arm undulation, <em>not</em> tube feet. No open ambulacral groove. Tube feet reduced; used primarily for feeding. Most species-rich echinoderm class.</p>
+            <div class="feat-grid">
+              <div class="feat-item"><span class="feat-label">KEY ID</span>Arms sharply distinct from disc ← exam point</div>
+              <div class="feat-item"><span class="feat-label">Locomotion</span>Lateral arm undulation (NOT tube feet)</div>
+              <div class="feat-item"><span class="feat-label">Feeding</span>Scavengers, deposit feeders, suspension feeders</div>
+              <div class="feat-item"><span class="feat-label">Defense</span>Autotomy — arms break off readily</div>
+              <div class="feat-item"><span class="feat-label">Habitat</span>Under rocks, deep sea; most widely distributed</div>
+              <div class="feat-item"><span class="feat-label">Species</span>~2,000 — most species-rich echinoderm class</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ECHINOIDEA ── -->
+      <div class="tab-panel" data-tab="echi">
+        <div class="echi-panel">
+          <div class="echi-visual">
+            <svg viewBox="0 0 260 260" style="width:100%;max-width:260px;">
+              <defs>
+                <radialGradient id="echiGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ffd166" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="130" cy="130" r="110" fill="url(#echiGlow)"/>
+              <!-- Test (shell) -->
+              <circle cx="130" cy="130" r="70" fill="rgba(255,209,102,0.1)" stroke="var(--gold)" stroke-width="2"/>
+              <!-- 5 rows of tube feet pores (2 columns of dots each) -->
+              <g fill="rgba(255,209,102,0.6)">
+                <!-- row 1: top -->
+                <circle cx="124" cy="76" r="2.5"/><circle cx="136" cy="76" r="2.5"/>
+                <circle cx="122" cy="90" r="2.5"/><circle cx="138" cy="90" r="2.5"/>
+                <!-- row 2: upper-right -->
+                <circle cx="162" cy="96" r="2.5"/><circle cx="171" cy="106" r="2.5"/>
+                <circle cx="172" cy="118" r="2.5"/><circle cx="177" cy="130" r="2.5"/>
+                <!-- row 3: lower-right -->
+                <circle cx="162" cy="164" r="2.5"/><circle cx="171" cy="153" r="2.5"/>
+                <circle cx="155" cy="178" r="2.5"/><circle cx="143" cy="184" r="2.5"/>
+                <!-- row 4: lower-left -->
+                <circle cx="98" cy="164" r="2.5"/><circle cx="89" cy="153" r="2.5"/>
+                <circle cx="105" cy="178" r="2.5"/><circle cx="117" cy="184" r="2.5"/>
+                <!-- row 5: upper-left -->
+                <circle cx="98" cy="96" r="2.5"/><circle cx="89" cy="106" r="2.5"/>
+                <circle cx="88" cy="118" r="2.5"/><circle cx="83" cy="130" r="2.5"/>
+              </g>
+              <!-- Spines (radiating lines) -->
+              <g stroke="rgba(255,209,102,0.45)" stroke-width="1.5">
+                <line x1="130" y1="60" x2="130" y2="45"/>
+                <line x1="164" y1="70" x2="172" y2="57"/>
+                <line x1="185" y1="100" x2="198" y2="94"/>
+                <line x1="190" y1="138" x2="203" y2="140"/>
+                <line x1="172" y1="170" x2="181" y2="180"/>
+                <line x1="145" y1="192" x2="148" y2="205"/>
+                <line x1="115" y1="192" x2="112" y2="205"/>
+                <line x1="88" y1="170" x2="79" y2="180"/>
+                <line x1="70" y1="138" x2="57" y2="140"/>
+                <line x1="75" y1="100" x2="62" y2="94"/>
+                <line x1="96" y1="70" x2="88" y2="57"/>
+              </g>
+              <!-- Aristotle's lantern (5 teeth at center) -->
+              <circle cx="130" cy="130" r="12" fill="rgba(255,138,138,0.15)" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <!-- 5 teeth -->
+              <polygon points="130,120 133,127 130,134 127,127" fill="rgba(255,138,138,0.6)"/>
+              <polygon points="139,124 137,131 130,134 131,127" fill="rgba(255,138,138,0.5)"/>
+              <polygon points="138,136 132,136 130,134 135,129" fill="rgba(255,138,138,0.5)"/>
+              <polygon points="122,136 128,136 130,134 125,129" fill="rgba(255,138,138,0.5)"/>
+              <polygon points="121,124 123,131 130,134 129,127" fill="rgba(255,138,138,0.5)"/>
+              <!-- Labels -->
+              <text x="148" y="128" font-size="8" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">Aristotle's</text>
+              <text x="148" y="137" font-size="8" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">lantern</text>
+              <text x="30" y="132" font-size="9" fill="rgba(255,209,102,0.7)" font-family="JetBrains Mono,monospace">tube feet</text>
+              <text x="30" y="143" font-size="9" fill="rgba(255,209,102,0.7)" font-family="JetBrains Mono,monospace">pores ←</text>
+              <text x="155" y="52" font-size="9" fill="rgba(255,209,102,0.6)" font-family="JetBrains Mono,monospace">spine</text>
+              <text x="130" y="248" font-size="9" fill="rgba(255,255,255,0.35)" text-anchor="middle" font-family="JetBrains Mono,monospace">rigid test, 5 rows tube feet, Aristotle's lantern</text>
+            </svg>
+          </div>
+          <div class="echi-info">
+            <div class="phylum-name" style="color:var(--gold);">Class Echinoidea</div>
+            <h3 style="margin:0 0 0.2rem;">Sea Urchins &amp; Sand Dollars</h3>
+            <p class="phylum-examples">Strongylocentrotus, Arbacia, Lytechinus, Echinus, Dendraster (sand dollar)</p>
+            <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.65;margin-bottom:1rem;">Have a rigid, globular <strong>test</strong> (fused ossicles) — no free arms. Five rows of tube feet pass through pore pairs in the test. Moveable spines protrude from the surface. The unique <strong>Aristotle's lantern</strong> — 5 CaCO₃ teeth — scrapes algae off rock. Sand dollars are flattened echinoids that burrow in sediment. <em>Strongylocentrotus</em> eggs are the classic model for fertilization and early development.</p>
+            <div class="feat-grid">
+              <div class="feat-item"><span class="feat-label">Shell</span>Rigid test; fused ossicles; no arms</div>
+              <div class="feat-item"><span class="feat-label">Feeding</span>Aristotle's lantern (5 CaCO₃ teeth) scrapes algae</div>
+              <div class="feat-item"><span class="feat-label">Spines</span>Moveable; protection; some venomous</div>
+              <div class="feat-item"><span class="feat-label">Tube feet</span>5 rows through test pores; locomotion + gas exchange</div>
+              <div class="feat-item"><span class="feat-label">Model organism</span>Sea urchin eggs = classic fertilization model (BIO 212 M2)</div>
+              <div class="feat-item"><span class="feat-label">Species</span>~950 living; sand dollars = flattened burrowers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HOLOTHUROIDEA ── -->
+      <div class="tab-panel" data-tab="holo">
+        <div class="echi-panel">
+          <div class="echi-visual">
+            <svg viewBox="0 0 260 200" style="width:100%;max-width:260px;">
+              <defs>
+                <radialGradient id="holoGlow" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="130" cy="110" rx="120" ry="60" fill="url(#holoGlow)"/>
+              <!-- Body — elongated bilateral -->
+              <ellipse cx="130" cy="110" rx="105" ry="38" fill="rgba(125,211,252,0.1)" stroke="var(--sky)" stroke-width="2"/>
+              <!-- Body texture lines (leathery) -->
+              <line x1="50" y1="100" x2="50" y2="120" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="70" y1="94" x2="70" y2="126" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="90" y1="90" x2="90" y2="130" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="110" y1="88" x2="110" y2="132" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="130" y1="87" x2="130" y2="133" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="150" y1="88" x2="150" y2="132" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="170" y1="90" x2="170" y2="130" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="190" y1="94" x2="190" y2="126" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <line x1="210" y1="100" x2="210" y2="120" stroke="rgba(125,211,252,0.2)" stroke-width="1"/>
+              <!-- Oral tentacles (anterior) -->
+              <g stroke="var(--sky)" stroke-width="1.5" fill="rgba(125,211,252,0.3)">
+                <path d="M28,110 Q20,95 15,82" stroke-width="2" fill="none"/>
+                <path d="M28,110 Q18,105 12,98" stroke-width="2" fill="none"/>
+                <path d="M28,110 Q18,115 12,122" stroke-width="2" fill="none"/>
+                <path d="M28,110 Q20,125 15,138" stroke-width="2" fill="none"/>
+                <path d="M28,110 Q25,95 25,80" stroke-width="2" fill="none"/>
+                <path d="M28,110 Q28,128 28,142" stroke-width="2" fill="none"/>
+                <!-- bulbs at tips -->
+                <circle cx="15" cy="82" r="3"/><circle cx="12" cy="98" r="3"/><circle cx="12" cy="122" r="3"/>
+                <circle cx="15" cy="138" r="3"/><circle cx="25" cy="80" r="3"/><circle cx="28" cy="142" r="3"/>
+              </g>
+              <!-- Anus (posterior) with evisceration suggestion -->
+              <ellipse cx="232" cy="110" rx="7" ry="10" fill="rgba(255,138,138,0.2)" stroke="rgba(255,138,138,0.5)" stroke-width="1.5"/>
+              <!-- Evisceration arrow -->
+              <path d="M240,110 Q255,95 252,80" stroke="rgba(255,138,138,0.4)" stroke-width="1.5" fill="none"/>
+              <circle cx="252" cy="78" r="4" fill="rgba(255,138,138,0.3)" stroke="rgba(255,138,138,0.5)" stroke-width="1"/>
+              <!-- Respiratory tree inside (dashed) -->
+              <path d="M200,110 Q190,90 175,80 M200,110 Q188,105 176,100 M200,110 Q190,130 175,140 M200,110 Q188,115 176,120"
+                fill="none" stroke="rgba(125,211,252,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+              <!-- Labels -->
+              <text x="5" y="72" font-size="8.5" fill="rgba(125,211,252,0.8)" font-family="JetBrains Mono,monospace">oral</text>
+              <text x="3" y="82" font-size="8.5" fill="rgba(125,211,252,0.8)" font-family="JetBrains Mono,monospace">tentacles</text>
+              <text x="238" y="75" font-size="8" fill="rgba(255,138,138,0.7)" font-family="JetBrains Mono,monospace">evisceration</text>
+              <text x="170" y="78" font-size="8" fill="rgba(125,211,252,0.5)" font-family="JetBrains Mono,monospace">resp. tree</text>
+              <text x="220" y="108" font-size="8" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">anus</text>
+              <text x="130" y="185" font-size="9" fill="rgba(255,255,255,0.35)" text-anchor="middle" font-family="JetBrains Mono,monospace">secondarily bilateral; elongated oral-aboral axis</text>
+            </svg>
+          </div>
+          <div class="echi-info">
+            <div class="phylum-name" style="color:var(--sky);">Class Holothuroidea</div>
+            <h3 style="margin:0 0 0.2rem;">Sea Cucumbers</h3>
+            <p class="phylum-examples">Holothuria, Stichopus, Cucumaria, Apostichopus</p>
+            <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.65;margin-bottom:1rem;">The most unusual echinoderms: <strong>secondarily bilateral</strong> — elongated along the oral-aboral axis and lying on one side. Ossicles are microscopic (body is soft, leathery). Oral <strong>tentacles</strong> (modified tube feet) collect food. Gas exchange via <strong>respiratory trees</strong> — branching internal organs irrigated by water pumped through the anus. Defense: <em>evisceration</em> — ejecting sticky organs at predators; tissues regenerate within weeks.</p>
+            <div class="feat-grid">
+              <div class="feat-item"><span class="feat-label">Symmetry</span>Secondarily bilateral — unique in Echinodermata</div>
+              <div class="feat-item"><span class="feat-label">Ossicles</span>Microscopic, scattered; soft leathery body</div>
+              <div class="feat-item"><span class="feat-label">Feeding</span>Oral tentacles (modified tube feet); deposit/suspension</div>
+              <div class="feat-item"><span class="feat-label">Gas exchange</span>Respiratory trees; water through anus</div>
+              <div class="feat-item"><span class="feat-label">Defense</span>Evisceration — eject organs; regenerate within weeks</div>
+              <div class="feat-item"><span class="feat-label">Ecology</span>Benthic nutrient cyclers; rework sediments</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick comparison table -->
+    <div class="callout callout-teal reveal" style="margin-top:1.5rem;">
+      <div class="callout-label">▣ Compare the Five Classes</div>
+      <div style="overflow-x:auto;">
+        <table class="compare-wide">
+          <thead>
+            <tr>
+              <th>Class</th><th>Common Name</th><th>Body Shape</th><th>Tube Feet Role</th><th>Feeding Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-head">Crinoidea</td><td>Feather stars/sea lilies</td><td>Arms + stalk; oral surface UP</td><td>Food capture</td><td>Suspension feeding</td></tr>
+            <tr><td class="row-head">Asteroidea</td><td>Sea stars</td><td>5 arms + disc; arms NOT distinct</td><td>Locomotion + suction</td><td>Predator; evert stomach</td></tr>
+            <tr><td class="row-head">Ophiuroidea</td><td>Brittle stars</td><td>5 arms sharply distinct from disc</td><td>Feeding only</td><td>Scavenger/deposit</td></tr>
+            <tr><td class="row-head">Echinoidea</td><td>Sea urchins/sand dollars</td><td>Rigid spherical/flat test; no arms</td><td>Locomotion + gas exchange</td><td>Aristotle's lantern</td></tr>
+            <tr><td class="row-head">Holothuroidea</td><td>Sea cucumbers</td><td>Elongated bilateral; soft body</td><td>Oral tentacles for food</td><td>Deposit/suspension</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Chordate Synapomorphies -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Phylum Chordata</div>
+    <h2>The Four Chordate Synapomorphies</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Every member of Phylum Chordata possesses — at some point in its life — all four of the following structures. Some may be lost in adults (as in tunicates) but must be present in the embryo or larva.</p>
+
+    <!-- Interactive Lancelet Body Plan SVG -->
+    <div id="lancelet-wrap" style="background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;margin:1.2rem 0;overflow-x:auto;">
+      <div style="font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:0.8rem;">◈ Interactive Lancelet Body Plan · Click a feature label to highlight it</div>
+      <svg id="lancelet-svg" viewBox="0 0 700 200" width="100%" style="min-width:500px;display:block;font-family:var(--sans);">
+        <defs>
+          <radialGradient id="lGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64ffda" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#64ffda" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Body outline — torpedo shape -->
+        <path id="lbody" d="M30,100 Q60,55 180,52 Q380,48 560,52 Q640,55 680,100 Q640,145 560,148 Q380,152 180,148 Q60,145 30,100 Z"
+          fill="url(#lGlow)" stroke="rgba(100,255,218,0.45)" stroke-width="2"/>
+
+        <!-- Myomeres (zigzag V-shapes along body) -->
+        <g id="lf-myomeres" stroke="rgba(100,255,218,0.0)" stroke-width="1.5" fill="none">
+          <polyline points="120,60 130,80 120,100 130,120 120,140"/>
+          <polyline points="155,58 165,78 155,98 165,118 155,138"/>
+          <polyline points="190,57 200,77 190,97 200,117 190,137"/>
+          <polyline points="225,57 235,77 225,97 235,117 225,137"/>
+          <polyline points="260,57 270,77 260,97 270,117 260,137"/>
+          <polyline points="295,57 305,77 295,97 305,117 295,137"/>
+          <polyline points="330,57 340,77 330,97 340,117 330,137"/>
+          <polyline points="365,57 375,77 365,97 375,117 365,137"/>
+          <polyline points="400,58 410,78 400,98 410,118 400,138"/>
+          <polyline points="435,58 445,78 435,98 445,118 435,138"/>
+          <polyline points="470,59 480,79 470,99 480,119 470,139"/>
+          <polyline points="505,60 515,80 505,100 515,120 505,140"/>
+        </g>
+
+        <!-- Notochord — horizontal bar -->
+        <line id="lf-notochord" x1="35" y1="100" x2="665" y2="100"
+          stroke="rgba(255,209,102,0)" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Dorsal hollow nerve cord (thin line, dorsal) -->
+        <path id="lf-nervecord" d="M40,72 Q200,68 400,67 Q560,67 668,72"
+          fill="none" stroke="rgba(167,139,250,0)" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Pharyngeal slits (short vertical lines, anterior) -->
+        <g id="lf-pharyngeal">
+          <line x1="80"  y1="80" x2="80"  y2="120" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+          <line x1="96"  y1="76" x2="96"  y2="124" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+          <line x1="112" y1="74" x2="112" y2="126" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+          <line x1="128" y1="73" x2="128" y2="127" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+          <line x1="144" y1="72" x2="144" y2="128" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+          <line x1="160" y1="72" x2="160" y2="128" stroke="rgba(255,138,138,0)" stroke-width="2"/>
+        </g>
+
+        <!-- Post-anal tail region (posterior end) -->
+        <path id="lf-tail" d="M580,100 Q620,80 675,100 Q620,120 580,100"
+          fill="rgba(125,211,252,0)" stroke="rgba(125,211,252,0)" stroke-width="2"/>
+
+        <!-- Static faint reference lines always visible -->
+        <line x1="35" y1="100" x2="665" y2="100" stroke="rgba(255,209,102,0.12)" stroke-width="2"/>
+        <path d="M40,72 Q200,68 400,67 Q560,67 668,72" fill="none" stroke="rgba(167,139,250,0.1)" stroke-width="2"/>
+        <g stroke="rgba(255,138,138,0.12)" stroke-width="1.5">
+          <line x1="80"  y1="80" x2="80"  y2="120"/>
+          <line x1="96"  y1="76" x2="96"  y2="124"/>
+          <line x1="112" y1="74" x2="112" y2="126"/>
+          <line x1="128" y1="73" x2="128" y2="127"/>
+          <line x1="144" y1="72" x2="144" y2="128"/>
+          <line x1="160" y1="72" x2="160" y2="128"/>
+        </g>
+        <g stroke="rgba(100,255,218,0.1)" stroke-width="1.2" fill="none">
+          <polyline points="120,60 130,80 120,100 130,120 120,140"/>
+          <polyline points="155,58 165,78 155,98 165,118 155,138"/>
+          <polyline points="190,57 200,77 190,97 200,117 190,137"/>
+          <polyline points="225,57 235,77 225,97 235,117 225,137"/>
+          <polyline points="260,57 270,77 260,97 270,117 260,137"/>
+          <polyline points="295,57 305,77 295,97 305,117 295,137"/>
+          <polyline points="330,57 340,77 330,97 340,117 330,137"/>
+          <polyline points="365,57 375,77 365,97 375,117 365,137"/>
+          <polyline points="400,58 410,78 400,98 410,118 400,138"/>
+          <polyline points="435,58 445,78 435,98 445,118 435,138"/>
+          <polyline points="470,59 480,79 470,99 480,119 470,139"/>
+          <polyline points="505,60 515,80 505,100 515,120 505,140"/>
+        </g>
+
+        <!-- Callout lines + labels (always visible) -->
+        <!-- Pharyngeal slits callout -->
+        <line x1="120" y1="74" x2="120" y2="30" stroke="rgba(255,138,138,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text id="lbl-pharyngeal" x="120" y="23" text-anchor="middle" font-size="11" fill="rgba(255,138,138,0.75)" font-family="JetBrains Mono,monospace" style="cursor:pointer;font-weight:600;">1 · Pharyngeal Slits</text>
+
+        <!-- Nerve cord callout -->
+        <line x1="330" y1="67" x2="330" y2="28" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text id="lbl-nervecord" x="330" y="21" text-anchor="middle" font-size="11" fill="rgba(167,139,250,0.75)" font-family="JetBrains Mono,monospace" style="cursor:pointer;font-weight:600;">2 · Nerve Cord</text>
+
+        <!-- Notochord callout -->
+        <line x1="400" y1="100" x2="400" y2="165" stroke="rgba(255,209,102,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text id="lbl-notochord" x="400" y="178" text-anchor="middle" font-size="11" fill="rgba(255,209,102,0.75)" font-family="JetBrains Mono,monospace" style="cursor:pointer;font-weight:600;">3 · Notochord</text>
+
+        <!-- Post-anal tail callout -->
+        <line x1="630" y1="100" x2="630" y2="165" stroke="rgba(125,211,252,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+        <text id="lbl-tail" x="630" y="178" text-anchor="middle" font-size="11" fill="rgba(125,211,252,0.75)" font-family="JetBrains Mono,monospace" style="cursor:pointer;font-weight:600;">4 · Post-Anal Tail</text>
+
+        <!-- Anus marker -->
+        <circle cx="575" cy="100" r="4" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <text x="562" y="94" font-size="8" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">anus</text>
+
+        <!-- Anterior mouth -->
+        <circle cx="38" cy="100" r="5" fill="rgba(100,255,218,0.3)" stroke="var(--teal)" stroke-width="1.5"/>
+        <text x="38" y="91" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.7)" font-family="JetBrains Mono,monospace">mouth</text>
+      </svg>
+    </div>
+
+    <!-- 4 interactive feature cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0;">
+      <div id="fcard-pharyngeal" class="char-card c-coral reveal reveal-item delay-1" style="cursor:pointer;transition:all 0.25s;" onclick="lanceletHL('pharyngeal')">
+        <div class="char-title">1 · Pharyngeal Slits (or Pouches)</div>
+        <p>Openings in the pharynx wall. Filter-feeding in invertebrate chordates; gill slits in aquatic vertebrates. Present as pouches in all vertebrate embryos.</p>
+      </div>
+      <div id="fcard-nervecord" class="char-card c-violet reveal reveal-item delay-2" style="cursor:pointer;transition:all 0.25s;" onclick="lanceletHL('nervecord')">
+        <div class="char-title">2 · Dorsal Hollow Nerve Cord</div>
+        <p>A hollow dorsal tube of nerve tissue. Develops by neurulation from ectoderm. In vertebrates becomes the brain + spinal cord. Contrasts with the solid ventral nerve cord of protostomes.</p>
+      </div>
+      <div id="fcard-notochord" class="char-card c-gold reveal reveal-item delay-3" style="cursor:pointer;transition:all 0.25s;" onclick="lanceletHL('notochord')">
+        <div class="char-title">3 · Notochord</div>
+        <p>Stiff flexible rod of fluid-filled cells providing body support. Persists in adult cephalochordates. In vertebrates, present in embryos and persists as intervertebral disc cells in adults.</p>
+      </div>
+      <div id="fcard-tail" class="char-card c-teal reveal reveal-item delay-4" style="cursor:pointer;transition:all 0.25s;" onclick="lanceletHL('tail')">
+        <div class="char-title">4 · Muscular Post-Anal Tail</div>
+        <p>Extends posterior to the anus; provides swimming propulsion. Present in all chordate embryos. Lost in tunicates at metamorphosis; the human coccyx is a vestigial form.</p>
+      </div>
+    </div>
+
+    <script>
+    (function(){
+      var featureMap = {
+        pharyngeal: {
+          svgEls: ['lf-pharyngeal'],
+          color: 'var(--coral)', cardId: 'fcard-pharyngeal', labelId: 'lbl-pharyngeal',
+          strokeColor: 'rgba(255,138,138,0.9)'
+        },
+        nervecord: {
+          svgEls: ['lf-nervecord'],
+          color: 'var(--violet)', cardId: 'fcard-nervecord', labelId: 'lbl-nervecord',
+          strokeColor: 'rgba(167,139,250,0.9)'
+        },
+        notochord: {
+          svgEls: ['lf-notochord'],
+          color: 'var(--gold)', cardId: 'fcard-notochord', labelId: 'lbl-notochord',
+          strokeColor: 'rgba(255,209,102,0.9)'
+        },
+        tail: {
+          svgEls: ['lf-tail'],
+          color: 'var(--sky)', cardId: 'fcard-tail', labelId: 'lbl-tail',
+          strokeColor: 'rgba(125,211,252,0.9)'
+        }
+      };
+      var current = null;
+
+      function resetAll() {
+        Object.keys(featureMap).forEach(function(k){
+          var f = featureMap[k];
+          f.svgEls.forEach(function(id){
+            var el = document.getElementById(id);
+            if (!el) return;
+            // reset stroke to 0 opacity
+            var stroke = el.getAttribute('stroke') || '';
+            el.style.stroke = stroke.replace(/[\d.]+\)/, '0)');
+          });
+          var card = document.getElementById(f.cardId);
+          if (card) { card.style.boxShadow = ''; card.style.borderColor = ''; }
+          var lbl = document.getElementById(f.labelId);
+          if (lbl) lbl.style.opacity = '1';
+        });
+      }
+
+      window.lanceletHL = function(key) {
+        if (current === key) { resetAll(); current = null; return; }
+        resetAll();
+        current = key;
+        var f = featureMap[key];
+        if (!f) return;
+        // highlight SVG elements
+        f.svgEls.forEach(function(id){
+          var el = document.getElementById(id);
+          if (!el) return;
+          // set children if group
+          if (el.tagName === 'g') {
+            Array.from(el.children).forEach(function(c){ c.style.stroke = f.strokeColor; c.style.strokeWidth = '3'; });
+          } else {
+            el.style.stroke = f.strokeColor;
+            el.style.strokeWidth = '5';
+            if (el.tagName === 'path') { el.style.fill = f.strokeColor.replace('0.9', '0.2'); }
+          }
+        });
+        // highlight card
+        var card = document.getElementById(f.cardId);
+        if (card) { card.style.boxShadow = '0 0 0 2px ' + f.color; }
+      };
+
+      // label clicks
+      ['pharyngeal','nervecord','notochord','tail'].forEach(function(k){
+        var lbl = document.getElementById('lbl-' + k);
+        if (lbl) lbl.addEventListener('click', function(){ lanceletHL(k); });
+      });
+    })();
+    </script>
+  </section>
+
+  <!-- 3 Chordate Subphyla — flip cards -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Chordate Subphyla</div>
+    <h2>Three Subphyla of Chordata</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Click each card to reveal which chordate features are retained in adults, and what distinguishes each subphylum.</p>
+
+    <div class="flipcard-grid">
+      <!-- Cephalochordata -->
+      <div class="flipcard" id="fc-cepha">
+        <div class="flipcard-inner">
+          <div class="flipcard-front">
+            <div class="fc-label" style="color:var(--teal);">Subphylum</div>
+            <div class="fc-title">Cephalochordata</div>
+            <div class="fc-sub">Lancelets · Branchiostoma</div>
+            <div style="margin:0.5rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+              <svg viewBox="0 0 220 100" width="100%" style="display:block;">
+                <!-- lancelet torpedo body -->
+                <path d="M10,50 Q30,22 100,18 Q170,15 210,50 Q170,85 100,82 Q30,78 10,50 Z"
+                  fill="rgba(100,255,218,0.07)" stroke="rgba(100,255,218,0.45)" stroke-width="1.5"/>
+                <!-- notochord bar -->
+                <line x1="12" y1="50" x2="205" y2="50" stroke="rgba(255,209,102,0.6)" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="110" y="62" text-anchor="middle" font-size="7" fill="rgba(255,209,102,0.7)" font-family="JetBrains Mono,monospace">notochord</text>
+                <!-- nerve cord (thin, dorsal) -->
+                <path d="M14,33 Q80,28 150,27 Q185,27 208,33" fill="none" stroke="rgba(167,139,250,0.6)" stroke-width="2" stroke-linecap="round"/>
+                <text x="110" y="25" text-anchor="middle" font-size="7" fill="rgba(167,139,250,0.7)" font-family="JetBrains Mono,monospace">nerve cord</text>
+                <!-- myomeres (zigzag) -->
+                <g stroke="rgba(100,255,218,0.35)" stroke-width="1" fill="none">
+                  <polyline points="50,25 55,38 50,50 55,62 50,75"/>
+                  <polyline points="68,22 73,35 68,50 73,65 68,78"/>
+                  <polyline points="86,20 91,33 86,50 91,67 86,80"/>
+                  <polyline points="104,20 109,33 104,50 109,67 104,80"/>
+                  <polyline points="122,20 127,33 122,50 127,67 122,80"/>
+                  <polyline points="140,21 145,34 140,50 145,66 140,79"/>
+                  <polyline points="158,22 163,36 158,50 163,64 158,78"/>
+                </g>
+                <text x="100" y="90" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.55)" font-family="JetBrains Mono,monospace">myomeres</text>
+                <!-- pharyngeal slits (short lines, anterior) -->
+                <g stroke="rgba(255,138,138,0.5)" stroke-width="1.5">
+                  <line x1="25" y1="37" x2="25" y2="63"/>
+                  <line x1="33" y1="34" x2="33" y2="66"/>
+                  <line x1="41" y1="32" x2="41" y2="68"/>
+                </g>
+                <text x="33" y="77" text-anchor="middle" font-size="7" fill="rgba(255,138,138,0.6)" font-family="JetBrains Mono,monospace">slits</text>
+              </svg>
+            </div>
+            <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.3rem;">~25 species · 3–7 cm · filter-feeding marine invertebrates</p>
+            <div class="fc-hint">click to flip →</div>
+          </div>
+          <div class="flipcard-back">
+            <div class="fc-label" style="color:var(--teal);">Adult Features</div>
+            <ul class="fc-back-list">
+              <li>Retain ALL 4 chordate features as adults</li>
+              <li>Notochord extends into head (hence "cephalo")</li>
+              <li>Pharyngeal slits for filter-feeding</li>
+              <li>Segmented muscle blocks (myomeres)</li>
+              <li>No cranium, no vertebrae, no brain</li>
+              <li>Burrow in sand; suspension-feed via cilia</li>
+              <li>Sister to Vertebrata + Urochordata clade</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urochordata -->
+      <div class="flipcard" id="fc-uro">
+        <div class="flipcard-inner">
+          <div class="flipcard-front">
+            <div class="fc-label" style="color:var(--coral);">Subphylum</div>
+            <div class="fc-title">Urochordata</div>
+            <div class="fc-sub">Tunicates · Sea Squirts</div>
+            <div style="margin:0.5rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+              <svg viewBox="0 0 220 100" width="100%" style="display:block;">
+                <!-- Tadpole larva -->
+                <ellipse cx="35" cy="50" rx="22" ry="16" fill="rgba(255,138,138,0.1)" stroke="rgba(255,138,138,0.5)" stroke-width="1.5"/>
+                <!-- notochord in tail -->
+                <path d="M57,50 Q85,45 100,35" fill="none" stroke="rgba(255,209,102,0.65)" stroke-width="2" stroke-linecap="round"/>
+                <!-- tail outline -->
+                <path d="M57,50 Q80,38 105,30 Q105,40 90,50 Q80,57 57,50 Z" fill="rgba(255,138,138,0.06)" stroke="rgba(255,138,138,0.3)" stroke-width="1"/>
+                <text x="35" y="73" text-anchor="middle" font-size="7.5" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">larva</text>
+                <text x="80" y="29" text-anchor="middle" font-size="6.5" fill="rgba(255,209,102,0.7)" font-family="JetBrains Mono,monospace">notochord</text>
+
+                <!-- metamorphosis arrow -->
+                <line x1="112" y1="50" x2="128" y2="50" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                <polygon points="126,46 133,50 126,54" fill="rgba(255,255,255,0.4)"/>
+                <text x="120" y="43" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">meta-</text>
+                <text x="120" y="60" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">morphosis</text>
+
+                <!-- Adult vase -->
+                <path d="M155,25 Q140,35 140,55 Q140,75 160,80 Q175,80 178,55 Q178,35 165,25 Z"
+                  fill="rgba(255,138,138,0.08)" stroke="rgba(255,138,138,0.5)" stroke-width="1.5"/>
+                <!-- incurrent siphon (top left) -->
+                <path d="M155,25 Q148,10 150,5" fill="none" stroke="rgba(100,255,218,0.6)" stroke-width="2" stroke-linecap="round"/>
+                <!-- excurrent siphon (top right) -->
+                <path d="M165,25 Q172,10 170,5" fill="none" stroke="rgba(125,211,252,0.6)" stroke-width="2" stroke-linecap="round"/>
+                <text x="148" y="3" text-anchor="middle" font-size="6" fill="rgba(100,255,218,0.7)" font-family="JetBrains Mono,monospace">in</text>
+                <text x="172" y="3" text-anchor="middle" font-size="6" fill="rgba(125,211,252,0.7)" font-family="JetBrains Mono,monospace">ex</text>
+                <text x="159" y="90" text-anchor="middle" font-size="7.5" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">adult</text>
+                <text x="159" y="99" text-anchor="middle" font-size="6.5" fill="rgba(255,138,138,0.55)" font-family="JetBrains Mono,monospace">(sessile)</text>
+              </svg>
+            </div>
+            <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.3rem;">~2,170 species · sessile adults · sister group to vertebrates</p>
+            <div class="fc-hint">click to flip →</div>
+          </div>
+          <div class="flipcard-back">
+            <div class="fc-label" style="color:var(--coral);">Adult Features</div>
+            <ul class="fc-back-list">
+              <li>LARVAE have all 4 chordate features</li>
+              <li>Adults lose notochord, nerve cord, &amp; tail</li>
+              <li>Adults retain only PHARYNGEAL SLITS</li>
+              <li>Adults are sessile suspension feeders</li>
+              <li>Water: incurrent siphon → pharynx → excurrent siphon</li>
+              <li>Larvae = dispersal stage; metamorphose rapidly</li>
+              <li>Molecular data: SISTER GROUP to vertebrates</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertebrata -->
+      <div class="flipcard" id="fc-vert">
+        <div class="flipcard-inner">
+          <div class="flipcard-front">
+            <div class="fc-label" style="color:var(--violet);">Subphylum</div>
+            <div class="fc-title">Vertebrata</div>
+            <div class="fc-sub">Vertebrates · ~63,000 species</div>
+            <div style="margin:0.5rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+              <svg viewBox="0 0 220 100" width="100%" style="display:block;">
+                <!-- skull dome (cranium) -->
+                <path d="M30,55 Q25,20 60,15 Q95,10 100,55 Z"
+                  fill="rgba(167,139,250,0.15)" stroke="rgba(167,139,250,0.55)" stroke-width="1.5"/>
+                <!-- eye socket -->
+                <circle cx="75" cy="38" r="7" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.45)" stroke-width="1"/>
+                <!-- jaw -->
+                <path d="M30,55 Q45,70 70,72 Q95,73 100,55" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>
+                <text x="65" y="85" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.75)" font-family="JetBrains Mono,monospace">cranium</text>
+
+                <!-- vertebrae column (linked squares) -->
+                <g fill="rgba(167,139,250,0.12)" stroke="rgba(167,139,250,0.5)" stroke-width="1.2">
+                  <rect x="108" y="42" width="14" height="12" rx="2"/>
+                  <rect x="124" y="42" width="14" height="12" rx="2"/>
+                  <rect x="140" y="42" width="14" height="12" rx="2"/>
+                  <rect x="156" y="42" width="14" height="12" rx="2"/>
+                  <rect x="172" y="42" width="14" height="12" rx="2"/>
+                  <rect x="188" y="42" width="14" height="12" rx="2"/>
+                </g>
+                <!-- neural spines up -->
+                <g stroke="rgba(167,139,250,0.4)" stroke-width="1">
+                  <line x1="115" y1="42" x2="115" y2="33"/>
+                  <line x1="131" y1="42" x2="131" y2="33"/>
+                  <line x1="147" y1="42" x2="147" y2="33"/>
+                  <line x1="163" y1="42" x2="163" y2="33"/>
+                  <line x1="179" y1="42" x2="179" y2="33"/>
+                  <line x1="195" y1="42" x2="195" y2="33"/>
+                </g>
+                <!-- connect skull to vertebrae -->
+                <line x1="100" y1="48" x2="108" y2="48" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>
+                <text x="160" y="66" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.7)" font-family="JetBrains Mono,monospace">vertebrae</text>
+                <!-- spinal cord label -->
+                <text x="160" y="32" text-anchor="middle" font-size="6.5" fill="rgba(167,139,250,0.55)" font-family="JetBrains Mono,monospace">neural spines</text>
+              </svg>
+            </div>
+            <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.3rem;">Hagfishes → lampreys → fishes → tetrapods · includes humans</p>
+            <div class="fc-hint">click to flip →</div>
+          </div>
+          <div class="flipcard-back">
+            <div class="fc-label" style="color:var(--violet);">Distinguishing Features</div>
+            <ul class="fc-back-list">
+              <li>All 4 chordate features in embryo; some vestigial in adults</li>
+              <li>Cranium: hard case protecting brain</li>
+              <li>Vertebrae: column protecting spinal cord</li>
+              <li>Three-part brain (fore/mid/hindbrain)</li>
+              <li>Paired sense organs (eyes, ears, nose)</li>
+              <li>Neural crest cells: unique cell type</li>
+              <li>Notochord → intervertebral disc cells only</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subphyla comparison table -->
+    <div style="overflow-x:auto;margin-top:1.2rem;">
+      <table class="compare-wide">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Cephalochordata</th>
+            <th>Urochordata (larva)</th>
+            <th>Urochordata (adult)</th>
+            <th>Vertebrata</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-head">Pharyngeal slits</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓ embryo; slits in fish</td></tr>
+          <tr><td class="row-head">Dorsal hollow nerve cord</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗ lost</td><td class="yes">✓ → spinal cord</td></tr>
+          <tr><td class="row-head">Notochord</td><td class="yes">✓ retained</td><td class="yes">✓</td><td class="no">✗ lost</td><td class="yes">✓ embryo → discs</td></tr>
+          <tr><td class="row-head">Post-anal tail</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗ lost</td><td class="yes">✓ embryo; variable adult</td></tr>
+          <tr><td class="row-head">Cranium</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td></tr>
+          <tr><td class="row-head">Vertebrae</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓ (lost in hagfish)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 2
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l2 reveal">⬡ Level 2 · Understand &amp; Explain</div>
+
+  <!-- Vertebrate Phylogeny Overview -->
+  <section class="reveal">
+    <div class="section-label">Vertebrate Evolution</div>
+    <h2>Vertebrate Phylogeny &amp; Key Lineages</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">The ~63,000 species of vertebrates are organized into several major clades. The phylogeny below shows the sequence of innovations — each node represents the origin of a new character shared by all descendants.</p>
+
+    <!-- Phylo SVG -->
+    <div class="phylo-wrap reveal">
+      <svg id="vertPhylo" viewBox="0 0 780 520" style="width:100%;min-width:580px;font-family:var(--sans);">
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.3)"/>
+          </marker>
+        </defs>
+        <!-- Clade background boxes -->
+        <rect x="520" y="10" width="240" height="500" rx="8" fill="rgba(167,139,250,0.04)" stroke="rgba(167,139,250,0.12)" stroke-width="1"/>
+        <text x="640" y="28" text-anchor="middle" font-size="10" fill="rgba(167,139,250,0.5)" font-family="JetBrains Mono,monospace" letter-spacing="0.1em">AMNIOTA</text>
+
+        <rect x="420" y="60" width="340" height="450" rx="8" fill="rgba(125,211,252,0.02)" stroke="rgba(125,211,252,0.1)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="590" y="78" text-anchor="middle" font-size="10" fill="rgba(125,211,252,0.4)" font-family="JetBrains Mono,monospace" letter-spacing="0.08em">TETRAPODA</text>
+
+        <rect x="320" y="110" width="440" height="400" rx="8" fill="rgba(100,255,218,0.01)" stroke="rgba(100,255,218,0.08)" stroke-width="1" stroke-dasharray="3 4"/>
+        <text x="540" y="126" text-anchor="middle" font-size="10" fill="rgba(100,255,218,0.35)" font-family="JetBrains Mono,monospace" letter-spacing="0.08em">SARCOPTERYGII</text>
+
+        <!-- Tree lines -->
+        <!-- Root horizontal -->
+        <line x1="40" y1="260" x2="100" y2="260" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Echinodermata branch -->
+        <line x1="60" y1="260" x2="60" y2="60" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <line x1="60" y1="60" x2="120" y2="60" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+        <!-- Chordata spine -->
+        <line x1="100" y1="260" x2="100" y2="450" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Cephalochordata -->
+        <line x1="100" y1="430" x2="100" y2="430" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <line x1="100" y1="450" x2="120" y2="450" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- Urochordata -->
+        <line x1="100" y1="410" x2="120" y2="410" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- Vertebrata spine down from 260 -->
+        <line x1="100" y1="260" x2="160" y2="260" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Hagfish -->
+        <line x1="140" y1="260" x2="140" y2="370" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <line x1="140" y1="370" x2="160" y2="370" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <!-- Lamprey -->
+        <line x1="140" y1="340" x2="160" y2="340" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <!-- Gnathostomes -->
+        <line x1="140" y1="260" x2="200" y2="260" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Sharks -->
+        <line x1="180" y1="260" x2="180" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <line x1="180" y1="310" x2="200" y2="310" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <!-- Bony fish spine -->
+        <line x1="180" y1="260" x2="260" y2="260" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Ray-finned -->
+        <line x1="240" y1="260" x2="240" y2="280" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <line x1="240" y1="280" x2="260" y2="280" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <!-- Coelacanths -->
+        <line x1="240" y1="240" x2="260" y2="240" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <!-- Sarcopterygii spine -->
+        <line x1="240" y1="220" x2="300" y2="220" stroke="rgba(100,255,218,0.25)" stroke-width="1.5"/>
+        <!-- Lungfish -->
+        <line x1="280" y1="220" x2="280" y2="200" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <line x1="280" y1="200" x2="300" y2="200" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <!-- Tetrapod spine -->
+        <line x1="280" y1="180" x2="380" y2="180" stroke="rgba(125,211,252,0.3)" stroke-width="1.5"/>
+        <!-- Amphibia -->
+        <line x1="360" y1="180" x2="360" y2="160" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <line x1="360" y1="160" x2="380" y2="160" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- Amniote spine -->
+        <line x1="360" y1="130" x2="480" y2="130" stroke="rgba(167,139,250,0.35)" stroke-width="1.5"/>
+        <!-- Mammals -->
+        <line x1="460" y1="130" x2="460" y2="110" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <line x1="460" y1="110" x2="480" y2="110" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- Reptilia spine -->
+        <line x1="460" y1="150" x2="540" y2="150" stroke="rgba(255,138,138,0.3)" stroke-width="1.5"/>
+        <!-- Lizards/snakes -->
+        <line x1="520" y1="150" x2="520" y2="170" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <line x1="520" y1="170" x2="540" y2="170" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <!-- Turtles -->
+        <line x1="520" y1="150" x2="520" y2="190" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <line x1="520" y1="190" x2="540" y2="190" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <!-- Crocodiles -->
+        <line x1="520" y1="210" x2="540" y2="210" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <!-- Birds -->
+        <line x1="520" y1="150" x2="520" y2="230" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="520" y1="230" x2="540" y2="230" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+        <!-- Terminal labels -->
+        <text x="125" y="64" font-size="11" fill="rgba(255,138,138,0.85)" font-weight="600">Echinodermata</text>
+        <text x="125" y="414" font-size="11" fill="rgba(255,209,102,0.7)">Urochordata (tunicates)</text>
+        <text x="125" y="454" font-size="11" fill="rgba(255,209,102,0.7)">Cephalochordata (lancelets)</text>
+        <text x="165" y="344" font-size="11" fill="rgba(255,255,255,0.55)">Hagfishes</text>
+        <text x="165" y="374" font-size="11" fill="rgba(255,255,255,0.45)">Lampreys</text>
+        <text x="205" y="314" font-size="11" fill="rgba(125,211,252,0.7)">Sharks &amp; rays</text>
+        <text x="265" y="244" font-size="11" fill="rgba(125,211,252,0.6)">Coelacanths</text>
+        <text x="265" y="284" font-size="11" fill="rgba(100,255,218,0.85)" font-weight="600">Ray-finned fishes</text>
+        <text x="305" y="204" font-size="11" fill="rgba(100,255,218,0.65)">Lungfishes</text>
+        <text x="385" y="164" font-size="11" fill="rgba(125,211,252,0.85)" font-weight="600">Amphibians</text>
+        <text x="485" y="114" font-size="11" fill="rgba(167,139,250,0.9)" font-weight="600">Mammals</text>
+        <text x="545" y="174" font-size="11" fill="rgba(255,138,138,0.75)">Lizards &amp; snakes</text>
+        <text x="545" y="194" font-size="11" fill="rgba(255,138,138,0.6)">Turtles</text>
+        <text x="545" y="214" font-size="11" fill="rgba(255,138,138,0.7)">Crocodilians</text>
+        <text x="545" y="234" font-size="11" fill="rgba(255,138,138,0.9)" font-weight="600">Birds (Aves)</text>
+
+        <!-- Innovation labels (on nodes) -->
+        <g>
+          <!-- Chordate synapomorphies node -->
+          <circle cx="100" cy="380" r="7" fill="rgba(100,255,218,0.25)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="36" y="378" font-size="9" fill="var(--teal)" font-family="JetBrains Mono,monospace" text-anchor="middle">4 chordate</text>
+          <text x="36" y="388" font-size="9" fill="var(--teal)" font-family="JetBrains Mono,monospace" text-anchor="middle">synapomor.</text>
+          <!-- Cranium + vertebrae -->
+          <circle cx="140" cy="300" r="7" fill="rgba(255,209,102,0.25)" stroke="var(--gold)" stroke-width="1.5"/>
+          <text x="130" y="296" font-size="9" fill="var(--gold)" font-family="JetBrains Mono,monospace" text-anchor="end">Cranium</text>
+          <text x="130" y="306" font-size="9" fill="var(--gold)" font-family="JetBrains Mono,monospace" text-anchor="end">+ vertebrae</text>
+          <!-- Jaws -->
+          <circle cx="180" cy="285" r="7" fill="rgba(255,138,138,0.25)" stroke="var(--coral)" stroke-width="1.5"/>
+          <text x="170" y="274" font-size="9" fill="var(--coral)" font-family="JetBrains Mono,monospace" text-anchor="end">Jaws +</text>
+          <text x="170" y="284" font-size="9" fill="var(--coral)" font-family="JetBrains Mono,monospace" text-anchor="end">paired fins</text>
+          <!-- Bony endoskeleton + lungs -->
+          <circle cx="240" cy="260" r="7" fill="rgba(255,209,102,0.2)" stroke="var(--gold)" stroke-width="1.5"/>
+          <text x="230" y="250" font-size="9" fill="var(--gold)" font-family="JetBrains Mono,monospace" text-anchor="end">Bone +</text>
+          <text x="230" y="260" font-size="9" fill="var(--gold)" font-family="JetBrains Mono,monospace" text-anchor="end">lungs</text>
+          <!-- Lobed fins -->
+          <circle cx="280" cy="210" r="7" fill="rgba(100,255,218,0.2)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="270" y="204" font-size="9" fill="var(--teal)" font-family="JetBrains Mono,monospace" text-anchor="end">Lobed fins</text>
+          <!-- Limbs -->
+          <circle cx="360" cy="180" r="7" fill="rgba(125,211,252,0.25)" stroke="var(--sky)" stroke-width="1.5"/>
+          <text x="350" y="174" font-size="9" fill="var(--sky)" font-family="JetBrains Mono,monospace" text-anchor="end">Limbs</text>
+          <!-- Amniotic egg -->
+          <circle cx="460" cy="130" r="7" fill="rgba(167,139,250,0.25)" stroke="var(--violet)" stroke-width="1.5"/>
+          <text x="450" y="122" font-size="9" fill="var(--violet)" font-family="JetBrains Mono,monospace" text-anchor="end">Amniotic</text>
+          <text x="450" y="132" font-size="9" fill="var(--violet)" font-family="JetBrains Mono,monospace" text-anchor="end">egg</text>
+          <!-- Fur/lactation -->
+          <circle cx="480" cy="120" r="5" fill="rgba(167,139,250,0.2)" stroke="var(--violet)" stroke-width="1"/>
+          <text x="490" y="100" font-size="9" fill="rgba(167,139,250,0.8)" font-family="JetBrains Mono,monospace">Fur + lactation</text>
+          <!-- Feathers -->
+          <circle cx="520" cy="230" r="5" fill="rgba(255,138,138,0.2)" stroke="var(--rose)" stroke-width="1"/>
+          <text x="510" y="250" font-size="9" fill="rgba(255,138,138,0.7)" font-family="JetBrains Mono,monospace" text-anchor="middle">Feathers</text>
+        </g>
+
+        <!-- Legend -->
+        <text x="15" y="500" font-size="9" fill="rgba(255,255,255,0.3)" font-family="JetBrains Mono,monospace">● nodes = key innovations</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Key Innovations Timeline -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Vertebrate Innovations</div>
+    <h2>Six Major Evolutionary Innovations</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Each innovation is a synapomorphy uniting a clade of vertebrates. Listed in the <em>order they evolved</em>, from oldest to most recent.</p>
+
+    <div class="innov-track">
+
+      <div class="innov-step reveal reveal-item delay-1">
+        <div class="innov-node" style="background:rgba(255,209,102,0.1);border-color:var(--gold);">🦴</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--gold);">~520 mya · Cambrian · Craniata</div>
+          <h4>Cranium &amp; Vertebrae</h4>
+          <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+            <svg viewBox="0 0 400 110" width="100%" style="display:block;">
+              <!-- skull side profile -->
+              <path d="M20,70 Q15,30 55,18 Q95,8 115,70 Z"
+                fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.55)" stroke-width="2"/>
+              <!-- eye socket -->
+              <circle cx="85" cy="45" r="10" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+              <!-- jaw -->
+              <path d="M20,70 Q40,88 75,90 Q110,90 115,70" fill="rgba(255,209,102,0.08)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+              <!-- teeth -->
+              <g fill="rgba(255,209,102,0.3)" stroke="none">
+                <rect x="25" y="72" width="5" height="8" rx="1"/>
+                <rect x="33" y="72" width="5" height="9" rx="1"/>
+                <rect x="41" y="73" width="5" height="9" rx="1"/>
+                <rect x="49" y="73" width="5" height="8" rx="1"/>
+              </g>
+              <text x="68" y="103" text-anchor="middle" font-size="9" fill="rgba(255,209,102,0.8)" font-family="JetBrains Mono,monospace">cranium</text>
+
+              <!-- vertebral column -->
+              <g fill="rgba(255,209,102,0.12)" stroke="rgba(255,209,102,0.5)" stroke-width="1.5">
+                <rect x="125" y="52" width="16" height="14" rx="2"/>
+                <rect x="143" y="52" width="16" height="14" rx="2"/>
+                <rect x="161" y="52" width="16" height="14" rx="2"/>
+                <rect x="179" y="52" width="16" height="14" rx="2"/>
+                <rect x="197" y="52" width="16" height="14" rx="2"/>
+                <rect x="215" y="52" width="16" height="14" rx="2"/>
+                <rect x="233" y="52" width="16" height="14" rx="2"/>
+                <rect x="251" y="52" width="16" height="14" rx="2"/>
+                <rect x="269" y="52" width="16" height="14" rx="2"/>
+                <rect x="287" y="52" width="16" height="14" rx="2"/>
+              </g>
+              <!-- neural spines up -->
+              <g stroke="rgba(255,209,102,0.4)" stroke-width="1.2">
+                <line x1="133" y1="52" x2="133" y2="38"/><line x1="151" y1="52" x2="151" y2="38"/>
+                <line x1="169" y1="52" x2="169" y2="38"/><line x1="187" y1="52" x2="187" y2="38"/>
+                <line x1="205" y1="52" x2="205" y2="38"/><line x1="223" y1="52" x2="223" y2="38"/>
+                <line x1="241" y1="52" x2="241" y2="38"/><line x1="259" y1="52" x2="259" y2="38"/>
+                <line x1="277" y1="52" x2="277" y2="38"/><line x1="295" y1="52" x2="295" y2="38"/>
+              </g>
+              <text x="210" y="82" text-anchor="middle" font-size="9" fill="rgba(255,209,102,0.75)" font-family="JetBrains Mono,monospace">vertebral column</text>
+              <text x="210" y="37" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.5)" font-family="JetBrains Mono,monospace">neural spines</text>
+
+              <!-- spinal cord line -->
+              <line x1="125" y1="59" x2="303" y2="59" stroke="rgba(167,139,250,0.45)" stroke-width="2.5" stroke-dasharray="4 2"/>
+              <text x="380" y="62" text-anchor="end" font-size="8" fill="rgba(167,139,250,0.7)" font-family="JetBrains Mono,monospace">spinal cord</text>
+
+              <!-- connect skull to column -->
+              <line x1="115" y1="59" x2="125" y2="59" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+
+              <!-- Neural crest callout -->
+              <text x="340" y="92" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.35)" font-family="JetBrains Mono,monospace">neural crest</text>
+              <text x="340" y="102" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.35)" font-family="JetBrains Mono,monospace">→ cranium</text>
+            </svg>
+          </div>
+          <p>The cranium (a bony or cartilaginous case enclosing the brain) and vertebrae (a column of structural supports protecting the spinal cord) define <strong>Vertebrata</strong>. Hagfishes have a cranium but lost vertebrae. Neural crest cells — a uniquely vertebrate embryonic cell type derived from ectoderm — are responsible for forming the cranium, sensory organs, and many facial structures. Early vertebrate fossils from the Cambrian (~520 mya) show streamlined bodies, gills, cranial cartilage, and paired eyes.</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Protects CNS; enables complex brain development; allows more sophisticated sensory processing and rapid directed movement.</p>
+        </div>
+      </div>
+
+      <div class="innov-step reveal reveal-item delay-2">
+        <div class="innov-node" style="background:rgba(255,138,138,0.1);border-color:var(--coral);">👄</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--coral);">~430 mya · Silurian · Gnathostomata</div>
+          <h4>Jaws &amp; Paired Appendages</h4>
+          <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+            <svg viewBox="0 0 400 110" width="100%" style="display:block;">
+              <!-- LEFT: lamprey circular mouth (no jaw) -->
+              <circle cx="70" cy="55" r="38" fill="rgba(255,138,138,0.06)" stroke="rgba(255,138,138,0.3)" stroke-width="1.5"/>
+              <!-- circular tooth rows -->
+              <circle cx="70" cy="55" r="28" fill="rgba(255,138,138,0.04)" stroke="rgba(255,138,138,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+              <circle cx="70" cy="55" r="18" fill="rgba(255,138,138,0.04)" stroke="rgba(255,138,138,0.3)" stroke-width="1" stroke-dasharray="2 2"/>
+              <circle cx="70" cy="55" r="9" fill="rgba(255,138,138,0.1)" stroke="rgba(255,138,138,0.4)" stroke-width="1"/>
+              <text x="70" y="103" text-anchor="middle" font-size="9" fill="rgba(255,138,138,0.7)" font-family="JetBrains Mono,monospace">lamprey mouth</text>
+              <text x="70" y="12" text-anchor="middle" font-size="8.5" fill="rgba(255,138,138,0.65)" font-family="JetBrains Mono,monospace">(no jaw)</text>
+
+              <!-- arrow + transformation label -->
+              <line x1="115" y1="55" x2="155" y2="55" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <polygon points="153,51 160,55 153,59" fill="rgba(255,255,255,0.35)"/>
+              <text x="135" y="48" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">gill arch</text>
+              <text x="135" y="68" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono,monospace">→ jaw</text>
+
+              <!-- RIGHT: hinged jaw (gnathostome) -->
+              <!-- upper jaw -->
+              <path d="M170,35 Q210,25 280,30 Q295,32 300,40 L280,42 Q220,38 170,45 Z"
+                fill="rgba(255,138,138,0.15)" stroke="rgba(255,138,138,0.55)" stroke-width="1.5"/>
+              <!-- lower jaw (hinged open) -->
+              <path d="M170,75 Q210,85 280,80 Q295,78 300,70 L280,68 Q220,72 170,65 Z"
+                fill="rgba(255,138,138,0.12)" stroke="rgba(255,138,138,0.5)" stroke-width="1.5"/>
+              <!-- teeth on jaws -->
+              <g fill="rgba(255,209,102,0.5)" stroke="none">
+                <rect x="185" y="44" width="5" height="8" rx="1"/>
+                <rect x="197" y="44" width="5" height="8" rx="1"/>
+                <rect x="209" y="44" width="5" height="8" rx="1"/>
+                <rect x="221" y="44" width="5" height="8" rx="1"/>
+                <rect x="185" y="58" width="5" height="8" rx="1"/>
+                <rect x="197" y="58" width="5" height="8" rx="1"/>
+                <rect x="209" y="58" width="5" height="8" rx="1"/>
+                <rect x="221" y="58" width="5" height="8" rx="1"/>
+              </g>
+              <!-- hinge circle -->
+              <circle cx="170" cy="55" r="6" fill="rgba(255,138,138,0.25)" stroke="var(--coral)" stroke-width="1.5"/>
+              <text x="235" y="103" text-anchor="middle" font-size="9" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">hinged jaw</text>
+              <text x="235" y="12" text-anchor="middle" font-size="8.5" fill="rgba(255,209,102,0.65)" font-family="JetBrains Mono,monospace">teeth</text>
+              <text x="155" y="62" text-anchor="end" font-size="8" fill="rgba(255,138,138,0.65)" font-family="JetBrains Mono,monospace">hinge</text>
+
+              <!-- gill arch annotation -->
+              <g stroke="rgba(125,211,252,0.4)" stroke-width="1" fill="none">
+                <path d="M310,35 Q325,30 335,38 Q325,55 315,65 Q325,72 335,68" stroke-dasharray="3 2"/>
+              </g>
+              <text x="348" y="40" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.65)" font-family="JetBrains Mono,monospace">gill arch</text>
+              <text x="348" y="52" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.5)" font-family="JetBrains Mono,monospace">precursor</text>
+            </svg>
+          </div>
+          <p>Jaws evolved from <strong>modified gill arches</strong> (anterior pharyngeal arches remodeled into upper and lower jaw bones). The earliest jawed fishes are the <strong>placoderms</strong> — armored fishes with bony head shields that appear in the fossil record ~430 mya. Paired fins also appear with jaws. Many ray-finned fishes have a second set of jaws called <strong>pharyngeal jaws</strong> (modified gill arches in the throat) for food processing. Teeth appeared soon after jaws. More than 99% of living vertebrate species are gnathostomes.</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Jaws enable biting and chewing — vertebrates no longer limited to filter/deposit feeding. Access to new food types (herbivory, predation). Paired fins improve maneuverability in water.</p>
+        </div>
+      </div>
+
+      <div class="innov-step reveal reveal-item delay-3">
+        <div class="innov-node" style="background:rgba(255,209,102,0.1);border-color:var(--gold);">🦷</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--gold);">Late Silurian · Osteichthyes</div>
+          <h4>Bony Endoskeleton &amp; Lungs</h4>
+          <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+            <svg viewBox="0 0 400 110" width="100%" style="display:block;">
+              <!-- Fish body outline -->
+              <path d="M20,55 Q40,25 120,20 Q200,15 260,55 Q200,95 120,90 Q40,85 20,55 Z"
+                fill="rgba(255,209,102,0.06)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+              <!-- tail fin -->
+              <path d="M260,55 Q280,35 300,25 Q285,55 300,85 Q280,75 260,55 Z"
+                fill="rgba(255,209,102,0.06)" stroke="rgba(255,209,102,0.35)" stroke-width="1"/>
+              <!-- backbone -->
+              <line x1="22" y1="55" x2="265" y2="55" stroke="rgba(255,209,102,0.5)" stroke-width="2" stroke-linecap="round"/>
+              <!-- swim bladder / lung label -->
+              <ellipse cx="155" cy="42" rx="40" ry="13" fill="rgba(100,255,218,0.15)" stroke="var(--teal)" stroke-width="1.5" stroke-dasharray="4 2"/>
+              <text x="155" y="39" text-anchor="middle" font-size="7.5" fill="rgba(100,255,218,0.9)" font-family="JetBrains Mono,monospace">swim bladder</text>
+              <text x="155" y="49" text-anchor="middle" font-size="7" fill="rgba(100,255,218,0.65)" font-family="JetBrains Mono,monospace">(from lung)</text>
+              <!-- arrow from lung to swim bladder -->
+              <text x="155" y="21" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.55)" font-family="JetBrains Mono,monospace">lung → swim bladder</text>
+              <line x1="155" y1="22" x2="155" y2="29" stroke="rgba(100,255,218,0.4)" stroke-width="1"/>
+              <polygon points="151,29 159,29 155,34" fill="rgba(100,255,218,0.4)"/>
+
+              <!-- Haversian canal structure (right side) -->
+              <g transform="translate(320,20)">
+                <!-- outer ring -->
+                <circle cx="40" cy="40" r="32" fill="rgba(255,209,102,0.05)" stroke="rgba(255,209,102,0.4)" stroke-width="1.5"/>
+                <!-- lamellae rings -->
+                <circle cx="40" cy="40" r="24" fill="none" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>
+                <circle cx="40" cy="40" r="16" fill="none" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
+                <circle cx="40" cy="40" r="8" fill="none" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
+                <!-- central canal -->
+                <circle cx="40" cy="40" r="3" fill="rgba(255,138,138,0.4)" stroke="var(--coral)" stroke-width="1"/>
+                <!-- lacunae dots -->
+                <circle cx="40" cy="28" r="2" fill="rgba(255,209,102,0.5)"/>
+                <circle cx="52" cy="40" r="2" fill="rgba(255,209,102,0.5)"/>
+                <circle cx="40" cy="52" r="2" fill="rgba(255,209,102,0.5)"/>
+                <circle cx="28" cy="40" r="2" fill="rgba(255,209,102,0.5)"/>
+              </g>
+              <text x="360" y="73" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.75)" font-family="JetBrains Mono,monospace">Haversian</text>
+              <text x="360" y="83" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.75)" font-family="JetBrains Mono,monospace">canal</text>
+              <text x="360" y="93" text-anchor="middle" font-size="7" fill="rgba(255,138,138,0.6)" font-family="JetBrains Mono,monospace">blood supply</text>
+            </svg>
+          </div>
+          <p>In early osteichthyans (bony fishes), the cartilaginous endoskeleton was stiffened by calcium phosphate bone deposition — the <strong>bony endoskeleton</strong>. Unlike earlier dermal bone (derived from neural crest cells / ectoderm), the internal bony endoskeleton was derived from <strong>mesoderm</strong> and supported swimming. Simultaneously, <strong>lungs</strong> appeared as outpockets of the esophagus — originally as an auxiliary oxygen source for the heart in oxygen-poor shallow water. In ray-finned fishes, lungs were co-opted as a <strong>swim bladder</strong> for neutral buoyancy. Lungs were lost in cartilaginous fishes.</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Bone is stronger, enabling larger body sizes. Lungs solve oxygen limitation in stagnant water; swim bladder enables energy-efficient buoyancy.</p>
+        </div>
+      </div>
+
+      <div class="innov-step reveal reveal-item delay-4">
+        <div class="innov-node" style="background:rgba(125,211,252,0.1);border-color:var(--sky);">🦵</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--sky);">~365 mya · Devonian · Tetrapoda</div>
+          <h4>Tetrapod Limbs</h4>
+          <div style="margin:0.8rem 0;border-radius:var(--radius-sm);overflow:hidden;background:rgba(255,255,255,0.02);">
+            <svg viewBox="0 0 500 110" width="100%" style="display:block;">
+              <!-- Stage labels -->
+              <text x="55"  y="10" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono,monospace">lobe fin</text>
+              <text x="175" y="10" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono,monospace">Tiktaalik</text>
+              <text x="310" y="10" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono,monospace">Ichthyostega</text>
+              <text x="435" y="10" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono,monospace">tetrapod</text>
+
+              <!-- (a) lobe fin silhouette -->
+              <path d="M20,75 Q30,50 55,45 Q80,40 90,60 Q85,80 55,85 Z"
+                fill="rgba(125,211,252,0.1)" stroke="rgba(125,211,252,0.45)" stroke-width="1.5"/>
+              <!-- humerus analog -->
+              <line x1="25" y1="70" x2="55" y2="55" stroke="rgba(125,211,252,0.7)" stroke-width="4" stroke-linecap="round"/>
+              <text x="55" y="100" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.7)" font-family="JetBrains Mono,monospace">~385 mya</text>
+
+              <!-- arrow 1 -->
+              <line x1="98" y1="62" x2="115" y2="62" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <polygon points="113,58 120,62 113,66" fill="rgba(255,255,255,0.35)"/>
+
+              <!-- (b) Tiktaalik — humerus+radius+ulna colored -->
+              <!-- humerus (gold/proximal) -->
+              <line x1="130" y1="80" x2="158" y2="60" stroke="rgba(255,209,102,0.85)" stroke-width="6" stroke-linecap="round"/>
+              <!-- radius (teal) -->
+              <line x1="158" y1="60" x2="178" y2="48" stroke="rgba(100,255,218,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <!-- ulna (coral) -->
+              <line x1="158" y1="60" x2="170" y2="78" stroke="rgba(255,138,138,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <!-- wrist outline -->
+              <ellipse cx="185" cy="55" rx="12" ry="8" fill="rgba(167,139,250,0.2)" stroke="rgba(167,139,250,0.5)" stroke-width="1.5"/>
+              <text x="175" y="100" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono,monospace">~375 mya</text>
+
+              <!-- bone legend -->
+              <line x1="130" y1="107" x2="140" y2="107" stroke="rgba(255,209,102,0.85)" stroke-width="4"/>
+              <text x="142" y="110" font-size="7" fill="rgba(255,209,102,0.8)" font-family="JetBrains Mono,monospace">humerus</text>
+              <line x1="178" y1="107" x2="188" y2="107" stroke="rgba(100,255,218,0.85)" stroke-width="3"/>
+              <text x="190" y="110" font-size="7" fill="rgba(100,255,218,0.8)" font-family="JetBrains Mono,monospace">radius</text>
+              <line x1="218" y1="107" x2="228" y2="107" stroke="rgba(255,138,138,0.85)" stroke-width="3"/>
+              <text x="230" y="110" font-size="7" fill="rgba(255,138,138,0.8)" font-family="JetBrains Mono,monospace">ulna</text>
+
+              <!-- arrow 2 -->
+              <line x1="200" y1="62" x2="220" y2="62" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <polygon points="218,58 225,62 218,66" fill="rgba(255,255,255,0.35)"/>
+
+              <!-- (c) Ichthyostega — fuller limb, 7 digits -->
+              <line x1="235" y1="80" x2="268" y2="58" stroke="rgba(255,209,102,0.85)" stroke-width="6" stroke-linecap="round"/>
+              <line x1="268" y1="58" x2="290" y2="48" stroke="rgba(100,255,218,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <line x1="268" y1="58" x2="282" y2="74" stroke="rgba(255,138,138,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <g stroke="rgba(167,139,250,0.7)" stroke-width="2" stroke-linecap="round">
+                <line x1="295" y1="46" x2="305" y2="40"/>
+                <line x1="295" y1="46" x2="304" y2="47"/>
+                <line x1="295" y1="46" x2="302" y2="54"/>
+                <line x1="295" y1="46" x2="298" y2="57"/>
+              </g>
+              <ellipse cx="295" cy="46" rx="10" ry="7" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1"/>
+              <text x="310" y="100" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono,monospace">~365 mya</text>
+
+              <!-- arrow 3 -->
+              <line x1="320" y1="62" x2="340" y2="62" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <polygon points="338,58 345,62 338,66" fill="rgba(255,255,255,0.35)"/>
+
+              <!-- (d) Tetrapod limb — classic 5-digit -->
+              <line x1="355" y1="80" x2="388" y2="58" stroke="rgba(255,209,102,0.85)" stroke-width="6" stroke-linecap="round"/>
+              <line x1="388" y1="58" x2="410" y2="48" stroke="rgba(100,255,218,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <line x1="388" y1="58" x2="400" y2="74" stroke="rgba(255,138,138,0.85)" stroke-width="4" stroke-linecap="round"/>
+              <g stroke="rgba(167,139,250,0.75)" stroke-width="2" stroke-linecap="round">
+                <line x1="415" y1="46" x2="426" y2="38"/>
+                <line x1="415" y1="46" x2="426" y2="46"/>
+                <line x1="415" y1="46" x2="424" y2="54"/>
+                <line x1="415" y1="46" x2="420" y2="58"/>
+                <line x1="415" y1="46" x2="415" y2="60"/>
+              </g>
+              <ellipse cx="415" cy="46" rx="11" ry="8" fill="none" stroke="rgba(167,139,250,0.45)" stroke-width="1"/>
+              <text x="435" y="100" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono,monospace">5 digits</text>
+            </svg>
+          </div>
+          <p>The first vertebrates with limbs capable of supporting movement on land appear in the fossil record ~365 mya (late Devonian). Tetrapod limbs evolved from the <strong>lobed fins</strong> of sarcopterygians (lobe-finned fishes, closest living relatives: lungfishes). Key fossil sequence: <em>Eusthenopteron</em> (lobe fin, ~385 mya) → <em>Tiktaalik</em> (~375 mya, has wrist-like fin with humerus/radius/ulna) → <em>Ichthyostega</em> (~365 mya, first true tetrapod). Each fin/limb has: one proximal bone → two bones → distal elements — a pattern conserved across all tetrapods. Same Hox genes pattern fish fins and mammal limbs. Three lineages evolved from a single water-to-land transition: amphibians, mammals, reptiles.</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Access to terrestrial habitats; escape from aquatic predators; access to new food sources; higher oxygen availability on land.</p>
+        </div>
+      </div>
+
+      <div class="innov-step reveal reveal-item delay-5">
+        <div class="innov-node" style="background:rgba(167,139,250,0.1);border-color:var(--violet);">🥚</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--violet);">~340 mya · Carboniferous · Amniota</div>
+          <h4>Amniotic Egg</h4>
+          <div style="max-width:400px;margin:0.8rem auto 1.2rem;">
+            <svg viewBox="0 0 400 190" width="100%" style="display:block;" aria-label="Amniotic egg cross-section">
+              <!-- shell -->
+              <ellipse cx="200" cy="95" rx="188" ry="88" fill="rgba(139,90,43,0.12)" stroke="rgba(180,130,60,0.6)" stroke-width="4" stroke-dasharray="7,3"/>
+              <text x="200" y="14" text-anchor="middle" font-size="9.5" fill="rgba(180,130,60,0.8)" font-family="Inter,sans-serif">Shell (leathery / calcified)</text>
+              <!-- chorion -->
+              <ellipse cx="200" cy="95" rx="162" ry="72" fill="none" stroke="var(--rose)" stroke-width="2"/>
+              <text x="370" y="48" text-anchor="end" font-size="9.5" fill="var(--rose)" font-family="Inter,sans-serif">Chorion</text>
+              <line x1="362" y1="50" x2="352" y2="57" stroke="var(--rose)" stroke-width="1"/>
+              <!-- allantois sac (lower right) -->
+              <ellipse cx="292" cy="125" rx="60" ry="42" fill="rgba(167,139,250,0.1)" stroke="var(--violet)" stroke-width="2"/>
+              <text x="355" y="170" text-anchor="end" font-size="9.5" fill="var(--violet)" font-family="Inter,sans-serif">Allantois (waste)</text>
+              <!-- yolk sac (lower left) -->
+              <ellipse cx="112" cy="120" rx="48" ry="40" fill="rgba(255,209,102,0.15)" stroke="var(--gold)" stroke-width="2"/>
+              <text x="48" y="170" text-anchor="start" font-size="9.5" fill="var(--gold)" font-family="Inter,sans-serif">Yolk sac</text>
+              <!-- amnion -->
+              <ellipse cx="200" cy="90" rx="82" ry="62" fill="rgba(100,255,218,0.06)" stroke="var(--teal)" stroke-width="2"/>
+              <text x="200" y="178" text-anchor="middle" font-size="9.5" fill="var(--teal)" font-family="Inter,sans-serif">Amnion (fluid cushion)</text>
+              <line x1="200" y1="175" x2="200" y2="155" stroke="var(--teal)" stroke-width="1"/>
+              <!-- embryo -->
+              <ellipse cx="200" cy="88" rx="36" ry="30" fill="rgba(100,255,218,0.18)" stroke="var(--teal)" stroke-width="1.5"/>
+              <text x="200" y="92" text-anchor="middle" font-size="8.5" fill="var(--teal)" font-family="JetBrains Mono,monospace">embryo</text>
+            </svg>
+          </div>
+          <p>The amniotic egg is a <strong>synapomorphy of Amniota</strong> (all tetrapods except amphibians). It contains four extraembryonic membranes:
+          <br>• <strong>Amnion</strong> — surrounds embryo in fluid; protects from desiccation and mechanical shock
+          <br>• <strong>Chorion</strong> — outer membrane; surrounds everything; gas exchange
+          <br>• <strong>Yolk sac</strong> — encloses nutrients
+          <br>• <strong>Allantois</strong> — stores nitrogenous wastes; facilitates gas exchange
+          <br>The membranes provide mechanical support outside water and increase surface area for gas/nutrient diffusion. The shell (leathery in lizards/snakes, calcified in birds) reduces drying. In viviparous reptiles and mammals, the egg is retained internally — the four membranes persist (allantois + chorion form the placenta in mammals).</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Reproduction fully independent of standing water. Larger eggs → larger, more independent hatchlings. Colonization of dry terrestrial environments.</p>
+        </div>
+      </div>
+
+      <div class="innov-step reveal reveal-item delay-1">
+        <div class="innov-node" style="background:rgba(255,138,138,0.1);border-color:var(--rose);">🐦</div>
+        <div class="innov-body">
+          <div class="innov-era" style="color:var(--rose);">Independent origins · Mammalia + Aves</div>
+          <h4>Endothermy, Fur &amp; Feathers</h4>
+          <div style="max-width:440px;margin:0.8rem auto 1.2rem;">
+            <svg viewBox="0 0 440 130" width="100%" style="display:block;" aria-label="Convergent endothermy: mammals and birds">
+              <!-- CONVERGENT header -->
+              <line x1="55" y1="13" x2="175" y2="13" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <text x="220" y="17" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.35)" font-family="Inter,sans-serif" letter-spacing="2.5">CONVERGENT EVOLUTION</text>
+              <line x1="265" y1="13" x2="385" y2="13" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <!-- LEFT mammal panel -->
+              <rect x="8" y="22" width="198" height="100" rx="8" fill="rgba(100,255,218,0.04)" stroke="var(--teal)" stroke-width="1.5"/>
+              <!-- body -->
+              <ellipse cx="108" cy="90" rx="44" ry="26" fill="rgba(100,255,218,0.12)" stroke="var(--teal)" stroke-width="1.5"/>
+              <!-- head -->
+              <circle cx="142" cy="68" r="18" fill="rgba(100,255,218,0.12)" stroke="var(--teal)" stroke-width="1.5"/>
+              <!-- ears -->
+              <polygon points="133,53 129,44 137,48" fill="rgba(100,255,218,0.4)"/>
+              <polygon points="149,53 153,44 145,48" fill="rgba(100,255,218,0.4)"/>
+              <!-- fur strokes -->
+              <g stroke="var(--teal)" stroke-width="1" opacity="0.55">
+                <line x1="80" y1="72" x2="77" y2="65"/><line x1="90" y1="67" x2="88" y2="60"/>
+                <line x1="100" y1="64" x2="99" y2="57"/><line x1="110" y1="65" x2="110" y2="58"/>
+                <line x1="72" y1="84" x2="68" y2="78"/><line x1="66" y1="96" x2="61" y2="90"/>
+                <line x1="70" y1="108" x2="65" y2="103"/><line x1="120" y1="68" x2="123" y2="61"/>
+                <line x1="130" y1="76" x2="134" y2="70"/><line x1="140" y1="84" x2="145" y2="79"/>
+              </g>
+              <!-- thermometer left -->
+              <rect x="24" y="42" width="8" height="34" rx="4" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+              <circle cx="28" cy="79" r="5" fill="rgba(100,255,218,0.7)"/>
+              <rect x="26" y="54" width="4" height="24" rx="2" fill="rgba(100,255,218,0.7)"/>
+              <text x="38" y="60" font-size="8" fill="var(--teal)" font-family="JetBrains Mono,monospace">37°C</text>
+              <text x="107" y="114" text-anchor="middle" font-size="9" fill="var(--teal)" font-family="Inter,sans-serif" font-weight="600">Mammals · Fur</text>
+              <!-- divider -->
+              <line x1="220" y1="22" x2="220" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+              <!-- RIGHT bird panel -->
+              <rect x="234" y="22" width="198" height="100" rx="8" fill="rgba(255,138,138,0.04)" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- body -->
+              <ellipse cx="330" cy="83" rx="36" ry="21" fill="rgba(255,138,138,0.12)" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- head -->
+              <circle cx="358" cy="64" r="15" fill="rgba(255,138,138,0.12)" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- beak -->
+              <polygon points="369,62 381,65 369,68" fill="rgba(255,138,138,0.6)"/>
+              <!-- wing -->
+              <path d="M326,76 Q302,58 275,72 Q295,78 326,79Z" fill="rgba(255,138,138,0.15)" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- feather barbs on wing -->
+              <g stroke="var(--rose)" stroke-width="1" opacity="0.6">
+                <line x1="278" y1="72" x2="276" y2="80"/><line x1="287" y1="68" x2="285" y2="76"/>
+                <line x1="297" y1="65" x2="295" y2="73"/><line x1="308" y1="62" x2="306" y2="70"/>
+                <line x1="318" y1="61" x2="316" y2="69"/>
+              </g>
+              <!-- tail feathers -->
+              <line x1="296" y1="85" x2="282" y2="96" stroke="var(--rose)" stroke-width="1.5" opacity="0.7"/>
+              <line x1="294" y1="88" x2="278" y2="100" stroke="var(--rose)" stroke-width="1.5" opacity="0.5"/>
+              <!-- thermometer right -->
+              <rect x="248" y="42" width="8" height="34" rx="4" fill="none" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="252" cy="79" r="5" fill="rgba(255,138,138,0.7)"/>
+              <rect x="250" y="54" width="4" height="24" rx="2" fill="rgba(255,138,138,0.7)"/>
+              <text x="262" y="60" font-size="8" fill="var(--rose)" font-family="JetBrains Mono,monospace">41°C</text>
+              <text x="333" y="114" text-anchor="middle" font-size="9" fill="var(--rose)" font-family="Inter,sans-serif" font-weight="600">Birds · Feathers</text>
+            </svg>
+          </div>
+          <p><strong>Endothermy</strong> (self-heating; "warm-bloodedness") evolved <em>independently</em> in mammals and birds — a striking example of convergent evolution. Both lineages regulate body temperature by generating heat metabolically. Ectothermic reptiles rely on behavioral thermoregulation. In <strong>mammals</strong>, <em>fur</em> (layers of keratin hair) insulates the body; <em>mammary glands</em> produce milk (lactation). In <strong>birds (Aves)</strong>, <em>feathers</em> evolved in stages within dinosaurs (initially for insulation/display) before being co-opted for flight. Both fur and feathers are derived from keratin — <em>homologous molecular pathways</em> to reptile scales. Several additional bird adaptations enable flight: hollow bones, keeled sternum, large breast muscles, and endothermy sustaining high activity year-round.</p>
+          <p class="innov-adv"><strong>Selective advantage:</strong> Year-round activity; survival at low temperatures; nocturnal activity (mammals); sustained powered flight (birds). Endothermy is energetically expensive but allows high, consistent metabolic output.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Major Vertebrate Groups -->
+  <section class="reveal" style="margin-top:2rem;">
+    <div class="section-label">Vertebrate Diversity</div>
+    <h2>Major Vertebrate Lineages</h2>
+
+    <div class="accordion">
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Jawless Vertebrates — Hagfishes &amp; Lampreys</button>
+        <div class="accordion-body">
+          <div style="max-width:420px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 420 90" width="100%" style="display:block;" aria-label="Hagfish and lamprey comparison">
+              <!-- LEFT: Hagfish -->
+              <text x="105" y="14" text-anchor="middle" font-size="9" fill="var(--teal)" font-family="Inter,sans-serif" font-weight="600">Hagfish — no vertebrae</text>
+              <!-- eel-like body, smooth S-curve -->
+              <path d="M20,55 Q50,30 80,50 Q110,70 140,45 Q170,25 190,55" fill="none" stroke="var(--teal)" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+              <path d="M20,55 Q50,30 80,50 Q110,70 140,45 Q170,25 190,55" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"/>
+              <!-- head -->
+              <ellipse cx="16" cy="55" rx="8" ry="7" fill="rgba(100,255,218,0.25)" stroke="var(--teal)" stroke-width="1.5"/>
+              <!-- slime dots -->
+              <circle cx="50" cy="43" r="2" fill="rgba(100,255,218,0.4)"/>
+              <circle cx="90" cy="62" r="2" fill="rgba(100,255,218,0.4)"/>
+              <circle cx="130" cy="54" r="2" fill="rgba(100,255,218,0.4)"/>
+              <text x="105" y="82" text-anchor="middle" font-size="8" fill="rgba(100,255,218,0.55)" font-family="JetBrains Mono,monospace">marine · scavenger · slime</text>
+              <!-- divider -->
+              <line x1="210" y1="10" x2="210" y2="88" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="3,3"/>
+              <!-- RIGHT: Lamprey -->
+              <text x="315" y="14" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Inter,sans-serif" font-weight="600">Lamprey — sucker mouth</text>
+              <!-- body -->
+              <path d="M230,52 Q270,38 310,52 Q350,66 390,48" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+              <path d="M230,52 Q270,38 310,52 Q350,66 390,48" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+              <!-- sucker mouth detail at tail end -->
+              <circle cx="394" cy="47" r="10" fill="rgba(255,209,102,0.15)" stroke="var(--gold)" stroke-width="1.5"/>
+              <!-- radial tooth lines inside sucker -->
+              <g stroke="var(--gold)" stroke-width="0.8" opacity="0.7">
+                <line x1="394" y1="38" x2="394" y2="43"/>
+                <line x1="403" y1="41" x2="399" y2="45"/>
+                <line x1="405" y1="50" x2="400" y2="49"/>
+                <line x1="401" y1="57" x2="398" y2="53"/>
+                <line x1="394" y1="56" x2="394" y2="51"/>
+                <line x1="385" y1="54" x2="389" y2="51"/>
+                <line x1="383" y1="47" x2="388" y2="48"/>
+                <line x1="386" y1="40" x2="390" y2="44"/>
+              </g>
+              <circle cx="394" cy="47" r="3" fill="rgba(255,209,102,0.5)"/>
+              <text x="315" y="82" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.55)" font-family="JetBrains Mono,monospace">ectoparasite · rasping teeth</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">The <strong>Cyclostomata</strong> (round-mouthed): hagfishes and lampreys are jawless vertebrates, united by microRNA evidence. Hagfishes (~78 sp.) are marine scavengers/predators — they deposit-feed on carcasses, have a cranium but <em>no vertebrae</em> (vertebrae were secondarily lost), use the notochord for support, and secrete copious defensive slime. Lampreys (~46 sp.) are mostly ectoparasites with a sucker-like mouth lined with teeth to rasp holes in fish hosts and suck blood. Lamprey larvae are filter-feeding burrowers that resemble lancelets — they metamorphose into adults after years.</p>
+          <div style="overflow-x:auto;"><table class="compare-wide">
+            <thead><tr><th></th><th>Hagfishes</th><th>Lampreys</th></tr></thead>
+            <tbody>
+              <tr><td class="row-head">Cranium</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td class="row-head">Vertebrae</td><td class="no">✗ (lost)</td><td>Partial (cartilage)</td></tr>
+              <tr><td class="row-head">Jaws</td><td class="no">✗</td><td class="no">✗</td></tr>
+              <tr><td class="row-head">Feeding</td><td>Scavenger/predator</td><td>Ectoparasite</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Cartilaginous Fishes — Chondrichthyes</button>
+        <div class="accordion-body">
+          <div style="max-width:400px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 400 95" width="100%" style="display:block;" aria-label="Shark anatomy diagram">
+              <text x="200" y="13" text-anchor="middle" font-size="9" fill="var(--sky)" font-family="Inter,sans-serif" font-weight="600">Chondrichthyes — cartilaginous skeleton</text>
+              <!-- shark body -->
+              <path d="M30,52 Q80,30 200,45 Q300,55 370,48 Q360,60 320,58 Q290,60 260,65 Q200,70 140,62 Q80,58 30,52Z" fill="rgba(125,211,252,0.12)" stroke="var(--sky)" stroke-width="1.8"/>
+              <!-- dorsal fin -->
+              <path d="M180,45 Q210,15 235,43" fill="rgba(125,211,252,0.18)" stroke="var(--sky)" stroke-width="1.5"/>
+              <!-- pectoral fin -->
+              <path d="M140,58 Q120,80 100,82 Q115,65 140,62Z" fill="rgba(125,211,252,0.18)" stroke="var(--sky)" stroke-width="1.5"/>
+              <!-- pelvic fin -->
+              <path d="M255,62 Q248,78 235,80 Q240,68 255,65Z" fill="rgba(125,211,252,0.15)" stroke="var(--sky)" stroke-width="1.5"/>
+              <!-- tail fin -->
+              <path d="M365,48 Q388,35 392,48 Q388,60 365,55Z" fill="rgba(125,211,252,0.18)" stroke="var(--sky)" stroke-width="1.5"/>
+              <!-- mouth + teeth -->
+              <path d="M30,52 Q22,57 30,60" fill="none" stroke="var(--sky)" stroke-width="1.5"/>
+              <line x1="24" y1="54" x2="27" y2="58" stroke="var(--sky)" stroke-width="1" opacity="0.7"/>
+              <line x1="27" y1="53" x2="29" y2="57" stroke="var(--sky)" stroke-width="1" opacity="0.7"/>
+              <!-- eye -->
+              <circle cx="45" cy="50" r="3.5" fill="none" stroke="var(--sky)" stroke-width="1.5"/>
+              <circle cx="45" cy="50" r="1.5" fill="rgba(125,211,252,0.5)"/>
+              <!-- gill slits (5) -->
+              <g stroke="var(--sky)" stroke-width="1.2" opacity="0.7">
+                <line x1="68" y1="46" x2="66" y2="58"/>
+                <line x1="76" y1="45" x2="74" y2="57"/>
+                <line x1="84" y1="44" x2="82" y2="56"/>
+                <line x1="92" y1="44" x2="90" y2="56"/>
+                <line x1="100" y1="44" x2="98" y2="56"/>
+              </g>
+              <!-- labels -->
+              <text x="86" y="90" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.6)" font-family="JetBrains Mono,monospace">5 gill slits</text>
+              <text x="214" y="90" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.6)" font-family="JetBrains Mono,monospace">dorsal fin</text>
+              <line x1="214" y1="87" x2="214" y2="40" stroke="rgba(125,211,252,0.3)" stroke-width="1" stroke-dasharray="2,2"/>
+              <text x="340" y="90" text-anchor="middle" font-size="8" fill="rgba(125,211,252,0.6)" font-family="JetBrains Mono,monospace">heterocercal tail</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">~1,200 species (sharks, rays, skates, chimaeras). Jawed gnathostomes with a <strong>cartilaginous skeleton</strong> reinforced by calcium salts (not true bone). Dermal scales are small tooth-like denticles (homologous to teeth). Lost lungs. Sharks swim by undulating body; rays flap wing-like pectoral fins. Internal fertilization; reproduction ranges from oviparous to viviparous. A placenta evolved independently in some shark lineages. Many are top predators in marine ecosystems.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Ray-Finned Fishes — Actinopterygii</button>
+        <div class="accordion-body">
+          <div style="max-width:400px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 400 95" width="100%" style="display:block;" aria-label="Ray-finned fish with swim bladder">
+              <text x="200" y="13" text-anchor="middle" font-size="9" fill="var(--lime)" font-family="Inter,sans-serif" font-weight="600">Actinopterygii — bony rays + swim bladder</text>
+              <!-- body -->
+              <ellipse cx="190" cy="55" rx="145" ry="32" fill="rgba(184,240,137,0.1)" stroke="var(--lime)" stroke-width="1.8"/>
+              <!-- tail fin -->
+              <path d="M335,55 Q365,38 372,55 Q365,72 335,55Z" fill="rgba(184,240,137,0.18)" stroke="var(--lime)" stroke-width="1.5"/>
+              <!-- dorsal fin with rays -->
+              <path d="M150,25 Q190,10 230,24" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <g stroke="var(--lime)" stroke-width="1" opacity="0.7">
+                <line x1="155" y1="24" x2="155" y2="30"/>
+                <line x1="165" y1="19" x2="165" y2="26"/>
+                <line x1="177" y1="14" x2="177" y2="24"/>
+                <line x1="190" y1="12" x2="190" y2="24"/>
+                <line x1="203" y1="13" x2="203" y2="24"/>
+                <line x1="216" y1="17" x2="216" y2="25"/>
+                <line x1="226" y1="22" x2="226" y2="28"/>
+              </g>
+              <!-- pectoral fin with rays -->
+              <path d="M115,60 Q96,75 80,78 Q92,62 115,62Z" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <g stroke="var(--lime)" stroke-width="0.8" opacity="0.6">
+                <line x1="94" y1="76" x2="108" y2="61"/>
+                <line x1="87" y1="71" x2="103" y2="60"/>
+              </g>
+              <!-- anal fin -->
+              <path d="M240,86 Q255,95 270,86 Q258,80 240,80Z" fill="rgba(184,240,137,0.12)" stroke="var(--lime)" stroke-width="1.5"/>
+              <!-- eye -->
+              <circle cx="58" cy="52" r="5" fill="none" stroke="var(--lime)" stroke-width="1.5"/>
+              <circle cx="58" cy="52" r="2" fill="rgba(184,240,137,0.5)"/>
+              <!-- mouth -->
+              <path d="M42,55 Q36,58 42,62" fill="none" stroke="var(--lime)" stroke-width="1.5"/>
+              <!-- swim bladder (inside body, dotted outline) -->
+              <ellipse cx="195" cy="52" rx="55" ry="14" fill="rgba(184,240,137,0.12)" stroke="var(--lime)" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <!-- swim bladder label -->
+              <text x="195" y="56" text-anchor="middle" font-size="7.5" fill="var(--lime)" font-family="JetBrains Mono,monospace">swim bladder</text>
+              <!-- gill cover (operculum) -->
+              <path d="M75,43 Q68,52 75,66" fill="none" stroke="var(--lime)" stroke-width="1.5" opacity="0.7"/>
+              <text x="198" y="90" text-anchor="middle" font-size="8" fill="rgba(184,240,137,0.55)" font-family="JetBrains Mono,monospace">bony rays = homocercal tail · operculum covers gills</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">~32,200 species — the most species-rich vertebrate group. Fins are supported by <strong>bony rays</strong> in a fan pattern; body covered in interlocking scales. Many have a <strong>swim bladder</strong> (derived from lungs via co-option) for neutral buoyancy. Remarkable jaw diversity: many can extend protrusible jaws to suction-feed; several lineages have pharyngeal jaws for food processing. Teleosts (a subgroup) underwent a massive adaptive radiation after the K-Pg extinction ~66 mya. About half of all vertebrate species.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Lobe-Finned Fishes — Coelacanths &amp; Lungfishes</button>
+        <div class="accordion-body">
+          <div style="max-width:420px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 420 100" width="100%" style="display:block;" aria-label="Lobe-finned fish showing 1-2-many bone pattern">
+              <text x="210" y="13" text-anchor="middle" font-size="9" fill="var(--gold)" font-family="Inter,sans-serif" font-weight="600">Sarcopterygii — lobed fin = 1 bone → 2 bones → many</text>
+              <!-- coelacanth body (robust, rounded) -->
+              <ellipse cx="200" cy="56" rx="140" ry="32" fill="rgba(255,209,102,0.1)" stroke="var(--gold)" stroke-width="1.8"/>
+              <!-- tail fin (diphycercal - 3-lobed) -->
+              <path d="M340,56 Q362,42 368,56 Q362,70 340,56Z" fill="rgba(255,209,102,0.2)" stroke="var(--gold)" stroke-width="1.5"/>
+              <line x1="340" y1="56" x2="368" y2="56" stroke="rgba(255,209,102,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+              <!-- dorsal fin 1 -->
+              <path d="M155,26 Q180,12 200,25" fill="rgba(255,209,102,0.15)" stroke="var(--gold)" stroke-width="1.5"/>
+              <!-- dorsal fin 2 -->
+              <path d="M215,27 Q235,15 255,26" fill="rgba(255,209,102,0.15)" stroke="var(--gold)" stroke-width="1.5"/>
+              <!-- pectoral LOBED FIN (left) - showing bone pattern -->
+              <!-- fin base/skin -->
+              <path d="M105,68 Q85,88 68,92 Q75,75 95,66Z" fill="rgba(255,209,102,0.15)" stroke="var(--gold)" stroke-width="1.5"/>
+              <!-- 1 bone (humerus homolog) - gold -->
+              <rect x="95" y="67" width="14" height="7" rx="3" fill="var(--gold)" opacity="0.8" transform="rotate(-35 95 67)"/>
+              <!-- 2 bones (radius+ulna homologs) - teal -->
+              <rect x="84" y="77" width="10" height="5" rx="2.5" fill="var(--teal)" opacity="0.8" transform="rotate(-40 84 77)"/>
+              <rect x="80" y="75" width="10" height="5" rx="2.5" fill="var(--teal)" opacity="0.6" transform="rotate(-55 80 75)"/>
+              <!-- many (distal) - violet dots -->
+              <circle cx="74" cy="88" r="2.5" fill="var(--violet)" opacity="0.8"/>
+              <circle cx="70" cy="86" r="2" fill="var(--violet)" opacity="0.7"/>
+              <circle cx="68" cy="90" r="2" fill="var(--violet)" opacity="0.7"/>
+              <!-- eye -->
+              <circle cx="68" cy="52" r="5" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+              <circle cx="68" cy="52" r="2" fill="rgba(255,209,102,0.5)"/>
+              <!-- mouth -->
+              <path d="M50,56 Q44,59 50,63" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+              <!-- legend -->
+              <rect x="290" y="35" width="8" height="8" rx="2" fill="var(--gold)" opacity="0.8"/>
+              <text x="304" y="43" font-size="8" fill="var(--gold)" font-family="Inter,sans-serif">1 bone (humerus)</text>
+              <rect x="290" y="50" width="8" height="8" rx="2" fill="var(--teal)" opacity="0.8"/>
+              <text x="304" y="58" font-size="8" fill="var(--teal)" font-family="Inter,sans-serif">2 bones (radius/ulna)</text>
+              <rect x="290" y="65" width="8" height="8" rx="2" fill="var(--violet)" opacity="0.8"/>
+              <text x="304" y="73" font-size="8" fill="var(--violet)" font-family="Inter,sans-serif">many (digits)</text>
+              <text x="148" y="95" text-anchor="middle" font-size="8" fill="rgba(255,209,102,0.5)" font-family="JetBrains Mono,monospace">→ homologous to tetrapod limb bones</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;"><strong>Coelacanths</strong> (2 species; <em>Latimeria</em>): thought extinct since Cretaceous; rediscovered alive in 1938. Fleshy lobed fins supported by bones in the 1-2-many pattern (homologous to tetrapod limbs). <strong>Lungfishes</strong> (6 species; freshwater): have true <strong>lungs</strong> and use them to breathe air when aquatic oxygen drops. Some burrow in mud during drought (aestivation). Walk on lobed fins. Lungfishes are the <em>closest living relatives</em> of tetrapods. The fin skeleton pattern in lungfishes and Tiktaalik provided key evidence for the limbs-from-fins hypothesis.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Amphibians — Amphibia</button>
+        <div class="accordion-body">
+          <div style="max-width:400px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 400 110" width="100%" style="display:block;" aria-label="Amphibian life cycle">
+              <text x="200" y="13" text-anchor="middle" font-size="9" fill="var(--lime)" font-family="Inter,sans-serif" font-weight="600">Amphibian Life Cycle — tied to water</text>
+              <!-- circular arrows -->
+              <path d="M200,58 m-65,0 a65,65 0 1,1 130,0" fill="none" stroke="rgba(184,240,137,0.2)" stroke-width="28" stroke-linecap="round"/>
+              <path d="M200,58 m-65,0 a65,65 0 1,1 130,0" fill="none" stroke="rgba(184,240,137,0.08)" stroke-width="36"/>
+              <!-- arrowhead at end -->
+              <polygon points="265,57 275,50 278,63" fill="rgba(184,240,137,0.4)"/>
+              <!-- EGGS (top) -->
+              <circle cx="200" cy="18" r="8" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <circle cx="188" cy="22" r="5" fill="rgba(184,240,137,0.1)" stroke="var(--lime)" stroke-width="1"/>
+              <circle cx="212" cy="21" r="4" fill="rgba(184,240,137,0.1)" stroke="var(--lime)" stroke-width="1"/>
+              <text x="200" y="10" text-anchor="middle" font-size="8.5" fill="var(--lime)" font-family="Inter,sans-serif">Eggs (water)</text>
+              <!-- TADPOLE (right) -->
+              <circle cx="298" cy="60" r="10" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <path d="M308,62 Q325,55 335,58 Q325,66 308,65Z" fill="rgba(184,240,137,0.2)" stroke="var(--lime)" stroke-width="1.5"/>
+              <circle cx="295" cy="57" r="2" fill="rgba(184,240,137,0.6)"/>
+              <text x="340" y="62" text-anchor="start" font-size="8.5" fill="var(--lime)" font-family="Inter,sans-serif">Tadpole</text>
+              <!-- FROG (bottom) -->
+              <ellipse cx="200" cy="98" rx="16" ry="10" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <!-- frog head -->
+              <circle cx="200" cy="87" r="8" fill="rgba(184,240,137,0.15)" stroke="var(--lime)" stroke-width="1.5"/>
+              <!-- frog eyes -->
+              <circle cx="194" cy="84" r="3" fill="none" stroke="var(--lime)" stroke-width="1"/>
+              <circle cx="206" cy="84" r="3" fill="none" stroke="var(--lime)" stroke-width="1"/>
+              <!-- frog legs -->
+              <path d="M185,100 Q178,108 172,102" fill="none" stroke="var(--lime)" stroke-width="1.5"/>
+              <path d="M215,100 Q222,108 228,102" fill="none" stroke="var(--lime)" stroke-width="1.5"/>
+              <text x="200" y="110" text-anchor="middle" font-size="8.5" fill="var(--lime)" font-family="Inter,sans-serif">Adult Frog (land)</text>
+              <!-- METAMORPHOSIS label (left) -->
+              <text x="90" y="58" text-anchor="middle" font-size="8" fill="rgba(184,240,137,0.55)" font-family="JetBrains Mono,monospace" transform="rotate(-70 90 58)">metamorphosis</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">First tetrapods to live on land (~365 mya). Name "both-sides-living" reflects dual life: most adults feed on land but lay eggs in water. Three orders: <strong>Anura</strong> (frogs/toads, 7,400 sp. — tailless adults, aquatic tadpoles metamorphose), <strong>Urodela</strong> (salamanders, 675 sp. — tails retained, can regenerate limbs), <strong>Caecilians</strong> (200 sp. — limbless, burrowing). Gas exchange occurs in part or entirely through moist, mucus-covered skin. Eggs have no shell and must remain moist — reproduction still tied to water.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Mammals — Mammalia</button>
+        <div class="accordion-body">
+          <div style="max-width:420px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 420 95" width="100%" style="display:block;" aria-label="Three mammal reproductive strategies">
+              <text x="210" y="13" text-anchor="middle" font-size="9" fill="var(--violet)" font-family="Inter,sans-serif" font-weight="600">Three Mammalian Reproductive Strategies</text>
+              <!-- THREE PANELS -->
+              <!-- Panel 1: Monotreme (egg-laying) -->
+              <rect x="8" y="20" width="124" height="70" rx="7" fill="rgba(167,139,250,0.05)" stroke="var(--violet)" stroke-width="1.5"/>
+              <text x="70" y="33" text-anchor="middle" font-size="8" fill="var(--violet)" font-family="Inter,sans-serif" font-weight="600">Monotremata</text>
+              <!-- egg -->
+              <ellipse cx="70" cy="58" rx="20" ry="16" fill="rgba(167,139,250,0.15)" stroke="var(--violet)" stroke-width="1.5"/>
+              <!-- yolk lines inside -->
+              <ellipse cx="70" cy="58" rx="12" ry="9" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+              <!-- platypus bill hint -->
+              <path d="M90,57 Q98,54 100,58 Q98,62 90,60Z" fill="rgba(167,139,250,0.3)" stroke="var(--violet)" stroke-width="1"/>
+              <text x="70" y="82" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)" font-family="JetBrains Mono,monospace">lays eggs</text>
+              <!-- Panel 2: Marsupial (pouch) -->
+              <rect x="148" y="20" width="124" height="70" rx="7" fill="rgba(167,139,250,0.05)" stroke="var(--violet)" stroke-width="1.5"/>
+              <text x="210" y="33" text-anchor="middle" font-size="8" fill="var(--violet)" font-family="Inter,sans-serif" font-weight="600">Marsupialia</text>
+              <!-- kangaroo silhouette -->
+              <!-- body -->
+              <ellipse cx="210" cy="62" rx="22" ry="16" fill="rgba(167,139,250,0.12)" stroke="var(--violet)" stroke-width="1.5"/>
+              <!-- head -->
+              <circle cx="225" cy="46" r="10" fill="rgba(167,139,250,0.12)" stroke="var(--violet)" stroke-width="1.5"/>
+              <!-- ear -->
+              <line x1="222" y1="37" x2="220" y2="30" stroke="var(--violet)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="228" y1="36" x2="230" y2="29" stroke="var(--violet)" stroke-width="2" stroke-linecap="round"/>
+              <!-- pouch opening -->
+              <path d="M202,55 Q200,68 208,70 Q218,71 216,57" fill="rgba(167,139,250,0.2)" stroke="var(--violet)" stroke-width="1.5"/>
+              <!-- joey in pouch (tiny) -->
+              <circle cx="209" cy="63" r="5" fill="rgba(167,139,250,0.35)" stroke="rgba(167,139,250,0.6)" stroke-width="1"/>
+              <text x="210" y="82" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)" font-family="JetBrains Mono,monospace">pouch (simple placenta)</text>
+              <!-- Panel 3: Eutherian (placenta) -->
+              <rect x="288" y="20" width="124" height="70" rx="7" fill="rgba(167,139,250,0.05)" stroke="var(--violet)" stroke-width="1.5"/>
+              <text x="350" y="33" text-anchor="middle" font-size="8" fill="var(--violet)" font-family="Inter,sans-serif" font-weight="600">Eutheria</text>
+              <!-- uterus outline -->
+              <ellipse cx="350" cy="56" rx="28" ry="22" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <!-- fetus (curled) -->
+              <circle cx="350" cy="55" rx="13" r="13" fill="rgba(167,139,250,0.18)" stroke="var(--violet)" stroke-width="1.5"/>
+              <!-- umbilical cord -->
+              <path d="M363,55 Q372,48 375,42" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+              <!-- placenta blob -->
+              <ellipse cx="377" cy="40" rx="8" ry="6" fill="rgba(167,139,250,0.3)" stroke="var(--violet)" stroke-width="1"/>
+              <text x="350" y="82" text-anchor="middle" font-size="7.5" fill="rgba(167,139,250,0.65)" font-family="JetBrains Mono,monospace">placenta (elaborate)</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">Defined by: <strong>mammary glands</strong> (milk production / lactation), <strong>fur</strong>, <strong>endothermy</strong>, one bone in lower jaw, three middle ear bones. Three major lineages:</p>
+          <ul style="font-size:0.88rem;color:var(--ink-soft);line-height:1.8;">
+            <li><strong>Monotremata</strong> (5 sp. — platypus, echidnas): egg-laying; secrete milk from skin glands, no nipples; lower metabolic rate; Australia &amp; New Guinea only.</li>
+            <li><strong>Marsupialia</strong> (~350 sp. — kangaroos, koalas, opossums): viviparous with simple placenta; young born very underdeveloped and complete development in pouch; convergent evolution with placental mammals in feeding strategies.</li>
+            <li><strong>Eutheria / Placentalia</strong> (~5,100 sp.): extended gestation with elaborate placenta (allantois + chorion form placenta); 29 orders; by far the most diverse — rodents (2,255 sp.), bats (1,150 sp.), primates, carnivorans, etc.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item reveal">
+        <button class="accordion-trigger">Reptiles (including Birds) — Reptilia</button>
+        <div class="accordion-body">
+          <div style="max-width:420px;margin:0 auto 1rem;">
+            <svg viewBox="0 0 420 105" width="100%" style="display:block;" aria-label="Reptile phylogenetic tree including birds as dinosaurs">
+              <text x="210" y="13" text-anchor="middle" font-size="9" fill="var(--rose)" font-family="Inter,sans-serif" font-weight="600">Reptilia — Birds ARE dinosaurs (Aves within Dinosauria)</text>
+              <!-- root / stem -->
+              <line x1="30" y1="55" x2="80" y2="55" stroke="var(--rose)" stroke-width="2"/>
+              <!-- lepidosauria branch (top) -->
+              <line x1="80" y1="55" x2="80" y2="28" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="80" y1="28" x2="145" y2="28" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="145" cy="28" r="3" fill="var(--rose)" opacity="0.7"/>
+              <text x="150" y="32" font-size="8.5" fill="var(--rose)" font-family="Inter,sans-serif">Lepidosauria (lizards, snakes)</text>
+              <!-- testudinia branch -->
+              <line x1="80" y1="55" x2="80" y2="44" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="80" y1="44" x2="145" y2="44" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="145" cy="44" r="3" fill="var(--rose)" opacity="0.7"/>
+              <text x="150" y="48" font-size="8.5" fill="var(--rose)" font-family="Inter,sans-serif">Testudinia (turtles)</text>
+              <!-- archosauria node -->
+              <line x1="80" y1="55" x2="120" y2="55" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- crocodilia branch -->
+              <line x1="120" y1="55" x2="120" y2="64" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="120" y1="64" x2="165" y2="64" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="165" cy="64" r="3" fill="var(--rose)" opacity="0.7"/>
+              <text x="170" y="68" font-size="8.5" fill="var(--rose)" font-family="Inter,sans-serif">Crocodilia — sister to birds</text>
+              <!-- dinosauria node -->
+              <line x1="120" y1="55" x2="160" y2="55" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- ornithischia -->
+              <line x1="160" y1="55" x2="160" y2="79" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="160" y1="79" x2="200" y2="79" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="200" cy="79" r="3" fill="rgba(255,138,138,0.5)"/>
+              <text x="205" y="83" font-size="8" fill="rgba(255,138,138,0.75)" font-family="Inter,sans-serif">Ornithischia (†Triceratops, etc.)</text>
+              <!-- saurischia + birds -->
+              <line x1="160" y1="55" x2="200" y2="55" stroke="var(--rose)" stroke-width="1.5"/>
+              <!-- sauropoda -->
+              <line x1="200" y1="55" x2="200" y2="94" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="200" y1="94" x2="255" y2="94" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="255" cy="94" r="3" fill="rgba(255,138,138,0.5)"/>
+              <text x="260" y="98" font-size="8" fill="rgba(255,138,138,0.75)" font-family="Inter,sans-serif">Sauropoda (†Brachiosaurus)</text>
+              <!-- theropoda → aves node -->
+              <line x1="200" y1="55" x2="255" y2="55" stroke="var(--rose)" stroke-width="2"/>
+              <!-- aves -->
+              <line x1="255" y1="55" x2="255" y2="44" stroke="var(--rose)" stroke-width="1.5"/>
+              <line x1="255" y1="44" x2="310" y2="44" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="310" cy="44" r="4" fill="var(--rose)"/>
+              <text x="316" y="48" font-size="8.5" fill="var(--rose)" font-family="Inter,sans-serif" font-weight="600">Aves (birds) ← LIVING DINOSAURS</text>
+              <!-- non-avian theropods -->
+              <line x1="255" y1="55" x2="310" y2="55" stroke="var(--rose)" stroke-width="1.5"/>
+              <circle cx="310" cy="55" r="3" fill="rgba(255,138,138,0.5)"/>
+              <text x="315" y="59" font-size="8" fill="rgba(255,138,138,0.75)" font-family="Inter,sans-serif">Theropoda (†T. rex, Velociraptor)</text>
+              <!-- root label -->
+              <text x="28" y="70" text-anchor="start" font-size="8" fill="rgba(255,138,138,0.4)" font-family="JetBrains Mono,monospace">Reptilia</text>
+              <text x="28" y="80" text-anchor="start" font-size="8" fill="rgba(255,138,138,0.4)" font-family="JetBrains Mono,monospace">ancestor</text>
+            </svg>
+          </div>
+          <p style="color:var(--ink-soft);font-size:0.88rem;line-height:1.7;">Reptiles are the <strong>second amniote clade</strong> (sister to mammals). Defined by: keratin scales or feathers, amniotic eggs, well-developed lungs. Four major lineages:</p>
+          <ul style="font-size:0.88rem;color:var(--ink-soft);line-height:1.8;">
+            <li><strong>Lepidosauria</strong> (lizards &amp; snakes, 9,800 sp.): ectotherms; snakes lost limbs secondarily; parthenogenesis in some.</li>
+            <li><strong>Testudinia</strong> (turtles, 340 sp.): shell is fused bony plates joined to vertebrae and ribs; all oviparous; can live &gt;150 years.</li>
+            <li><strong>Crocodilia</strong> (25 sp.): closest living relatives of birds; extensive parental care (unique among non-avian reptiles); top aquatic predators.</li>
+            <li><strong>Aves / Birds</strong> (10,000 sp.): phylogenetically <em>within dinosaurs</em> — birds ARE dinosaurs. Feathers (insulation → display → flight), hollow bones, keeled sternum, endothermy, complex parental care. Flight evolved independently in birds, pterosaurs, and bats.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LEVEL 3
+  ══════════════════════════════════════════ -->
+  <div class="level-badge l3 reveal">⬡ Level 3 · Apply &amp; Analyse</div>
+
+  <!-- Order the Innovations -->
+  <section class="reveal">
+    <div class="section-label">Major Innovations Activity</div>
+    <h2>Order the Vertebrate Innovations</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Drag and drop to arrange these five innovations in the order they evolved — from most ancient to most recent. Then click Check to see if you got it right.</p>
+
+    <div class="innov-quiz">
+      <div class="iq-prompt">Drag items: oldest (top) → most recent (bottom)</div>
+      <div class="iq-items" id="iqList">
+        <div class="iq-item" draggable="true" data-val="3">Limbs</div>
+        <div class="iq-item" draggable="true" data-val="1">Bone tissue</div>
+        <div class="iq-item" draggable="true" data-val="4">Amniotic egg</div>
+        <div class="iq-item" draggable="true" data-val="2">Bony endoskeleton</div>
+        <div class="iq-item" draggable="true" data-val="5">Lungs</div>
+      </div>
+      <button class="btn iq-btn" id="iqCheck">Check Order</button>
+      <div class="iq-feedback" id="iqFb"></div>
+      <div id="iqExplain" style="display:none;margin-top:0.8rem;"></div>
+    </div>
+
+    <div class="callout callout-teal reveal" style="margin-top:1.5rem;">
+      <div class="callout-label">◈ Correct Order &amp; Why</div>
+      <ol style="color:var(--ink-soft);font-size:0.88rem;line-height:1.9;margin:0;padding-left:1.4rem;">
+        <li><strong>Bone tissue</strong> — dermal bone (neural crest origin) appeared first in placoderms; used as external armor (head shields) before internal skeleton was bony.</li>
+        <li><strong>Bony endoskeleton</strong> — internal bone (mesodermal origin) appeared later in osteichthyans (bony fishes); provided structural support for swimming.</li>
+        <li><strong>Lungs</strong> — appeared in placoderms as esophageal outpockets; an early oxygen-delivery innovation. (Note: lungs actually appeared around same time as/before bony endoskeleton — phylogenetic evidence places lungs in the gnathostome stem lineage before bony fishes).</li>
+        <li><strong>Limbs</strong> — Devonian (~365 mya), derived from lobed fins of sarcopterygians; the water-to-land transition.</li>
+        <li><strong>Amniotic egg</strong> — Carboniferous (~340 mya), ~20 million years after tetrapods; freed reproduction from water.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Selective Pressures Activity -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Selective Pressures Analysis</div>
+    <h2>What Problem Did Each Innovation Solve?</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">For each innovation, consider: <em>what was the environmental challenge?</em> and <em>what could the organism now do that its ancestor could not?</em></p>
+
+    <div class="sp-grid">
+      <div class="sp-card reveal reveal-item delay-1">
+        <div class="sp-label">Innovation</div>
+        <h4>Jaws</h4>
+        <p><strong>Environmental challenge:</strong> Competition for food; large prey items available but inaccessible. Jawless vertebrates limited to filter/deposit feeding or parasitism.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Bite and capture prey; process plant material; diversify into herbivory, predation, omnivory. Triggered radiation of gnathostomes that dominates today.</p>
+      </div>
+      <div class="sp-card reveal reveal-item delay-2">
+        <div class="sp-label">Innovation</div>
+        <h4>Lungs</h4>
+        <p><strong>Environmental challenge:</strong> Shallow, warm, oxygen-poor water (Devonian swamps). Gills alone insufficient for oxygen delivery to the heart in hypoxic conditions.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Supplement gill respiration with air-breathing. Later co-opted as swim bladder (buoyancy) in ray-finned fish. Set stage for air-breathing tetrapods.</p>
+      </div>
+      <div class="sp-card reveal reveal-item delay-3">
+        <div class="sp-label">Innovation</div>
+        <h4>Tetrapod Limbs</h4>
+        <p><strong>Environmental challenge:</strong> Untapped terrestrial habitats; aquatic predation pressure; fluctuating water levels in Devonian floodplains.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Locomotion on land. Access to terrestrial food sources; escape from aquatic predators; dispersal across land. Limbs later diversified into running, flying, burrowing, swimming forms.</p>
+      </div>
+      <div class="sp-card reveal reveal-item delay-4">
+        <div class="sp-label">Innovation</div>
+        <h4>Amniotic Egg</h4>
+        <p><strong>Environmental challenge:</strong> Desiccation on land; amphibian eggs dry out without water. Reproductive constraint ties amphibians to aquatic environments.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Lay eggs in dry terrestrial environments. Protected embryo from desiccation. Allows colonization of deserts, mountains, tropical canopies — anywhere.</p>
+      </div>
+      <div class="sp-card reveal reveal-item delay-5">
+        <div class="sp-label">Innovation</div>
+        <h4>Endothermy</h4>
+        <p><strong>Environmental challenge:</strong> Temperature fluctuations; cold nights and winters prevent ectotherms from activity. Competition for nocturnal/cold-weather niches.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Maintain high, consistent body temperature. Year-round activity; high aerobic capacity; sustained exertion. Trade-off: requires ~10× more food than ectotherms of same size.</p>
+      </div>
+      <div class="sp-card reveal reveal-item delay-1">
+        <div class="sp-label">Innovation</div>
+        <h4>Placenta (Eutherian)</h4>
+        <p><strong>Environmental challenge:</strong> Oviparous reproduction exposes eggs to predation and environmental extremes. Marsupial young are highly vulnerable at birth.</p>
+        <p class="sp-adv"><strong>New capability:</strong> Extended in utero development; highly developed young at birth; mother not tied to a nest. Allows exploitation of unstable environments. Trade-off: energetically costly; risky for mother.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Convergent Evolution Analysis -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Level 3 · Synthesis</div>
+    <h2>Convergent Evolution in Vertebrates</h2>
+    <p style="color:var(--ink-soft);max-width:700px;">Evolution is <em>not</em> a linear progression. The same trait has evolved independently multiple times — this is <strong>convergent evolution</strong>, indicating that certain environments strongly favor particular solutions.</p>
+
+    <div class="qa-set">
+      <div class="qa-item">
+        <button class="qa-q">Flight — evolved independently in how many vertebrate lineages?</button>
+        <div class="qa-a">
+          <p><strong>Three times independently:</strong></p>
+          <ul style="color:var(--ink-soft);font-size:0.88rem;line-height:1.8;">
+            <li><strong>Pterosaurs</strong> (extinct reptiles, ~230–66 mya) — membranous wings supported by elongated 4th finger; the largest reaching 10 m wingspan.</li>
+            <li><strong>Birds (Aves)</strong> (~125 mya origin with feathered dinosaurs) — wings are modified forelimbs with feathers; hollow bones, keeled sternum, endothermy.</li>
+            <li><strong>Bats (Chiroptera)</strong> — membranous wings supported by elongated fingers; the only flying mammals; 2nd most species-rich mammalian order (~1,150 sp.).</li>
+          </ul>
+          <p style="font-size:0.85rem;color:var(--ink-soft);">All three convergently evolved powered, flapping flight as a solution to accessing aerial food resources and three-dimensional habitats.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <button class="qa-q">Viviparity (live birth) — examples of independent evolution?</button>
+        <div class="qa-a">
+          <p>Viviparity evolved <strong>at least 100 times independently</strong> across vertebrates — one of the most convergent traits in evolution:</p>
+          <ul style="color:var(--ink-soft);font-size:0.88rem;line-height:1.8;">
+            <li><strong>Cartilaginous fishes</strong> (some sharks): internal fertilization and viviparity; a placenta evolved independently in certain shark lineages.</li>
+            <li><strong>Ray-finned fishes</strong>: some lineages independently evolved viviparity.</li>
+            <li><strong>Reptiles</strong>: viviparity has evolved &gt;100 times in lizards and snakes alone.</li>
+            <li><strong>Mammals</strong>: marsupials and eutherians both viviparous but placenta structure differs dramatically.</li>
+          </ul>
+          <p style="font-size:0.85rem;color:var(--ink-soft);">Selective advantage: offspring protected from predation and temperature fluctuations; mother controls embryo environment.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <button class="qa-q">Loss of limbs — examples across vertebrates?</button>
+        <div class="qa-a">
+          <p>Limb loss is adaptive in burrowing/swimming lifestyles:</p>
+          <ul style="color:var(--ink-soft);font-size:0.88rem;line-height:1.8;">
+            <li><strong>Snakes</strong>: descended from lizards with four limbs; limbs lost for burrowing/constricting lifestyle. Vestigial pelvic bones remain in some (boas, pythons).</li>
+            <li><strong>Caecilians</strong>: limbless amphibians; convergently evolved for burrowing life.</li>
+            <li><strong>Whales &amp; dolphins</strong>: tetrapods that returned to the sea; hindlimbs lost; forelimbs modified into flippers. Vestigial pelvis and hindlimb bones remain internally.</li>
+            <li><strong>Manatees &amp; dugongs</strong>: similar secondary return to water, limb modification.</li>
+          </ul>
+          <p style="font-size:0.85rem;color:var(--ink-soft);">Lesson: evolution is <em>not</em> unidirectional from simple to complex. Loss is adaptive.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <button class="qa-q">Endothermy — evolved independently in mammals AND birds?</button>
+        <div class="qa-a">
+          <p><strong>Yes — two independent origins:</strong> Mammals and birds are the only living fully endothermic vertebrates, but they evolved endothermy from different ectothermic ancestors.</p>
+          <ul style="color:var(--ink-soft);font-size:0.88rem;line-height:1.8;">
+            <li><strong>Mammals</strong>: evolved endothermy from the synapsid (mammal-like reptile) lineage. Insulated by fur (keratin hair).</li>
+            <li><strong>Birds</strong>: evolved endothermy within the theropod dinosaur lineage. Insulated by feathers. Evidence from dinosaur bone growth rings suggests some dinosaurs were <em>mesotherms</em> (intermediate).</li>
+          </ul>
+          <p style="font-size:0.85rem;color:var(--ink-soft);">Same selective pressure (thermal regulation, high activity level) → same solution (internal heat generation) → two independent origins.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Summary Quick-Reference -->
+  <section class="reveal" style="margin-top:2.5rem;">
+    <div class="section-label">Summary</div>
+    <h2>Deuterostome Quick Reference</h2>
+    <div style="overflow-x:auto;">
+      <table class="compare-wide">
+        <thead>
+          <tr>
+            <th>Lineage</th><th>Key Synapomorphies</th><th>Example Species</th><th>Species Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-head" style="color:var(--coral);">Echinodermata</td><td>Pentaradial symmetry, WVS, CaCO₃ endoskeleton, bilateral larvae</td><td>Sea stars, urchins, cucumbers, brittle stars, feather stars</td><td>~7,000</td></tr>
+          <tr><td class="row-head">Hemichordata</td><td>Pharyngeal slits (homologous to chordates); acorn worm body</td><td>Saccoglossus, Balanoglossus</td><td>~130</td></tr>
+          <tr><td class="row-head" style="color:var(--teal);">Cephalochordata</td><td>All 4 chordate features retained as adult; no cranium</td><td>Branchiostoma (lancelets)</td><td>~25</td></tr>
+          <tr><td class="row-head" style="color:var(--gold);">Urochordata</td><td>All 4 features in larva; adult retains only pharyngeal slits; sister to vertebrates</td><td>Sea squirts, salps</td><td>~2,170</td></tr>
+          <tr><td class="row-head">Jawless fish</td><td>Cranium; no jaws; cyclostome mouthparts</td><td>Hagfishes, lampreys</td><td>~124</td></tr>
+          <tr><td class="row-head">Chondrichthyes</td><td>Jaws; cartilaginous skeleton; dermal denticles</td><td>Sharks, rays, skates</td><td>~1,200</td></tr>
+          <tr><td class="row-head">Actinopterygii</td><td>Jaws; bony skeleton; fin rays; swim bladder</td><td>Tuna, salmon, goldfish, eels</td><td>~32,200</td></tr>
+          <tr><td class="row-head">Amphibia</td><td>Limbs; moist skin; aquatic eggs; metamorphosis</td><td>Frogs, salamanders, caecilians</td><td>~8,275</td></tr>
+          <tr><td class="row-head" style="color:var(--violet);">Mammalia</td><td>Amniotic egg; mammary glands; fur; endothermy</td><td>Platypus, kangaroo, humans, whales, bats</td><td>~5,450</td></tr>
+          <tr><td class="row-head" style="color:var(--rose);">Reptilia (incl. Birds)</td><td>Amniotic egg; keratin scales/feathers; birds = living dinosaurs</td><td>Lizards, snakes, turtles, crocodiles, eagles, ostriches</td><td>~20,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer style="padding:3rem 2rem;text-align:center;color:var(--ink-dim);font-size:0.8rem;font-family:var(--mono);border-top:1px solid var(--line);margin-top:4rem;">
+  BIO 212 · The Living Codex · Module 06 · Deuterostomes
+  <span style="margin:0 0.8rem;opacity:0.3;">|</span>
+  <a href="index.html" style="color:var(--coral);">Back to Index</a>
+  <span style="margin:0 0.8rem;opacity:0.3;">|</span>
+  <a href="flashcards.html" style="color:var(--violet);">Flashcards</a>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initPage({});
+
+  // Flip cards
+  document.querySelectorAll('.flipcard').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+  });
+
+  // Drag-and-drop innovation order quiz
+  const list = document.getElementById('iqList');
+  if (list) {
+    let dragging = null;
+
+    list.querySelectorAll('.iq-item').forEach(item => {
+      item.addEventListener('dragstart', () => {
+        dragging = item;
+        setTimeout(() => item.classList.add('dragging'), 0);
+      });
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        dragging = null;
+        list.querySelectorAll('.iq-item').forEach(i => i.classList.remove('over'));
+      });
+      item.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (!dragging || dragging === item) return;
+        list.querySelectorAll('.iq-item').forEach(i => i.classList.remove('over'));
+        item.classList.add('over');
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        if (e.clientY < mid) {
+          list.insertBefore(dragging, item);
+        } else {
+          list.insertBefore(dragging, item.nextSibling);
+        }
+      });
+    });
+
+    const CORRECT = ['1','2','5','3','4']; // bone, bony skel, lungs, limbs, amniotic egg
+    const EXPLAIN = [
+      'Bone tissue (dermal bone) appeared first in placoderms as external armor.',
+      'Bony endoskeleton (internal) evolved in osteichthyans for locomotor support.',
+      'Lungs appeared in placoderms/early gnathostomes as esophageal oxygen pouches.',
+      'Limbs evolved ~365 mya (Devonian) in sarcopterygian descendants — water-to-land.',
+      'Amniotic egg evolved ~340 mya (Carboniferous) in early amniotes — freed reproduction from water.'
+    ];
+    const NAMES = {1:'Bone tissue', 2:'Bony endoskeleton', 5:'Lungs', 3:'Limbs', 4:'Amniotic egg'};
+
+    document.getElementById('iqCheck').addEventListener('click', () => {
+      const order = [...list.querySelectorAll('.iq-item')].map(i => i.dataset.val);
+      const fb = document.getElementById('iqFb');
+      const exp = document.getElementById('iqExplain');
+      if (order.join(',') === CORRECT.join(',')) {
+        fb.textContent = '✓ Correct! Perfect order.';
+        fb.className = 'iq-feedback correct';
+      } else {
+        fb.textContent = '✗ Not quite. See correct order:';
+        fb.className = 'iq-feedback wrong';
+      }
+      exp.style.display = 'block';
+      exp.innerHTML = '<ol style="color:var(--ink-soft);font-size:0.85rem;line-height:1.8;padding-left:1.4rem;">' +
+        EXPLAIN.map((e,i) => `<li><strong>${NAMES[CORRECT[i]]}</strong> — ${e}</li>`).join('') +
+        '</ol>';
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -99,10 +99,16 @@ function initTabs () {
         list.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        const t = group.querySelector('[data-tab="'+btn.dataset.tab+'"]');
+        const t = group.querySelector('.tab-panel[data-tab="'+btn.dataset.tab+'"]');
         if (t) t.classList.add('active');
       });
     });
+    const firstBtn = list.querySelector('.tab-btn');
+    if (firstBtn) {
+      firstBtn.classList.add('active');
+      const firstPanel = group.querySelector('.tab-panel[data-tab="'+firstBtn.dataset.tab+'"]');
+      if (firstPanel) firstPanel.classList.add('active');
+    }
   });
 }
 

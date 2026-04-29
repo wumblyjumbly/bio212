@@ -33,6 +33,7 @@
 .fc-pill[data-mod='3'].active    { border-color: var(--gold);   background: var(--gold);   }
 .fc-pill[data-mod='4'].active    { border-color: var(--rose);   background: var(--rose);   }
 .fc-pill[data-mod='5'].active    { border-color: var(--sky);    background: var(--sky);    }
+.fc-pill[data-mod='6'].active    { border-color: var(--coral);  background: var(--coral);  }
 .fc-cat-pill {
   font-family: var(--mono); font-size: .62rem; padding: .18rem .5rem;
   border: 1px solid var(--line); border-radius: 3px;
@@ -174,6 +175,7 @@
       <a href="module-03.html">03 · Evolution</a>
       <a href="module-04.html">04 · Speciation</a>
       <a href="module-05.html">05 · Protostomes</a>
+      <a href="module-06.html" style="color:var(--coral);font-weight:600;">06 · Deuterostomes</a>
       <a href="flashcards.html" style="color:var(--violet);font-weight:600;">Flashcards</a>
       <a href="exam.html" style="color:var(--gold);font-weight:600;">Final Exam</a>
     </div>
@@ -182,9 +184,9 @@
 
 <div class="fc-page">
   <div class="fc-hero">
-    <div class="module-eyebrow" style="margin-bottom:.5rem;">All 5 Modules</div>
+    <div class="module-eyebrow" style="margin-bottom:.5rem;">All 6 Modules</div>
     <h1>Flash<em>cards</em></h1>
-    <p>194 cards tied directly to each module's sections — terminology, mechanisms, and learning objectives.</p>
+    <p>218 cards tied directly to each module's sections — terminology, mechanisms, and learning objectives.</p>
   </div>
 
   <!-- Module filters -->
@@ -194,7 +196,8 @@
     <button class="fc-pill" data-mod="2">M2 · Embryology</button>
     <button class="fc-pill" data-mod="3">M3 · Evolution</button>
     <button class="fc-pill" data-mod="4">M4 · Phylogenetics</button>
-    <button class="fc-pill" data-mod="5">M5 · Diversity</button>
+    <button class="fc-pill" data-mod="5">M5 · Protostomes</button>
+    <button class="fc-pill" data-mod="6">M6 · Deuterostomes</button>
   </div>
   <!-- Category sub-filters -->
   <div class="fc-cat-filters" id="fcCatFilters"></div>
@@ -1098,8 +1101,112 @@ var ALL_CARDS = [
 
 {m:5,c:'Arthropoda',
  f:'Why are copepods ecologically critical?',
- b:'Copepods (tiny crustaceans) are the <strong>most abundant multicellular animals on Earth by biomass</strong>, exceeding all fish combined. Primary consumers of phytoplankton → transfer energy up the food web to fish, whales, seabirds. Loss of copepods would collapse virtually all marine food webs.'}
+ b:'Copepods (tiny crustaceans) are the <strong>most abundant multicellular animals on Earth by biomass</strong>, exceeding all fish combined. Primary consumers of phytoplankton → transfer energy up the food web to fish, whales, seabirds. Loss of copepods would collapse virtually all marine food webs.'},
 
+/* ── Module 6 · Deuterostomes ── */
+
+/* Deuterostome Overview */
+{m:6,c:'Deuterostome Overview',
+ f:'What defines a deuterostome? Contrast with protostomes.',
+ b:'<strong>Deuterostome</strong> ("second mouth"): blastopore becomes the <em>anus</em>; mouth forms secondarily. <strong>Cleavage</strong>: radial &amp; indeterminate (cells remain totipotent). <strong>Coelom</strong>: forms by enterocoely (outpocketing of gut endoderm). Contrasts with protostomes: blastopore → mouth; spiral determinate cleavage; schizocoely. The 3 deuterostome phyla: Echinodermata, Hemichordata, Chordata.'},
+
+{m:6,c:'Deuterostome Overview',
+ f:'Name the three deuterostome phyla with key examples.',
+ b:'<ul><li><strong>Echinodermata</strong> (~7,000 sp.): sea stars, urchins, sea cucumbers, brittle stars, feather stars</li><li><strong>Hemichordata</strong> (~130 sp.): acorn worms (<em>Saccoglossus</em>); pharyngeal slits homologous to chordates</li><li><strong>Chordata</strong> (~60,000+ sp.): lancelets, tunicates, all vertebrates</li></ul>All three share: deuterostome development (blastopore → anus, enterocoely).'},
+
+/* Echinodermata */
+{m:6,c:'Echinodermata',
+ f:'Five synapomorphies of Phylum Echinodermata',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Pentaradial symmetry</strong> in adults (derived — larvae are bilateral)</li><li><strong>Water vascular system</strong> (WVS): hydraulic canals powering tube feet</li><li><strong>CaCO₃ endoskeleton</strong>: ossicles embedded in dermis ("spiny skin")</li><li><strong>Coelom by enterocoely</strong>: deuterostome pattern</li><li><strong>Bilateral free-swimming larvae</strong>: dispersal stage; metamorphose into radial adults</li></ol>All species are <strong>marine</strong> — no freshwater or terrestrial echinoderms.'},
+
+{m:6,c:'Echinodermata',
+ f:'How does the water vascular system (WVS) work?',
+ b:'Sea water enters via the <strong>madreporite</strong> (sieve plate on aboral surface) → <strong>ring canal</strong> → <strong>radial canals</strong> down each arm → <strong>tube feet</strong>. Ampullae contract to extend tube feet by hydrostatic pressure. Functions: <strong>locomotion, feeding (suction grip), gas exchange, sensory reception</strong>. WVS is unique to echinoderms.'},
+
+{m:6,c:'Echinodermata',
+ f:'Five classes of Echinoderms — names, common names, key feature',
+ b:'<table style="font-size:.78rem;width:100%;border-collapse:collapse"><tr><th style="text-align:left;padding:.15rem .3rem">Class</th><th>Common</th><th>Key feature</th></tr><tr><td>Crinoidea</td><td>Feather stars</td><td>Oral surface UP; suspension feeding; sessile (sea lilies) or mobile</td></tr><tr><td>Asteroidea</td><td>Sea stars</td><td>Arms not distinct from disc; evert cardiac stomach; regeneration</td></tr><tr><td>Ophiuroidea</td><td>Brittle stars</td><td>Arms sharply distinct from disc; locomote by arm undulation</td></tr><tr><td>Echinoidea</td><td>Urchins/sand dollars</td><td>Rigid test; Aristotle\'s lantern (5 teeth); no arms</td></tr><tr><td>Holothuroidea</td><td>Sea cucumbers</td><td>Secondarily bilateral; soft body; respiratory trees; evisceration defense</td></tr></table>'},
+
+{m:6,c:'Echinodermata',
+ f:'How do sea stars (Asteroidea) feed?',
+ b:'Sea stars prey on bivalves and other invertebrates. They wrap their arms around prey, using tube feet to apply suction and pull the shell open even slightly. They then <strong>evert the cardiac stomach</strong> through the mouth and into the prey, secreting digestive enzymes. Digestion occurs <em>externally</em>. This allows them to consume prey larger than their small mouth. They are <strong>keystone predators</strong> in many rocky intertidal communities (e.g., <em>Pisaster</em> controls mussel bed structure).'},
+
+{m:6,c:'Echinodermata',
+ f:'What is Aristotle\'s lantern?',
+ b:'A jaw apparatus unique to sea urchins (Class Echinoidea). Consists of <strong>5 calcium carbonate teeth</strong> arranged in a circular pattern, controlled by complex muscles. Used to <strong>scrape algae</strong> off hard substrates and to excavate burrows in rock. Named after Aristotle who described it. Located on the oral (ventral) surface. Allows urchins to exploit encrusting algae unavailable to other invertebrates.'},
+
+/* Chordate Synapomorphies */
+{m:6,c:'Chordate Synapomorphies',
+ f:'Four synapomorphies of Phylum Chordata — present when?',
+ b:'All four must be present at <em>some point in the life cycle</em> (embryo, larva, or adult):<ol style="padding-left:1.1rem"><li><strong>Pharyngeal slits/pouches</strong>: filter-feeding or gas exchange (gills); vestigial in terrestrial vertebrate embryos</li><li><strong>Dorsal hollow nerve cord</strong>: single tube, dorsal; becomes spinal cord + brain in vertebrates</li><li><strong>Notochord</strong>: flexible support rod; persists in adult lancelets; → intervertebral disc cells in vertebrates</li><li><strong>Muscular post-anal tail</strong>: extends past anus; propulsion. Vestigial in many adults (human coccyx).</li></ol>'},
+
+{m:6,c:'Chordate Synapomorphies',
+ f:'What happens to chordate features in each subphylum as adults?',
+ b:'<table style="font-size:.78rem;width:100%;border-collapse:collapse"><tr><th style="text-align:left;padding:.15rem .3rem">Feature</th><th>Cephalo.</th><th>Uro. larva</th><th>Uro. adult</th><th>Vertebrata</th></tr><tr><td>Pharyngeal slits</td><td>✓</td><td>✓</td><td>✓</td><td>✓ embryo; slits in fish</td></tr><tr><td>Nerve cord</td><td>✓</td><td>✓</td><td>✗ lost</td><td>✓→spinal cord</td></tr><tr><td>Notochord</td><td>✓ retained</td><td>✓</td><td>✗ lost</td><td>✓ embryo→discs</td></tr><tr><td>Post-anal tail</td><td>✓</td><td>✓</td><td>✗ lost</td><td>✓ embryo, variable</td></tr></table>'},
+
+/* Chordate Subphyla */
+{m:6,c:'Chordate Subphyla',
+ f:'Cephalochordata (lancelets) — key features and phylogenetic position',
+ b:'<ul><li>~25 species; 3–7 cm; marine, bury in sand</li><li><strong>Retain ALL 4 chordate features as adults</strong></li><li>Notochord extends into head (hence "cephalo-")</li><li>Filter-feed by pumping water through pharyngeal slits</li><li>Segmented muscle blocks (myomeres)</li><li>No cranium, no brain, no vertebrae</li><li><strong>Phylogenetic position</strong>: sister group to (Urochordata + Vertebrata); most basally diverging chordate subphylum</li></ul>'},
+
+{m:6,c:'Chordate Subphyla',
+ f:'Urochordata (tunicates) — larva vs. adult and phylogenetic surprise',
+ b:'<ul><li>~2,170 species; sea squirts (sessile), salps, larvaceans</li><li><strong>Larva</strong>: motile, tadpole-like; has ALL 4 chordate features; dispersal stage</li><li><strong>Adult</strong>: sessile; loses notochord, nerve cord, tail → retains <em>only pharyngeal slits</em></li><li>Adults suspension-feed: incurrent siphon → pharynx → excurrent siphon</li><li><strong>Phylogenetic surprise</strong>: molecular data place Urochordata as <strong>sister group to Vertebrata</strong> (not Cephalochordata as once thought)</li></ul>'},
+
+{m:6,c:'Chordate Subphyla',
+ f:'Vertebrata — two defining synapomorphies beyond chordate features',
+ b:'<ul><li><strong>Cranium</strong>: bony/cartilaginous/fibrous case protecting the brain</li><li><strong>Vertebrae</strong>: column of cartilaginous or bony structural supports along dorsal body wall; protect spinal cord</li></ul>Also: three-part brain (fore-, mid-, hindbrain), paired sense organs, neural crest cells (unique embryonic cell type → cranium + facial structures + many other tissues). ~63,000 named species.'},
+
+/* Vertebrate Innovations */
+{m:6,c:'Vertebrate Innovations',
+ f:'Cranium and vertebrae — what problem do they solve?',
+ b:'<strong>Cranium</strong>: hard case enclosing and protecting the brain and sensory organs (eyes, ears, nose). Enables a larger, more complex brain for rapid, directed responses to stimuli. <strong>Vertebrae</strong>: column protects the spinal cord; provides structural support for active locomotion. Both formed from <strong>neural crest cells</strong> (synapomorphy of vertebrates). Appeared ~520 mya in Cambrian ocean. Hagfishes have a cranium but <em>lost vertebrae</em> secondarily.'},
+
+{m:6,c:'Vertebrate Innovations',
+ f:'Jaws — evolutionary origin and significance',
+ b:'Jaws evolved from <strong>modified anterior gill arches</strong> in the ancestral gnathostome. Earliest jawed fishes: <strong>placoderms</strong> (~430 mya, Silurian) — armored fishes with bony head shields; extinct. Teeth appeared soon after. Jaws allowed: biting, chewing, predation, herbivory — vertebrates no longer limited to filter/deposit feeding. <strong>&gt;99% of living vertebrate species are gnathostomes</strong>. Many ray-finned fishes also evolved <strong>pharyngeal jaws</strong> (modified gill arches in throat) for food processing.'},
+
+{m:6,c:'Vertebrate Innovations',
+ f:'Lungs — when did they evolve and what happened to them in different lineages?',
+ b:'Lungs first appeared as <strong>outpockets of the esophagus</strong> in early jawed fishes (placoderms/early bony fishes) — provided auxiliary oxygen to the heart in oxygen-poor shallow water. Fates across lineages:<ul><li><strong>Cartilaginous fishes</strong>: lungs lost</li><li><strong>Ray-finned fishes</strong>: lungs co-opted as <strong>swim bladder</strong> (neutral buoyancy; avoid sinking without energy expenditure)</li><li><strong>Lungfishes + tetrapods</strong>: lungs retained and elaborated for air-breathing</li></ul>'},
+
+{m:6,c:'Vertebrate Innovations',
+ f:'Tetrapod limbs — fossil evidence (limbs-from-fins hypothesis)',
+ b:'Tetrapod limbs evolved from <strong>lobed fins of sarcopterygian fishes</strong>. Fossil sequence:<ol style="padding-left:1.1rem"><li><em>Eusthenopteron</em> (~385 mya): lobe-like fin with bone elements</li><li><em>Panderichthys</em> (~380 mya): more limb-like proximal fin</li><li><em>Tiktaalik</em> (~375 mya): clear humerus/radius/ulna; wrist-like joint</li><li><em>Ichthyostega</em> (~365 mya): first true tetrapod; full limbs supporting terrestrial locomotion</li></ol>Each limb has: 1 proximal bone → 2 bones → distal elements (conserved in ALL tetrapods). Same Hox genes pattern fish fins and mammal limbs.'},
+
+{m:6,c:'Vertebrate Innovations',
+ f:'Amniotic egg — four membranes and their functions',
+ b:'<strong>Synapomorphy of Amniota</strong> (mammals + reptiles). Four extraembryonic membranes:<ul><li><strong>Amnion</strong>: surrounds embryo in amniotic fluid; prevents desiccation, buffers mechanical shock</li><li><strong>Chorion</strong>: outermost membrane; gas exchange; in mammals → forms part of placenta</li><li><strong>Yolk sac</strong>: encloses nutrient yolk</li><li><strong>Allantois</strong>: stores nitrogenous waste; gas exchange; in mammals → forms part of placenta</li></ul>Shell (leathery or calcified) reduces drying. Freed reproduction from standing water.'},
+
+{m:6,c:'Vertebrate Innovations',
+ f:'Endothermy — two independent origins and insulating structures',
+ b:'Endothermy ("inside-heated") evolved <strong>independently</strong> in two amniote lineages:<ul><li><strong>Mammals</strong>: insulated by <em>fur</em> (keratin hair); high metabolic rate; nocturnal activity enabled</li><li><strong>Birds (Aves)</strong>: insulated by <em>feathers</em>; evolved in dinosaur lineage before flight; hollow bones + keeled sternum for flight efficiency</li></ul>Both lineages generate body heat metabolically — costly (~10× more food than same-size ectotherm) but allows year-round, sustained high activity. Keratin pathways for fur and feathers are <strong>homologous</strong> to reptile scale pathways.'},
+
+/* Vertebrate Lineages */
+{m:6,c:'Vertebrate Lineages',
+ f:'Jawless vertebrates (Cyclostomata) — hagfishes vs. lampreys',
+ b:'United by microRNA evidence into Cyclostomata. <strong>Hagfishes</strong> (~78 sp.): marine; no vertebrae (lost); deposit-feed on carcasses; defensive slime; no larval stage. <strong>Lampreys</strong> (~46 sp.): marine + freshwater; ectoparasites (rasp hole in fish host, suck fluids); larva resembles lancelet and filter-feeds for years before metamorphosis; have cartilaginous vertebral reinforcements. Both lack jaws.'},
+
+{m:6,c:'Vertebrate Lineages',
+ f:'Three lineages of mammals — monotremes, marsupials, eutherians',
+ b:'<ul><li><strong>Monotremata</strong> (5 sp.): oviparous (egg-laying); platypus + echidnas; no nipples — milk seeps through skin; Australia/New Guinea; lower metabolic rate</li><li><strong>Marsupialia</strong> (~350 sp.): viviparous with simple placenta; young born very underdeveloped → complete development in pouch; kangaroos, koalas, opossums</li><li><strong>Eutheria</strong> (~5,100 sp.): extended gestation; elaborate placenta (allantois + chorion); 29 orders; rodents (most sp.), bats, primates, carnivorans, ungulates</li></ul>'},
+
+{m:6,c:'Vertebrate Lineages',
+ f:'Birds (Aves) — 4 adaptations enabling flight',
+ b:'Birds ARE dinosaurs — phylogenetically within theropod dinosaurs. Four flight adaptations:<ol style="padding-left:1.1rem"><li><strong>Lightweight skeleton</strong>: hollow bones with internal struts</li><li><strong>Keeled sternum</strong>: projection on breastbone provides large attachment area for flight muscles</li><li><strong>Feathers</strong>: keratin outgrowths; lift + steering + insulation; evolved in non-flying dinosaurs for insulation/display first</li><li><strong>Endothermy</strong>: sustained year-round high activity; powers flapping flight</li></ol>Flight evolved independently 3×: pterosaurs, birds, bats.'},
+
+{m:6,c:'Vertebrate Lineages',
+ f:'Amphibia — three orders and the constraint keeping them tied to water',
+ b:'<strong>Anura</strong> (7,400 sp.): frogs &amp; toads; tailless adults; aquatic tadpoles → metamorphose into terrestrial adults. <strong>Urodela</strong> (675 sp.): salamanders; retain tail; can regenerate limbs. <strong>Caecilians</strong> (200 sp.): limbless; burrowing; tropical soils. Constraint: eggs have <em>no shell</em> and must remain moist → reproduction tied to water. Gas exchange partly via moist, mucus-covered skin — must stay moist.'},
+
+/* Convergent Evolution */
+{m:6,c:'Convergent Evolution',
+ f:'Three cases of convergent evolution in vertebrates',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Flight</strong>: evolved independently in pterosaurs (membranous wing), birds (feathered wing), and bats (membranous wing) — same selective pressure: access to aerial food &amp; 3D habitat</li><li><strong>Viviparity</strong>: evolved &gt;100× independently across lizards, snakes, sharks, ray-finned fishes, and mammals</li><li><strong>Endothermy</strong>: evolved independently in mammals (via synapsids) and birds (via theropod dinosaurs)</li><li><strong>Loss of limbs</strong>: snakes, caecilians, whales, manatees — all secondarily limbless from limbed ancestors</li></ol>Convergence = same selective environment → same evolutionary solution.'},
+
+{m:6,c:'Convergent Evolution',
+ f:'Order these 5 vertebrate innovations from oldest to most recent',
+ b:'<ol style="padding-left:1.1rem"><li><strong>Bone tissue</strong> (dermal bone, placoderms, ~430 mya) — external armor first</li><li><strong>Bony endoskeleton</strong> (osteichthyans, Late Silurian) — internal structural bone</li><li><strong>Lungs</strong> (early gnathostomes/placoderms) — esophageal oxygen supplement</li><li><strong>Limbs</strong> (~365 mya, Devonian) — water-to-land transition</li><li><strong>Amniotic egg</strong> (~340 mya, Carboniferous) — freed reproduction from water</li></ol>Memory: <em>"Big Bony Lizards Love Afternoons"</em> (Bone, Bony skeleton, Lungs, Limbs, Amniotic egg)'}
 
 
 ]; /* END ALL_CARDS */
